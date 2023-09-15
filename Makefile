@@ -1,34 +1,53 @@
-#-include .makerc
-#-include .makerc-vars
+#!make
 
 .DEFAULT_GOAL := help
-.PHONY: help clean stop start shell console logs
 
+## help: list all available make targets with descriptions
+.PHONY: help
 help:
-	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m\033[0m\n"} /^[a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-16s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
+	@echo "[*] usage: make <target>"
+	@sed -nr 's/^##\s+/\t/p' ${MAKEFILE_LIST} | column -t -s ':'
 
-clean: ## stop, remove data, containers and images
+## clean: stop, remove data, containers and images
+.PHONY: clean
+clean:
 	sudo docker compose -f docker/dev/docker-compose.yml down --rmi local -v --remove-orphans
 
+## build: build containers / service
+.PHONY: build
 build:
 	sudo docker compose -f docker/dev/docker-compose.yml build
 
-stop: ## stop containers / services
+## stop: stop containers / service
+.PHONY: stop
+stop:
 	sudo docker compose -f docker/dev/docker-compose.yml down
 
-start: ## start containers daemonized
+## start: start containers daemonized
+.PHONY: start
+start:
 	sudo docker compose -f docker/dev/docker-compose.yml up -d
 
+## restart: restart containers
+.PHONY: restart
 restart: stop start
 
-shell: ## open webapp shell
+## shell: open webapp shell
+.PHONY: shell
+shell:
 	sudo docker compose -f docker/dev/docker-compose.yml exec web sh
 
-console: ## open rails console
+## console: open rails console
+.PHONY: console
+console:
 	sudo docker compose -f docker/dev/docker-compose.yml exec web rails c
 
-logs: ## follow logs
+## logs: tail container logs
+.PHONY: logs
+logs:
 	sudo docker compose -f docker/dev/docker-compose.yml logs -f --tail=100
 
-clear-redis: ## clear redis (rails cache)
+## clear-redis: clear redis (rails cache)
+.PHONY: clear-redis
+clear-redis:
 	sudo docker compose -f docker/dev/docker-compose.yml exec redis redis-cli flushdb
