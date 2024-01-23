@@ -22,11 +22,6 @@ class VirtualMachine < ApplicationRecord
   belongs_to :numbered_by, polymorphic: true, optional: true
   has_many :network_interfaces, dependent: :destroy
   has_many :customization_specs, dependent: :destroy
-  has_one :connection_nic, -> { connectable },
-    class_name: 'NetworkInterface', foreign_key: :virtual_machine_id
-  has_one :host_spec, -> { mode_host },
-    class_name: 'CustomizationSpec', foreign_key: :virtual_machine_id
-
   has_many :networks, through: :network_interfaces
   has_many :addresses, through: :network_interfaces
   has_and_belongs_to_many :services,
@@ -34,12 +29,17 @@ class VirtualMachine < ApplicationRecord
   has_and_belongs_to_many :capabilities,
     after_add: :invalidate_cache, after_remove: :invalidate_cache
 
+  has_one :connection_nic, -> { connectable },
+    class_name: 'NetworkInterface', foreign_key: :virtual_machine_id
+  has_one :host_spec, -> { mode_host },
+    class_name: 'CustomizationSpec', foreign_key: :virtual_machine_id
+
   accepts_nested_attributes_for :network_interfaces,
     reject_if: proc { |attributes| attributes.all? { |key, value| value.blank? || value == '0' } }
 
   scope :search, ->(query) {
-    columns = %w{virtual_machines.name customization_specs.dns_name users.name operating_systems.name}
-    left_outer_joins(:system_owner, :operating_system, :customization_specs)
+    columns = %w{virtual_machines.name customization_specs.dns_name users.name operating_systems.name tags.name}
+    left_outer_joins(:system_owner, :operating_system, customization_specs: { taggings: [:tag] })
       .where(
         columns
           .map { |c| "lower(#{c}) ilike :search" }
@@ -95,6 +95,11 @@ class VirtualMachine < ApplicationRecord
 
   def clustered?
     custom_instance_count.to_i > 0
+  end
+
+  def connection_address
+    return unless connection_nic
+    connection_nic.addresses.detect(&:connection?)
   end
 
   private

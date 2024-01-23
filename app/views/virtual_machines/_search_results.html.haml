@@ -1,55 +1,74 @@
 - if @virtual_machines.any?
   = render TableComponent.new do |c|
     - c.with_column { VirtualMachine.human_attribute_name(:name) }
-    - c.with_column { Actor.model_name.human }
-    - c.with_column { VirtualMachine.human_attribute_name(:system_owner) }
-    - c.with_column { CustomizationSpec.human_attribute_name(:tag_list) }
-    - c.with_column { OperatingSystem.model_name.human }
+    - c.with_column { CustomizationSpec.human_attribute_name(:fqdn) }
+    - c.with_column { '' }
     - c.with_column { '' }
 
     - @virtual_machines.each do |machine|
-      - c.with_table_row(id: dom_id(machine, 'first')) do
+      - c.with_table_row(id: dom_id(machine, 'first'), classes: 'group') do
         - cache([machine.exercise.cache_key_with_version, machine.cache_key_with_version, machine.actor&.cache_key_with_version, 'index_fragment_1']) do
-          %td.px-6.py-4
-            %div= link_to machine.name, [machine.exercise, machine], class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:text-indigo-400', data: { turbo_frame: '_top'}
-            .text-sm.text-gray-500.dark:text-gray-50
-              = render LiquidFQDNComponent.new(object: machine)
-          %td.px-6.py-4.text-sm= render ActorChipComponent.new(actor: machine.actor)
-          %td.px-6.py-4= machine.system_owner&.name
-          %td.px-6.py-4
-            .flex.flex-wrap.gap-1= render(ChipComponent.with_collection(machine.host_spec.tag_list))
-          %td.px-6.py-4
-            - if machine.operating_system
-              %i{class: machine.operating_system.to_icon}
-              = machine.operating_system&.name
+          %td.px-5.py-3
+            .flex.flex-row.items-center.gap-x-2
+              = render ActorAvatarComponent.new(actor: machine.actor)
+              = link_to machine.name, [machine.exercise, machine], class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:text-indigo-400 grow', data: { turbo_frame: '_top'}
 
+              - if machine.custom_instance_count.to_i > 1
+                %span.rounded-full.mx-1.py-1.px-2.bg-green-100.text-green-500.whitespace-nowrap
+                  = machine.custom_instance_count
+                  instances
 
-          %td.px-6.py-4.text-right
-            = link_to [machine.exercise, machine], data: { turbo_method: 'delete', turbo_confirm: 'Are you sure?' } do
+          %td.px-5.py-3= render LiquidFQDNComponent.new({ vm: machine }, object: machine.host_spec)
+
+          %td.px-5.py-3
+            = render ModalComponent.new(only_body: true) do |c|
+              - c.with_body do
+                = turbo_frame_tag [machine.id, 'addresses'], src: [:address_preview, @exercise, machine], loading: "lazy"
+              .flex.items-center
+                .inline-flex.-space-x-0.divide-x.divide-zinc-400.overflow-hidden.rounded-lg.border.border-zinc-400.shadow-sm.dark:shadow-slate-400.empty:hidden<
+                  - if machine.connection_nic
+                    %div.inline-flex.items-center.space-x-2.px-3.py-2.text-center.text-sm.font-medium.shadow-sm.font-medium.text-slate-700.bg-transparent.hover:bg-slate-700.hover:text-white.focus:z-10.focus:ring-2.focus:ring-gray-500.focus:bg-gray-900.focus:text-white.dark:border-white.dark:text-white.dark:hover:text-white.dark:hover:bg-gray-700.dark:focus:bg-gray-700{data: { controller: 'clipboard', clipboard_success_content_value: '<i>✓</i>'}}
+                      %span.whitespace-nowrap{data: {controller: 'tippy', tooltip: 'Connection address'}}
+                        %i.fas.fa-satellite-dish
+                        %span= render(LiquidAddressComponent.new({ actor: machine.numbered_actor }, object: machine.connection_address))
+                        - if machine.connection_address.fixed?
+                          %span.hidden{data: {clipboard_target: 'source'}}<
+                            = machine.connection_address.ip_object.to_s
+                          %button.px-2{type: "button", data: {clipboard_target: 'button', action: "clipboard#copy"}}
+                            %i.fas.fa-clipboard
+                      = link_to 'javascript:;', class: 'text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-xs text-center px-2 py-1 whitespace-nowrap', data: { action: "click->modal#open" } do
+                        Addresses
+                        %i.fas.fa-up-right-from-square
+                  - if machine.description.present?
+                    %span.inline-flex.items-center.px-3.py-2.text-center.text-sm.font-medium.shadow-sm.font-medium.text-slate-700.bg-transparent.hover:bg-slate-700.hover:text-white.focus:z-10.focus:ring-2.focus:ring-gray-500.focus:bg-gray-900.focus:text-white.dark:border-white.dark:text-white.dark:hover:text-white.dark:hover:bg-gray-700.dark:focus:bg-gray-700{data: {controller: 'tippy', tooltip: machine.description}}
+                      %i.fas.fa-fw.fa-file-lines
+                  - if machine.customization_specs.flat_map(&:capabilities).any?
+                    %span.inline-flex.items-center.px-3.py-2.text-center.text-sm.font-medium.shadow-sm.font-medium.text-slate-700.bg-transparent.hover:bg-slate-700.hover:text-white.focus:z-10.focus:ring-2.focus:ring-gray-500.focus:bg-gray-900.focus:text-white.dark:border-white.dark:text-white.dark:hover:text-white.dark:hover:bg-gray-700.dark:focus:bg-gray-700{data: {controller: 'tippy', tooltip: machine.customization_specs.flat_map(&:capabilities).flat_map(&:name).join(', ')}}
+                      %i.fas.fa-fw{class: Capability.to_icon}
+                  - if machine.system_owner
+                    %span.inline-flex.items-center.px-3.py-2.text-center.text-sm.font-medium.shadow-sm.font-medium.text-slate-700.bg-transparent.hover:bg-slate-700.hover:text-white.focus:z-10.focus:ring-2.focus:ring-gray-500.focus:bg-gray-900.focus:text-white.dark:border-white.dark:text-white.dark:hover:text-white.dark:hover:bg-gray-700.dark:focus:bg-gray-700{data: {controller: 'tippy', tooltip: machine.system_owner.name}}
+                      %i.fas.fa-fw.fa-user-tag
+                  - if machine.operating_system
+                    %span.inline-flex.items-center.px-3.py-2.text-center.text-sm.font-medium.shadow-sm.font-medium.text-slate-700.bg-transparent.hover:bg-slate-700.hover:text-white.focus:z-10.focus:ring-2.focus:ring-gray-500.focus:bg-gray-900.focus:text-white.dark:border-white.dark:text-white.dark:hover:text-white.dark:hover:bg-gray-700.dark:focus:bg-gray-700{data: {controller: 'tippy', tooltip: machine.operating_system.name}}
+                      %i.fas.fa-fw{class: machine.operating_system.to_icon}
+
+          %td.px-5.py-3.w-10
+            = link_to [machine.exercise, machine], data: { turbo_method: 'delete', turbo_confirm: 'Are you sure?' }, class: 'opacity-0 group-hover:opacity-100 transition-opacity' do
               %i.fas.fa-times-circle.text-red-600
 
-      - if machine.addresses.any?
-        - c.with_table_row(classes: '!border-t-0', id: dom_id(machine, 'second')) do
+      - if machine.customization_specs.size > 1 || machine.customization_specs.flat_map(&:tags).size.positive?
+        - c.with_table_row(classes: '!border-t-0', id: dom_id(machine, 'fqdn')) do
           - cache([machine.exercise.cache_key_with_version, machine.cache_key_with_version, 'index_fragment_2']) do
-            %td.px-6.pb-4.text-sm.text-gray-500.dark:text-gray-50{colspan: 6}
-              .flex.flex-wrap.gap-2
-                - machine.network_interfaces.each do |nic|
-                  .shrink-0{title: nic_tooltip(nic)}
-                    - addresses = nic.addresses.for_search
-                    - next if addresses.empty?
-                    = render ActorChipComponent.new(actor: nic.network.actor, text: '') do
-                      - if nic.egress?
-                        %i.fas.fa-cloud-upload-alt.text-sm
-                      - if nic.connection?
-                        %i.fas.fa-cogs.text-sm
-
-                      %span.space-x-2
-                        - if addresses.size > 1
-                          - addresses.each do |address|
-                            %span.rounded.px-2{class: 'bg-zinc-400/30 dark:bg-gray-600/40'}
-                              = render(LiquidAddressComponent.new(object: address))
-                        - else
-                          %span= render(LiquidAddressComponent.new(object: addresses.first))
+            %td.px-5.pb-3{colspan: 10}
+              .flex.flex-row.gap-x-8.items-center
+                - if machine.customization_specs.size > 1
+                  %div
+                    .w-full.text-xs Customization specs
+                    = render ChipComponent.with_collection(machine.customization_specs.mode_container.map(&:name), icon: 'book')
+                - if machine.customization_specs.flat_map(&:tags).size.positive?
+                  %div
+                    .w-full.text-xs Tag list
+                    = render ChipComponent.with_collection(machine.customization_specs.flat_map(&:tags).map(&:name), flavor: 'cyan', icon: 'tags')
 
 
 - else

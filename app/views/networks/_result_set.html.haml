@@ -19,7 +19,7 @@
     %td.px-6.py-4.whitespace-nowrap
       .text-sm.light:text-gray-900
         - if network.cloud_id
-          = render LiquidTextComponent.new(object: network.cloud_id, actor: network.actor)
+          = render LiquidTextComponent.new({ actor: network.actor }, object: network.cloud_id)
         - else
           %em (None)
       .text-sm.text-gray-500.dark:text-gray-400.gap-x-6.flex
@@ -33,7 +33,7 @@
 
     %td.px-6.py-4.whitespace-nowrap
       - if network.domain.present?
-        = render LiquidTextComponent.new(object: network.domain, actor: network.actor)
+        = render LiquidTextComponent.new({ actor: network.actor }, object: network.domain)
         - unless network.ignore_root_domain
           %span<>= ".#{network.exercise.root_domain}"
       - else

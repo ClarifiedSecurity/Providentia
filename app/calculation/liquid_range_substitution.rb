@@ -23,6 +23,8 @@ class LiquidRangeSubstitution < Patterns::Calculation
                             subject.network.actor
                           when VirtualMachine
                             vm_numbering_source(subject)
+                          when CustomizationSpec
+                            vm_numbering_source(subject.virtual_machine)
                           else
                             subject.actor
       end

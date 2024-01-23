@@ -10,12 +10,12 @@ class VirtualMachinesController < ApplicationController
 
   def index
     @virtual_machines = policy_scope(@exercise.virtual_machines)
+      .includes({ customization_specs: [:capabilities, :tags] })
+      .includes({ connection_nic: { addresses: [:address_pool] } })
       .preload(
-        :actor, :operating_system, :system_owner,
-        :connection_nic, :exercise,
-        network_interfaces: [
-          { network: [:actor, :exercise] }
-        ]
+        :actor, :numbered_by,
+        :host_spec, :operating_system, :system_owner,
+        connection_nic: [:addresses],
       )
       .order(:name)
 
@@ -52,6 +52,14 @@ class VirtualMachinesController < ApplicationController
 
     preload_services
     authorize @virtual_machine
+  end
+
+  def address_preview
+    @virtual_machine ||= @exercise
+      .virtual_machines
+      .find(params[:id])
+
+    authorize @virtual_machine, :show?
   end
 
   def update

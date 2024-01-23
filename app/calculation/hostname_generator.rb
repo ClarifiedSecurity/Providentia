@@ -3,6 +3,7 @@
 class HostnameGenerator < Patterns::Calculation
   private
     def result
+      subject.virtual_machine = virtual_machine
       hostname_sequence_suffix = '{{ seq }}' if virtual_machine.clustered?
       hostname_team_suffix = '{{ team_nr_str }}' if virtual_machine.numbered_actor && (!nic || !nic.network&.numbered?)
 
@@ -21,7 +22,7 @@ class HostnameGenerator < Patterns::Calculation
     end
 
     def virtual_machine
-      subject.virtual_machine
+      options[:vm] || subject.virtual_machine
     end
 
     def nic

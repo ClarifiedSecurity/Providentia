@@ -15,7 +15,7 @@
           = form.collection_select :matcher, actor_number_config.actor.all_numbers, :to_s, :to_s, { include_blank: true }, { class: 'form-input mt-1', multiple: true, data: { controller: 'select'} }
 
         .pt-9
-          = link_to 'javascript:;', class: 'text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm text-center px-5 py-2.5', data: { action: "click->modal#open" } do
+          = link_to 'javascript:;', class: 'text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm text-center px-5 py-2.5', data: { action: "click->modal#open" } do
             Config map
             %i.fas.fa-up-right-from-square
 

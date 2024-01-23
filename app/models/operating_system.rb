@@ -44,10 +44,14 @@ class OperatingSystem < ApplicationRecord
 
   def to_icon
     case slug
+    when /debian/
+      'fa-brands fa-debian'
     when /ubuntu/
       'fa-brands fa-ubuntu'
     when /win/
       'fa-brands fa-windows'
+    when /linux/
+      'fa-brands fa-linux'
     else
       'fa-solid fa-server'
     end

@@ -14,6 +14,10 @@ Rails.application.routes.draw do
       resources :actor_number_configs, path: 'config'
     end
     resources :virtual_machines, except: %i[edit] do
+      member do
+        get 'address_preview'
+      end
+
       resources :customization_specs
       resources :network_interfaces, path: 'nics', only: %i[new create update destroy] do
         resources :addresses, only: %i[create update destroy]

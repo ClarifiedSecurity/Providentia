@@ -7,6 +7,7 @@ class Address < ApplicationRecord
   belongs_to :address_pool, touch: true, optional: true
   has_one :virtual_machine, through: :network_interface
   has_one :network, through: :network_interface
+  has_one :actor, through: :network
 
   delegate :exercise, to: :network
 

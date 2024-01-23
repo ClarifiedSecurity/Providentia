@@ -77,6 +77,10 @@ class Actor < ApplicationRecord
     name.downcase
   end
 
+  def initials
+    name.split(' ').map(&:first).map(&:upcase).join
+  end
+
   def numbering
     return unless prefs['numbered']
     count = prefs.dig('numbered', 'count').presence || 0

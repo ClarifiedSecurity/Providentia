@@ -14,7 +14,7 @@
           .text-center.text-gray-500 Automatic configuration
           - if address.connection?
             .shrink-0.self-center.inline-flex.items-center.justify-center.rounded-full.bg-orange-200.text-orange-800.w-7.h-7{title: Address.human_attribute_name(:connection)}
-              %i.fas.fa-cogs.text-sm
+              %i.fas.fa-satellite-dish.text-sm
 
         .relative.inline-flex{"data-controller" => "dropdown"}
           .inline-flex.justify-center.items-center.group.select-none{"data-action" => "click->dropdown#toggle click@window->dropdown#hide", "data-dropdown-target" => "button", :role => "button", :tabindex => "0"}
@@ -61,7 +61,7 @@
 
         - if address.connection? && address.fixed?
           .self-center.inline-flex.items-center.justify-center.rounded-full.bg-orange-200.text-orange-800.w-7.h-7{title: Address.human_attribute_name(:connection)}
-            %i.fas.fa-cogs.text-sm
+            %i.fas.fa-satellite-dish.text-sm
 
         - if address.needs_pool? && address.offset
           .self-center.flex.items-center.justify-center.rounded-full.bg-blue-200.text-blue-800.w-7.h-7{class: !address.dns_enabled ? 'opacity-70' : ''}

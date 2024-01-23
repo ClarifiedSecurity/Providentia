@@ -11,7 +11,7 @@
             %i.fas.fa-cloud-upload-alt.text-sm
         - if network_interface.connection?
           .flex.items-center.justify-center.rounded-full.bg-orange-200.text-orange-800.w-7.h-7{title: 'Connection interface'}
-            %i.fas.fa-cogs.text-sm
+            %i.fas.fa-satellite-dish.text-sm
 
       - if network_interface.persisted?
         = form_with(url: [network_interface.exercise, network_interface.virtual_machine, network_interface], method: :delete, data: { turbo_confirm: 'Are you sure?' }) do |form|

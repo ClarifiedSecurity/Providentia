@@ -9,6 +9,6 @@ class LiquidAddressComponent < LiquidTooltipSnippetComponent
 
   private
     def template_text
-      AddressValues.result_for(@object) || UnsubstitutedAddress.result_for(@object)
+      AddressValues.result_for(@object) || UnsubstitutedAddress.result_for(@object) || 'N/A or dynamic'
     end
 end

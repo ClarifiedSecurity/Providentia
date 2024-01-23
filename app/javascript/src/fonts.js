@@ -8,7 +8,8 @@ import {
   faBook,
   faFlask,
   faBox,
-  faCogs,
+  faSatelliteDish,
+  faClipboard,
   faCopy,
   faClone,
   faAnglesRight,
@@ -27,6 +28,9 @@ import {
   faSearch,
   faUpRightFromSquare,
   faIdBadge,
+  faUserTag,
+  faTags,
+  faFileLines,
   faKey,
   faLayerGroup,
   faProjectDiagram,
@@ -40,7 +44,12 @@ import {
   faCircleQuestion,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { faUbuntu, faWindows } from "@fortawesome/free-brands-svg-icons";
+import {
+  faUbuntu,
+  faDebian,
+  faLinux,
+  faWindows,
+} from "@fortawesome/free-brands-svg-icons";
 
 // Make sure this is before any other `fontawesome` API calls
 config.autoAddCss = false;
@@ -52,7 +61,8 @@ library.add(
   faBook,
   faFlask,
   faBox,
-  faCogs,
+  faSatelliteDish,
+  faClipboard,
   faCopy,
   faClone,
   faAnglesRight,
@@ -71,6 +81,9 @@ library.add(
   faSearch,
   faUpRightFromSquare,
   faIdBadge,
+  faUserTag,
+  faTags,
+  faFileLines,
   faKey,
   faLayerGroup,
   faProjectDiagram,
@@ -78,6 +91,8 @@ library.add(
   faHdd,
   faUsers,
   faUbuntu,
+  faLinux,
+  faDebian,
   faWindows,
   faServer,
   faDatabase,

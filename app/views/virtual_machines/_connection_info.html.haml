@@ -4,8 +4,10 @@
       %h2.text-xl.grow Connection information
       = render ModalComponent.new(only_body: true) do |c|
         - c.with_body do
-          = render 'virtual_machines/address_preview', vm: vm
-        = link_to 'Preview', 'javascript:;', class: 'form-submit text-sm', data: { action: "click->modal#open" }
+          = turbo_frame_tag [vm.id, 'addresses'], src: [:address_preview, @exercise, vm], loading: "lazy"
+        = link_to 'javascript:;', class: 'form-submit text-sm bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800', data: { action: "click->modal#open" } do
+          Preview
+          %i.fas.fa-up-right-from-square
 
     .grid.grid-flow-col.gap-4
       %div

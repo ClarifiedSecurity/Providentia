@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
 class LiquidTooltipSnippetComponent < ViewComponent::Base
-  def initialize(object:)
+  attr_reader :options
+
+  def initialize(options = {}, object:)
     @object = object
+    @options = options
   end
 
   def call
@@ -13,7 +16,7 @@ class LiquidTooltipSnippetComponent < ViewComponent::Base
         {
           data: {
             controller: 'tippy',
-            tooltip: LiquidRangeSubstitution.result_for(@object, node: variable_node, actor: @actor)
+            tooltip: LiquidRangeSubstitution.result_for(@object, node: variable_node, actor: options[:actor])
           }
         }
       )
