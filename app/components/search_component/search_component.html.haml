@@ -1,4 +1,4 @@
-.relative.z-10{data: {action: 'keydown.esc@window->search#close'}, tabindex: "-1"}
+.relative.z-50{data: {action: 'keydown.esc@window->search#close'}, tabindex: "-1"}
   .hidden.fixed.inset-0.z-40.overflow-y-auto.flex.items-center.justify-center{"class" => "bg-gray-900/50 dark:bg-gray-900/80","data-action" => "click->search#closeBackground", "data-search-target" => "background", "data-transition-enter" => "transition-all ease-in-out duration-300", "data-transition-enter-from" => "bg-opacity-0", "data-transition-enter-to" => "bg-opacity-80", "data-transition-leave" => "transition-all ease-in-out duration-300", "data-transition-leave-from" => "bg-opacity-80", "data-transition-leave-to" => "bg-opacity-0"}
     .bg-white.rounded.shadow-lg.max-h-screen.w-full.max-w-5xl.relative{data: {"search-target" => 'container'}}
       = form_with(url: search_path, class: 'border-b border-gray-200', data: {search_target: 'form'}) do |f|
