@@ -10,6 +10,13 @@
 
     = csrf_meta_tags
     = csp_meta_tag
+    = javascript_tag nonce: true do
+      :plain
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark')
+        } else {
+          document.documentElement.classList.remove('dark')
+        }
     = vite_stylesheet_tag "application", "data-turbo-track": "reload"
     = vite_client_tag
     = vite_javascript_tag "application", "data-turbo-track": "reload", defer: true

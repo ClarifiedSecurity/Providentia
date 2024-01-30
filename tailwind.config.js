@@ -22,6 +22,7 @@ module.exports = {
       `text-${color}-800`,
     ];
   }),
+  darkMode: "class",
   theme: {
     extend: {
       boxShadow: {

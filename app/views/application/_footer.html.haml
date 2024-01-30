@@ -17,6 +17,5 @@
         %li.w-32.opacity-80
           = link_to 'https://clarifiedsecurity.com', target: '_blank' do
             %picture
-              %source{srcset: image_path("cs-logo-white.png"), media: "(prefers-color-scheme: dark)"}
-              %source{srcset: image_path("cs-logo-black.png"), media: "(prefers-color-scheme: light)"}
-              = image_tag("cs-logo-white.png", alt: "Clarified Security logo")
+              = image_tag("cs-logo-white.png", alt: "Clarified Security logo", class: "dark:inline hidden")
+              = image_tag("cs-logo-black.png", alt: "Clarified Security logo", class: "dark:hidden inline")

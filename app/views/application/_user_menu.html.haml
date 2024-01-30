@@ -5,17 +5,23 @@
       %path{:d => "M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z"}
   .z-10.absolute.top-full.right-0.mt-2.w-44.hidden{"data-dropdown-target" => "menu"}
     .bg-white.border.border-gray-200.rounded.shadow-lg.overflow-hidden.py-1
-      .pb-2.px-3.mb-1.border-b.border-gray-200{:class => "pt-0.5"}
+      .pb-2.px-3.mb-1{:class => "pt-0.5"}
         .text-gray-800= current_user.name
         - if current_user.admin?
           .text-xs.text-gray-500.italic Administrator
-      %ul
-        %li= link_to "API tokens", api_tokens_path, class: 'font-medium text-sm text-indigo-500 hover:text-indigo-600 flex items-center py-1 px-3'
-        %li= button_to "Sign Out", destroy_user_session_path, method: :delete, class: 'font-medium text-sm text-indigo-500 hover:text-indigo-600 flex items-center py-1 px-3', data: { type: 'html', turbo: false }
-
+      .py-1.px-3{data: { controller: 'darkmode'}}
+        %label.relative.inline-flex.items-center.cursor-pointer
+          %input.sr-only.peer{type: "checkbox", value: "", data: { darkmode_target: 'input', action: 'darkmode#flipMode'}}/
+          .w-7.h-4.bg-gray-200.peer-focus:outline-none.peer-focus:ring-4.peer-focus:ring-blue-300.dark:peer-focus:ring-blue-800.rounded-full.peer.dark:bg-gray-700.peer-checked:after:translate-x-full.rtl:peer-checked:after:-translate-x-full.peer-checked:after:border-white.after:absolute.after:bg-white.after:border-gray-300.after:border.after:rounded-full.after:w-3.after:h-3.after:transition-all.dark:border-gray-600.peer-checked:bg-blue-600{class: "after:content-[''] after:top-[5px] after:start-[2px]"}
+          %span.ms-3.text-sm.font-medium.text-gray-800 Dark mode
       %hr.border-t.border-gray-200.my-1
+
       %span.text-xs.uppercase.text-gray-500.font-semibold.pl-3 System
       %ul
         - if policy(Version).index?
           %li= link_to "Audit log", versions_path, class: 'font-medium text-sm text-indigo-500 hover:text-indigo-600 flex items-center py-1 px-3'
         %li= link_to "Operating systems", operating_systems_path, class: 'font-medium text-sm text-indigo-500 hover:text-indigo-600 flex items-center py-1 px-3'
+      %hr.border-t.border-gray-200.my-1
+      %ul
+        %li= link_to "API tokens", api_tokens_path, class: 'font-medium text-sm text-indigo-500 hover:text-indigo-600 flex items-center py-1 px-3'
+        %li= button_to "Sign Out", destroy_user_session_path, method: :delete, class: 'font-medium text-sm text-indigo-500 hover:text-indigo-600 flex items-center py-1 px-3', data: { type: 'html', turbo: false }
