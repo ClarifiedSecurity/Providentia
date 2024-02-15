@@ -31,6 +31,6 @@ module VmCacheBuster
         self
       else
         service
-      end.tap { |s| s.reload if s.persisted? }
+      end.dup.tap { |s| s.reload if s.persisted? }
     end
 end
