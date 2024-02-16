@@ -56,8 +56,7 @@ RUN apk add --no-cache --update build-base \
   graphviz \
   ttf-dejavu
 
-RUN corepack enable && yarn set version stable
-
+RUN corepack enable
 
 RUN mkdir $APP_PATH
 WORKDIR $APP_PATH
@@ -94,7 +93,7 @@ RUN apk add --no-cache --update \
   tzdata \
   less
 
-RUN corepack enable && yarn set version stable
+RUN corepack enable
 
 RUN addgroup -S -g ${CONTAINER_GROUP_ID} $CONTAINER_USER_NAME && adduser -S -u ${CONTAINER_USER_ID} -g $CONTAINER_USER_NAME -h /home/$CONTAINER_USER_NAME -s /bin/bash $CONTAINER_USER_NAME
 
