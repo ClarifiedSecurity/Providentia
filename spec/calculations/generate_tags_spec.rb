@@ -70,6 +70,27 @@ RSpec.describe GenerateTags do
     it { is_expected.to eq([default_result]) }
   end
 
+  context 'for VM' do
+    let(:source_objects) { [virtual_machine] }
+    let(:virtual_machine) { build(:virtual_machine) }
+
+    context 'which has multiple specs' do
+      let!(:customization_spec) { virtual_machine.customization_specs << build(:customization_spec, virtual_machine:) }
+      let!(:container_customization_spec) { virtual_machine.customization_specs << build(:customization_spec, virtual_machine:, mode: :container) }
+      let(:result) {
+        {
+          id: "#{virtual_machine.name}_all_specs",
+          name: "All specs for #{virtual_machine.name}",
+          config_map: {},
+          children: [],
+          priority: 95
+        }
+      }
+
+      it { is_expected.to include(result) }
+    end
+  end
+
   context 'for customization specs' do
     let(:source_objects) { [customization_spec] }
     let(:customization_spec) { build(:customization_spec) }
@@ -92,7 +113,6 @@ RSpec.describe GenerateTags do
 
       it { is_expected.to eq(result) }
     end
-
 
     context 'overarching group of all instances (sequential)' do
       let(:customization_spec) { create(:customization_spec, virtual_machine:) }

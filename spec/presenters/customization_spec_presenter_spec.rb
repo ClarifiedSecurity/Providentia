@@ -4,7 +4,8 @@ require 'rails_helper'
 
 RSpec.describe API::V3::CustomizationSpecPresenter do
   subject { described_class.new(spec).as_json }
-  let(:spec) { create(:customization_spec) }
+  let(:virtual_machine) { create(:virtual_machine) }
+  let(:spec) { virtual_machine.host_spec }
 
   context 'tags' do
     it 'should contain OS and actor tags' do
@@ -15,10 +16,9 @@ RSpec.describe API::V3::CustomizationSpecPresenter do
     end
 
     context 'with nested os and actor' do
+      let(:virtual_machine) { create(:virtual_machine, operating_system:, actor:) }
       let(:actor) { create(:actor, parent: create(:actor)) }
       let(:operating_system) { create(:operating_system, parent: create(:operating_system)) }
-      let(:virtual_machine) { create(:virtual_machine, operating_system:, actor:) }
-      let(:spec) { create(:customization_spec, virtual_machine:) }
 
       it 'should contain entire paths for both' do
         expect(subject[:tags]).to eq([

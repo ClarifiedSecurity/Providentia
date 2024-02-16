@@ -11,7 +11,7 @@ class GenerateTags < Patterns::Calculation
       when Network
         network_result
       when VirtualMachine
-        virtual_machine_result || []
+        virtual_machine_result
       when CustomizationSpec
         spec_result
       when Capability
@@ -112,13 +112,26 @@ class GenerateTags < Patterns::Calculation
     end
 
     def virtual_machine_result
-      return unless subject.numbered_actor && !subject.numbered_actor.subtree.include?(subject.actor)
-      [{
-        id: ActorAPIName.result_for(subject.actor, numbered_by: subject.numbered_actor),
-        name: ActorAPIName.result_for(subject.actor, numbered_by: subject.numbered_actor),
-        config_map: {},
-        children: []
-      }]
+      [].tap do |results|
+        if subject.numbered_actor && !subject.numbered_actor.subtree.include?(subject.actor)
+          results << {
+            id: ActorAPIName.result_for(subject.actor, numbered_by: subject.numbered_actor),
+            name: ActorAPIName.result_for(subject.actor, numbered_by: subject.numbered_actor),
+            config_map: {},
+            children: []
+          }
+        end
+
+        if subject.customization_specs.size > 1
+          results << {
+            id: "#{subject.name}_all_specs",
+            name: "All specs for #{subject.name}",
+            config_map: {},
+            children: [],
+            priority: 95
+          }
+        end
+      end
     end
 
     def spec_result
