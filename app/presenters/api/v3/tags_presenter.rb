@@ -4,7 +4,7 @@ module API
   module V3
     class TagsPresenter < Struct.new(:exercise, :scope)
       def as_json(_opts)
-        actor_tags + os_tags + zone_tags + capability_tags + spec_tags
+        actor_tags + vm_tags + os_tags + zone_tags + capability_tags + spec_tags
       end
 
       private
@@ -53,6 +53,12 @@ module API
         def spec_tags
           Rails.cache.fetch(['apiv3', exercise.cache_key_with_version, 'spec_tags', spec_scope.cache_key_with_version, vm_scope.cache_key_with_version]) do
             GenerateTags.result_for(spec_scope.all).uniq
+          end
+        end
+
+        def vm_tags
+          Rails.cache.fetch(['apiv3', exercise.cache_key_with_version, 'vm_tags', vm_scope.cache_key_with_version]) do
+            GenerateTags.result_for(vm_scope.all).uniq
           end
         end
     end
