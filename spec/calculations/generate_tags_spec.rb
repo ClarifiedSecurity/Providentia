@@ -89,6 +89,22 @@ RSpec.describe GenerateTags do
 
       it { is_expected.to include(result) }
     end
+
+    context 'numbered by another actor' do
+      let(:virtual_machine) { create(:virtual_machine, numbered_by:) }
+      let(:numbered_by) { create(:actor, number: 2) }
+      let(:result) {
+        {
+          id: ActorAPIName.result_for(virtual_machine.actor, numbered_by:),
+          name: "#{virtual_machine.actor.name}, numbered by #{numbered_by.name}",
+          config_map: {},
+          children: [],
+          priority: 32
+        }
+      }
+
+      it { is_expected.to include(result) }
+    end
   end
 
   context 'for customization specs' do
@@ -436,7 +452,8 @@ RSpec.describe GenerateTags do
           id: ActorAPIName.result_for(vm.actor, number: 1, numbered_by: numbered_actor),
           name: "#{vm.actor.name}, numbered by #{numbered_actor.name} - number 1",
           children: [],
-          config_map: {}
+          config_map: {},
+          priority: 32
         }
       }
 
@@ -452,7 +469,8 @@ RSpec.describe GenerateTags do
             id: ActorAPIName.result_for(actor, number: 1),
             name: "#{actor.name} number 1",
             children: [],
-            config_map: {}
+            config_map: {},
+            priority: 34
           }
         }
 
@@ -461,7 +479,8 @@ RSpec.describe GenerateTags do
             id: ActorAPIName.result_for(root_actor, number: 1),
             name: "#{root_actor.name} number 1",
             children: [],
-            config_map: {}
+            config_map: {},
+            priority: 31
           }
         }
 

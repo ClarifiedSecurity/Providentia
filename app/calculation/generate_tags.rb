@@ -17,7 +17,7 @@ class GenerateTags < Patterns::Calculation
       when Capability
         capability_result
       when API::V3::InstancePresenter
-        instance_result || []
+        api_instance_result || []
       when Enumerable
         subject.map { |item| self.class.result_for(item, options) }.flatten
       else
@@ -113,6 +113,15 @@ class GenerateTags < Patterns::Calculation
 
     def virtual_machine_result
       [].tap do |results|
+        if subject.numbered_actor && !subject.numbered_actor.subtree.include?(subject.actor)
+          results << {
+            id: ActorAPIName.result_for(subject.actor, numbered_by: subject.numbered_actor),
+            name: "#{subject.actor.name}, numbered by #{subject.numbered_actor.name}",
+            config_map: {},
+            children: [],
+            priority: 32 + subject.actor.depth * 3
+          }
+        end
         if subject.customization_specs.size > 1
           results << {
             id: "#{subject.name.tr('-', '_')}_all_specs",
@@ -151,7 +160,7 @@ class GenerateTags < Patterns::Calculation
       }]
     end
 
-    def instance_result
+    def api_instance_result
       return if !subject.team_number
 
       actor = subject.spec.virtual_machine.actor
@@ -164,6 +173,7 @@ class GenerateTags < Patterns::Calculation
             name: "#{node.name} number #{subject.team_number}",
             config_map: {},
             children: [],
+            priority: 31 + node.depth * 3
           }
         end
       else
@@ -172,6 +182,7 @@ class GenerateTags < Patterns::Calculation
           name: "#{actor.name}, numbered by #{nr_actor.name} - number #{subject.team_number}",
           config_map: {},
           children: [],
+          priority: 32 + actor.depth * 3
         }]
       end
     end
