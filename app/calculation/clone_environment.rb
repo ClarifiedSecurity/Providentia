@@ -33,6 +33,7 @@ class CloneEnvironment < Patterns::Calculation
       @source_environment ||= Exercise.find(subject)
     end
 
+
     def clone_actors(tree, parent: nil)
       tree.each do |node, children|
         new_actor = cloned_environment.actors.create(
@@ -173,6 +174,7 @@ class CloneEnvironment < Patterns::Calculation
             service.service_subjects.map do |subject|
               subject.attributes.merge(
                 'service_id' => new_service_id['id'],
+                'customization_spec_ids' => nil,
                 'match_conditions' => subject.match_conditions.map do |condition|
                   case condition.matcher_type
                   when 'CustomizationSpec'
@@ -196,7 +198,9 @@ class CloneEnvironment < Patterns::Calculation
                 end
               ).except('id')
             end
-          )
+          ).map { _1['id'] }.then do |ids|
+            ServiceSubject.find(ids).each { UpdateServiceSpecCache.result_for(_1) }
+          end
         end
 
         if service.checks.any?

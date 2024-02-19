@@ -34,6 +34,11 @@ class ServiceSubjectMatchCondition
   end
 
   def matched
-    matcher_type.constantize.where(id: matcher_id)
+    case matcher_type
+    when 'ActsAsTaggableOn::Tagging'
+      matcher_type.constantize.joins(:tag).where(tags: { name: matcher_id })
+    else
+      matcher_type.constantize.where(id: matcher_id)
+    end
   end
 end

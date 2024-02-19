@@ -68,4 +68,42 @@ RSpec.describe CloneEnvironment do
       end
     end
   end
+
+  context 'services' do
+    let!(:virtual_machine) { create(:virtual_machine, exercise: source, actor: source.actors.sample) }
+    let!(:customization_spec) { create(:customization_spec, virtual_machine:) }
+
+    let!(:service) { create(:service, exercise: source) }
+    let!(:service_subject) {
+      create(:service_subject, service:, match_conditions: [ServiceSubjectMatchCondition.new(
+        matcher_type: 'CustomizationSpec', matcher_id: customization_spec.id
+      )])
+    }
+
+    it 'should clone the service with VM as subject' do
+      expect(subject.services.size).to eq 1
+      expect(subject.services.first.service_subjects.size).to eq 1
+      matched = subject.services.first.service_subjects.first.match_conditions.first.matched.first
+      expect(matched).to be_instance_of(CustomizationSpec)
+      expect(matched.name).to eq customization_spec.name
+    end
+
+    context 'tags as subjects' do
+      let!(:customization_spec) { create(:customization_spec, virtual_machine:, tag_list: 'test, tag') }
+      let!(:service_subject) {
+        create(:service_subject, service:, match_conditions: [ServiceSubjectMatchCondition.new(
+          matcher_type: 'ActsAsTaggableOn::Tagging', matcher_id: 'test'
+        )])
+      }
+
+      it 'should clone the service with tagging as subject' do
+        expect(subject.services.size).to eq 1
+        expect(subject.services.first.service_subjects.size).to eq 1
+        matched = subject.services.first.service_subjects.first.match_conditions.first.matched.first
+        expect(matched).to be_instance_of(ActsAsTaggableOn::Tagging)
+        expect(matched.taggable.name).to eq customization_spec.name
+        expect(matched.tag.name).to eq 'test'
+      end
+    end
+  end
 end
