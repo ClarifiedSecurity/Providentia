@@ -11,7 +11,7 @@ class HostnameGenerator < Patterns::Calculation
         hostname_sequence_suffix,
         hostname_team_suffix
       ].compact
-      hostname = "#{subject.hostname}#{sequences.join('_')}"
+      hostname = "#{subject.hostname}#{sequences.join('-')}"
       domain = nic&.network&.full_domain.to_s.gsub(/#+/, '{{ team_nr_str }}')
 
       Struct.new(:hostname, :domain, :fqdn).new(
