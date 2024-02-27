@@ -15,7 +15,11 @@ module API
           hostname:,
           domain: substitute(connection_namespec.domain.to_s),
           fqdn: substitute(connection_namespec.fqdn.to_s),
-          connection_address: connection_address&.ip_object(sequential_number, team_number)&.to_s,
+          connection_address: connection_address&.ip_object(
+            sequence_number: sequential_number,
+            sequence_total: vm.custom_instance_count,
+            actor_number: team_number
+          )&.to_s,
           interfaces:,
           checks:,
           tags:,
@@ -159,7 +163,11 @@ module API
                       gateway: nil
                     }.tap do |hash|
                       if address.fixed?
-                        hash[:address] = address.ip_object(sequential_number, team_number).to_string
+                        hash[:address] = address.ip_object(
+                          sequence_number: sequential_number,
+                          sequence_total: vm.custom_instance_count,
+                          actor_number: team_number
+                        ).to_string
                         hash[:dns_enabled] = address.dns_enabled
                       end
                       if nic.egress? && (address.mode_ipv4_static? || address.mode_ipv6_static?)

@@ -82,7 +82,7 @@ class VirtualMachine < ApplicationRecord
 
   def single_network_instances(presenter)
     if numbered_actor && connection_nic.network.numbered?
-      1.upto(custom_instance_count || 1).map do |seq|
+      host_spec.sequential_numbers.map do |seq|
         presenter.new(host_spec, seq, nil)
       end
     else

@@ -91,16 +91,14 @@ class Address < ApplicationRecord
     end
   end
 
-  def ip_object(sequential = nil, team = nil)
+  def ip_object(sequence_number: nil, sequence_total: nil, actor_number: nil)
     return unless fixed? && ip_family_network_template.present?
-    static_offset = -1
+    static_offset = offset.to_i
     static_offset -= 1 if ipv6?
+    static_offset += (sequence_number || 1) - 1
+    static_offset += ((actor_number || 1) - 1) * (sequence_total || 1) if !address_pool&.numbered?
 
-    if address_pool&.numbered?
-      ip_family_network(team).allocate(offset.to_i + (sequential || 1) + static_offset)
-    else
-      ip_family_network.allocate(offset.to_i + (sequential || 1) + (team || 1) + static_offset - 1)
-    end
+    ip_family_network(actor_number).allocate(static_offset)
   end
 
   def ipv4?
@@ -146,11 +144,11 @@ class Address < ApplicationRecord
     return unless offset
     if virtual_machine.custom_instance_count
       1.upto(virtual_machine.custom_instance_count).map do |seq|
-        ip_object(seq)
+        ip_object(sequence_number: seq, sequence_total: virtual_machine.custom_instance_count)
       end
     elsif !(address_pool || network).numbered? && virtual_machine.deploy_count > 1
       1.upto(virtual_machine.deploy_count).map do |team_nr|
-        ip_object(nil, team_nr)
+        ip_object(actor_number: team_nr, sequence_total: virtual_machine.custom_instance_count)
       end
     else
       [ip_object]

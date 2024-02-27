@@ -13,7 +13,11 @@ class NetworkMapGraphSerializer < Patterns::Calculation
         addresses: vm.connection_nic.addresses.for_search.map do |address|
           LiquidReplacer.new(
             UnsubstitutedAddress.result_for(
-              address.ip_object(sequential_number, team_number),
+              address.ip_object(
+                sequence_number: sequential_number,
+                sequence_total: vm.custom_instance_count,
+                actor_number: team_number
+              ),
               address_pool: address.address_pool
             )
           ).iterate do |variable_node|

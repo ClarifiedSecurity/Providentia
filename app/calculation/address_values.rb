@@ -7,7 +7,7 @@ class AddressValues < Patterns::Calculation
         .all_numbers
         .values_at(0, 1, -1)
         .uniq
-        .map { |number| subject.ip_object(nil, number).to_s }
+        .map { |number| subject.ip_object(actor_number: number).to_s }
 
       case values.size
       when 2

@@ -12,11 +12,12 @@ class AddressPreviewPresenter < Struct.new(:spec, :sequential_number, :team_numb
         addresses: nic.addresses.for_api.map do |address|
           {
             mode: address.mode,
-          }.tap do |hash|
-            if address.fixed?
-              hash[:address] = address.ip_object(sequential_number, team_number).to_s
-            end
-          end
+            address: address.ip_object(
+              sequence_number: sequential_number,
+              sequence_total: vm.custom_instance_count,
+              actor_number: team_number
+            ).to_s
+          }.compact
         end
       }
     end
