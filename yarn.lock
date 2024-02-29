@@ -86,10 +86,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@codemirror/state@npm:^6.0.0, @codemirror/state@npm:^6.1.4, @codemirror/state@npm:^6.2.0, @codemirror/state@npm:^6.3.2":
+"@codemirror/state@npm:^6.0.0, @codemirror/state@npm:^6.1.4, @codemirror/state@npm:^6.2.0":
   version: 6.3.2
   resolution: "@codemirror/state@npm:6.3.2"
   checksum: 10/6f46d7b3bf85d86383b8bc693d424734be247e2a6c22eb8979a1bdcb807895a6c39e81c9da361e10b210716b1a143517fdc6154261e4981118b31ed7ac328d51
+  languageName: node
+  linkType: hard
+
+"@codemirror/state@npm:^6.4.1":
+  version: 6.4.1
+  resolution: "@codemirror/state@npm:6.4.1"
+  checksum: 10/a9ec56c7d7d52034ce8ebea3a9a4d216b9e972d701b32b5000e56c97790d0d46af129aeba0b80bed36648b4024b3ba3e4910cf5bfed11de4a9e89252e0707a70
   languageName: node
   linkType: hard
 
@@ -3503,7 +3510,7 @@ __metadata:
   dependencies:
     "@codemirror/language": "npm:^6.9.3"
     "@codemirror/legacy-modes": "npm:^6.3.3"
-    "@codemirror/state": "npm:^6.3.2"
+    "@codemirror/state": "npm:^6.4.1"
     "@codemirror/view": "npm:^6.22.1"
     "@fortawesome/fontawesome-svg-core": "npm:^6.5.1"
     "@fortawesome/free-brands-svg-icons": "npm:^6.5.1"
