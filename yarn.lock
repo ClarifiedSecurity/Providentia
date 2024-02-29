@@ -527,15 +527,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@csstools/selector-specificity@npm:^3.0.1":
-  version: 3.0.1
-  resolution: "@csstools/selector-specificity@npm:3.0.1"
-  peerDependencies:
-    postcss-selector-parser: ^6.0.13
-  checksum: 10/e4b5aac3bd3ca1f824cb9578f52b16046a519aa8050ce291da37e611976a83cd3b2b2f908d2678dd4cbbe00bbde8ec28c34fffc40dbbf9a13608dfcaf382ee80
-  languageName: node
-  linkType: hard
-
 "@csstools/selector-specificity@npm:^3.0.2":
   version: 3.0.2
   resolution: "@csstools/selector-specificity@npm:3.0.2"
@@ -3178,19 +3169,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss-nesting@npm:^12.0.2":
-  version: 12.0.2
-  resolution: "postcss-nesting@npm:12.0.2"
-  dependencies:
-    "@csstools/selector-specificity": "npm:^3.0.1"
-    postcss-selector-parser: "npm:^6.0.13"
-  peerDependencies:
-    postcss: ^8.4
-  checksum: 10/8934338f57cebb5ed767ee69cefa224739095dd49e42f4d1bf119d7d9ae4f8ebb3fe282063c744d1d98d1e4400b24abc19759c744cb97fd81cc310e8a1701f76
-  languageName: node
-  linkType: hard
-
-"postcss-nesting@npm:^12.0.3":
+"postcss-nesting@npm:^12.0.3, postcss-nesting@npm:^12.0.4":
   version: 12.0.4
   resolution: "postcss-nesting@npm:12.0.4"
   dependencies:
@@ -3597,7 +3576,7 @@ __metadata:
     hotkeys-js: "npm:^3.13.7"
     postcss: "npm:^8.4.35"
     postcss-import: "npm:^16.0.1"
-    postcss-nesting: "npm:^12.0.2"
+    postcss-nesting: "npm:^12.0.4"
     postcss-preset-env: "npm:^9.4.0"
     stimulus-clipboard: "npm:^4.0.1"
     stimulus-use: "npm:^0.52.2"
