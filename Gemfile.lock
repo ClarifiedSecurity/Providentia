@@ -132,8 +132,7 @@ GEM
       warden (~> 1.2.3)
     diff-lcs (1.5.1)
     domain_name (0.6.20240107)
-    drb (2.2.0)
-      ruby2_keywords
+    drb (2.2.1)
     dry-cli (1.0.0)
     email_validator (2.2.4)
       activemodel
@@ -188,7 +187,7 @@ GEM
       rdoc
       reline (>= 0.4.2)
     json (2.7.1)
-    json-jwt (1.16.5)
+    json-jwt (1.16.6)
       activesupport (>= 4.2)
       aes_key_wrap
       base64
