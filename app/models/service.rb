@@ -19,6 +19,7 @@ class Service < ApplicationRecord
   scope :for_spec, ->(*specs) {
     joins(:service_subjects)
       .where('service_subjects.customization_spec_ids @> :id::jsonb', id: specs.flatten.map(&:id).to_json)
+      .distinct
   }
 
   def self.to_icon
