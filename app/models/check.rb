@@ -64,7 +64,7 @@ class Check < ApplicationRecord
     when 'special'
       special_label
     when 'network'
-      "#{I18n.t("protocols.#{protocol}")} (#{I18n.t("ip_families.#{ip_family}")}): #{port}"
+      "#{I18n.t("protocols.#{protocol}")} (#{I18n.t("ip_families.#{ip_family}")}): #{port}" if protocol && ip_family
     end
   end
 
