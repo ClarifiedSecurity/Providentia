@@ -12,7 +12,7 @@ class ServiceSubject < ApplicationRecord
   attribute :match_conditions, ActiveModelListType.new(ServiceSubjectMatchCondition)
 
   before_create :add_default_empty_matcher
-  before_save :reset_match_condition_id_if_type_changed, if: :match_conditions_changed?
+  before_validation :reset_match_condition_id_if_type_changed, if: :match_conditions_changed?
 
   validates_associated :match_conditions
 
