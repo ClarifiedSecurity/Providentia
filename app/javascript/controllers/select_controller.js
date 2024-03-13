@@ -28,6 +28,9 @@ export default class extends Controller {
           onDelete: function (values, event) {
             return ismultiple || !(values.length == 1 && !hasEmptyOption);
           },
+          onChange: function () {
+            document.activeElement.blur()
+          }.bind(this)
         };
       }
       this.instance = new TomSelect(this.element, options);
