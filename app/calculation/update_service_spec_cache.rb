@@ -40,7 +40,7 @@ class UpdateServiceSpecCache < Patterns::Calculation
         # which includes both addition and removal
         ServiceSubject.search_matcher(from).to_a
       when ActsAsTaggableOn::Tagging
-        ServiceSubject.search_matcher(OpenStruct.new(id: from.tag.name, class: from.class)).to_a
+        ServiceSubject.search_matcher(OpenStruct.new(id: from.tag.name, class: from.class)).to_a # rubocop:disable Performance/OpenStruct
       else
         raise "Unknown item for service cache update: #{from.inspect}"
       end
