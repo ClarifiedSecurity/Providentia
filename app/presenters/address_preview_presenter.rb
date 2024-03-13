@@ -14,7 +14,7 @@ class AddressPreviewPresenter < Struct.new(:spec, :sequential_number, :team_numb
             mode: address.mode,
           }.tap do |hash|
             if address.fixed?
-              hash[:address] = address.ip_object(sequential_number, team_number).to_string
+              hash[:address] = address.ip_object(sequential_number, team_number).to_s
             end
           end
         end
