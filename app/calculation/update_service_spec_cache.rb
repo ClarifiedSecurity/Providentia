@@ -1,22 +1,10 @@
 # frozen_string_literal: true
 
-module SpecCacheUpdater
-  extend ActiveSupport::Concern
-
-  included do
-    before_destroy :update_service_subject_spec_cache
-    around_save :update_service_subject_spec_cache_with_yield
-  end
-
+class UpdateServiceSpecCache < Patterns::Calculation
   private
-    def update_service_subject_spec_cache_with_yield
-      yield
-      update_service_subject_spec_cache
-    end
-
-    def update_service_subject_spec_cache(item_hint = nil)
+    def result
       ServiceSubject.transaction do
-        [self, item_hint].compact.flat_map(&method(:gather_subjects)).uniq.each do |subject|
+        [subject, options[:item_hint]].compact.flat_map(&method(:gather_subjects)).uniq.each do |subject|
           next if subject.customization_spec_ids == subject.matched_spec_ids
           subject.update_columns(
             customization_spec_ids: subject.matched_spec_ids,
@@ -51,6 +39,8 @@ module SpecCacheUpdater
         # only reaches here from association callback,
         # which includes both addition and removal
         ServiceSubject.search_matcher(from).to_a
+      when ActsAsTaggableOn::Tagging
+        ServiceSubject.search_matcher(OpenStruct.new(id: from.tag.name, class: from.class)).to_a
       else
         raise "Unknown item for service cache update: #{from.inspect}"
       end

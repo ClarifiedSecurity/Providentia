@@ -2,7 +2,8 @@
 
 class Service < ApplicationRecord
   include VmCacheBuster
-  include SpecCacheUpdater
+  include SpecCacheUpdateOnSave
+  include SpecCacheUpdateBeforeDestroy
   extend FriendlyId
   friendly_id :name, use: [:slugged, :scoped], scope: :exercise, sequence_separator: '_'
 

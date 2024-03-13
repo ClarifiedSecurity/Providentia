@@ -2,7 +2,8 @@
 
 class ServiceSubject < ApplicationRecord
   include VmCacheBuster
-  include SpecCacheUpdater
+  include SpecCacheUpdateOnSave
+  include SpecCacheUpdateBeforeDestroy
 
   has_paper_trail
 

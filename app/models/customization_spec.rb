@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class CustomizationSpec < ApplicationRecord
-  include SpecCacheUpdater
+  include SpecCacheUpdateOnSave
+  include SpecCacheUpdateBeforeDestroy
   extend FriendlyId
   has_paper_trail
   acts_as_taggable_on :tags
@@ -116,7 +117,7 @@ class CustomizationSpec < ApplicationRecord
       touch
       virtual_machine.touch
       capability.touch
-      update_service_subject_spec_cache(capability)
+      UpdateServiceSpecCache.result_for(capability)
     end
 
     def lowercase_fields
