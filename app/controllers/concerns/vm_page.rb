@@ -11,7 +11,11 @@ module VmPage
     end
 
     def preload_services
-      @services = policy_scope(@exercise.services)
-        .for_spec(@virtual_machine.customization_specs)
+      @services = Hash.new { [] }
+
+      @virtual_machine.customization_specs.reduce(@services) do |acc, spec|
+        acc[spec.id] = policy_scope(@exercise.services).for_spec(spec)
+        acc
+      end
     end
 end

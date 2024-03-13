@@ -66,9 +66,10 @@
 
       = form.text_field :tag_list, { value: customization_spec.tag_list.join(', '), data: { controller: 'select', create: true, select_options_value: ActsAsTaggableOn::Tag.for_tenant("exercise_#{@exercise.id}").uniq.pluck(:name) } }
 
-    .mt-2
-      %h3.font-bold Services
+    - if @services[customization_spec.id].any?
+      .mt-2
+        %h3.font-bold Services
 
-      %p.text-center.pt-1
-        - @services.each do |service|
-          = link_to service.name, [@exercise, service], class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:text-indigo-400 px-1 whitespace-nowrap'
+        %p.text-center.pt-1
+          - @services[customization_spec.id].each do |service|
+            = link_to service.name, [@exercise, service], class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:text-indigo-400 px-1 whitespace-nowrap'
