@@ -27,7 +27,7 @@ en:
       virtual_machine:
         cpu: vCPU count
         ram: RAM
-        custom_instance_count: Sequential instances
+        custom_instance_count: Cluster size
         numbered_by: Deploy strategy
       network:
         cloud_id: ID in cloud
