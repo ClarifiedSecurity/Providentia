@@ -55,7 +55,7 @@ RSpec.describe GenerateTags do
 
   context 'for Capability' do
     let(:source_objects) { [capability] }
-    let(:capability) { build(:capability) }
+    let(:capability) { create(:capability, actor: build(:actor)) }
 
     let(:default_result) {
       {
@@ -72,11 +72,11 @@ RSpec.describe GenerateTags do
 
   context 'for VM' do
     let(:source_objects) { [virtual_machine] }
-    let(:virtual_machine) { build(:virtual_machine) }
+    let(:virtual_machine) { create(:virtual_machine) }
 
     context 'which has multiple specs' do
-      let!(:customization_spec) { virtual_machine.customization_specs << build(:customization_spec, virtual_machine:) }
-      let!(:container_customization_spec) { virtual_machine.customization_specs << build(:customization_spec, virtual_machine:, mode: :container) }
+      let!(:customization_spec) { virtual_machine.customization_specs << create(:customization_spec, virtual_machine:) }
+      let!(:container_customization_spec) { virtual_machine.customization_specs << create(:customization_spec, virtual_machine:, mode: :container) }
       let(:result) {
         {
           id: "#{virtual_machine.name}_all_specs",
@@ -109,12 +109,12 @@ RSpec.describe GenerateTags do
 
   context 'for customization specs' do
     let(:source_objects) { [customization_spec] }
-    let(:customization_spec) { build(:customization_spec) }
+    let(:customization_spec) { create(:customization_spec) }
 
     it { is_expected.to eq([]) }
 
     context 'as non-host spec' do
-      let(:customization_spec) { build(:customization_spec, mode: :container) }
+      let(:customization_spec) { create(:customization_spec, mode: :container) }
       let(:result) {
         [
           {
@@ -169,7 +169,7 @@ RSpec.describe GenerateTags do
     end
 
     context 'custom tags' do
-      let(:customization_spec) { build(:customization_spec, tag_list: 'Steinway & Sons, regular') }
+      let(:customization_spec) { create(:customization_spec, tag_list: 'Steinway & Sons, regular') }
 
       it 'should return with entry for each custom tag' do
         expect(subject.length).to eq 2
@@ -355,10 +355,10 @@ RSpec.describe GenerateTags do
     end
 
     context 'as numbered actor for VM-s' do
-      let(:actor) { create(:actor, :numbered, numbered_virtual_machines: numbered_vms) }
-      let(:vm_primary_actor) { build(:actor, name: 'Primary', abbreviation: 'pr') }
-      let(:numbered_vms) {
-        build_list(:virtual_machine, 2, actor: vm_primary_actor)
+      let(:actor) { create(:actor, :numbered) }
+      let(:vm_primary_actor) { create(:actor, name: 'Primary', abbreviation: 'pr') }
+      let!(:numbered_vms) {
+        create_list(:virtual_machine, 2, actor: vm_primary_actor, numbered_by: actor)
       }
 
       let(:main_result) {
@@ -395,6 +395,64 @@ RSpec.describe GenerateTags do
         subject { described_class.result_for(source_objects, spec: 'anything') }
 
         it { is_expected.to eq([default_result]) }
+      end
+
+      context 'with VM actor as subactor' do
+        let(:parent_actor) { create(:actor, name: 'ParentOfPrimary', abbreviation: 'par') }
+        let(:vm_primary_actor) { create(:actor, name: 'Primary', abbreviation: 'pr', parent: parent_actor) }
+
+        let(:main_result) {
+          {
+            id: ActorAPIName.result_for(vm_primary_actor, numbered_by: actor),
+            name: "#{vm_primary_actor.name}, numbered by #{actor.name}",
+            config_map: {},
+            children: [],
+            priority: 35
+          }
+        }
+
+        let(:numbered_results) {
+          actor.all_numbers.map do |nr|
+            {
+              id: ActorAPIName.result_for(vm_primary_actor, numbered_by: actor, number: nr),
+              name: "#{vm_primary_actor.name}, numbered by #{actor.name} - number #{nr}",
+              config_map: {},
+              children: [],
+              priority: 35
+            }
+          end
+        }
+
+        it { is_expected.to include(main_result) }
+        it { is_expected.to include(*numbered_results) }
+      end
+
+      context 'with VM actor as subactor of numbered actor' do
+        let(:vm_primary_actor) { create(:actor, name: 'Primary', abbreviation: 'pr', parent: actor) }
+
+        let(:main_result) {
+          {
+            id: ActorAPIName.result_for(actor),
+            name: actor.name,
+            config_map: {},
+            children: [],
+            priority: 30
+          }
+        }
+
+        let(:numbered_results) {
+          actor.all_numbers.map do |nr|
+            {
+              id: ActorAPIName.result_for(actor, number: nr),
+              name: "#{actor.name} number #{nr}",
+              config_map: {},
+              children: [],
+              priority: 31
+            }
+          end
+        }
+
+        it { is_expected.to eq([main_result] + numbered_results) }
       end
 
       context 'with numbered configs' do
@@ -437,13 +495,13 @@ RSpec.describe GenerateTags do
   context 'for InstancePresenter' do
     let(:source_objects) { [presenter] }
     let(:presenter) { API::V3::InstancePresenter.new(customization_spec) }
-    let(:customization_spec) { build(:customization_spec) }
+    let(:customization_spec) { create(:customization_spec) }
 
     it { is_expected.to eq([]) }
 
     context 'with numbered spec and team number' do
-      let(:numbered_actor) { build(:actor, number: 3) }
-      let(:vm) { build(:virtual_machine, numbered_by: numbered_actor) }
+      let(:numbered_actor) { create(:actor, number: 3) }
+      let(:vm) { create(:virtual_machine, numbered_by: numbered_actor) }
       let(:customization_spec) { create(:customization_spec, virtual_machine: vm) }
       let(:presenter) { API::V3::InstancePresenter.new(customization_spec, nil, 1) }
 

@@ -71,8 +71,7 @@ class GenerateTags < Patterns::Calculation
       return if options[:spec] # this is only needed if "overall" tags list is generated, not for specific spec
       subject
         .numbered_virtual_machines
-        .map(&:actor)
-        .select(&:is_root?)
+        .filter_map { |vm| vm.actor unless vm.actor.root == subject }
         .uniq
         .excluding(subject)
         .map do |vm_actor|
