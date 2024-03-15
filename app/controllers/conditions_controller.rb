@@ -37,7 +37,7 @@ class ConditionsController < ApplicationController
   private
     def subject_params
       params.require(:service_subject_match_condition).permit(
-        :matcher_id, :matcher_type
+        :matcher_id, :matcher_type, :invert
       )
     end
 

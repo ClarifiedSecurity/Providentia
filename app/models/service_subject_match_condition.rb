@@ -3,7 +3,7 @@
 class ServiceSubjectMatchCondition
   include ActiveModel::Model
 
-  attr_accessor :matcher_type, :matcher_id
+  attr_accessor :matcher_type, :matcher_id, :invert
 
   VALID_TYPES = [
     CustomizationSpec,
@@ -20,7 +20,8 @@ class ServiceSubjectMatchCondition
   def attributes
     {
       matcher_type:,
-      matcher_id:
+      matcher_id:,
+      invert:
     }
   end
 

@@ -18,8 +18,8 @@ FactoryBot.define do
   end
 
   factory :capability do
-    name { 'MyString' }
-    slug { 'MyString' }
+    sequence(:name) { |n| "Capability #{n}" }
+    sequence(:slug) { |n| "capability#{n}" }
     exercise
   end
 

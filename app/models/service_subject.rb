@@ -37,16 +37,32 @@ class ServiceSubject < ApplicationRecord
   def matched_spec_ids
     return [] unless match_conditions.any?
     match_conditions.reduce(exercise.customization_specs.scope) do |scope, condition|
-      case condition.matcher_type
-      when 'CustomizationSpec'
+      case condition.attributes
+      in matcher_type: 'CustomizationSpec', invert: '1', matcher_id: String
+        scope.where.not(id: condition.matcher_id)
+      in matcher_type: 'CustomizationSpec'
         scope.where(id: condition.matcher_id)
-      when 'Network'
+      in matcher_type: 'Network', invert: '1', matcher_id: String
+        scope.joins(virtual_machine: :network_interfaces).merge(NetworkInterface.egress).where.not(network_interfaces: { network_id: condition.matcher_id })
+      in matcher_type: 'Network'
         scope.joins(virtual_machine: :network_interfaces).merge(NetworkInterface.egress).where(network_interfaces: { network_id: condition.matcher_id })
-      when 'Capability'
+      in matcher_type: 'Capability', invert: '1', matcher_id: String
+        scope.joins(:capabilities).where.not(capabilities: { id: condition.matcher_id })
+      in matcher_type: 'Capability'
         scope.joins(:capabilities).where(capabilities: { id: condition.matcher_id })
-      when 'Actor'
+      in matcher_type: 'Actor', invert: '1', matcher_id: String
+        scope.joins(virtual_machine: :actor).where.not(actors: { id: condition.matcher_id })
+      in matcher_type: 'Actor'
         scope.joins(virtual_machine: :actor).where(actors: { id: condition.matcher_id })
-      when 'OperatingSystem'
+      in matcher_type: 'OperatingSystem', invert: '1', matcher_id: String
+        if condition.matcher_id.blank?
+          scope.none
+        else
+          scope
+            .joins(virtual_machine: :operating_system)
+            .where.not(operating_systems: { id: OperatingSystem.find(condition.matcher_id).subtree_ids })
+        end
+      in matcher_type: 'OperatingSystem'
         if condition.matcher_id.blank?
           scope.none
         else
@@ -54,8 +70,10 @@ class ServiceSubject < ApplicationRecord
             .joins(virtual_machine: :operating_system)
             .where(operating_systems: { id: OperatingSystem.find(condition.matcher_id).subtree_ids })
         end
-      when 'ActsAsTaggableOn::Tagging'
-        scope.tagged_with(condition.matcher_id || '')
+      in matcher_type: 'ActsAsTaggableOn::Tagging', invert: '1', matcher_id: String
+        scope.tagged_with(condition.matcher_id, exclude: true)
+      in matcher_type: 'ActsAsTaggableOn::Tagging', matcher_id: String
+        scope.tagged_with(condition.matcher_id)
       else
         scope.none
       end

@@ -4,6 +4,11 @@ en:
       label_begins_or_ends_with_hyphen: label begins or ends with a hyphen
       missing_in_path: is missing for this record or its parent(s)
       hostname_conflict: is conflicting with another DNS name
+  activemodel:
+    attributes:
+      service_subject_match_condition:
+        invert: Exclude
+
   activerecord:
     models:
       exercise: Environment
