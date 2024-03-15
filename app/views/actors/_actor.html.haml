@@ -15,7 +15,7 @@
             = f.input :name
             = f.input :abbreviation
 
-          .py-1= f.input :description
+          .py-1= f.input :description, input_html: { data: { controller: "textarea-autogrow" } }
           .py-1= f.input :number, hint: 'How many cloned instances this actor has'
 
   = render ColumnFormSectionComponent.new do |c|

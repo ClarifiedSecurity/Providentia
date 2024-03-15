@@ -46,7 +46,7 @@
 
         .grow
           = form.label :description, class: 'block font-bold text-gray-700 dark:text-gray-200'
-          = form.text_area :description, class: 'form-input'
+          = form.text_area :description, class: 'form-input', data: { controller: "textarea-autogrow" }
 
     .mt-2
       = form.label :capability_ids, Capability.model_name.human.pluralize, class: 'block font-bold text-gray-700 dark:text-gray-200'

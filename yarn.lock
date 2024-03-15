@@ -3590,6 +3590,7 @@ __metadata:
     postcss-nesting: "npm:^12.1.0"
     postcss-preset-env: "npm:^9.5.0"
     stimulus-clipboard: "npm:^4.0.1"
+    stimulus-textarea-autogrow: "npm:^4.1.0"
     stimulus-use: "npm:^0.52.2"
     stimulus-vite-helpers: "npm:^3.1.0"
     tailwindcss: "npm:^3.4.1"
@@ -3870,6 +3871,15 @@ __metadata:
   peerDependencies:
     "@hotwired/stimulus": ^3.2.1
   checksum: 10/0e285b6733937480ed9a634416e40a28a2fb8a8f5765ecd62733e3f3aed2017cb71512a511942458a6875ce854b2798a20066202ab3afeef3535effcd69094ea
+  languageName: node
+  linkType: hard
+
+"stimulus-textarea-autogrow@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "stimulus-textarea-autogrow@npm:4.1.0"
+  peerDependencies:
+    "@hotwired/stimulus": ^3.2.1
+  checksum: 10/74873053ab0da63607c40139559478fdf53c811ddfd6979178136fe517d70685c49caeeb6e4990c47f2c0d78e5522bf856cdc1c442f88eae1eafde1e0eed5070
   languageName: node
   linkType: hard
 
