@@ -23,7 +23,7 @@ gem 'liquid', '~> 5.3'
 gem 'redis'
 gem 'hiredis', '~> 0.6.3'
 gem 'mail', '~> 2.8'
-gem 'nokogiri', '~> 1.14'
+gem 'nokogiri', '~> 1.16'
 gem 'stringex', '~> 2.8', require: 'stringex_lite'
 
 # functionality
