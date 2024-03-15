@@ -3594,7 +3594,7 @@ __metadata:
     stimulus-use: "npm:^0.52.2"
     stimulus-vite-helpers: "npm:^3.1.0"
     tailwindcss: "npm:^3.4.1"
-    tailwindcss-stimulus-components: "npm:^4.0.4"
+    tailwindcss-stimulus-components: "npm:^5.0.2"
     thememirror: "npm:^2.0.1"
     throttleit: "npm:^2.0.0"
     tippy.js: "npm:^6.3.7"
@@ -4017,12 +4017,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tailwindcss-stimulus-components@npm:^4.0.4":
-  version: 4.0.4
-  resolution: "tailwindcss-stimulus-components@npm:4.0.4"
+"tailwindcss-stimulus-components@npm:^5.0.2":
+  version: 5.0.2
+  resolution: "tailwindcss-stimulus-components@npm:5.0.2"
   peerDependencies:
     "@hotwired/stimulus": ">= 3.0.0"
-  checksum: 10/103216be6e672385d4cf7ef3328a7ff66f24a6b173d29ae05236d1f811762a8f05cdbd3a296897121b55186129202f41ce41484993db7a619f7ee09c77989a82
+  checksum: 10/4af02a6140a72491e20b1ac99bcee3a5ddb51deeedd7b9a87d4b0d5721d5a6617ac5a421e579c6ca8dbc4fc4a822722b9d8cadee8082c2becfc985548d3e1240
   languageName: node
   linkType: hard
 
