@@ -247,7 +247,7 @@ GEM
       activerecord (>= 4.0.0)
       activesupport (>= 4.0.0)
     nio4r (2.7.0)
-    nokogiri (1.16.2-x86_64-linux)
+    nokogiri (1.16.3-x86_64-linux)
       racc (~> 1.4)
     oj (3.16.3)
       bigdecimal (>= 3.0)
@@ -543,7 +543,7 @@ DEPENDENCIES
   memory_profiler
   naturally (~> 2.2)
   nilify_blanks (~> 1.4)
-  nokogiri (~> 1.14)
+  nokogiri (~> 1.16)
   oj (~> 3.10)
   omniauth (~> 2.0)
   omniauth-rails_csrf_protection
