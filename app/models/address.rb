@@ -95,7 +95,7 @@ class Address < ApplicationRecord
     return unless fixed? && ip_family_network_template.present?
     static_offset = offset.to_i
     static_offset -= 1 if ipv6?
-    static_offset += (sequence_number || 1) - 1
+    static_offset += (sequence_number || 1) - 1 unless vip?
     static_offset += ((actor_number || 1) - 1) * (sequence_total || 1) if !address_pool&.numbered?
 
     ip_family_network(actor_number).allocate(static_offset)
