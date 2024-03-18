@@ -41,7 +41,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@codemirror/language@npm:^6.0.0, @codemirror/language@npm:^6.9.3":
+"@codemirror/language@npm:^6.0.0":
   version: 6.9.3
   resolution: "@codemirror/language@npm:6.9.3"
   dependencies:
@@ -52,6 +52,20 @@ __metadata:
     "@lezer/lr": "npm:^1.0.0"
     style-mod: "npm:^4.0.0"
   checksum: 10/331230a3876ed469cbf18dc2733040aa42a175b1a038080e4c317cf7f1fd8e929dc6838ba4749ea52992805f20be85878214cab6e0e7c7ab5fda872844611b7a
+  languageName: node
+  linkType: hard
+
+"@codemirror/language@npm:^6.10.1":
+  version: 6.10.1
+  resolution: "@codemirror/language@npm:6.10.1"
+  dependencies:
+    "@codemirror/state": "npm:^6.0.0"
+    "@codemirror/view": "npm:^6.23.0"
+    "@lezer/common": "npm:^1.1.0"
+    "@lezer/highlight": "npm:^1.0.0"
+    "@lezer/lr": "npm:^1.0.0"
+    style-mod: "npm:^4.0.0"
+  checksum: 10/14bd54aec51a36945e176ebf0e85377be498b69c4056bdca7e2eeedeea1bcc9d644a7c9d55b7340101d6e895bdbef8bc2f3ed17daa4e53a9d1ec13c4be72b0b7
   languageName: node
   linkType: hard
 
@@ -93,6 +107,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@codemirror/state@npm:^6.4.0":
+  version: 6.4.1
+  resolution: "@codemirror/state@npm:6.4.1"
+  checksum: 10/a9ec56c7d7d52034ce8ebea3a9a4d216b9e972d701b32b5000e56c97790d0d46af129aeba0b80bed36648b4024b3ba3e4910cf5bfed11de4a9e89252e0707a70
+  languageName: node
+  linkType: hard
+
 "@codemirror/view@npm:^6.0.0, @codemirror/view@npm:^6.22.1, @codemirror/view@npm:^6.6.0":
   version: 6.22.1
   resolution: "@codemirror/view@npm:6.22.1"
@@ -101,6 +122,17 @@ __metadata:
     style-mod: "npm:^4.1.0"
     w3c-keyname: "npm:^2.2.4"
   checksum: 10/01688ece35683aaa6999bb0deae31e9f7825336906a1658150fdb6d1b8d060b672845bead9a0416a692c2e60926cdc88f525ed106d9c0284397c47f936cab26e
+  languageName: node
+  linkType: hard
+
+"@codemirror/view@npm:^6.23.0":
+  version: 6.26.0
+  resolution: "@codemirror/view@npm:6.26.0"
+  dependencies:
+    "@codemirror/state": "npm:^6.4.0"
+    style-mod: "npm:^4.1.0"
+    w3c-keyname: "npm:^2.2.4"
+  checksum: 10/d4ef249044cbc293a7267c83e08671a68646fd7bbe1efb8d205c01385f157c93918eabeaedb62a4cc10598ab63818ac749cec4f6355fe0404d9d4beb7857c31f
   languageName: node
   linkType: hard
 
@@ -3562,7 +3594,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "providentia@workspace:."
   dependencies:
-    "@codemirror/language": "npm:^6.9.3"
+    "@codemirror/language": "npm:^6.10.1"
     "@codemirror/legacy-modes": "npm:^6.3.3"
     "@codemirror/state": "npm:^6.3.2"
     "@codemirror/view": "npm:^6.22.1"
