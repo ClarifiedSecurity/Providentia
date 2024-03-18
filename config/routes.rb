@@ -52,6 +52,7 @@ Rails.application.routes.draw do
   # API
   namespace :api, defaults: { format: :json } do
     namespace :v3 do
+      get '.auth', to: 'authinfo#show'
       resources :exercises, path: '', only: %i[index show] do
         resources :networks, only: %i[index]
         resources :services, only: %i[index show]

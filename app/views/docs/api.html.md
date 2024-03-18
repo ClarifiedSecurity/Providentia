@@ -11,6 +11,8 @@ The API is using JSON format and is read-only - no altering the data in any way.
 Providentia uses OpenID Connect for access management, both in web-application and API.
 The authentication provider for this instance is: <%= Rails.configuration.oidc_issuer %>
 
+Information about OpenID Connect provider can be retrieved at [/api/v3/.auth](/api/v3/.auth). It lists the URL for issuer and required scopes for current configuration.
+
 An access token is required in order to use the API. The instructions on how to retrieve this token differ from provider to provider, but easiest method is via password grant flow.
 
 After obtaining the access token, it should be added to the API request in `Authorization` header:
