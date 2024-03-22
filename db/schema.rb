@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_08_25_085618) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_22_130758) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -171,6 +171,15 @@ ActiveRecord::Schema[7.1].define(version: 2023_08_25_085618) do
     t.string "local_admin_resource_name"
     t.index ["abbreviation"], name: "index_exercises_on_abbreviation", unique: true
     t.index ["slug"], name: "index_exercises_on_slug", unique: true
+  end
+
+  create_table "instance_metadata", force: :cascade do |t|
+    t.bigint "customization_spec_id", null: false
+    t.string "instance", null: false
+    t.jsonb "metadata", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["customization_spec_id"], name: "index_instance_metadata_on_customization_spec_id"
   end
 
   create_table "network_interfaces", force: :cascade do |t|
@@ -366,6 +375,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_08_25_085618) do
   add_foreign_key "capabilities", "exercises"
   add_foreign_key "checks", "services"
   add_foreign_key "customization_specs", "virtual_machines"
+  add_foreign_key "instance_metadata", "customization_specs"
   add_foreign_key "network_interfaces", "networks"
   add_foreign_key "network_interfaces", "virtual_machines"
   add_foreign_key "networks", "actors"

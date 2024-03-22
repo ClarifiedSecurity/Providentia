@@ -36,6 +36,7 @@ class CustomizationSpec < ApplicationRecord
   has_one :exercise, through: :virtual_machine
   has_and_belongs_to_many :capabilities,
     after_add: :invalidate_capability_cache, after_remove: :invalidate_capability_cache
+  has_many :instance_metadata, dependent: :destroy
 
   validates :name, uniqueness: { scope: :virtual_machine }, presence: true, length: { minimum: 1, maximum: 63 }, hostname: true
   validates :dns_name, length: { minimum: 1, maximum: 63, allow_blank: true }, hostname: { allow_blank: true }

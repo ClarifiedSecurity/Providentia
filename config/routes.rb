@@ -60,7 +60,9 @@ Rails.application.routes.draw do
         resources :tags, only: %i[index]
         resource :inventory, only: %i[show]
         resource :graph, only: %i[show]
-        resources :customization_specs, path: 'hosts', only: %i[index show]
+        resources :customization_specs, path: 'hosts', only: %i[index show] do
+          resources :instances, only: %i[update]
+        end
         resources :actors, only: %i[index]
       end
     end
