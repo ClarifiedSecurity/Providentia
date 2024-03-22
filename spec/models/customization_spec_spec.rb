@@ -15,6 +15,15 @@ RSpec.describe CustomizationSpec do
       expect(subject.first.sequential_number).to eq nil
     end
 
+    context 'with kwargs' do
+      subject { spec.deployable_instances(presenter, moo: 123) }
+
+      it 'should pass kwargs to presenter' do
+        expect(presenter).to receive(:new).with(spec, nil, nil, moo: 123)
+        subject
+      end
+    end
+
     context 'with custom_instance_count on vm' do
       let(:spec) { build(:customization_spec, virtual_machine:) }
       let(:virtual_machine) { build(:virtual_machine, custom_instance_count: count) }

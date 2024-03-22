@@ -72,10 +72,10 @@ class CustomizationSpec < ApplicationRecord
     end
   end
 
-  def deployable_instances(presenter = API::V3::InstancePresenter)
+  def deployable_instances(presenter = API::V3::InstancePresenter, **opts)
     (team_numbers || [nil]).product(sequential_numbers || [nil])
       .map do |team_number, sequential_number|
-        presenter.new(self, sequential_number, team_number)
+        presenter.new(self, sequential_number, team_number, **opts)
       end
   end
 

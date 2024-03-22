@@ -55,4 +55,18 @@ RSpec.describe API::V3::CustomizationSpecPresenter do
       end
     end
   end
+
+  context 'options' do
+    subject { described_class.new(spec, include_metadata: true) }
+
+    it 'should include metadata in cache key' do
+      expect(subject.send(:cache_key)).to include('metadata')
+      expect(subject.send(:cache_key)).to include(spec.instance_metadata.cache_key_with_version)
+    end
+
+    it 'should call instance presenter with include_metadata option' do
+      expect(spec).to receive(:deployable_instances).with(API::V3::InstancePresenter, include_metadata: true).and_return([])
+      subject.as_json
+    end
+  end
 end

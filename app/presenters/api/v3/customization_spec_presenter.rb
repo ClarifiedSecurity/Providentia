@@ -2,7 +2,14 @@
 
 module API
   module V3
-    class CustomizationSpecPresenter < Struct.new(:spec)
+    class CustomizationSpecPresenter
+      attr_reader :spec, :options
+
+      def initialize(spec, **opts)
+        @spec = spec
+        @options = opts
+      end
+
       def as_json(_opts = nil)
         Rails.cache.fetch(cache_key) do
           preload_interfaces
@@ -45,7 +52,9 @@ module API
             vm.actor&.root&.cache_key_with_version,
             'numbering',
             vm.numbered_actor&.cache_key_with_version,
-            vm.numbered_actor&.root&.cache_key_with_version
+            vm.numbered_actor&.root&.cache_key_with_version,
+            options[:include_metadata] ? 'metadata' : nil,
+            options[:include_metadata] ? spec.instance_metadata.cache_key_with_version : nil
           ].compact
         end
 
@@ -78,7 +87,7 @@ module API
         end
 
         def instances
-          spec.deployable_instances(InstancePresenter).filter_map(&:as_json)
+          spec.deployable_instances(InstancePresenter, **options).filter_map(&:as_json)
         end
 
         def capabilities
