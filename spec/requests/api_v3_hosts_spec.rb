@@ -94,6 +94,18 @@ RSpec.describe 'API v3 hosts', type: :request do
       end
     end
 
+    context 'with empty dict as param' do
+      let(:params) { {} }
+
+      it { is_expected.to be_successful }
+
+      it 'should replace previous metadata with payload' do
+        subject
+        expect(response.parsed_body).to have_key('result')
+        expect(virtual_machine.host_spec.instance_metadata.find_by(instance: instance_id).metadata).to eq({})
+      end
+    end
+
     context 'Partial update' do
       let(:request_method) { :patch }
 

@@ -2,8 +2,16 @@
 
 module API
   module V3
-    class InstancePresenter < Struct.new(:spec, :sequential_number, :team_number)
+    class InstancePresenter
+      attr_reader :spec, :sequential_number, :team_number, :options
       delegate :operating_system, to: :vm
+
+      def initialize(spec, sequential_number = nil, team_number = nil, **opts)
+        @spec = spec
+        @sequential_number = sequential_number
+        @team_number = team_number
+        @options = opts
+      end
 
       def as_json
         return if skip_by_numbering
@@ -24,7 +32,7 @@ module API
           checks:,
           tags:,
           config_map: {}
-        }.merge(team_numbers).merge(sequence_info)
+        }.merge(team_numbers).merge(sequence_info).merge(metadata)
       end
 
       private
@@ -75,6 +83,13 @@ module API
           {
             team_nr: team_number,
             team_nr_str: team_number.to_s.rjust(2, '0'),
+          }
+        end
+
+        def metadata
+          return {} unless options[:include_metadata]
+          {
+            metadata: spec.instance_metadata.select(:metadata).find_by(instance: inventory_name)&.metadata
           }
         end
 

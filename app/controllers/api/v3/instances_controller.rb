@@ -6,7 +6,7 @@ module API
       before_action :get_exercise, :authorize_spec, :validate_id, :validate_params
 
       def update
-        datum = spec.instance_metadata.first_or_create(instance: params[:id])
+        datum = spec.instance_metadata.where(instance: params[:id]).first_or_create
         if datum && datum.update(
           metadata: if request.patch?
                       datum.metadata.merge(metadata_param)
@@ -48,7 +48,7 @@ module API
         end
 
         def metadata_param
-          params.require(:metadata).permit!
+          params.fetch(:metadata, {}).permit!
         end
     end
   end
