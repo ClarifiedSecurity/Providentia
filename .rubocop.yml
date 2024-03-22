@@ -6,3 +6,6 @@ inherit_gem:
 Style/StringLiterals:
   Enabled: true
   EnforcedStyle: single_quotes
+
+AllCops:
+  TargetRubyVersion: 3.3.x
