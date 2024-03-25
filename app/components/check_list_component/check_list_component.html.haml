@@ -7,4 +7,4 @@
     - checks.map do |check|
       - next unless check.check_mode_special? || (check.protocol && check.ip_family)
       .inline-block{title: relation_for(check)&.name}
-        = render ActorChipComponent.new(actor: actor_for(check), text: check.display_name)
+        = render ActorChipComponent.new(actor: actor_for(check), text: check.display_name.to_s)
