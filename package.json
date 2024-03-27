@@ -33,7 +33,7 @@
     "stimulus-textarea-autogrow": "^4.1.0",
     "stimulus-use": "^0.52.2",
     "stimulus-vite-helpers": "^3.1.0",
-    "tailwindcss": "^3.4.1",
+    "tailwindcss": "^3.4.3",
     "tailwindcss-stimulus-components": "^4.0.4",
     "thememirror": "^2.0.1",
     "throttleit": "^2.0.0",
