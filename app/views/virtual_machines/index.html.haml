@@ -2,7 +2,7 @@
   - provide :new_url do
     = url_for [:new, @exercise, :virtual_machine]
 
-= turbo_frame_tag :vm_search, disabled: true, data: { turbo_action: "advance" } do
+%div
   %section.relative.mb-4
     .flex{"data-controller" => "dropdown"}
       %button#dropdown-button-2.flex-shrink-0.z-10.inline-flex.items-center.px-4.text-sm.font-medium.text-center.text-gray-500.bg-emerald-200.border.border-gray-300.rounded-l-lg.hover:bg-emerald-300.focus:ring-4.focus:outline-none.focus:ring-gray-100.dark:bg-emerald-600.dark:hover:bg-emerald-500.dark:focus:ring-gray-700.dark:text-white.dark:border-gray-600{"data-action" => "click->dropdown#toggle click@window->dropdown#hide", "data-dropdown-target" => "button", :role => "button", :tabindex => "0"}
@@ -16,16 +16,16 @@
       .z-10.absolute.top-full.left-0.mt-2.hidden.bg-white.divide-y.divide-gray-100.rounded-lg.shadow.w-50.dark:bg-gray-700{"data-dropdown-target" => "menu"}
         %ul.py-2.text-sm.text-gray-700.dark:text-gray-200{"aria-labelledby" => "dropdown-button-2"}
           %li
-            = link_to 'All', exercise_virtual_machines_path(@exercise, actor: nil, query: params[:query]), { data: { turbo_frame: :vm_search }, role: :menuitem, class: 'inline-flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white'}
+            = link_to 'All', exercise_virtual_machines_path(@exercise, actor: nil, query: params[:query]), { role: :menuitem, class: 'inline-flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white'}
 
           - cache([policy_scope(@exercise.actors).cache_key_with_version, 'tree']) do
             - OrderedTree.result_for(policy_scope(@exercise.actors)).each do |actor|
               %li
-                = link_to exercise_virtual_machines_path(@exercise, actor: actor.abbreviation, query: params[:query]), { data: { turbo_frame: :vm_search }, role: :menuitem, class: 'inline-flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white'} do
+                = link_to exercise_virtual_machines_path(@exercise, actor: actor.abbreviation, query: params[:query]), { role: :menuitem, class: 'inline-flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white'} do
                   %span.inline-flex.w-4.h-4.mr-2.rounded-full{class: actor_color_classes(actor)}
                   = "#{'-' * actor.depth} #{actor.name}"
 
-      = form_with(url: [@exercise, :virtual_machines], method: :get, data: { controller: 'vmsearch' }, class: 'relative w-full') do
+      = form_with(url: [@exercise, :virtual_machines], method: :get, data: { turbo_frame: 'searchresults', controller: 'vmsearch' }, class: 'relative w-full') do
         = hidden_field_tag :actor, params[:actor]
         = text_field_tag :query,
           params[:query],
@@ -36,4 +36,5 @@
         %button.absolute.top-0.bottom-0.right-0.text-sm.font-medium.text-white.bg-blue-700.rounded-r-lg.border.border-blue-700.hover:bg-blue-800.focus:ring-4.focus:outline-none.focus:ring-blue-300.dark:bg-blue-600.dark:hover:bg-blue-700.dark:focus:ring-blue-800{:class => "p-2.5", :type => "submit"}
           %i.fas.fa-search.w-5.h-5
 
-  #results= render 'search_results'
+  = turbo_frame_tag 'searchresults' do
+    #results= render 'search_results'
