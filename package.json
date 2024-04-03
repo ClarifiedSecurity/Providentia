@@ -27,7 +27,7 @@
     "hotkeys-js": "^3.13.7",
     "postcss": "^8.4.38",
     "postcss-import": "^16.1.0",
-    "postcss-nesting": "^12.1.0",
+    "postcss-nesting": "^12.1.1",
     "postcss-preset-env": "^9.5.4",
     "stimulus-clipboard": "^4.0.1",
     "stimulus-textarea-autogrow": "^4.1.0",

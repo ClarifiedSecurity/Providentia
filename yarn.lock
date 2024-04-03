@@ -536,15 +536,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@csstools/selector-specificity@npm:^3.0.2":
-  version: 3.0.2
-  resolution: "@csstools/selector-specificity@npm:3.0.2"
-  peerDependencies:
-    postcss-selector-parser: ^6.0.13
-  checksum: 10/af3cc9282b600170b7de0fed2106830ab353359bd11f66cf71259419c9bddf8f0773c3a6e513cd9f66fd7e4920a1786a7c288723cbb3ae207974c1e7de26293e
-  languageName: node
-  linkType: hard
-
 "@csstools/selector-specificity@npm:^3.0.3":
   version: 3.0.3
   resolution: "@csstools/selector-specificity@npm:3.0.3"
@@ -3212,19 +3203,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss-nesting@npm:^12.1.0":
-  version: 12.1.0
-  resolution: "postcss-nesting@npm:12.1.0"
-  dependencies:
-    "@csstools/selector-resolve-nested": "npm:^1.1.0"
-    "@csstools/selector-specificity": "npm:^3.0.2"
-    postcss-selector-parser: "npm:^6.0.13"
-  peerDependencies:
-    postcss: ^8.4
-  checksum: 10/13ff6170cd97db3885b100a0826313bfbafb4e0a39b304cab9ea74b46172af882eaad292e3882f2c5640f9b38ce08e992ff2222beb0fb25cd1c08b390c27305a
-  languageName: node
-  linkType: hard
-
 "postcss-nesting@npm:^12.1.1":
   version: 12.1.1
   resolution: "postcss-nesting@npm:12.1.1"
@@ -3633,7 +3611,7 @@ __metadata:
     hotkeys-js: "npm:^3.13.7"
     postcss: "npm:^8.4.38"
     postcss-import: "npm:^16.1.0"
-    postcss-nesting: "npm:^12.1.0"
+    postcss-nesting: "npm:^12.1.1"
     postcss-preset-env: "npm:^9.5.4"
     stimulus-clipboard: "npm:^4.0.1"
     stimulus-textarea-autogrow: "npm:^4.1.0"
