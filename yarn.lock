@@ -93,7 +93,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@codemirror/view@npm:^6.0.0, @codemirror/view@npm:^6.22.1, @codemirror/view@npm:^6.6.0":
+"@codemirror/state@npm:^6.4.0":
+  version: 6.4.1
+  resolution: "@codemirror/state@npm:6.4.1"
+  checksum: 10/a9ec56c7d7d52034ce8ebea3a9a4d216b9e972d701b32b5000e56c97790d0d46af129aeba0b80bed36648b4024b3ba3e4910cf5bfed11de4a9e89252e0707a70
+  languageName: node
+  linkType: hard
+
+"@codemirror/view@npm:^6.0.0, @codemirror/view@npm:^6.6.0":
   version: 6.22.1
   resolution: "@codemirror/view@npm:6.22.1"
   dependencies:
@@ -101,6 +108,17 @@ __metadata:
     style-mod: "npm:^4.1.0"
     w3c-keyname: "npm:^2.2.4"
   checksum: 10/01688ece35683aaa6999bb0deae31e9f7825336906a1658150fdb6d1b8d060b672845bead9a0416a692c2e60926cdc88f525ed106d9c0284397c47f936cab26e
+  languageName: node
+  linkType: hard
+
+"@codemirror/view@npm:^6.26.1":
+  version: 6.26.1
+  resolution: "@codemirror/view@npm:6.26.1"
+  dependencies:
+    "@codemirror/state": "npm:^6.4.0"
+    style-mod: "npm:^4.1.0"
+    w3c-keyname: "npm:^2.2.4"
+  checksum: 10/6d2b19b2439c36b2712d3560eeb0c198ad2ee442ad22641c2b4bce94077812cffbb52ca12328219d3b9663b2dd0ffc63481432a2550839e5c7a7a53704e82a9a
   languageName: node
   linkType: hard
 
@@ -3589,7 +3607,7 @@ __metadata:
     "@codemirror/language": "npm:^6.9.3"
     "@codemirror/legacy-modes": "npm:^6.3.3"
     "@codemirror/state": "npm:^6.3.2"
-    "@codemirror/view": "npm:^6.22.1"
+    "@codemirror/view": "npm:^6.26.1"
     "@fortawesome/fontawesome-svg-core": "npm:^6.5.2"
     "@fortawesome/free-brands-svg-icons": "npm:^6.5.2"
     "@fortawesome/free-solid-svg-icons": "npm:^6.5.2"
