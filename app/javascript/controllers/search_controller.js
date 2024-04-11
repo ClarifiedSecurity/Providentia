@@ -1,5 +1,4 @@
 import { Modal } from "tailwindcss-stimulus-components";
-import { useHotkeys } from "stimulus-use/hotkeys";
 
 const clamp = (value, min, max) => {
   if (value < min) return min;
@@ -8,19 +7,12 @@ const clamp = (value, min, max) => {
 };
 
 export default class extends Modal {
-  static targets = ["container", "background", "input", "form", "list"];
+  static targets = ["dialog", "input", "form", "list"];
   static values = {
     open: { type: Boolean, default: false },
     restoreScroll: { type: Boolean, default: true },
     focusIndex: Number,
   };
-
-  connect() {
-    super.connect();
-    useHotkeys(this, {
-      "ctrl+k": [this.open],
-    });
-  }
 
   open(e) {
     super.open(e);
@@ -32,7 +24,7 @@ export default class extends Modal {
       function () {
         this.inputTarget.focus({ focusVisible: true });
       }.bind(this),
-      100
+      100,
     );
   }
 
@@ -55,7 +47,7 @@ export default class extends Modal {
     this.focusIndexValue = clamp(
       this.focusIndexValue - 1,
       0,
-      this.listTargets.length
+      this.listTargets.length,
     );
   }
 
@@ -64,7 +56,7 @@ export default class extends Modal {
     this.focusIndexValue = clamp(
       this.focusIndexValue + 1,
       0,
-      this.listTargets.length - 1
+      this.listTargets.length - 1,
     );
   }
 

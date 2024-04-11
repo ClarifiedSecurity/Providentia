@@ -36,7 +36,7 @@
           = render ModalComponent.new(only_body: true) do |c|
             - c.with_body do
               = render 'address_preview', network: @network
-            = link_to 'Preview', 'javascript:;', class: 'text-xs text-indigo-600 hover:text-indigo-900 dark:text-indigo-400', data: { action: "click->modal#open" }
+            = link_to 'Preview', 'javascript:;', class: 'text-xs text-indigo-600 hover:text-indigo-900 dark:text-indigo-400', data: { action: "modal#open" }
 
         .grid.grid-cols-1.gap-4.xl:grid-cols-2
           .only:block.hidden
