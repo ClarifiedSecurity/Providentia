@@ -29,15 +29,15 @@ export default class extends Controller {
             return ismultiple || !(values.length == 1 && !hasEmptyOption);
           },
           onChange: function () {
-            document.activeElement.blur()
-          }.bind(this)
+            document.activeElement.blur();
+          }.bind(this),
         };
       }
       this.instance = new TomSelect(this.element, options);
       this.instance.addOptions(
         this.optionsValue.map((tag) => {
           return { text: tag, value: tag };
-        })
+        }),
       );
     }
   }

@@ -98,7 +98,7 @@ library.add(
   faDatabase,
   faSlash,
   faEllipsisVertical,
-  faCircleQuestion
+  faCircleQuestion,
 );
 
 dom.watch();
