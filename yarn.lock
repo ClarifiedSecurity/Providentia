@@ -93,7 +93,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@codemirror/view@npm:6.26.2, @codemirror/view@npm:^6.0.0, @codemirror/view@npm:^6.17.0, @codemirror/view@npm:^6.23.0":
+"@codemirror/view@npm:6.26.3":
+  version: 6.26.3
+  resolution: "@codemirror/view@npm:6.26.3"
+  dependencies:
+    "@codemirror/state": "npm:^6.4.0"
+    style-mod: "npm:^4.1.0"
+    w3c-keyname: "npm:^2.2.4"
+  checksum: 10/fa7cb5aa37db2d252ffd7cdbfb858b23a525ce9835648070b3c99eaaa361f686fa1997576bb258b7c34b6d6bd7a251a2294158e952239616102f783da1025fe4
+  languageName: node
+  linkType: hard
+
+"@codemirror/view@npm:^6.0.0, @codemirror/view@npm:^6.17.0, @codemirror/view@npm:^6.23.0":
   version: 6.26.2
   resolution: "@codemirror/view@npm:6.26.2"
   dependencies:
@@ -3356,7 +3367,7 @@ __metadata:
     "@codemirror/language": "npm:6.10.1"
     "@codemirror/legacy-modes": "npm:6.4.0"
     "@codemirror/state": "npm:6.4.1"
-    "@codemirror/view": "npm:6.26.2"
+    "@codemirror/view": "npm:6.26.3"
     "@fortawesome/fontawesome-svg-core": "npm:^6.5.2"
     "@fortawesome/free-brands-svg-icons": "npm:^6.5.2"
     "@fortawesome/free-solid-svg-icons": "npm:^6.5.2"
