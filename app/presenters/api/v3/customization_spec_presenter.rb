@@ -72,14 +72,7 @@ module API
         end
 
         def tags
-          GenerateTags.result_for([
-            Current.interfaces_cache[vm.id].detect(&:connection?)&.network,
-            vm.operating_system&.path,
-            vm.actor.path,
-            vm,
-            spec,
-            spec.capabilities
-          ], spec:).map { |tag_hash| tag_hash[:id] }
+          GenerateTags.result_for(self).map(&:id)
         end
 
         def services

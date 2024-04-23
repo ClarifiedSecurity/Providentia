@@ -20,6 +20,7 @@ FactoryBot.define do
   factory :capability do
     sequence(:name) { |n| "Capability #{n}" }
     sequence(:slug) { |n| "capability#{n}" }
+    actor { exercise.actors.sample }
     exercise
   end
 
@@ -31,6 +32,7 @@ FactoryBot.define do
   end
 
   factory :address_pool do
+    name { 'Pool' }
     network
     network_address { '1.2.3.0/24' }
   end

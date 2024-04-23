@@ -213,7 +213,7 @@ module API
         end
 
         def tags
-          GenerateTags.result_for(self).map { |tag| tag[:id] }
+          GenerateTags.result_for(self).map(&:id)
         end
 
         def connection_address

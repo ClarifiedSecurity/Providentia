@@ -3,7 +3,7 @@
 class Actor < ApplicationRecord
   has_ancestry
 
-  belongs_to :exercise
+  belongs_to :exercise, touch: true
 
   has_many :networks
   has_many :virtual_machines
