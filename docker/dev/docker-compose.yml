@@ -3,7 +3,9 @@ version: "3"
 name: providentia-dev
 services:
   postgresql:
-    image: "postgres:14-alpine"
+    image: "postgres:16-alpine"
+    ports:
+      - "5432:5432"
     volumes:
       - "postgres_providentia:/var/lib/postgresql/data"
       - ./initdb.sql:/docker-entrypoint-initdb.d/001-initdb.sql
