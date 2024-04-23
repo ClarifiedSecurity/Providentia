@@ -3,6 +3,6 @@
 class LiquidTextComponent < LiquidTooltipSnippetComponent
   private
     def template_text
-      @object
+      options[:text]
     end
 end

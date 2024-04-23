@@ -17,17 +17,9 @@ module API
 
       private
         def instances
-          instance_generator
-            .map { |actor_number| NetworkInstancePresenter.new(network, actor_number) }
-            .map(&:as_json)
-        end
-
-        def instance_generator
-          numbering_source || [nil]
-        end
-
-        def numbering_source
-          network.actor.root.all_numbers if network.numbered? && network.actor.root.number?
+          NetworkInstances.result_for(network).map do |instance_nr|
+            NetworkInstancePresenter.new(network, instance_nr).as_json
+          end
         end
     end
   end

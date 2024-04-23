@@ -17,10 +17,10 @@ class LiquidRangeSubstitution < Patterns::Calculation
                             if subject.virtual_machine
                               vm_numbering_source(subject.virtual_machine)
                             else
-                              subject.network.actor
+                              network_numbering_source(subject.network)
                             end
-                          when AddressPool
-                            subject.network.actor
+                          when AddressPool, Network
+                            network_numbering_source(subject)
                           when VirtualMachine
                             vm_numbering_source(subject)
                           when CustomizationSpec
@@ -37,6 +37,17 @@ class LiquidRangeSubstitution < Patterns::Calculation
       when ActorNumberConfig
         vm.numbered_by.actor
       end || vm.actor
+    end
+
+    def network_numbering_source(object)
+      case object
+      when Network
+        if object.numbered? && object.actor.root.number?
+          object.actor.root
+        end
+      when AddressPool
+        network_numbering_source(object.network)
+      end
     end
 
     def replacement_ranges
