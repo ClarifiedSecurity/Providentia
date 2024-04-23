@@ -16,7 +16,7 @@ services:
       - POSTGRES_DB=providentia
 
   keycloak:
-    image: bitnami/keycloak:23.0.4
+    image: bitnami/keycloak:24.0.3
     depends_on:
       - postgresql
     environment:
@@ -40,7 +40,7 @@ services:
       caddy.reverse_proxy: "{{upstreams 8080}}"
 
   keycloak_config:
-    image: adorsys/keycloak-config-cli:latest-23.0.1
+    image: adorsys/keycloak-config-cli:latest-24.0.1
     depends_on:
       - keycloak
     volumes:
