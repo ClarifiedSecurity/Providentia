@@ -374,7 +374,7 @@ GEM
     redis-client (0.22.0)
       connection_pool
     regexp_parser (2.9.0)
-    reline (0.5.1)
+    reline (0.5.2)
       io-console (~> 0.5)
     request_store (1.6.0)
       rack (>= 1.4)
@@ -445,9 +445,9 @@ GEM
       terminal-table
     ruby-progressbar (1.13.0)
     ruby2_keywords (0.0.5)
-    sentry-rails (5.17.1)
+    sentry-rails (5.17.3)
       railties (>= 5.0)
-      sentry-ruby (~> 5.17.1)
+      sentry-ruby (~> 5.17.3)
     sentry-ruby (5.17.3)
       bigdecimal
       concurrent-ruby (~> 1.0, >= 1.0.2)
