@@ -44,7 +44,6 @@ class GenerateTags < Patterns::Calculation
           children: [],
           priority: 30 + subject.depth * 3
         },
-        subject.as_team_api,
         numbered_actors,
         actors_as_numbered_for_vms
       ].reject(&:blank?)

@@ -23,52 +23,6 @@ class Actor < ApplicationRecord
     'fa-building-shield'
   end
 
-  # THIS IS TEMPORARY UNTIL MIGRATED TO ACTORS
-  def as_team_api
-    case abbreviation
-    when 'gt'
-      {
-        id: 'team_green',
-        name: 'Green',
-        config_map: {
-          team_color: 'Green'
-        },
-        children: [],
-        priority: 30
-      }
-    when 'rt'
-      {
-        id: 'team_red',
-        name: 'Red',
-        config_map: {
-          team_color: 'Red'
-        },
-        children: [],
-        priority: 30
-      }
-    when 'yt'
-      {
-        id: 'team_yellow',
-        name: 'Yellow',
-        config_map: {
-          team_color: 'Yellow'
-        },
-        children: [],
-        priority: 30
-      }
-    when 'bt'
-      {
-        id: 'team_blue',
-        name: 'Blue',
-        config_map: {
-          team_color: 'Blue'
-        },
-        children: [],
-        priority: 30
-      }
-    end
-  end
-
   def red? # TEMPORARY
     abbreviation == 'rt'
   end

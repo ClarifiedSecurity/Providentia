@@ -237,18 +237,6 @@ RSpec.describe GenerateTags do
         }]) }
     end
 
-    context 'with legacy team id' do
-      let(:actor) { create(:actor, abbreviation: 'gt') }
-
-      it { is_expected.to eq([default_result, {
-        id: 'team_green',
-        name: 'Green',
-        config_map: { team_color: 'Green' },
-        children: [],
-        priority: 30
-      }])}
-    end
-
     context 'if numbered' do
       let(:actor) { create(:actor, :numbered) }
 
