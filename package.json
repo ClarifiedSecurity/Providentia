@@ -18,7 +18,7 @@
     "@tailwindcss/forms": "^0.5.7",
     "@tailwindcss/typography": "^0.5.12",
     "codemirror": "^6.0.1",
-    "cssnano": "^6.1.2",
+    "cssnano": "^7.0.1",
     "cytoscape": "^3.28.1",
     "cytoscape-elk": "^2.2.0",
     "cytoscape-node-html-label": "^1.2.2",
