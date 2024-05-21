@@ -74,13 +74,27 @@ RSpec.describe API::V3::CustomizationSpecPresenter do
     let(:virtual_machine) { create(:virtual_machine, name: 'titan', custom_instance_count: 2) }
 
     it 'should contain sequence related info in response' do
-      expect(subject[:sequence_tag]).to eq 'titan'
+      expect(subject[:sequence_tag]).to eq virtual_machine.name
       expect(subject[:sequence_total]).to eq 2
-      expect(subject[:instances][0][:id]).to eq 'titan_01'
-      expect(subject[:instances][1][:id]).to eq 'titan_02'
+      expect(subject[:instances][0][:id]).to eq "#{virtual_machine.name}_01"
+      expect(subject[:instances][1][:id]).to eq "#{virtual_machine.name}_02"
     end
 
-    context 'if spec has cluster_mode set to false' do
+    context 'if container spec and cluster_mode set to true' do
+      let(:spec) { create(:customization_spec, name: 'moo', virtual_machine:, cluster_mode: true, mode: 'container') }
+
+      it 'should contain sequence related info in response' do
+        expect(subject[:sequence_tag]).to eq "#{virtual_machine.name}_#{spec.name}"
+        expect(subject[:sequence_total]).to eq 2
+        expect(subject[:instances].size).to eq 2
+        expect(subject[:instances][0][:id]).to eq "#{virtual_machine.name}_#{spec.name}_01"
+        expect(subject[:instances][1][:id]).to eq "#{virtual_machine.name}_#{spec.name}_02"
+        expect(subject[:instances][0][:parent_id]).to eq "#{virtual_machine.name}_01"
+        expect(subject[:instances][1][:parent_id]).to eq "#{virtual_machine.name}_02"
+      end
+    end
+
+    context 'if container spec and cluster_mode set to false' do
       let(:spec) { create(:customization_spec, name: 'moo', virtual_machine:, cluster_mode: false, mode: 'container') }
 
       it 'should NOT contain sequence related info in response' do
@@ -88,6 +102,7 @@ RSpec.describe API::V3::CustomizationSpecPresenter do
         expect(subject[:sequence_total]).to be_nil
         expect(subject[:instances].size).to eq 1
         expect(subject[:instances][0][:id]).to eq "#{virtual_machine.name}_#{spec.name}"
+        expect(subject[:instances][0][:parent_id]).to eq "#{virtual_machine.name}_01"
       end
     end
   end

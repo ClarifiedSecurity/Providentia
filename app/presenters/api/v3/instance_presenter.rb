@@ -47,6 +47,7 @@ module API
             [
               host_spec.slug,
               hostname_sequence_suffix,
+              (vm.clustered? && !spec.cluster_mode? ? '01' : nil), # so that parent_id matches to correct machine, first in cluster
               hostname_team_suffix
             ].compact.join('_')
           )
