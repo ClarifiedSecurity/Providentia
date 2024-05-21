@@ -37,13 +37,6 @@ ENV CONTAINER_USER_NAME=${CONTAINER_USER_NAME:-app}
 ENV CONTAINER_USER_ID=${CONTAINER_USER_ID:-1000}
 ENV CONTAINER_GROUP_ID=${CONTAINER_GROUP_ID:-1000}
 
-RUN addgroup -S -g ${CONTAINER_GROUP_ID} $CONTAINER_USER_NAME && adduser -S -u ${CONTAINER_USER_ID} -g $CONTAINER_USER_NAME -h /home/$CONTAINER_USER_NAME -s /bin/bash $CONTAINER_USER_NAME
-
-# copy from builders
-COPY --from=builder --chown=${CONTAINER_USER_ID}:${CONTAINER_GROUP_ID} /usr/local/bundle/ /usr/local/bundle/
-COPY --from=builder_jemalloc /usr/local/lib/libjemalloc.so.2 /usr/local/lib/
-ENV LD_PRELOAD=/usr/local/lib/libjemalloc.so.2
-
 RUN apk add --no-cache --update build-base \
   linux-headers \
   git \
@@ -55,6 +48,15 @@ RUN apk add --no-cache --update build-base \
   less \
   graphviz \
   ttf-dejavu
+
+RUN addgroup -S -g ${CONTAINER_GROUP_ID} $CONTAINER_USER_NAME && adduser -S -u ${CONTAINER_USER_ID} -g $CONTAINER_USER_NAME -h /home/$CONTAINER_USER_NAME -s /bin/bash $CONTAINER_USER_NAME
+
+# jemalloc
+COPY --from=builder_jemalloc /usr/local/lib/libjemalloc.so.2 /usr/local/lib/
+ENV LD_PRELOAD=/usr/local/lib/libjemalloc.so.2
+
+# gems
+COPY --from=builder --chown=${CONTAINER_USER_ID}:${CONTAINER_GROUP_ID} /usr/local/bundle/ /usr/local/bundle/
 
 RUN corepack enable
 
@@ -83,15 +85,15 @@ ENV RUBY_GC_HEAP_INIT_SLOTS 2000000
 ENV RUBY_HEAP_FREE_MIN 20000
 ENV RUBY_GC_MALLOC_LIMIT 100000000
 
-COPY --from=builder_jemalloc /usr/local/lib/libjemalloc.so.2 /usr/local/lib/
-ENV LD_PRELOAD=/usr/local/lib/libjemalloc.so.2
-
 RUN apk add --no-cache --update \
   postgresql-client \
   postgresql-dev \
   nodejs-current \
   tzdata \
   less
+
+COPY --from=builder_jemalloc /usr/local/lib/libjemalloc.so.2 /usr/local/lib/
+ENV LD_PRELOAD=/usr/local/lib/libjemalloc.so.2
 
 RUN corepack enable
 
