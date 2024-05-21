@@ -94,13 +94,13 @@ module API
         end
 
         def sequence_info
-          return {} unless vm.clustered?
+          return {} unless vm.clustered? && spec.cluster_mode?
 
           { sequence_index: sequential_number }
         end
 
         def hostname_sequence_suffix
-          '{{ seq }}' if vm.clustered?
+          '{{ seq }}' if vm.clustered? && spec.cluster_mode?
         end
 
         def hostname_team_suffix

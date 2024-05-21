@@ -11,6 +11,7 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.1].define(version: 2024_03_22_130758) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_21_113610) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -143,6 +144,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_22_130758) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "cluster_mode", default: true
     t.index ["name", "virtual_machine_id"], name: "index_customization_specs_on_name_and_virtual_machine_id", unique: true
     t.index ["virtual_machine_id"], name: "index_customization_specs_on_virtual_machine_id"
   end

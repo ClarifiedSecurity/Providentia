@@ -95,7 +95,7 @@ module API
         end
 
         def sequence_info
-          if vm.clustered?
+          if vm.clustered? && spec.cluster_mode?
             {
               sequence_tag: spec.slug.tr('-', '_'),
               sequence_total: vm.custom_instance_count

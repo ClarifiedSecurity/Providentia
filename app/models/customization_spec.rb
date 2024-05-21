@@ -86,7 +86,7 @@ class CustomizationSpec < ApplicationRecord
   end
 
   def sequential_numbers
-    if virtual_machine.custom_instance_count
+    if virtual_machine.custom_instance_count && cluster_mode?
       1.upto(virtual_machine.custom_instance_count).to_a
     end
   end
