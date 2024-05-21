@@ -1601,13 +1601,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cytoscape@npm:^3.28.1":
-  version: 3.28.1
-  resolution: "cytoscape@npm:3.28.1"
-  dependencies:
-    heap: "npm:^0.2.6"
-    lodash: "npm:^4.17.21"
-  checksum: 10/3f7adf3675e26bf4e14dadf3932f68b7fe9a4aef2f5598251d57369dc86d94db587036dbef26954c5e92d8ec6a1c2a0af888dc18d9acd9b0a8a01c7eddf11775
+"cytoscape@npm:^3.29.2":
+  version: 3.29.2
+  resolution: "cytoscape@npm:3.29.2"
+  checksum: 10/986b5126a73267cddefdc33a20556889a91365e98324a35a4714cda6efd1af51ae442689db41d4c23b2340a84471bbffeea720c0d3b3e68d6659f9744a08af1a
   languageName: node
   linkType: hard
 
@@ -1989,13 +1986,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"heap@npm:^0.2.6":
-  version: 0.2.7
-  resolution: "heap@npm:0.2.7"
-  checksum: 10/6374f6510af79bf47f2cfcee265bf608e6ed2b2694875974d1cb5654ddc98af05347dcf3a42ee9a7de318b576022d6f4d00fe06fa65a4a65c4c60638375eabfe
-  languageName: node
-  linkType: hard
-
 "http-cache-semantics@npm:^4.1.1":
   version: 4.1.1
   resolution: "http-cache-semantics@npm:4.1.1"
@@ -2207,13 +2197,6 @@ __metadata:
   version: 4.5.0
   resolution: "lodash.uniq@npm:4.5.0"
   checksum: 10/86246ca64ac0755c612e5df6d93cfe92f9ecac2e5ff054b965efbbb1d9a647b6310969e78545006f70f52760554b03233ad0103324121ae31474c20d5f7a2812
-  languageName: node
-  linkType: hard
-
-"lodash@npm:^4.17.21":
-  version: 4.17.21
-  resolution: "lodash@npm:4.17.21"
-  checksum: 10/c08619c038846ea6ac754abd6dd29d2568aa705feb69339e836dfa8d8b09abbb2f859371e86863eda41848221f9af43714491467b5b0299122431e202bb0c532
   languageName: node
   linkType: hard
 
@@ -3370,7 +3353,7 @@ __metadata:
     "@tailwindcss/typography": "npm:^0.5.13"
     codemirror: "npm:^6.0.1"
     cssnano: "npm:^7.0.1"
-    cytoscape: "npm:^3.28.1"
+    cytoscape: "npm:^3.29.2"
     cytoscape-elk: "npm:^2.2.0"
     cytoscape-node-html-label: "npm:^1.2.2"
     debounce: "npm:^2.0.0"
