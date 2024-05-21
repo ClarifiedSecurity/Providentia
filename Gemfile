@@ -44,7 +44,7 @@ gem 'devise'
 gem 'omniauth', '~> 2.0'
 gem 'omniauth_openid_connect'
 gem 'omniauth-rails_csrf_protection'
-gem 'pundit'
+gem 'pundit', '< 2.3.2'
 
 # frontend
 gem 'propshaft'
