@@ -228,7 +228,7 @@ GEM
     memory_profiler (1.0.1)
     method_source (1.1.0)
     mini_mime (1.1.5)
-    minitest (5.23.0)
+    minitest (5.23.1)
     msgpack (1.7.2)
     mutex_m (0.2.0)
     naturally (2.2.1)
@@ -452,7 +452,7 @@ GEM
     sentry-ruby (5.17.3)
       bigdecimal
       concurrent-ruby (~> 1.0, >= 1.0.2)
-    simple_form (5.3.0)
+    simple_form (5.3.1)
       actionpack (>= 5.2)
       activemodel (>= 5.2)
     stackprof (0.2.26)
@@ -569,7 +569,7 @@ DEPENDENCIES
   rubocop-rails_config
   sentry-rails
   sentry-ruby
-  simple_form (~> 5.0)
+  simple_form (~> 5.3)
   stackprof
   stringex (~> 2.8)
   turbo-rails (~> 2.0)

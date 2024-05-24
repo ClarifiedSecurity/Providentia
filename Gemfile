@@ -29,7 +29,7 @@ gem 'stringex', '~> 2.8', require: 'stringex_lite'
 # functionality
 gem 'acts-as-taggable-on', '~> 10.0'
 gem 'ipaddress', github: 'ipaddress-gem/ipaddress'
-gem 'simple_form', '~> 5.0'
+gem 'simple_form', '~> 5.3'
 gem 'ancestry'
 gem 'paper_trail'
 gem 'kaminari'
