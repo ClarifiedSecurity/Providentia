@@ -68,7 +68,7 @@ class LiquidRangeSubstitution < Patterns::Calculation
     end
 
     def numbering_range
-      if numbering_actor.number
+      if numbering_actor&.number
         [1, numbering_actor.number]
       end
     end
