@@ -2984,19 +2984,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss-nesting@npm:^12.1.4":
-  version: 12.1.4
-  resolution: "postcss-nesting@npm:12.1.4"
-  dependencies:
-    "@csstools/selector-resolve-nested": "npm:^1.1.0"
-    "@csstools/selector-specificity": "npm:^3.1.1"
-    postcss-selector-parser: "npm:^6.0.13"
-  peerDependencies:
-    postcss: ^8.4
-  checksum: 10/374449c2637f8c4b6f6e67afaa300774b97918932f4dec92cc4b10526b46ff4db593bbf9d8246778199fb02876084e5ed81eac6abb738293067f645f1c3a0022
-  languageName: node
-  linkType: hard
-
 "postcss-nesting@npm:^12.1.5":
   version: 12.1.5
   resolution: "postcss-nesting@npm:12.1.5"
@@ -3400,7 +3387,7 @@ __metadata:
     element-matches-polyfill: "npm:^1.0.0"
     postcss: "npm:^8.4.38"
     postcss-import: "npm:^16.1.0"
-    postcss-nesting: "npm:^12.1.4"
+    postcss-nesting: "npm:^12.1.5"
     postcss-preset-env: "npm:^9.5.14"
     stimulus-clipboard: "npm:^4.0.1"
     stimulus-textarea-autogrow: "npm:^4.1.0"
