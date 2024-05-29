@@ -63,7 +63,7 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'rails-pg-extras'
   gem 'database_cleaner-active_record'
-  gem 'faker', '~> 3.3'
+  gem 'faker', '~> 3.4'
 end
 
 group :development do
