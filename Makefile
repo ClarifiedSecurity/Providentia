@@ -1,5 +1,8 @@
 -include .makerc-vars
 
+export CONTAINER_USER_ID=$(shell id -u)
+export CONTAINER_GROUP_ID=$(shell id -u)
+
 .DEFAULT_GOAL := help
 .PHONY: help clean stop start shell console logs config
 

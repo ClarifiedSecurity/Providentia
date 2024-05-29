@@ -89,6 +89,10 @@ services:
       context: ../../
       dockerfile: Dockerfile
       target: development
+      args:
+        CONTAINER_USER_ID:
+        CONTAINER_GROUP_ID:
+    user: "${CONTAINER_USER_ID}:${CONTAINER_GROUP_ID}"
     volumes:
       - /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt
       - ../../:/srv/app
@@ -130,6 +134,10 @@ services:
       context: ../../
       dockerfile: Dockerfile
       target: development
+      args:
+        CONTAINER_USER_ID:
+        CONTAINER_GROUP_ID:
+    user: "${CONTAINER_USER_ID}:${CONTAINER_GROUP_ID}"
     volumes:
       - ../../:/srv/app
     command: ["bin/vite", "dev"]
