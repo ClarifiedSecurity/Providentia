@@ -14,6 +14,7 @@ class bcolors:
 
 def main():
   environment = ''
+  sudo = ''
   valid_environments = ['dev', 'prod']
 
   while True:
@@ -25,8 +26,20 @@ def main():
         print('[*] Pick one of supported environments')
         continue
 
+  while True:
+    sudo = input(f'{bcolors.HEADER}[*] Are you using sudo to launch docker? [Y/n]: {bcolors.ENDC}')
+    if sudo == '':
+      sudo = 'y'
+
+    if sudo.lower() in ['y', 'n']:
+        break
+    else:
+        print('[*] Choose Y or N')
+        continue
+
   with open('./.makerc-vars', 'w+') as f:
-    f.write(f'DEPLOY_ENVIRONMENT := {environment}')
+    f.write(f'DEPLOY_ENVIRONMENT := {environment}\n')
+    f.write(f'SUDO_COMMAND := {"sudo" if sudo.lower()=="y" else ""}\n')
     f.close();
 
 if __name__ == '__main__':

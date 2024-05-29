@@ -10,36 +10,36 @@ config: .makerc-vars ## Regenerate config file
 	@python3 scripts/generate_config.py
 
 clean: .makerc-vars ## Stop containers, remove volumes and built images
-	sudo docker compose -f docker/$(DEPLOY_ENVIRONMENT)/docker-compose.yml down --rmi local -v --remove-orphans
+	$(SUDO_COMMAND) docker compose -f docker/$(DEPLOY_ENVIRONMENT)/docker-compose.yml down --rmi local -v --remove-orphans
 
 build: .makerc-vars $(if $(findstring $(DEPLOY_ENVIRONMENT),prod),CURRENT_VERSION) ## Build app images
-	sudo docker compose -f docker/$(DEPLOY_ENVIRONMENT)/docker-compose.yml build
+	$(SUDO_COMMAND) docker compose -f docker/$(DEPLOY_ENVIRONMENT)/docker-compose.yml build
 
 stop: .makerc-vars ## Stop containers
-	sudo docker compose -f docker/$(DEPLOY_ENVIRONMENT)/docker-compose.yml down
+	$(SUDO_COMMAND) docker compose -f docker/$(DEPLOY_ENVIRONMENT)/docker-compose.yml down
 
 start: .makerc-vars ## Start daemonized containers
-	sudo docker compose -f docker/$(DEPLOY_ENVIRONMENT)/docker-compose.yml up -d
+	$(SUDO_COMMAND) docker compose -f docker/$(DEPLOY_ENVIRONMENT)/docker-compose.yml up -d
 
 restart: stop start ## Restart the containers
 
 shell: .makerc-vars ## Open container shell
-	sudo docker compose -f docker/$(DEPLOY_ENVIRONMENT)/docker-compose.yml exec web sh
+	$(SUDO_COMMAND) docker compose -f docker/$(DEPLOY_ENVIRONMENT)/docker-compose.yml exec web sh
 
 console: .makerc-vars ## Open rails console
-	sudo docker compose -f docker/$(DEPLOY_ENVIRONMENT)/docker-compose.yml exec web rails c
+	$(SUDO_COMMAND) docker compose -f docker/$(DEPLOY_ENVIRONMENT)/docker-compose.yml exec web rails c
 
 logs: .makerc-vars ## Tail all logs
-	sudo docker compose -f docker/$(DEPLOY_ENVIRONMENT)/docker-compose.yml logs -f --tail=100
+	$(SUDO_COMMAND) docker compose -f docker/$(DEPLOY_ENVIRONMENT)/docker-compose.yml logs -f --tail=100
 
 clear-redis: .makerc-vars ## Clear rails cache (by flushing redis)
-	sudo docker compose -f docker/$(DEPLOY_ENVIRONMENT)/docker-compose.yml exec redis redis-cli flushdb
+	$(SUDO_COMMAND) docker compose -f docker/$(DEPLOY_ENVIRONMENT)/docker-compose.yml exec redis redis-cli flushdb
 
 import-db:
-	sudo docker compose -f docker/$(DEPLOY_ENVIRONMENT)/docker-compose.yml up -d postgresql --wait
-	sudo docker compose -f docker/$(DEPLOY_ENVIRONMENT)/docker-compose.yml cp $(DUMP) postgresql:/dump.sql
-	sudo docker compose -f docker/$(DEPLOY_ENVIRONMENT)/docker-compose.yml exec postgresql psql -Uprovidentia -c '\i /dump.sql'
-	sudo docker compose -f docker/$(DEPLOY_ENVIRONMENT)/docker-compose.yml stop postgresql
+	$(SUDO_COMMAND) docker compose -f docker/$(DEPLOY_ENVIRONMENT)/docker-compose.yml up -d postgresql --wait
+	$(SUDO_COMMAND) docker compose -f docker/$(DEPLOY_ENVIRONMENT)/docker-compose.yml cp $(DUMP) postgresql:/dump.sql
+	$(SUDO_COMMAND) docker compose -f docker/$(DEPLOY_ENVIRONMENT)/docker-compose.yml exec postgresql psql -Uprovidentia -c '\i /dump.sql'
+	$(SUDO_COMMAND) docker compose -f docker/$(DEPLOY_ENVIRONMENT)/docker-compose.yml stop postgresql
 
 CURRENT_VERSION:
 	git describe --tags >CURRENT_VERSION
