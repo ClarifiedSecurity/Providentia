@@ -3395,7 +3395,7 @@ __metadata:
     tailwindcss: "npm:^3.4.3"
     tailwindcss-stimulus-components: "npm:^5.1.1"
     thememirror: "npm:^2.0.1"
-    throttleit: "npm:^2.0.0"
+    throttleit: "npm:^2.1.0"
     tippy.js: "npm:^6.3.7"
     tom-select: "npm:^2.3.1"
     vite: "npm:^5.2.12"
@@ -3849,10 +3849,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"throttleit@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "throttleit@npm:2.0.0"
-  checksum: 10/3581da22fb025e6317d0f6fc6c314f173448706d2d9d6ca53ce6b742e22006499feca17462ad09ff66aff61f1f6fe09cad58773c33893e7b9f596d0be4d1a4fd
+"throttleit@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "throttleit@npm:2.1.0"
+  checksum: 10/a2003947aafc721c4a17e6f07db72dc88a64fa9bba0f9c659f7997d30f9590b3af22dadd6a41851e0e8497d539c33b2935c2c7919cf4255922509af6913c619b
   languageName: node
   linkType: hard
 

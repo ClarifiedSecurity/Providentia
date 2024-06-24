@@ -34,7 +34,7 @@
     "tailwindcss": "^3.4.3",
     "tailwindcss-stimulus-components": "^5.1.1",
     "thememirror": "^2.0.1",
-    "throttleit": "^2.0.0",
+    "throttleit": "^2.1.0",
     "tippy.js": "^6.3.7",
     "tom-select": "^2.3.1",
     "vite": "^5.2.12",
