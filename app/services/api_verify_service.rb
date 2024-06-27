@@ -20,7 +20,7 @@ class APIVerifyService < Patterns::Service
 
   private
     def public_key
-      @@issuer_public_key ||= Oj.load(HTTP.get(Rails.configuration.oidc_issuer).to_s).dig('public_key')
+      @@issuer_public_key ||= Oj.safe_load(HTTP.get(Rails.configuration.oidc_issuer).to_s).dig('public_key')
       OpenSSL::PKey::RSA.new(
         Base64.decode64(@@issuer_public_key)
       )
