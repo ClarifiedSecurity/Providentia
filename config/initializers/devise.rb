@@ -281,6 +281,8 @@ Devise.setup do |config|
     issuer: Rails.configuration.oidc_issuer,
     # post_logout_redirect_uri: base_url
     # this is currently not working in keycloak
+    pkce: true,
+    client_auth_method: :jwks,
     client_options: {
       identifier: ENV.fetch('OIDC_CLIENT_ID', ''),
       secret: ENV.fetch('OIDC_CLIENT_SECRET', ''),
