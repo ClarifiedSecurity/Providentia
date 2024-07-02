@@ -1,3 +1,6 @@
 - title @exercise.name
 
 = render "form"
+- if @exercise.persisted?
+  = render 'access'
+  = render 'actions'

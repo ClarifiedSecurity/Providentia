@@ -14,12 +14,50 @@ OperatingSystem.where(name: 'Windows', cloud_id: 'windows').first_or_create!
 OperatingSystem.where(name: 'Network devices', cloud_id: 'networkdevices').first_or_create!
 
 if Rails.env.development?
-  Exercise.where(name: 'Test Exercise', abbreviation: 'TE').first_or_create!
-  Exercise.update_all(
-    dev_red_resource_name: 'TE_RT',
-    dev_resource_name: 'TE_GT',
-    local_admin_resource_name: 'TE_Admin'
-  )
+  ex = Exercise.where(name: 'Test Exercise', abbreviation: 'TE').first_or_create!
+  ex.actors.reload
+  # admins
+  ex.role_bindings
+    .where(role: :environment_admin, user_resource: "#{Rails.configuration.resource_prefix}TE_Admin")
+    .first_or_create
+
+  # basic access
+  %w(TE_Organizer TE_Developer TE_RT_Member TE_BT_Member).each do
+    ex.role_bindings
+      .where(role: :environment_member, user_resource: "#{Rails.configuration.resource_prefix}#{_1}")
+      .first_or_create
+  end
+
+  # RT role
+  ex.role_bindings
+    .where(
+      role: :actor_dev,
+      user_resource: "#{Rails.configuration.resource_prefix}TE_RT_Member",
+      actor: ex.actors.find_by(abbreviation: 'rt')
+    ).first_or_create
+
+  # Dev role
+  ex.role_bindings
+    .where(
+      role: :actor_dev,
+      user_resource: "#{Rails.configuration.resource_prefix}TE_Developer",
+      actor: ex.actors.find_by(abbreviation: 'infra')
+    ).first_or_create
+  ex.role_bindings
+    .where(
+      role: :actor_dev,
+      user_resource: "#{Rails.configuration.resource_prefix}TE_Developer",
+      actor: ex.actors.find_by(abbreviation: 'bt')
+    ).first_or_create
+
+  # BT role
+  ex.role_bindings
+    .where(
+      role: :actor_readonly,
+      user_resource: "#{Rails.configuration.resource_prefix}TE_BT_member",
+      actor: ex.actors.find_by(abbreviation: 'bt')
+    ).first_or_create
+
 end
 
 CustomCheckSubject.where(base_class: 'CustomizationSpec', meaning: 'self').first_or_create!

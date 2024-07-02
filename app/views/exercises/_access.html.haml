@@ -1,0 +1,41 @@
+.py-5
+  .border-t.border-gray-200.dark:border-gray-600
+
+= render ColumnFormSectionComponent.new(shadow: false) do |c|
+  - c.with_description do
+    %h3.text-lg.leading-6.text-gray-900.dark:text-gray-50 Roles
+    %p.mt-1.text-sm.text-gray-600.dark:text-gray-400
+      Access management is done by
+      %em roles
+      \. Each will give some set of permissions on items belonging to the environment.
+
+    %p.mt-1.text-sm.text-gray-600.dark:text-gray-400
+      Access to roles is given to users individually or through
+      %em resources
+      provided by the SSO service.
+
+    %p.mt-1.text-sm.text-gray-600.dark:text-gray-400
+      Each user can belong to multiple roles through multiple resources or individual access.
+
+  - c.with_main do
+    .flex.py-2.px-3.gap-2.items-center.bg-blue-200.dark:bg-gray-500
+      %h1.grow.text-2xl.font-bold.m-2 Roles & access
+      = render ModalComponent.new(header: "New access") do |c|
+        - c.with_body do
+          = render 'new_access_form'
+
+        = link_to 'javascript:;', class: 'form-submit-add text-sm h-8', data: { action: "click->modal#open" } do
+          %i.fas.fa-plus.self-center
+          Add access
+
+    .bg-white.dark:bg-gray-800.space-y-6
+      #roles-table.divide-y-4.divide-double.divide-gray-200.dark:divide-gray-500
+        - RoleBinding.roles.each_key do |role|
+          .px-4.py-5
+            %h1.text-xl.font-semibold= I18n.t("roles.#{role}.name")
+            %section
+              :markdown
+                #{I18n.t("roles.#{role}.description")}
+
+            - if @role_bindings[role]
+              = render 'bindings_list', bindings: @role_bindings[role]

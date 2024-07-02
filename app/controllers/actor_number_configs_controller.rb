@@ -7,12 +7,13 @@ class ActorNumberConfigsController < ApplicationController
   respond_to :turbo_stream
 
   def create
-    authorize @actor, :update?
-    @config = @actor.actor_number_configs.create(name: 'New Config')
+    @config = @actor.actor_number_configs.build(name: 'New Config')
+    authorize! @config
+    @config.save
   end
 
   def update
-    authorize @actor, :update?
+    authorize! @actor
     if params[:cm]
       config_map_update
     else
@@ -21,17 +22,18 @@ class ActorNumberConfigsController < ApplicationController
   end
 
   def destroy
-    authorize @actor, :destroy?
+    authorize! @actor
     @config.destroy
   end
 
   private
     def get_actor
-      @actor = policy_scope(@exercise.actors).find(params[:actor_id])
+      @actor = authorized_scope(@exercise.actors).find(params[:actor_id])
     end
 
     def get_config
-      @config = authorize(@actor.actor_number_configs.find(params[:id]))
+      @config = @actor.actor_number_configs.find(params[:id])
+      authorize! @config
     end
 
     def regular_update

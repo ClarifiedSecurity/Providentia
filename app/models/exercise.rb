@@ -11,6 +11,7 @@ class Exercise < ApplicationRecord
   }, _prefix: :mode
 
   has_many :actors
+  has_many :role_bindings
   has_many :networks, dependent: :destroy
   has_many :virtual_machines, dependent: :destroy
   has_many :services, dependent: :destroy
@@ -39,6 +40,10 @@ class Exercise < ApplicationRecord
         search: "%#{query}%"
       )
       .group(:id)
+  }
+  scope :for_user, ->(user) {
+    joins(:role_bindings)
+      .merge(RoleBinding.for_user(user))
   }
 
   def self.to_icon

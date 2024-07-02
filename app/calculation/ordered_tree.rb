@@ -3,7 +3,12 @@
 class OrderedTree < Patterns::Calculation
   private
     def result
-      build_array(subject.order('lower(name) asc').arrange)
+      build_array(
+        subject
+          .select("#{subject.table_name}.*", "lower(#{subject.table_name}.name)")
+          .order("lower(#{subject.table_name}.name) asc")
+          .arrange
+      )
     end
 
     def build_array(hash)

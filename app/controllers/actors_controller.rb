@@ -7,35 +7,36 @@ class ActorsController < ApplicationController
   respond_to :turbo_stream
 
   def create
-    authorize @exercise.actors, :create?
-    new_actor_params = {
+    @actor = @exercise.actors.build({
       name: 'New actor',
       abbreviation: 'na'
-    }
-    if params[:actor_id]
-      parent = policy_scope(@exercise.actors).find(params[:actor_id])
-      new_actor_params[:parent] = parent
+    })
+    authorize! @actor
+
+    if params[:actor_id] && parent = authorized_scope(@exercise.actors).find(params[:actor_id])
+      @actor.parent = parent
     end
-    @actor = @exercise.actors.create(new_actor_params)
+
+    @actor.save
   end
 
   def show
-    authorize @actor, :update?
+    authorize! @actor, to: :update?
   end
 
   def update
-    authorize @actor, :update?
+    authorize! @actor
     @actor.update(actor_params)
   end
 
   def destroy
-    authorize @actor
+    authorize! @actor
     @actor.destroy
   end
 
   private
     def get_actor
-      @actor = policy_scope(@exercise.actors).find(params[:id])
+      @actor = authorized_scope(@exercise.actors).find(params[:id])
     end
 
     def actor_params

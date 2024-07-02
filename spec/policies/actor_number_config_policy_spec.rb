@@ -1,0 +1,65 @@
+# frozen_string_literal: true
+
+require 'rails_helper'
+
+RSpec.describe ActorNumberConfigPolicy, type: :policy do
+  let(:record) { create(:actor_number_config) }
+  let(:user) { create(:user) }
+  let(:context) { { user: } }
+
+  describe_rule :show? do
+    failed
+
+    failed 'with non-related exercise access' do
+      before { create(:role_binding, user_email: user.email, role: :environment_admin, exercise: create(:exercise)) }
+    end
+
+    succeed 'with environment access role' do
+      before { create(:role_binding, user_email: user.email, role: :environment_member, exercise: record.actor.exercise) }
+    end
+
+    succeed 'with environment net dev role' do
+      before { create(:role_binding, user_email: user.email, role: :environment_net_dev, exercise: record.actor.exercise) }
+    end
+
+    succeed 'with environment service dev role' do
+      before { create(:role_binding, user_email: user.email, role: :environment_service_dev, exercise: record.actor.exercise) }
+    end
+
+    succeed 'with environment admin role' do
+      before { create(:role_binding, user_email: user.email, role: :environment_admin, exercise: record.actor.exercise) }
+    end
+
+    succeed 'with super_admin' do
+      before { user.resources << UserPermissions::SUPERADMIN_ACCESS }
+    end
+  end
+
+  describe_rule :create? do
+    failed
+
+    failed 'with non-related exercise access' do
+      before { create(:role_binding, user_email: user.email, role: :environment_admin, exercise: create(:exercise)) }
+    end
+
+    failed 'with environment access role' do
+      before { create(:role_binding, user_email: user.email, role: :environment_member, exercise: record.actor.exercise) }
+    end
+
+    failed 'with environment net dev role' do
+      before { create(:role_binding, user_email: user.email, role: :environment_net_dev, exercise: record.actor.exercise) }
+    end
+
+    failed 'with environment service dev role' do
+      before { create(:role_binding, user_email: user.email, role: :environment_service_dev, exercise: record.actor.exercise) }
+    end
+
+    succeed 'with environment admin role' do
+      before { create(:role_binding, user_email: user.email, role: :environment_admin, exercise: record.actor.exercise) }
+    end
+
+    succeed 'with super_admin' do
+      before { user.resources << UserPermissions::SUPERADMIN_ACCESS }
+    end
+  end
+end
