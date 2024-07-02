@@ -12,15 +12,15 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     )
 
     if @user
-      sign_in_and_redirect @user, event: :authentication
       set_flash_message(:notice, :success, kind: 'SSO') if is_navigational_format?
+      sign_in_and_redirect @user, event: :authentication
     else
-      redirect_to root_path
+      redirect_to new_user_session_path, flash: { error: 'Unable to authenticate from SSO' }
     end
   end
 
   def failure
-    redirect_to root_path
+    redirect_to new_user_session_path
   end
 
   private

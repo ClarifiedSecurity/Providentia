@@ -7,6 +7,8 @@ en:
       not_allowed_hostname: is not allowed as hostname
   activemodel:
     attributes:
+      add_access_form:
+        assignment_target: Search value
       service_subject_match_condition:
         invert: Exclude
 
@@ -103,3 +105,35 @@ en:
     v6: IPv6
     ipv4: IPv4
     ipv6: IPv6
+
+  roles:
+    environment_member:
+      name: Environment member
+      description: |
+        Basic access - can see networks and inventory with visibility _public_.
+
+        Intended for everyone not falling into another role.
+    environment_net_dev:
+      name: Networks developer
+      description: |
+        Read and write access to all networks.
+
+        Intended for network designers and architects.
+    environment_service_dev:
+      name: Services developer
+      description: |
+        Read and write access to all services
+
+        Intended for developers responsible for maintaining `Service`-s, `Check`-s, etc.
+    environment_admin:
+      name: Environment administrator
+      description: |
+        Full access to everything within this environment.
+    actor_readonly:
+      name: Actor member
+      description: |
+        Basic read-only access to specific actor (**Inventory** and **Networks**)
+    actor_dev:
+      name: Actor developer
+      description: |
+        Read and write access to specific actor (**Inventory** and **Networks**)

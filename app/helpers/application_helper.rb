@@ -84,6 +84,12 @@ module ApplicationHelper
     end
   end
 
+  def roles_for_select
+    RoleBinding.roles.keys.map do |role|
+      [I18n.t("roles.#{role}.name"), role]
+    end
+  end
+
   def nic_tooltip(nic)
     [
       nic.network.name,
@@ -134,7 +140,7 @@ module ApplicationHelper
         [cap.name, cap.id]
       end
     when 'Actor'
-      sorted_tree_options(policy_scope(@exercise.actors))
+      sorted_tree_options(authorized_scope(@exercise.actors))
     when 'OperatingSystem'
       sorted_tree_options(policy_scope(OperatingSystem))
     when 'Network'

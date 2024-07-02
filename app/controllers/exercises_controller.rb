@@ -5,12 +5,12 @@ class ExercisesController < ApplicationController
 
   def new
     @exercise = Exercise.new
-    authorize @exercise
+    authorize! @exercise
   end
 
   def create
     @exercise = Exercise.new(exercise_params)
-    authorize @exercise
+    authorize! @exercise
 
     if @exercise.save
       redirect_to @exercise, notice: 'Exercise was successfully created.'
@@ -20,15 +20,18 @@ class ExercisesController < ApplicationController
   end
 
   def show
-    authorize @exercise
+    authorize! @exercise
   end
 
   def edit
-    authorize @exercise
+    authorize! @exercise
+    @role_bindings = authorized_scope(@exercise.role_bindings).group_by(&:role)
+    @access_form = AddAccessForm.new(@exercise.role_bindings.build)
+    @access_form.assignment_mode = :email
   end
 
   def update
-    authorize @exercise
+    authorize! @exercise
     if @exercise.update exercise_params
       redirect_to @exercise, notice: 'Exercise was successfully updated.'
     else
@@ -42,7 +45,7 @@ class ExercisesController < ApplicationController
     end
 
     def load_actors
-      @actors = policy_scope(@exercise.actors).arrange(order: :name)
+      @actors = authorized_scope(@exercise.actors).arrange(order: :name)
     end
 
     def exercise_params

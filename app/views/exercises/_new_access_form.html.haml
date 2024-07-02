@@ -1,0 +1,27 @@
+= simple_form_for(@access_form, url: [@exercise, :role_bindings], html: { autocomplete: "off", data: { controller: 'accessform', action: 'change->accessform#toggleActors'} }) do |form|
+  %fieldset.grid.grid-cols-2.gap-2
+    = form.input :role, collection: roles_for_select, include_blank: false, input_html: { data: { controller: 'select', accessform_target: 'roleselector' } }
+    = form.input :actor_id, collection: sorted_tree_options(authorized_scope(@exercise.actors.roots)), include_blank: true, input_html: { data: { controller: 'select' } }, wrapper_html: { class: 'hidden', data: { accessform_target: 'actorblock' }}
+
+  %fieldset.mt-6.grid.grid-cols-2.gap-2
+    %div
+      %label.block.font-bold.text-gray-700.dark:text-gray-200
+        SSO field
+        %small.font-light which field is used for lookup
+
+      .inline-flex.mt-1.-space-x-0.divide-x.divide-gray-400.overflow-hidden.rounded-lg.border.border-gray-400.shadow-sm
+        = form.label "assignment_mode_email", class: 'inline-flex items-center px-3 py-2 cursor-pointer text-center text-sm font-medium text-gray-600 shadow-sm bg-white hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-400 has-[:checked]:bg-blue-200 has-[:checked]:dark:bg-blue-600' do
+          E-mail
+          = form.radio_button "assignment_mode", :email, class: 'hidden', id: "access_assignment_mode_email"
+
+        = form.label "assignment_mode_resource", class: 'inline-flex items-center px-3 py-2 cursor-pointer text-center text-sm font-medium text-gray-600 shadow-sm bg-white hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-400 has-[:checked]:bg-blue-200 has-[:checked]:dark:bg-blue-600' do
+          Group / resource
+          = form.radio_button "assignment_mode", :resource, class: 'hidden', id: "access_assignment_mode_resource"
+
+    %div
+      = form.label :assignment_target, class: 'block font-bold text-gray-700 dark:text-gray-200' do
+        = AddAccessForm.human_attribute_name(:assignment_target)
+        %small.font-light value to look for in SSO field
+      = form.text_field :assignment_target, class: 'form-input'
+
+  .mt-4= form.button :submit, 'Save', class: 'form-submit'

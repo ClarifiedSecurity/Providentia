@@ -2,6 +2,14 @@
 
 # This will guess the User class
 FactoryBot.define do
+  factory :role_binding do
+    exercise { nil }
+    actor { nil }
+    role { 1 }
+    user_email { 'MyString' }
+    user_resource { 'MyString' }
+  end
+
   factory :actor_number_config do
     actor
     config_map { {} }

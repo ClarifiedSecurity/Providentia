@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
 
   private
     def load_exercises
-      @exercises = policy_scope(Exercise.all).active.order(:name)
+      @exercises = authorized_scope(Exercise.all).active.order(:name)
     end
 
     def set_sentry_context
@@ -35,7 +35,7 @@ class ApplicationController < ActionController::Base
     end
 
     def get_exercise
-      @exercise = policy_scope(Exercise.all).friendly.find(params[:exercise_id])
+      @exercise = authorized_scope(Exercise.all).friendly.find(params[:exercise_id])
     end
 
     def user_not_authorized
