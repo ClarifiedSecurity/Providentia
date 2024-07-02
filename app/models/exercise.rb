@@ -53,16 +53,8 @@ class Exercise < ApplicationRecord
   private
     def create_default_actors
       actors
-        .where(abbreviation: 'admin')
-        .first_or_create(name: 'Administrator', prefs: { ui_color: 'emerald' })
-
-      actors
-        .where(abbreviation: 'gt')
-        .first_or_create(name: 'Green team', prefs: { ui_color: 'emerald' })
-
-      actors
-        .where(abbreviation: 'yt')
-        .first_or_create(name: 'Yellow team', prefs: { ui_color: 'yellow' })
+        .where(abbreviation: 'infra')
+        .first_or_create(name: 'Infrastructure', prefs: { ui_color: 'emerald' })
 
       actors
         .where(abbreviation: 'rt')
