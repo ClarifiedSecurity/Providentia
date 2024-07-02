@@ -1,12 +1,12 @@
 - provide :heading do
   Dashboard
 
-- if policy(:exercise).create?
+- if allowed_to?(:create?, :exercise)
   - provide :new_url do
     = url_for [:new, :exercise]
 
 .flex.justify-end.gap-1
-  - if current_user.admin? && !params[:archived]
+  - if allowed_to?(:list_archived?, :exercise) && !params[:archived]
     = link_to 'Show archived', root_path(archived: true), class: 'form-submit h-10'
 
 - if @my_exercises.any?

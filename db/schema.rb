@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_04_144412) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_05_145203) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -227,6 +227,18 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_04_144412) do
     t.index ["slug"], name: "index_operating_systems_on_slug", unique: true
   end
 
+  create_table "role_bindings", force: :cascade do |t|
+    t.bigint "exercise_id", null: false
+    t.bigint "actor_id"
+    t.integer "role"
+    t.string "user_email"
+    t.string "user_resource"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["actor_id"], name: "index_role_bindings_on_actor_id"
+    t.index ["exercise_id"], name: "index_role_bindings_on_exercise_id"
+  end
+
   create_table "service_checks", force: :cascade do |t|
     t.bigint "service_id", null: false
     t.bigint "network_id", null: false
@@ -383,6 +395,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_04_144412) do
   add_foreign_key "networks", "actors"
   add_foreign_key "networks", "exercises"
   add_foreign_key "networks", "teams"
+  add_foreign_key "role_bindings", "actors"
+  add_foreign_key "role_bindings", "exercises"
   add_foreign_key "service_checks", "networks"
   add_foreign_key "service_checks", "services"
   add_foreign_key "service_subjects", "services"

@@ -5,8 +5,8 @@
 .bg-white.dark:bg-gray-800.shadow.overflow-hidden.rounded-lg.mb-6
   .flex.items-center.justify-end.px-6.py-5
     %h3.flex-grow.text-lg.leading-6.text-gray-900.dark:text-gray-300
-      Exercise information
-    - if policy(@exercise).update?
+      Environment information
+    - if allowed_to?(:update?, @exercise)
       %hr.w-px.h-6.bg-gray-200.dark:bg-gray-400.dark:border-gray-400.mx-3.justify-self-end/
       = link_to 'Edit', [:edit, @exercise], class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-200'
 
@@ -75,10 +75,11 @@
 
 .flex.flex-row.items-center.py-3.pb-6
   %h1.text-2xl.font-bold.grow Actors
-  = form_with(url: [@exercise, :actors], method: :post) do |_form|
-    %button.form-submit-add.text-sm.h-8{type: 'submit'}
-      %i.fas.fa-plus.self-center
-      Add actor
+  - if allowed_to?(:create?, @exercise.actors.build)
+    = form_with(url: [@exercise, :actors], method: :post) do |_form|
+      %button.form-submit-add.text-sm.h-8{type: 'submit'}
+        %i.fas.fa-plus.self-center
+        Add actor
 
 #actors.grid.gap-4.grid-cols-1.lg:grid-cols-2
   - @actors.each do |actor, tree|
