@@ -74,12 +74,17 @@ Providentia is a [Ruby on Rails](https://github.com/rails/rails) based web appli
 
 **Providentia**:
 
-On first development mode boot, a sample exercise is created for you - "Test exercise".
+On first development mode boot, a sample environemnt is created for you - "Test exercise". The setup mimics a typical cyber-defense actor pattern and creates users with varied permissions:
 
-- u: `providentia.admin` p: `providentia.admin-pass` - has access to everything.
-- u: `providentia.rt` p: `providentia.rt-pass` - has access to Test Exercise as RT member (can see RT virtual machines).
-- u: `providentia.gt` p: `providentia.gt-pass` - has access to Test Exercise as GT member (cannot see RT virtual machines)
-- u: `providentia.teadmin` p: `providentia.teadmin-pass` - has access to Test Exercise as environment administrator
+- u: `providentia.noaccess` p: `pass` - cannot login.
+- u: `providentia.admin` p: `pass` - superadmin, has access to everything.
+- u: `providentia.teadmin` p: `pass` - has access to Test Exercise as environment administrator (all permissions)
+- u: `providentia.rt` p: `pass` - has access to Test Exercise as RT member (can see public machines, can see and alter RT virtual machines).
+- u: `providentia.dev` p: `pass` - has access to Test Exercise as GT member (can see public machines, can see and alter infra virtual machines and bt virtual machines).
+- u: `providentia.bt` p: `pass` - has access to Test Exercise as BT member (can see public machines, can see BT virtual machines).
+- u: `providentia.personal1` p: `pass` - can login, cannot see any environments, can create personal environments.
+- u: `providentia.personal2` p: `pass` - can login, cannot see any environments, can create personal environments.
+- u: `providentia.personal3` p: `pass` - can login, cannot see any environments, can create personal environments.
 
 ## Running in production
 

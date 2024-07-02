@@ -3,11 +3,11 @@ enabled: true
 roles:
   client:
     Providentia:
-      - name: Providentia_TE_GT
+      - name: Providentia_User
         composite: false
         clientRole: true
         attributes: {}
-      - name: Providentia_TE_RT
+      - name: Providentia_Super_Admin
         composite: false
         clientRole: true
         attributes: {}
@@ -15,7 +15,23 @@ roles:
         composite: false
         clientRole: true
         attributes: {}
-      - name: Providentia_Admin
+      - name: Providentia_TE_Organizer
+        composite: false
+        clientRole: true
+        attributes: {}
+      - name: Providentia_TE_Developer
+        composite: false
+        clientRole: true
+        attributes: {}
+      - name: Providentia_TE_RT_Member
+        composite: false
+        clientRole: true
+        attributes: {}
+      - name: Providentia_TE_BT_Member
+        composite: false
+        clientRole: true
+        attributes: {}
+      - name: Providentia_Environment_Creator
         composite: false
         clientRole: true
         attributes: {}
@@ -359,6 +375,16 @@ clientScopes:
           claim.name: realm_access.roles
           jsonType.label: String
 users:
+  - username: providentia.noaccess
+    email: providentia.noaccess@localhost
+    enabled: true
+    firstName: Providentia
+    lastName: Noaccess
+    clientRoles:
+      Providentia: []
+    credentials:
+      - type: password
+        value: pass
   - username: providentia.admin
     email: providentia.admin@localhost
     enabled: true
@@ -366,10 +392,11 @@ users:
     lastName: Admin
     clientRoles:
       Providentia:
-        - Providentia_Admin
+        - Providentia_User
+        - Providentia_Super_Admin
     credentials:
       - type: password
-        value: providentia.admin-pass
+        value: pass
   - username: providentia.teadmin
     email: providentia.teadmin@localhost
     enabled: true
@@ -377,10 +404,11 @@ users:
     lastName: Admin
     clientRoles:
       Providentia:
+        - Providentia_User
         - Providentia_TE_Admin
     credentials:
       - type: password
-        value: providentia.teadmin-pass
+        value: pass
   - username: providentia.rt
     email: providentia.rt@localhost
     enabled: true
@@ -388,22 +416,83 @@ users:
     lastName: Team
     clientRoles:
       Providentia:
-        - Providentia_TE_GT
-        - Providentia_TE_RT
+        - Providentia_User
+        - Providentia_TE_RT_Member
     credentials:
       - type: password
-        value: providentia.rt-pass
-  - username: providentia.gt
-    email: providentia.gt@localhost
+        value: pass
+  - username: providentia.dev
+    email: providentia.dev@localhost
     enabled: true
     firstName: Green
     lastName: Team
     clientRoles:
       Providentia:
-        - Providentia_TE_GT
+        - Providentia_User
+        - Providentia_TE_Developer
     credentials:
       - type: password
-        value: providentia.gt-pass
+        value: pass
+  - username: providentia.bt
+    email: providentia.bt@localhost
+    enabled: true
+    firstName: Blue
+    lastName: Team
+    clientRoles:
+      Providentia:
+        - Providentia_User
+        - Providentia_TE_BT_Member
+    credentials:
+      - type: password
+        value: pass
+  - username: providentia.organizer
+    email: providentia.organizer@localhost
+    enabled: true
+    firstName: Random
+    lastName: Team
+    clientRoles:
+      Providentia:
+        - Providentia_User
+        - Providentia_TE_Organizer
+    credentials:
+      - type: password
+        value: pass
+  - username: providentia.personal1
+    email: providentia.personal1@localhost
+    enabled: true
+    firstName: Personal
+    lastName: User 1
+    clientRoles:
+      Providentia:
+        - Providentia_User
+        - Providentia_Environment_Creator
+    credentials:
+      - type: password
+        value: pass
+  - username: providentia.personal2
+    email: providentia.personal2@localhost
+    enabled: true
+    firstName: Personal
+    lastName: User 2
+    clientRoles:
+      Providentia:
+        - Providentia_User
+        - Providentia_Environment_Creator
+    credentials:
+      - type: password
+        value: pass
+  - username: providentia.personal3
+    email: providentia.personal3@localhost
+    enabled: true
+    firstName: Personal
+    lastName: User 3
+    clientRoles:
+      Providentia:
+        - Providentia_User
+        - Providentia_Environment_Creator
+    credentials:
+      - type: password
+        value: pass
 defaultDefaultClientScopes:
   - role_list
   - profile
