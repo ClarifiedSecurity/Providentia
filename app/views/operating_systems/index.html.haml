@@ -10,7 +10,7 @@
 
     - @operating_systems.each do |os|
       - c.with_table_row do
-        %td.px-6.py-4= link_to "#{'-' * os.depth} #{os.name}", os, class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400'
+        %td.px-6.py-4= link_to "#{'-' * os.depth} #{os.name}", os, class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-200'
         %td.px-6.py-4= os.cpu || content_tag(:span, os.applied_cpu, class: 'opacity-40')
         %td.px-6.py-4= os.ram || content_tag(:span, os.applied_ram, class: 'opacity-40')
         %td.px-6.py-4= os.primary_disk_size || content_tag(:span, os.applied_primary_disk_size, class: 'opacity-40')

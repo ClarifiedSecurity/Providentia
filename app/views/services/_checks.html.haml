@@ -11,7 +11,7 @@
         and
         %em connection
         networks
-    = link_to 'javascript:;', class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400', data: { action: "click->modal#open" } do
+    = link_to 'javascript:;', class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-200', data: { action: "click->modal#open" } do
       %i.fas.fa-circle-question
   .flex-grow.text-right.space-x-2
     - if @service.persisted? && policy(@service).update?

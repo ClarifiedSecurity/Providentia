@@ -12,7 +12,7 @@
   - c.with_table_row do
     %td.px-6.py-4
       .text-sm
-        = link_to_if policy(network).show?, network.name, [network.exercise, network], class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400'
+        = link_to_if policy(network).show?, network.name, [network.exercise, network], class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-200'
       .text-sm.text-gray-500.dark:text-gray-50
         = network.abbreviation
 

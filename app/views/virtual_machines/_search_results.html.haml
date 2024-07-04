@@ -11,7 +11,7 @@
           %td.px-5.py-3
             .flex.flex-row.items-center.gap-x-2
               = render ActorAvatarComponent.new(actor: machine.actor)
-              = link_to machine.name, [machine.exercise, machine], class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:text-indigo-400 grow', data: { turbo_frame: '_top'}
+              = link_to machine.name, [machine.exercise, machine], class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-200 grow', data: { turbo_frame: '_top'}
 
               - if machine.custom_instance_count.to_i > 1
                 %span.rounded-full.mx-1.py-1.px-2.bg-green-100.text-green-500.whitespace-nowrap

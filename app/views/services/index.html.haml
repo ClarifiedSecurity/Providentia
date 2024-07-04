@@ -11,12 +11,12 @@
 
     - @services.each do |service|
       - c.with_table_row do
-        %td.px-6.py-4= link_to service.name, [@exercise, service], class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400'
+        %td.px-6.py-4= link_to service.name, [@exercise, service], class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-200'
         %td.px-6.py-4.space-y-3
           - cache([service.cache_key_with_version, 'index_fragnment']) do
             - specs = policy_scope(@exercise.customization_specs).order(:name).limit(4).where(id: service.cached_spec_ids)
             - specs[0..2].each do |spec|
-              = link_to spec.name, exercise_virtual_machine_path(@exercise, spec.virtual_machine_id), class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:text-indigo-400'
+              = link_to spec.name, exercise_virtual_machine_path(@exercise, spec.virtual_machine_id), class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-200'
             - if specs.size == 4
               \…
         %td.px-6.py-4.space-y-2

@@ -10,7 +10,7 @@
       Capability information
     - if policy(@capability).update?
       %hr.w-px.h-6.bg-gray-200.dark:bg-gray-400.dark:border-gray-400.mx-3.justify-self-end/
-      = link_to 'Edit', [:edit, @exercise, @capability], class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400'
+      = link_to 'Edit', [:edit, @exercise, @capability], class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-200'
 
   .border-t.border-gray-200.dark:border-gray-500
     %dl
@@ -36,5 +36,5 @@
 
     - @capability.customization_specs.order(:name).each do |spec|
       - c.with_table_row do
-        %td.px-6.py-4= link_to spec.name, [spec.virtual_machine.exercise, spec.virtual_machine], class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400'
+        %td.px-6.py-4= link_to spec.name, [spec.virtual_machine.exercise, spec.virtual_machine], class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-200'
         %td.px-6.py-4= spec.description
