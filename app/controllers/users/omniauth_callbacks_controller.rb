@@ -13,10 +13,9 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
     if @user
       sign_in_and_redirect @user, event: :authentication
-      # session['user_info'] = request.env['omniauth.auth'].info
       set_flash_message(:notice, :success, kind: 'SSO') if is_navigational_format?
     else
-      redirect_to root_path, flash: { error: 'no can do, bucko!' }
+      redirect_to root_path
     end
   end
 
