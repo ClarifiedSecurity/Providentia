@@ -1,4 +1,4 @@
-- provide(:heading) { "Audit log" }
+- title "Audit log"
 
 .p-2.pb-6.text-center.text-lg
   = link_to_if @version.item, @version.full_name, link_for_model(@version.item), class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-200'

@@ -1,4 +1,4 @@
-- provide(:heading) { "Audit log" }
+- title "Audit log"
 
 %section
   - @versions.group_by { |version| version.created_at.to_date }.each do |day, versions|
