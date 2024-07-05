@@ -13,6 +13,7 @@ en:
   activerecord:
     models:
       exercise: Environment
+      virtual_machine: Host
     errors:
       models:
         virtual_machine:
