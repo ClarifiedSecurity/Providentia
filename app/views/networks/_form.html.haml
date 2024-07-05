@@ -1,6 +1,7 @@
 -# frozen_string_literal: true
 
-= simple_form_for([@network.exercise, @network], html: { autocomplete: "off" }) do |f|
+- data = { controller: 'model', action: "change->model#update" } if @network.persisted?
+= simple_form_for([@network.exercise, @network], html: { autocomplete: "off", data: }) do |f|
   = f.error_notification
   = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
 
@@ -18,62 +19,55 @@
           .col-span-2= f.association :actor, collection: sorted_tree_options(policy_scope(@exercise.actors)), input_html: { data: { controller: 'select' } }
         = f.input :description
 
-      - if policy(@network).update?
+      - if policy(@network).update? && !@network.persisted?
         .px-4.py-3.bg-slate-200.dark:bg-gray-500.text-right.sm:px-6
           = f.button :submit, 'Save', class: 'form-submit'
 
-  .py-5
-    .border-t.border-gray-200.dark:border-gray-600
+  - if @network.persisted?
+    .py-5
+      .border-t.border-gray-200.dark:border-gray-600
 
-  = render ColumnFormSectionComponent.new(disabled: !policy(@network).update?) do |c|
-    - c.with_description do
-      %h3.text-lg.leading-6.text-gray-900.dark:text-gray-50 Connection
-      %p.mt-1.text-sm.text-gray-600.dark:text-gray-400
-        Backing connection for this network in virtualized environment
+    = render ColumnFormSectionComponent.new(disabled: !policy(@network).update?) do |c|
+      - c.with_description do
+        %h3.text-lg.leading-6.text-gray-900.dark:text-gray-50 Connection
+        %p.mt-1.text-sm.text-gray-600.dark:text-gray-400
+          Backing connection for this network in virtualized environment
 
-      %p.mt-1.text-sm.text-gray-600
-        = Network.human_attribute_name(:cloud_id)
-        field accept
-        %char #
-        as substitution character, replaced by BT number
+        %p.mt-1.text-sm.text-gray-600
+          = Network.human_attribute_name(:cloud_id)
+          field accept
+          %char #
+          as substitution character, replaced by BT number
 
-    - c.with_main do
-      .px-4.py-5.bg-white.dark:bg-gray-800.space-y-6.sm:p-6
-        .grid.grid-cols-3.gap-6
-          .col-span-2= f.input :cloud_id
+      - c.with_main do
+        .px-4.py-5.bg-white.dark:bg-gray-800.space-y-6.sm:p-6
+          .grid.grid-cols-3.gap-6
+            .col-span-2= f.input :cloud_id
 
-      - if policy(@network).update?
-        .px-4.py-3.bg-slate-200.dark:bg-gray-500.text-right.sm:px-6
-          = f.button :submit, 'Save', class: 'form-submit'
+    .py-5
+      .border-t.border-gray-200.dark:border-gray-600
 
-  .py-5
-    .border-t.border-gray-200.dark:border-gray-600
+    = render ColumnFormSectionComponent.new(disabled: !policy(@network).update?) do |c|
+      - c.with_description do
+        %h3.text-lg.leading-6.text-gray-900.dark:text-gray-50 DNS
+        %p.mt-1.text-sm.text-gray-600.dark:text-gray-400
+          Nameserver related settings
 
-  = render ColumnFormSectionComponent.new(disabled: !policy(@network).update?) do |c|
-    - c.with_description do
-      %h3.text-lg.leading-6.text-gray-900.dark:text-gray-50 DNS
-      %p.mt-1.text-sm.text-gray-600.dark:text-gray-400
-        Nameserver related settings
-
-      %p.mt-1.text-sm.text-gray-600.dark:text-gray-400
-        = Network.human_attribute_name(:domain)
-        field accept
-        %char #
-        as substitution character, replaced by BT number
+        %p.mt-1.text-sm.text-gray-600.dark:text-gray-400
+          = Network.human_attribute_name(:domain)
+          field accept
+          %char #
+          as substitution character, replaced by BT number
 
 
-    - c.with_main do
-      .px-4.py-5.bg-white.dark:bg-gray-800.space-y-6.sm:p-6
-        .grid.grid-cols-3.gap-6
-          .col-span-2
-            = f.label :domain
-            .mt-1.flex.rounded-md.shadow-sm
-              = f.text_field :domain, class: 'focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-l-md border-gray-300 dark:bg-gray-500 dark:border-black'
-              - unless f.object.ignore_root_domain
-                %span.inline-flex.items-center.px-3.rounded-r-md.border.border-l-0.border-gray-300.bg-gray-50.text-gray-500.dark:bg-gray-600.dark:text-current.dark:border-black.text-sm
-                  = ".#{f.object.exercise.root_domain}"
-        = f.input :ignore_root_domain
-
-      - if policy(@network).update?
-        .px-4.py-3.bg-slate-200.dark:bg-gray-500.text-right.sm:px-6
-          = f.button :submit, 'Save', class: 'form-submit'
+      - c.with_main do
+        .px-4.py-5.bg-white.dark:bg-gray-800.space-y-6.sm:p-6
+          .grid.grid-cols-3.gap-6
+            .col-span-2
+              = f.label :domain
+              .mt-1.flex.rounded-md.shadow-sm
+                = f.text_field :domain, class: 'focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-l-md border-gray-300 dark:bg-gray-500 dark:border-black'
+                - unless f.object.ignore_root_domain
+                  %span.inline-flex.items-center.px-3.rounded-r-md.border.border-l-0.border-gray-300.bg-gray-50.text-gray-500.dark:bg-gray-600.dark:text-current.dark:border-black.text-sm
+                    = ".#{f.object.exercise.root_domain}"
+          = f.input :ignore_root_domain

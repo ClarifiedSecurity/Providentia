@@ -17,7 +17,7 @@ class CapabilitiesController < ApplicationController
     @capability = @exercise.capabilities.build(capability_params)
 
     if @capability.valid? && authorize(@capability).save
-      redirect_to [@capability.exercise, @capability], notice: 'Capability was successfully created.'
+      redirect_to [:edit, @capability.exercise, @capability], notice: 'Capability was successfully created.'
     else
       render :new, status: 400
     end
@@ -27,7 +27,7 @@ class CapabilitiesController < ApplicationController
 
   def update
     if @capability.update capability_params
-      redirect_to [@capability.exercise, @capability], notice: 'Capability was successfully updated.'
+      redirect_to [:edit, @capability.exercise, @capability], notice: 'Capability was successfully updated.'
     else
       render :show, status: 400
     end

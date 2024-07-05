@@ -1,6 +1,7 @@
 -# frozen_string_literal: true
 
-= simple_form_for([@capability.exercise, @capability], html: { autocomplete: "off" }) do |f|
+- data = { controller: 'model', action: "change->model#update" } if @capability.persisted?
+= simple_form_for([@capability.exercise, @capability], html: { autocomplete: "off", data: }) do |f|
   = f.error_notification
   = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
 
@@ -23,6 +24,6 @@
 
         = f.input :description
 
-      - if policy(@capability).update?
+      - if policy(@capability).update? && !@capability.persisted?
         .px-4.py-3.bg-slate-200.dark:bg-gray-500.text-right.sm:px-6
           = f.button :submit, 'Save', class: 'form-submit'
