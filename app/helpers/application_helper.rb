@@ -45,15 +45,6 @@ module ApplicationHelper
     }.stringify_keys[flash_type.to_s] || flash_type.to_s
   end
 
-  def address_modes_for_network(network)
-    modes = Address.modes.keys
-    modes -= %w(ipv4_static ipv4_vip) if network.address_pools.ip_v4.empty?
-    modes -= %w(ipv6_static ipv6_vip) if network.address_pools.ip_v6.empty?
-    modes.map do |mode|
-      [I18n.t("address_modes.#{mode}"), mode]
-    end
-  end
-
   def pool_ip_families
     AddressPool.ip_families.keys.map do |family|
       [I18n.t("ip_families.#{family}"), family]

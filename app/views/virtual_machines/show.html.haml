@@ -5,12 +5,26 @@
 - title @virtual_machine.name
 = render 'form'
 
-.mt-5
-  %h1.text-2xl.font-bold.py-3.pb-6 Network configuration
+= render SubResourceSectionComponent.new(header: 'Network interfaces & addressing') do |section|
+  - if allowed_to?(:create?, Address.new(virtual_machine: @virtual_machine))
+    - section.with_button do
+      = link_to [:new, @virtual_machine.exercise, @virtual_machine, :network_interface], data: {turbo_stream: true}, class: 'form-submit-add' do
+        %i.fas.fa-plus
+        Add interface
 
-  = turbo_stream_from ["vm_connection_info", @virtual_machine.id]
-  #connection_info= render "connection_info", vm: @virtual_machine
+  - section.with_button do
+    = render ModalComponent.new(only_body: true) do |c|
+      - c.with_body do
+        = turbo_frame_tag [@virtual_machine.id, 'addresses'], src: [:address_preview, @exercise, @virtual_machine], loading: "lazy"
 
-  .grid.grid-cols-1.gap-6.py-6.auto-rows-auto.xl:grid-cols-2.xl:auto-rows-auto
+      = link_to 'javascript:;', class: 'form-submit text-sm bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800', data: { action: "click->modal#open" } do
+        Addresses preview
+        %i.fas.fa-up-right-from-square
+
+  #connection_info.p-4.empty:hidden= render "connection_info", vm: @virtual_machine
+
+  %ol#network_interfaces.list-decimal.px-10.divide-y.divide-double.divide-gray-200.dark:divide-gray-500.marker:font-bold.marker:text-2xl
     = render(NetworkInterfaceFormComponent.with_collection(@virtual_machine.network_interfaces, disabled: !allowed_to?(:update?, @virtual_machine)))
-    = render 'new_nic' if allowed_to?(:update?, @virtual_machine)
+
+    - if @virtual_machine.network_interfaces.empty?
+      = render 'shared/empty', klass: NetworkInterface

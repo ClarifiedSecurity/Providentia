@@ -51,7 +51,7 @@ class AddressPool < ApplicationRecord
   def gateway_address_object
     return if gateway.blank?
     Address.new(
-      mode: address_mode,
+      mode: default_address_mode,
       address_pool: self,
       network:,
       offset: gateway
@@ -97,11 +97,11 @@ class AddressPool < ApplicationRecord
     ]
   end
 
-  private
-    def address_mode
-      "ip#{ip_family}_static"
-    end
+  def default_address_mode
+    "ip#{ip_family}_static"
+  end
 
+  private
     def clear_dangling_addresses
       return unless network_address_changed? || range_start_changed? || range_end_changed?
       clear_dangling_ipv4 if ip_v4?

@@ -4,7 +4,7 @@ class LiquidAddressComponent < LiquidTooltipSnippetComponent
   with_collection_parameter :object
 
   def render?
-    @object
+    @object && @object.offset || !@object.fixed?
   end
 
   private

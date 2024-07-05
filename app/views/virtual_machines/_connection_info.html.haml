@@ -1,29 +1,18 @@
-- if vm.connection_nic
-  .border.shadow-lg.p-4.bg-zinc-100.dark:bg-gray-600
-    .flex.items-center.mb-3
-      %h2.text-xl.grow Connection information
-      = render ModalComponent.new(only_body: true) do |c|
-        - c.with_body do
-          = turbo_frame_tag [vm.id, 'addresses'], src: [:address_preview, @exercise, vm], loading: "lazy"
-        = link_to 'javascript:;', class: 'form-submit text-sm bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800', data: { action: "click->modal#open" } do
-          Preview
-          %i.fas.fa-up-right-from-square
+.grid.grid-flow-col.gap-4
+  %div
+    %dt.text-gray-500.dark:text-gray-400 Connected networks
+    %dd.mt-1.text-sm.text-gray-900.dark:text-white.mt-0
+      - vm.networks.each do |network|
+        = link_to [network.exercise, network], class: 'mr-1' do
+          = render ActorChipComponent.new(actor: network.actor, text: network.name)
 
-    .grid.grid-flow-col.gap-4
-      %div
-        %dt.text-sm.text-gray-500.dark:text-gray-400 Primary zone
-        %dd.mt-1.text-sm.text-gray-900.dark:text-white.mt-0= vm.connection_nic.network.name
+  - if vm.connection_nic
+    %div
+      %dt.text-gray-500.dark:text-gray-400= NetworkInterface.human_attribute_name(:fqdn)
+      %dd.mt-1.text-sm.text-gray-900.dark:text-white.mt-0
+        = render LiquidFQDNComponent.new(object: vm)
 
-      %div
-        %dt.text-sm.text-gray-500.dark:text-gray-400= NetworkInterface.human_attribute_name(:fqdn)
-        %dd.mt-1.text-sm.text-gray-900.dark:text-white.mt-0
-          = render LiquidFQDNComponent.new(object: vm)
-
-      - vm.connection_nic.addresses.for_search.each do |address|
-        %div
-          %dt.text-sm.text-gray-500.dark:text-gray-400
-            = I18n.t("ip_families.#{address.ip_family}")
-            address
-          %dd.mt-1.text-sm.text-gray-900.dark:text-white.mt-0
-            = render LiquidAddressComponent.new(object: address)
-            = render SegmentDeployCountChipComponent.new(vm: vm, network: address.network)
+    %div
+      %dt.text-gray-500.dark:text-gray-400 Connection address
+      %dd.mt-1.text-sm.text-gray-900.dark:text-white.mt-0
+        = render LiquidAddressComponent.new(object: vm.connection_address)

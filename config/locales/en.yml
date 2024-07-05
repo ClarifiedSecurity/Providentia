@@ -43,6 +43,7 @@ en:
       network_interface:
         fqdn: FQDN
       address:
+        mode: Assignment type
         offset: Address
         dns_enabled: Publish to DNS
       check:

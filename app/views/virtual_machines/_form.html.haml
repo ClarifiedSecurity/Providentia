@@ -6,9 +6,25 @@
     %fieldset{disabled: !allowed_to?(:update?, @virtual_machine)}
       = render ColumnFormSectionComponent.new do |c|
         - c.with_description do
-          %h3.text-lg.leading-6.text-gray-900.dark:text-gray-50 Identity
+          %h3.text-lg.leading-6.text-gray-900.dark:text-gray-50 Metadata & identity
           %p.mt-1.text-gray-600.dark:text-gray-400
-            Name, owner and other identity information for this VM
+            These fields describe the high-level properties of this machine, such as its name, owner and description.
+            It also assigns it to
+            %em an actor
+            within the environment.
+          %p.mt-1.text-gray-600.dark:text-gray-400
+            %strong Name
+            will be used as
+            %em hostname, role
+            and
+            %em DNS name
+            by default
+          %p.mt-1.text-gray-600.dark:text-gray-400
+            %strong Visibility
+            indicates whether this machine should be public and known to everyone within this environment or restricted to members belonging to same actor as the machine
+            - if @virtual_machine.actor
+              = surround "(", ")" do
+                %em= @virtual_machine.actor.name
 
         - c.with_main do
           .px-4.py-5.bg-white.dark:bg-gray-800.space-y-6.p-6
@@ -63,14 +79,14 @@
           .px-4.py-5.bg-white.dark:bg-gray-800.space-y-6.p-6#deployment_section
             = render 'deployment_section', f:
 
-    .py-5
-      .border-t.border-gray-200.dark:border-gray-600
+  .py-5
+    .border-t.border-gray-200.dark:border-gray-600
 
   = render ColumnFormSectionComponent.new do |c|
     - c.with_description do
       %h3.text-lg.font-medium.leading-6.text-gray-900.dark:text-gray-50 Customization
       %p.mt-1.text-gray-600.dark:text-gray-400
-        Defines how instances of this host are customized
+        Defines how instances of this host are customized from the initial OS template.
 
     - c.with_main do
       = render SubResourceSectionComponent.new(header: 'Customization specs') do |section|

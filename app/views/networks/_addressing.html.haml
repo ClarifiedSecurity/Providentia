@@ -18,7 +18,6 @@
       - section.with_button do
         = render ModalComponent.new(header: "Network addresses") do |c|
           - c.with_body do
-            = turbo_stream_from ["network_addresses", @network.id]
             #address_preview= render 'address_preview', network: @network
 
           = link_to 'Preview', 'javascript:;', class: 'form-submit text-sm h-8', data: { action: "click->modal#open" }

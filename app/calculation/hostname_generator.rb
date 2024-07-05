@@ -17,7 +17,7 @@ class HostnameGenerator < Patterns::Calculation
       Struct.new(:hostname, :domain, :fqdn).new(
         hostname:,
         domain:,
-        fqdn: "#{hostname}.#{domain}"
+        fqdn: [hostname, domain].reject(&:blank?).join('.')
       )
     end
 

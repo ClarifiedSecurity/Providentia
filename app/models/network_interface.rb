@@ -45,8 +45,13 @@ class NetworkInterface < ApplicationRecord
     def network_change_cleanup
       return unless persisted? && network_id_previously_changed?
       Address.transaction do
-        addresses.each do |address|
-          address.update(offset: nil, address_pool: nil)
+        addresses.destroy_all
+        network.address_pools.order(:created_at).each do |pool|
+          pool.addresses.create(
+            network_interface: self,
+            network: pool.network,
+            mode: pool.default_address_mode
+          )
         end
       end
     end

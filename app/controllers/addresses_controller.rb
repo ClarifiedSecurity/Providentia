@@ -15,7 +15,8 @@ class AddressesController < ApplicationController
   end
 
   def update
-    @address.update(address_params)
+    @address_form = AddressForm.new(@address, params[:address])
+    @address_form.save
   end
 
   def destroy
@@ -23,13 +24,6 @@ class AddressesController < ApplicationController
   end
 
   private
-    def address_params
-      params.require(:address).permit(
-        :mode, :address_pool_id, :offset, :offset_address, :dns_enabled, :parsed_ipv6,
-        :connection
-      )
-    end
-
     def get_network_interface
       @network_interface = authorized_scope(@exercise.virtual_machines)
         .find(params[:virtual_machine_id])
