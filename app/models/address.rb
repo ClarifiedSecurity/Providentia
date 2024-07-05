@@ -126,7 +126,6 @@ class Address < ApplicationRecord
   end
 
   def parsed_ipv6=(input)
-    return unless input.present?
     @parsed_ipv6 = input
   end
 
@@ -136,7 +135,6 @@ class Address < ApplicationRecord
   end
 
   def offset_address=(input)
-    return unless input.present?
     @offset_address = input
   end
 
@@ -169,8 +167,12 @@ class Address < ApplicationRecord
     end
 
     def parse_ipv6
-      return unless @parsed_ipv6
-      self.offset = Ipv6Offset.dump(@parsed_ipv6)
+      return if ipv4?
+      if @parsed_ipv6 && @parsed_ipv6.blank?
+        self.offset = nil
+      else
+        self.offset = Ipv6Offset.dump(@parsed_ipv6)
+      end
     rescue ArgumentError
       self.errors.add(:parsed_ipv6, :invalid)
     rescue StopIteration
@@ -178,15 +180,19 @@ class Address < ApplicationRecord
     end
 
     def parse_ipv4
-      return unless @offset_address
-      network_object = ip_family_network
-
-      address = IPAddress::IPv4.new("#{@offset_address}/#{network_object.prefix}") rescue nil
-      if address && network_object.include?(address)
-        self.offset = address.u32 - network_object.network_u32 - 1
+      return if ipv6?
+      if @offset_address && @offset_address.blank?
+        self.offset = nil
       else
-        errors.add(:offset, :invalid)
-        errors.add(:offset_address, :invalid)
+        network_object = ip_family_network
+
+        address = IPAddress::IPv4.new("#{@offset_address}/#{network_object.prefix}") rescue nil
+        if address && network_object.include?(address)
+          self.offset = address.u32 - network_object.network_u32 - 1
+        else
+          errors.add(:offset, :invalid)
+          errors.add(:offset_address, :invalid)
+        end
       end
     end
 
