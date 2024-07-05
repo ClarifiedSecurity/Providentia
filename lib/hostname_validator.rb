@@ -4,6 +4,7 @@ class HostnameValidator < ActiveModel::EachValidator
   FORBIDDEN_LIST = [
     /\A(os|actor|zone|capability|custom|customization)_/,
     /\A(localhost|new|edit)\z/,
+    /\A\d.*/
   ].freeze
 
   def validate_each(record, attribute, value)
