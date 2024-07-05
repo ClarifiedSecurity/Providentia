@@ -46,6 +46,7 @@ module API
         def cache_key
           [
             'apiv3',
+            vm.exercise.cache_key_with_version,
             vm.cache_key_with_version,
             spec.cache_key_with_version,
             vm.actor&.cache_key_with_version,
