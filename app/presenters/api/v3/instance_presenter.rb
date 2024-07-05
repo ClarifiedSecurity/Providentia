@@ -166,34 +166,39 @@ module API
               fqdn: substitute(namespec.fqdn),
               egress: nic.egress?,
               connection: nic.addresses.any?(&:connection),
-              addresses: nic
-                .addresses.order(:created_at)
-                .filter_map do |address|
-                  if !address.fixed? || address.offset.present?
-                    {
-                      pool_id: address.address_pool&.slug,
-                      mode: address.mode,
-                      connection: address.connection?,
-                      address: nil,
-                      dns_enabled: nil,
-                      gateway: nil
-                    }.tap do |hash|
-                      if address.fixed?
-                        hash[:address] = address.ip_object(
-                          sequence_number: sequential_number,
-                          sequence_total: vm.custom_instance_count,
-                          actor_number: team_number
-                        ).to_string
-                        hash[:dns_enabled] = address.dns_enabled
-                      end
-                      if nic.egress? && (address.mode_ipv4_static? || address.mode_ipv6_static?)
-                        hash[:gateway] = address.address_pool.gateway_ip(team_number)&.to_s
-                      end
+              addresses: addresses
+                .select { _1.network_interface == nic }
+                .map do |address|
+                  {
+                    pool_id: address.address_pool&.slug,
+                    mode: address.mode,
+                    connection: address.connection?,
+                    address: nil,
+                    dns_enabled: nil,
+                    gateway: nil
+                  }.tap do |hash|
+                    if address.fixed?
+                      hash[:address] = address.ip_object(
+                        sequence_number: sequential_number,
+                        sequence_total: vm.custom_instance_count,
+                        actor_number: team_number
+                      ).to_string
+                      hash[:dns_enabled] = address.dns_enabled
+                    end
+                    if nic.egress? && (address.mode_ipv4_static? || address.mode_ipv6_static?)
+                      hash[:gateway] = address.address_pool.gateway_ip(team_number)&.to_s
                     end
                   end
                 end
             }
           end
+        end
+
+        def addresses
+          @addresses ||= vm
+            .addresses
+            .order(:created_at)
+            .select { !_1.fixed? || _1.offset.present?}
         end
 
         def checks
@@ -217,7 +222,7 @@ module API
         end
 
         def connection_address
-          (connection_nic&.addresses || []).detect(&:connection?)
+          addresses.detect(&:connection?)
         end
     end
   end
