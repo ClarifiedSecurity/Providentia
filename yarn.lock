@@ -41,7 +41,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@codemirror/language@npm:6.10.1, @codemirror/language@npm:^6.0.0":
+"@codemirror/language@npm:6.10.2":
+  version: 6.10.2
+  resolution: "@codemirror/language@npm:6.10.2"
+  dependencies:
+    "@codemirror/state": "npm:^6.0.0"
+    "@codemirror/view": "npm:^6.23.0"
+    "@lezer/common": "npm:^1.1.0"
+    "@lezer/highlight": "npm:^1.0.0"
+    "@lezer/lr": "npm:^1.0.0"
+    style-mod: "npm:^4.0.0"
+  checksum: 10/ac78c639d2696a2d1f29b934c623fa599f5e32a64affb0a35526822dcbec22adb80fe4891d9c90e5a2cb5d56ed1578e97860050561d3aee6ee029f8af3c7f925
+  languageName: node
+  linkType: hard
+
+"@codemirror/language@npm:^6.0.0":
   version: 6.10.1
   resolution: "@codemirror/language@npm:6.10.1"
   dependencies:
@@ -93,7 +107,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@codemirror/view@npm:6.26.2, @codemirror/view@npm:^6.0.0, @codemirror/view@npm:^6.17.0, @codemirror/view@npm:^6.23.0":
+"@codemirror/view@npm:6.28.4":
+  version: 6.28.4
+  resolution: "@codemirror/view@npm:6.28.4"
+  dependencies:
+    "@codemirror/state": "npm:^6.4.0"
+    style-mod: "npm:^4.1.0"
+    w3c-keyname: "npm:^2.2.4"
+  checksum: 10/3effc92732e9fb25f32fe04a8e651202dbf453c3694adda4ff9666bd2b65d5ec4aef5288ab94932a26c03f5b27a6f5873b0d5fe6eb71051c912bb9ba1f1ae931
+  languageName: node
+  linkType: hard
+
+"@codemirror/view@npm:^6.0.0, @codemirror/view@npm:^6.17.0, @codemirror/view@npm:^6.23.0":
   version: 6.26.2
   resolution: "@codemirror/view@npm:6.26.2"
   dependencies:
@@ -1622,10 +1647,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cytoscape@npm:^3.29.2":
-  version: 3.29.2
-  resolution: "cytoscape@npm:3.29.2"
-  checksum: 10/986b5126a73267cddefdc33a20556889a91365e98324a35a4714cda6efd1af51ae442689db41d4c23b2340a84471bbffeea720c0d3b3e68d6659f9744a08af1a
+"cytoscape@npm:^3.30.0":
+  version: 3.30.0
+  resolution: "cytoscape@npm:3.30.0"
+  checksum: 10/4361004b7f944b82ee26407fe834982e67e83331d1b38b97e075b6960d88eeaf3b1b8c12983e8097cf04a97e8b17a6cee64d7fdcffc8b67d4d92f931b7f66e7c
   languageName: node
   linkType: hard
 
@@ -3359,7 +3384,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:^8.4.23, postcss@npm:^8.4.38":
+"postcss@npm:^8.4.23":
   version: 8.4.38
   resolution: "postcss@npm:8.4.38"
   dependencies:
@@ -3402,10 +3427,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "providentia@workspace:."
   dependencies:
-    "@codemirror/language": "npm:6.10.1"
+    "@codemirror/language": "npm:6.10.2"
     "@codemirror/legacy-modes": "npm:6.4.0"
     "@codemirror/state": "npm:6.4.1"
-    "@codemirror/view": "npm:6.26.2"
+    "@codemirror/view": "npm:6.28.4"
     "@fortawesome/fontawesome-svg-core": "npm:^6.5.2"
     "@fortawesome/free-brands-svg-icons": "npm:^6.5.2"
     "@fortawesome/free-solid-svg-icons": "npm:^6.5.2"
@@ -3419,7 +3444,7 @@ __metadata:
     "@tailwindcss/typography": "npm:^0.5.13"
     codemirror: "npm:^6.0.1"
     cssnano: "npm:^7.0.3"
-    cytoscape: "npm:^3.29.2"
+    cytoscape: "npm:^3.30.0"
     cytoscape-elk: "npm:^2.2.0"
     cytoscape-node-html-label: "npm:^1.2.2"
     debounce: "npm:^2.1.0"
