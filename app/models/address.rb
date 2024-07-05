@@ -125,18 +125,14 @@ class Address < ApplicationRecord
     Ipv6Offset.load(offset)
   end
 
-  def parsed_ipv6=(input)
-    @parsed_ipv6 = input
-  end
+  attr_writer :parsed_ipv6
 
   def offset_address
     return unless offset
     ip_object.to_s
   end
 
-  def offset_address=(input)
-    @offset_address = input
-  end
+  attr_writer :offset_address
 
   def all_ip_objects
     return unless offset

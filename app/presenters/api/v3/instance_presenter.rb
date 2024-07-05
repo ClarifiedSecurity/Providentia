@@ -198,7 +198,7 @@ module API
           @addresses ||= vm
             .addresses
             .order(:created_at)
-            .select { !_1.fixed? || _1.offset.present?}
+            .select { !_1.fixed? || _1.offset.present? }
         end
 
         def checks
