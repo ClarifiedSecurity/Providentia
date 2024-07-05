@@ -48,8 +48,7 @@ class Address < ApplicationRecord
       .where('addresses.offset = address_pools.gateway::varchar')
   }
 
-  before_validation :parse_ipv6,
-    :clear_on_mode_change,
+  before_validation :clear_on_mode_change,
     :clear_offset, :set_to_connection_if_first_address,
     on: :update
   before_validation :set_default_mode, :populate_first_pool_if_empty
@@ -121,32 +120,6 @@ class Address < ApplicationRecord
     mode_ipv4_static? || mode_ipv6_static? || vip?
   end
 
-  def parsed_ipv6
-    Ipv6Offset.load(offset)
-  end
-
-  attr_writer :parsed_ipv6
-
-  def offset_address
-    return unless offset
-    ip_object.to_s
-  end
-
-  def offset_address=(input)
-    if input && input.blank?
-      self.offset = nil
-    else
-      network_object = ip_family_network
-      address = IPAddress::IPv4.new("#{input}/#{network_object.prefix}") rescue nil
-      if address && network_object.include?(address)
-        self.offset = address.u32 - network_object.network_u32 - 1
-      else
-        errors.add(:offset, :invalid)
-        errors.add(:offset_address, :invalid)
-      end
-    end
-  end
-
   def all_ip_objects
     return unless offset
     if virtual_machine.custom_instance_count
@@ -175,19 +148,6 @@ class Address < ApplicationRecord
         .all_ip_objects
     end
 
-    def parse_ipv6
-      return if ipv4?
-      if @parsed_ipv6 && @parsed_ipv6.blank?
-        self.offset = nil
-      else
-        self.offset = Ipv6Offset.dump(@parsed_ipv6)
-      end
-    rescue ArgumentError
-      self.errors.add(:parsed_ipv6, :invalid)
-    rescue StopIteration
-      self.errors.add(:parsed_ipv6, :invalid)
-    end
-
     def check_ip_offset4
       return unless mode_ipv4_static? && offset
 
@@ -203,7 +163,7 @@ class Address < ApplicationRecord
       ip_family_network.allocate(offset.to_i - 1)
     rescue StopIteration
       self.offset = self.offset_was
-      errors.add(:parsed_ipv6, :invalid)
+      errors.add(:offset, :invalid)
     end
 
     def clear_on_mode_change
@@ -216,7 +176,7 @@ class Address < ApplicationRecord
 
     def set_default_mode
       return if network.address_pools.ip_v4.any?
-      self.mode = :ipv4_dhcp
+      self.mode ||= :ipv4_dhcp
     end
 
     def populate_first_pool_if_empty

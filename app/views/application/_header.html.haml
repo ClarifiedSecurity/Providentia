@@ -49,7 +49,7 @@
                   .flex.items-center.justify-between
                     .flex.flex-grow.items-center.gap-x-1
                       %i.fas{class: VirtualMachine.to_icon}
-                      %span.text-sm Virtual machines
+                      %span.text-sm Inventory
 
                       - if authorized_scope(@exercise.virtual_machines).size > 0
                         %span.text-xs.text-white.bg-indigo-500.px-2.rounded-sm= authorized_scope(@exercise.virtual_machines).size

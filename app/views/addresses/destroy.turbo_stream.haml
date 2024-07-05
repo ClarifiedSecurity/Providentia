@@ -6,6 +6,6 @@
   = turbo_stream.replace dom_id(spec) do
     = render spec
 
-- @address.virtual_machine.network_interfaces.each_with_index do |nic, index|
-  = turbo_stream.update dom_id(nic) do
-    = render NetworkInterfaceFormComponent.new(network_interface: nic, network_interface_counter: index)
+- @address.virtual_machine.network_interfaces.each do |nic|
+  = turbo_stream.replace dom_id(nic) do
+    = render NetworkInterfaceFormComponent.new(network_interface: nic)

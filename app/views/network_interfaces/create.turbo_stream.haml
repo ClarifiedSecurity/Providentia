@@ -1,5 +1,5 @@
-= turbo_stream.replace "network_interface_new" do
-  = render NetworkInterfaceFormComponent.new(network_interface: @network_interface, network_interface_counter: @virtual_machine.network_interfaces.index(@network_interface))
+= turbo_stream.replace "new_network_interface" do
+  = render NetworkInterfaceFormComponent.new(network_interface: @network_interface)
 
 = simple_form_for([@exercise, @virtual_machine]) do |f|
   = turbo_stream.update "deployment_section" do

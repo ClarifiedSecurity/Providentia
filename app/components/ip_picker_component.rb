@@ -41,26 +41,40 @@ class IPPickerComponent < ViewComponent::Base
     end
 
     def address_pool
-      @address_pool ||= case @form.object
+      @address_pool ||= case real_form_object
                         when AddressPool
-                          @form.object
+                          real_form_object
                         when Address
-                          @form.object.address_pool
-                        when AddressPoolForm
-                          @form.object.send(:resource)
-      end
+                          real_form_object.address_pool
+                        end
     end
 
     def network
       address_pool.network
     end
 
+    def real_form_object
+      case @form.object
+      when Address, AddressPool
+        @form.object
+      when AddressPoolForm, AddressForm
+        @form.object.send(:resource)
+      end
+    end
+
+    def address
+      case real_form_object
+      when Address
+        real_form_object
+      end
+    end
+
     def vm
-      @form.object.virtual_machine
+      address.virtual_machine
     end
 
     def nic
-      @form.object.network_interface
+      address.network_interface
     end
 
     def exercise

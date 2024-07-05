@@ -3,11 +3,10 @@
 class NetworkInterfaceFormComponent < ViewComponent::Base
   with_collection_parameter :network_interface
 
-  attr_reader :network_interface, :network_interface_counter, :disabled
+  attr_reader :network_interface, :disabled
 
-  def initialize(network_interface:, network_interface_counter:, disabled: false)
+  def initialize(network_interface:, disabled: false)
     @network_interface = network_interface
-    @network_interface_counter = network_interface_counter
     @disabled = disabled
   end
 

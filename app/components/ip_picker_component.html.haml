@@ -1,13 +1,13 @@
 - if address_pool.ip_network.prefix >= 22
   - if @form.is_a?(SimpleForm::FormBuilder)
-    = @form.input @field, collection: collection, include_blank: '(None)', input_html: { disabled:, data: { controller: 'select' }}
+    = @form.input @field, collection: collection, include_blank: '(None)', input_html: { id: "#{dom_id(real_form_object)}_#{@field}", disabled:, data: { controller: 'select' }}
   - else
     - if label
-      = @form.label @field, class: 'block font-bold text-gray-700 dark:text-gray-200'
-    = @form.select @field, collection, { include_blank: '(None)' }, { disabled:,data: { controller: 'select' }}
+      = @form.label @field, class: 'block font-bold text-gray-700 dark:text-gray-200', for: "#{dom_id(real_form_object)}_#{@field}"
+    = @form.select @field, collection, { include_blank: '(None)' }, { id: "#{dom_id(real_form_object)}_#{@field}", disabled:, data: { controller: 'select' }}
 
 - elsif label
-  = @form.label "#{@field}_address", @form.object.class.human_attribute_name(@field), class: 'font-bold text-gray-700 dark:text-gray-200'
+  = @form.label "#{@field}_address", real_form_object.class.human_attribute_name(@field), class: 'font-bold text-gray-700 dark:text-gray-200'
   .mt-1.flex.rounded-md.shadow-sm
     .flex.rounded-md.shadow-sm.w-full
       = @form.text_field "#{@field}_address", class: 'focus:ring-indigo-500 focus:border-indigo-500 flex-1 block rounded-l-md border-gray-300 dark:bg-gray-500 dark:border-black disabled:cursor-not-allowed disabled:opacity-75'

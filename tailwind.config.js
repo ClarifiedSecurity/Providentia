@@ -3,12 +3,7 @@ const colors = require("tailwindcss/colors");
 module.exports = {
   content: [
     "./config/initializers/simple_form.rb",
-    "./app/**/*.html.erb",
-    "./app/**/*.html.haml",
-    "./app/helpers/**/*.rb",
-    "./app/components/**/*.rb",
-    "./app/components/**/*.html.haml",
-    "./app/javascript/**/*.js",
+    "./app/**/*.{html.erb,html.haml,rb,js}",
   ],
   safelist: Object.keys(colors).flatMap((color) => {
     return [
