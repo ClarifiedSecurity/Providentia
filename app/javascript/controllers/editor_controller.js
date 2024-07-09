@@ -1,9 +1,9 @@
 import { Controller } from "@hotwired/stimulus";
 import throttle from "throttleit";
 
-import { StreamLanguage } from "@codemirror/language";
-import { yaml } from "@codemirror/legacy-modes/mode/yaml";
-import { EditorView, minimalSetup } from "codemirror";
+import { EditorView } from "@codemirror/view";
+import { EditorState } from "@codemirror/state";
+import { yaml } from "@codemirror/lang-yaml";
 import { cobalt } from "thememirror";
 
 export default class extends Controller {
@@ -18,12 +18,11 @@ export default class extends Controller {
     const container = document.createElement("div");
     container.classList.add("bg-red-100", "w-full", "overflow-y-scroll");
     textarea.parentNode.appendChild(container);
-    this.editor = new EditorView({
+    const state = EditorState.create({
       doc: textarea.value.toString(),
       extensions: [
-        minimalSetup,
-        StreamLanguage.define(yaml),
         cobalt,
+        yaml(),
         EditorView.updateListener.of((v) => {
           if (v.docChanged) {
             textarea.value = v.state.doc.toString();
@@ -31,7 +30,10 @@ export default class extends Controller {
           }
         }),
       ],
+    });
+    this.editor = new EditorView({
       parent: container,
+      state,
     });
   }
 
