@@ -9,10 +9,12 @@ class ChecksController < ApplicationController
 
   def create
     self_subject = CustomCheckSubject.find_by(base_class: 'CustomizationSpec', meaning: 'self')
-    @check = @service.checks.create({
+    @check = @service.checks.build({
       source: self_subject,
       destination: self_subject
     })
+    authorize! @check
+    @check.save
   end
 
   def update
@@ -36,28 +38,21 @@ class ChecksController < ApplicationController
     end
 
     def get_service
-      @service = policy_scope(@exercise.services)
+      @service = authorized_scope(@exercise.services)
         .includes(:service_subjects)
         .friendly
         .find(params[:service_id])
     end
 
     def get_check
-      @check = authorize(@service.checks.find(params[:id]))
+      @check = @service.checks.find(params[:id])
+      authorize! @check
     end
 
     def get_directions
-      filtered_params = params[:check].extract!(:source_gid, :destination_gid)
-      [
-        authorize(
-          GlobalID::Locator.locate(filtered_params[:source_gid]),
-          :show?
-        ),
-        authorize(
-          GlobalID::Locator.locate(filtered_params[:destination_gid]),
-          :show?
-        )
-      ]
+      params[:check].extract!(:source_gid, :destination_gid).permit!.to_h.values.map do |gid|
+        GlobalID::Locator.locate(gid)
+      end.each { authorize! _1, to: :show? }
     end
 
     def config_map_update
@@ -73,8 +68,8 @@ class ChecksController < ApplicationController
     end
 
     def regular_update
-      @check.assign_attributes(check_params)
       source, destination = get_directions
+      @check.assign_attributes(check_params)
       @check.source = source
       @check.destination = destination
       @check.save

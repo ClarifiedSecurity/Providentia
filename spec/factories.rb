@@ -113,6 +113,10 @@ FactoryBot.define do
     service
   end
 
+  factory :check do
+    service
+  end
+
   factory :instance_metadatum do
     customization_spec { nil }
     instance { 'MyString' }

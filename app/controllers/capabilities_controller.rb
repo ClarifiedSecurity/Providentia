@@ -5,18 +5,20 @@ class CapabilitiesController < ApplicationController
   before_action :get_capability, only: %i[show edit update destroy]
 
   def index
-    @actors = OrderedTree.result_for(policy_scope(@exercise.actors))
-    @capabilities = policy_scope(@exercise.capabilities).order(:name)
+    @actors = OrderedTree.result_for(authorized_scope(@exercise.actors))
+    @capabilities = authorized_scope(@exercise.capabilities).order(:name)
   end
 
   def new
-    @capability = authorize(@exercise.capabilities.build)
+    @capability = @exercise.capabilities.build
+    authorize! @capability
   end
 
   def create
     @capability = @exercise.capabilities.build(capability_params)
+    authorize! @capability
 
-    if @capability.valid? && authorize(@capability).save
+    if @capability.save
       redirect_to [:edit, @capability.exercise, @capability], notice: 'Capability was successfully created.'
     else
       render :new, status: 400
@@ -47,6 +49,7 @@ class CapabilitiesController < ApplicationController
     end
 
     def get_capability
-      @capability = authorize(@exercise.capabilities.friendly.find(params[:id]))
+      @capability = @exercise.capabilities.friendly.find(params[:id])
+      authorize! @capability
     end
 end

@@ -108,10 +108,10 @@ module ApplicationHelper
     [
       @exercise.cache_key_with_version,
       'nav',
-      policy_scope(@exercise.services).cache_key_with_version,
-      policy_scope(@exercise.capabilities).cache_key_with_version,
       authorized_scope(@exercise.virtual_machines).cache_key_with_version,
       authorized_scope(@exercise.networks).cache_key_with_version,
+      authorized_scope(@exercise.services).cache_key_with_version,
+      authorized_scope(@exercise.capabilities).cache_key_with_version,
     ]
   end
 
@@ -136,7 +136,7 @@ module ApplicationHelper
         [spec.name, spec.id]
       end
     when 'Capability'
-      policy_scope(@exercise.capabilities).select(:id, :name).order(:name).map do |cap|
+      authorized_scope(@exercise.capabilities).select(:id, :name).order(:name).map do |cap|
         [cap.name, cap.id]
       end
     when 'Actor'
