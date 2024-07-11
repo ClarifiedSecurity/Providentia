@@ -8,22 +8,6 @@ class ApplicationController < ActionController::Base
   rescue_from ActionPolicy::Unauthorized, with: :user_not_authorized
   rescue_from ActiveRecord::RecordNotFound, with: :user_not_authorized
 
-  # mock methods until transitioned
-  helper_method :policy
-  helper_method :policy_scope
-
-  def policy(_record)
-    ApplicationPolicy.new(user: current_user)
-  end
-
-  def policy_scope(scope)
-    scope
-  end
-
-  def authorize(_record = nil, _action = nil)
-    true
-  end
-
   private
     def load_exercises
       @exercises = authorized_scope(Exercise.all).active.order(:name)
