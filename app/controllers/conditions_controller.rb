@@ -42,11 +42,12 @@ class ConditionsController < ApplicationController
     end
 
     def get_service
-      @service = policy_scope(@exercise.services).friendly.find(params[:service_id])
+      @service = authorized_scope(@exercise.services).friendly.find(params[:service_id])
     end
 
     def get_subject
-      @subject = authorize(@service.service_subjects.find(params[:service_subject_id]))
+      @subject = @service.service_subjects.find(params[:service_subject_id])
+      authorize! @subject
     end
 
     def get_condition

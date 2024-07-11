@@ -6,12 +6,13 @@ class ServiceSubjectsController < ApplicationController
   respond_to :turbo_stream
 
   def create
-    authorize(@service, :update?)
-    @subject = @service.service_subjects.create
+    @subject = @service.service_subjects.build
+    authorize! @subject
+    @subject.save
   end
 
   private
     def get_service
-      @service = policy_scope(@exercise.services).friendly.find(params[:service_id])
+      @service = authorized_scope(@exercise.services).friendly.find(params[:service_id])
     end
 end
