@@ -13,12 +13,13 @@
         networks
     = link_to 'javascript:;', class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-200', data: { action: "click->modal#open" } do
       %i.fas.fa-circle-question
-  .flex-grow.text-right.space-x-2
-    - if @service.persisted? && policy(@service).update?
+  - if @service.persisted? && allowed_to?(:create?, Check.new(service: @service))
+    .flex-grow.text-right.space-x-2
       = form_with(url: [@service.exercise, @service, :checks], class: 'inline-block') do |form|
         %button.leading-5.p-1.px-2.rounded-sm.text-white.bg-indigo-500{type: 'submit'}
           %i.fas.fa-plus.self-center
           Add check
 
-#checks-table.flex.flex-col.align-middle.border.border-gray-200.dark:border-gray-500.bg-white.dark:bg-gray-700.divide-y.divide-double.divide-gray-200.dark:divide-gray-500
-  = render @service.checks.sort_by(&:created_at)
+- if @service.checks.any?
+  #checks-table.flex.flex-col.align-middle.border.border-gray-200.dark:border-gray-500.bg-white.dark:bg-gray-700.divide-y.divide-double.divide-gray-200.dark:divide-gray-500
+    = render @service.checks.sort_by(&:created_at)

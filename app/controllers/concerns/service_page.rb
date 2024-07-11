@@ -9,11 +9,11 @@ module ServicePage
 
   private
     def preload_collections
-      Current.networks_cache = policy_scope(@exercise.networks)
+      Current.networks_cache = authorized_scope(@exercise.networks)
         .order(:name)
         .includes(:actor)
         .load_async
-      Current.vm_cache = policy_scope(@exercise.customization_specs)
+      Current.vm_cache = authorized_scope(@exercise.customization_specs)
         .order(:name)
         .includes(virtual_machine: :actor)
         .load_async

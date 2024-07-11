@@ -3,6 +3,12 @@
 class Actor < ApplicationRecord
   has_ancestry
 
+  attribute :default_visibility, :integer # rails bug during migrations
+  enum default_visibility: {
+    public: 1,
+    actor_only: 2
+  }, _prefix: :default_visibility
+
   belongs_to :exercise, touch: true
 
   has_many :networks
