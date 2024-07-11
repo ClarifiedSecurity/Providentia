@@ -1,12 +1,15 @@
 # frozen_string_literal: true
 
 class RoleBindingPolicy < ApplicationPolicy
+  include EnvironmentAssociatedPolicy
+  skip_pre_check :allow_exercise_admins!, only: :destroy?
+
   def create?
-    can_edit_exercise?
+    false
   end
 
   def destroy?
-    can_edit_exercise?
+    has_env_role?('environment_admin') && not_last_access?
   end
 
   relation_scope do |relation|
@@ -21,7 +24,7 @@ class RoleBindingPolicy < ApplicationPolicy
   end
 
   private
-    def can_edit_exercise?
-      allowed_to?(:update?, record.exercise)
+    def not_last_access?
+      exercise.role_bindings.role_environment_admin.where.not(user_email: user.email).exists?
     end
 end

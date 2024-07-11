@@ -1,0 +1,10 @@
+.container.mx-auto.min-h-96.flex.flex-col.items-center.justify-center{class: dom_id(klass, :empty)}
+  .text-3xl.text-gray-700.dark:text-gray-500.text-center
+    %i.fas.fa-3x{class: klass.to_icon}
+
+    %p.pt-6
+      No accessible
+      = klass.model_name.human.pluralize.downcase
+      found
+
+  .text-xl.text-gray-800.dark:text-gray-400= content

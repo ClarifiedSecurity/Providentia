@@ -9,12 +9,12 @@ class OperatingSystemsController < ApplicationController
 
   def new
     @operating_system = OperatingSystem.new
-    authorize @operating_system
+    authorize! @operating_system
   end
 
   def create
     @operating_system = OperatingSystem.new(operating_system_params)
-    authorize @operating_system
+    authorize! @operating_system
 
     if @operating_system.save
       redirect_to operating_systems_path, flash: { notice: "#{OperatingSystem.model_name.human} was successfully created." }
@@ -51,11 +51,11 @@ class OperatingSystemsController < ApplicationController
   private
     def get_operating_system
       @operating_system = OperatingSystem.friendly.find(params[:id])
-      authorize @operating_system
+      authorize! @operating_system
     end
 
     def load_arranged_operating_systems
-      @operating_systems = OrderedTree.result_for(policy_scope(OperatingSystem))
+      @operating_systems = OrderedTree.result_for(authorized_scope(OperatingSystem.all))
     end
 
     def operating_system_params

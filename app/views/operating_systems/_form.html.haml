@@ -1,6 +1,6 @@
 -# frozen_string_literal: true
 .bg-white.dark:bg-gray-800.shadow{class: 'w-7/12'}
-  = simple_form_for(@operating_system, html: { autocomplete: "off", disabled: !policy(@operating_system).update? }) do |f|
+  = simple_form_for(@operating_system, html: { autocomplete: "off", inert: !allowed_to?(:update?, @operating_system) }) do |f|
     = f.error_notification
     = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
 
@@ -37,13 +37,13 @@
 
     - unless f.object.new_record?
       .py-1
-        .border-t.border-gray-200.dark:border-gray-500
+        .border-t.border-gray-200.dark:border-gray-600
 
       %dl
         .px-6.py-3
           %dt.text-sm.text-gray-500.dark:text-gray-400= OperatingSystem.human_attribute_name(:api_short_name)
           %dd.text-sm.text-gray-900.dark:text-white.mt-0.col-span-2= @operating_system.api_short_name
 
-    - if policy(@operating_system).update?
+    - if allowed_to?(:update?, @operating_system)
       .px-4.py-3.bg-slate-200.dark:bg-gray-500.text-right.sm:px-6
         = f.button :submit, class: 'form-submit'

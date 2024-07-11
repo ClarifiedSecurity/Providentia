@@ -23,7 +23,7 @@
           .px-4.py-3.bg-slate-200.dark:bg-gray-500.text-right.sm:px-6
             = f.button :submit, 'Save', class: 'form-submit'
 
-    - if allowed_to?(:update?, @exercise)
+    - if @exercise.persisted? && allowed_to?(:update?, @exercise)
       .py-5
         .border-t.border-gray-200.dark:border-gray-600
 

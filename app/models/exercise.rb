@@ -10,8 +10,8 @@ class Exercise < ApplicationRecord
     infra: 2
   }, _prefix: :mode
 
-  has_many :actors
-  has_many :role_bindings
+  has_many :actors, dependent: :destroy
+  has_many :role_bindings, dependent: :destroy
   has_many :networks, dependent: :destroy
   has_many :virtual_machines, dependent: :destroy
   has_many :services, dependent: :destroy

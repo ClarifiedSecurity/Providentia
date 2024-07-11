@@ -13,6 +13,7 @@ class ExercisesController < ApplicationController
     authorize! @exercise
 
     if @exercise.save
+      @exercise.role_bindings.create(role: :environment_admin, user_email: current_user.email)
       redirect_to @exercise, notice: 'Exercise was successfully created.'
     else
       render :new, status: 400

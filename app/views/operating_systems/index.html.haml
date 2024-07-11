@@ -1,5 +1,6 @@
-- provide :new_url do
-  = url_for({ action: :new })
+- if allowed_to?(:create?, OperatingSystem.new)
+  - provide :new_url do
+    = url_for({ action: :new })
 
 - if @operating_systems.any?
   = render TableComponent.new do |c|

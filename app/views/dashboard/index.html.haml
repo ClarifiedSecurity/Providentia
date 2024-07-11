@@ -20,4 +20,8 @@
     = render partial: 'environments/environment_card_small', collection: @other_exercises, as: :environment
 
 - if @my_exercises.empty? && @other_exercises.empty?
-  = render 'shared/empty', klass: Exercise
+  = render EmptylistingComponent.new(klass: Exercise) do
+    - if allowed_to?(:create?, :exercise)
+      Ask to be added or
+      = link_to "create a new environment", [:new, :exercise], class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-200'
+      for yourself!
