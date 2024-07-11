@@ -353,12 +353,23 @@ RSpec.describe GenerateTags do
 
     context 'customizationspec (tags)' do
       let(:input) { create(:customization_spec, tag_list: 'some,tags,here') }
+      before { Current.user = build(:user) }
 
-      it { is_expected.to eq([
-        described_class::ApiTag.new(id: 'custom_some', name: 'Custom tag some', priority: 100),
-        described_class::ApiTag.new(id: 'custom_tags', name: 'Custom tag tags', priority: 100),
-        described_class::ApiTag.new(id: 'custom_here', name: 'Custom tag here', priority: 100)
-      ]) }
+      context 'with admin permissions' do
+        let!(:binding) { create(:role_binding, user_email: Current.user.email, role: :environment_admin, exercise: input.exercise) }
+
+        it { is_expected.to eq([
+          described_class::ApiTag.new(id: 'custom_some', name: 'Custom tag some', priority: 100),
+          described_class::ApiTag.new(id: 'custom_tags', name: 'Custom tag tags', priority: 100),
+          described_class::ApiTag.new(id: 'custom_here', name: 'Custom tag here', priority: 100)
+        ]) }
+      end
+
+      context 'with read-only user' do
+        let!(:binding) { create(:role_binding, user_email: Current.user.email, role: :environment_member, exercise: input.exercise) }
+
+        it { is_expected.to eq([]) }
+      end
     end
   end
 end

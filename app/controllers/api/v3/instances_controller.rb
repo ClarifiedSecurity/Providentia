@@ -24,13 +24,13 @@ module API
 
       private
         def spec
-          @spec ||= policy_scope(@exercise.customization_specs)
+          @spec ||= authorized_scope(@exercise.customization_specs)
             .for_api
             .friendly.find(params[:customization_spec_id])
         end
 
         def authorize_spec
-          authorize(spec, :update?)
+          authorize! spec
         end
 
         def validate_id

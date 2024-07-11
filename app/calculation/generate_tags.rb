@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class GenerateTags < Patterns::Calculation
+  include ActionPolicy::Behaviour
+  authorize :user, through: :current_user
+
   ApiTag = Data.define(:id, :name, :config_map, :priority) do
     def initialize(id:, name: nil, config_map: {}, priority:)
       super(id:, name: name || id, config_map:, priority:)
@@ -24,6 +27,10 @@ class GenerateTags < Patterns::Calculation
       @tag_sources = Set.new
       resolve_inputs
       tags_from_tag_sources
+    end
+
+    def current_user
+      Current.user
     end
 
     def resolve_inputs(item = subject)
@@ -53,11 +60,13 @@ class GenerateTags < Patterns::Calculation
       when CustomizationSpec
         tag_sources.add CustomizationContainer.new if item.mode_container?
         tag_sources.add MultiContainer.new(item) if item.virtual_machine.clustered? || item.virtual_machine.numbered_by
-        resolve_inputs(item.tags)
+        resolve_inputs(item.taggings)
       when VirtualMachine
         tag_sources.add AllSpecs.new(item) if item.customization_specs.size > 1
         tag_sources.add NumberedByAnotherActor.new(actor: item.actor, numbered_actor: item.numbered_actor) if item.numbered_actor && !item.numbered_actor.subtree.include?(item.actor)
-      when Network, Capability, ActsAsTaggableOn::Tag, ActorWithNumber
+      when ActsAsTaggableOn::Tagging
+        tag_sources.add item.tag if allowed_to?(:read_tags?, item.taggable)
+      when Network, Capability, ActorWithNumber
         tag_sources.add item
       end
     end

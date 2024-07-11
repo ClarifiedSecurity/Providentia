@@ -6,16 +6,16 @@ module API
       before_action :get_exercise
 
       def index
-        services = policy_scope(@exercise.services)
-        scope = policy_scope(@exercise.customization_specs)
+        services = authorized_scope(@exercise.services)
+        scope = authorized_scope(@exercise.customization_specs)
         render json: {
           result: services.map { |service| ServicePresenter.new(service, scope) }
         }
       end
 
       def show
-        service = policy_scope(@exercise.services).find_by(name: params[:id])
-        scope = policy_scope(@exercise.customization_specs)
+        service = authorized_scope(@exercise.services).find_by(name: params[:id])
+        scope = authorized_scope(@exercise.customization_specs)
         return render_not_found unless service
 
         render json: {

@@ -7,7 +7,7 @@ module API
 
       def index
         render json: {
-          result: policy_scope(@exercise.customization_specs).pluck(:slug).sort
+          result: authorized_scope(@exercise.customization_specs).pluck(:slug).sort
         }
       end
 
@@ -21,7 +21,7 @@ module API
 
       private
         def spec
-          @spec ||= policy_scope(@exercise.customization_specs)
+          @spec ||= authorized_scope(@exercise.customization_specs)
             .for_api
             .friendly.find(params[:id])
         end

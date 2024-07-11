@@ -6,7 +6,7 @@ module API
       before_action :get_exercise
 
       def index
-        actors = policy_scope(@exercise.actors)
+        actors = authorized_scope(@exercise.actors)
         render json: {
           result: actors.arrange_serializable { |parent, children| ActorPresenter.new(parent, children) }
         }

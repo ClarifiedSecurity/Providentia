@@ -6,7 +6,8 @@ RSpec.describe 'API v3 networks', type: :request do
   let(:exercise) { create(:exercise) }
   let!(:networks) { create_list(:network, 2, exercise:) }
 
-  let!(:user) { create(:user, api_tokens: [api_token], permissions: Hash[exercise.id, ['local_admin']]) }
+  let!(:user) { create(:user, api_tokens: [api_token]) }
+  let!(:role_binding) { create(:role_binding, exercise:, user_email: user.email, role: :environment_admin) }
   let(:api_token) { create(:api_token) }
   let(:headers) { { 'Authorization' => "Token #{api_token.token}" } }
 
@@ -93,7 +94,8 @@ RSpec.describe 'API v3 networks', type: :request do
   end
 
   context 'with headers for a different exercise' do
-    let!(:user) { create(:user, api_tokens: [api_token], permissions: Hash[-1, ['local_admin']]) }
+    let!(:user) { create(:user, api_tokens: [api_token]) }
+    let!(:role_binding) { create(:role_binding, exercise:, user_email: 'some.random@address.here') }
 
     it 'should return 404' do
       expect(response).to_not be_successful

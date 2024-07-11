@@ -4,5 +4,6 @@ class Current < ActiveSupport::CurrentAttributes
   attribute :interfaces_cache,
     :services_cache,
     :networks_cache,
-    :vm_cache
+    :vm_cache,
+    :user
 end

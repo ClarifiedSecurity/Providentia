@@ -6,7 +6,7 @@ module API
       before_action :get_exercise
 
       def index
-        networks = policy_scope(@exercise.networks)
+        networks = authorized_scope(@exercise.networks)
         render json: {
           result: networks.map { |network| NetworkPresenter.new(network) }
         }
