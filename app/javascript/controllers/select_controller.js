@@ -10,10 +10,13 @@ export default class extends Controller {
 
   connect() {
     if (!this.element.hidden) {
+      // set manually if inherited from another element, tomselect only looks at current element attribute
+      this.element.disabled = this.element.matches(":disabled");
       let options;
       if (this.element.dataset.create) {
         options = {
           wrapperClass: "ts-wrapper form-input",
+          disabled: this.element.disabled,
           createOnBlur: true,
           create: true,
         };
@@ -37,7 +40,7 @@ export default class extends Controller {
       this.instance.addOptions(
         this.optionsValue.map((tag) => {
           return { text: tag, value: tag };
-        }),
+        })
       );
     }
   }

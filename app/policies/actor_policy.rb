@@ -35,4 +35,5 @@ class ActorPolicy < ApplicationPolicy
       .where(Actor.arel_table[:id].eq(RoleBinding.arel_table[:actor_id]))
       .where(role_bindings: { role: :actor_dev })
   end
+
 end

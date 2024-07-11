@@ -86,4 +86,13 @@ class IPPickerComponent < ViewComponent::Base
     def address_for_ip_object(ip_object)
       address_pool.addresses.build(network:, offset: ip_object.to_u32 - ip_object.network.to_u32 - 1)
     end
+
+    def disabled
+      case @form.object
+      when Address
+        !helpers.allowed_to?(:update?, vm)
+      else
+        false
+      end
+    end
 end
