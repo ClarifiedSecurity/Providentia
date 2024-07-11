@@ -41,8 +41,8 @@
                       %i.fas{class: Network.to_icon}
                       %span.text-sm Networks
 
-                      - if policy_scope(@exercise.networks).size > 0
-                        %span.text-xs.text-white.bg-indigo-500.px-2.rounded-sm= policy_scope(@exercise.networks).size
+                      - if authorized_scope(@exercise.networks).size > 0
+                        %span.text-xs.text-white.bg-indigo-500.px-2.rounded-sm= authorized_scope(@exercise.networks).size
 
               %li
                 = link_to [@exercise, :virtual_machines], class: 'block transition-colors hover:text-sky-400 p-2 px-3 rounded hover:bg-gray-100 dark:hover:bg-gray-700' do
@@ -51,8 +51,8 @@
                       %i.fas{class: VirtualMachine.to_icon}
                       %span.text-sm Virtual machines
 
-                      - if policy_scope(@exercise.virtual_machines).size > 0
-                        %span.text-xs.text-white.bg-indigo-500.px-2.rounded-sm= policy_scope(@exercise.virtual_machines).size
+                      - if authorized_scope(@exercise.virtual_machines).size > 0
+                        %span.text-xs.text-white.bg-indigo-500.px-2.rounded-sm= authorized_scope(@exercise.virtual_machines).size
 
               %li
                 = link_to [@exercise, :services], class: 'block transition-colors hover:text-sky-400 p-2 px-3 rounded hover:bg-gray-100 dark:hover:bg-gray-700' do
@@ -62,7 +62,7 @@
                       %span.text-sm Services
 
                       - if @exercise.services.size > 0
-                        %span.text-xs.text-white.bg-indigo-500.px-2.rounded-sm= policy_scope(@exercise.services).size
+                        %span.text-xs.text-white.bg-indigo-500.px-2.rounded-sm= authorized_scope(@exercise.services).size
 
               %li
                 = link_to [@exercise, :capabilities], class: 'block transition-colors hover:text-sky-400 p-2 px-3 rounded hover:bg-gray-100 dark:hover:bg-gray-700' do
@@ -72,7 +72,7 @@
                       %span.text-sm Capabilities
 
                       - if @exercise.capabilities.size > 0
-                        %span.text-xs.text-white.bg-indigo-500.px-2.rounded-sm= policy_scope(@exercise.capabilities).size
+                        %span.text-xs.text-white.bg-indigo-500.px-2.rounded-sm= authorized_scope(@exercise.capabilities).size
 
         - if content_for?(:new_url)
           = link_to content_for(:new_url), class: 'form-submit-add h-6' do

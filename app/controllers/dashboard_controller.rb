@@ -1,9 +1,13 @@
 # frozen_string_literal: true
 
 class DashboardController < ApplicationController
+  skip_before_action :load_exercises
+
   def index
-    @exercises = policy_scope(Exercise).order(:name) if params[:archived]
-    @exercises = @exercises.includes(:services)
+    @exercises =
+      authorized_scope(Exercise.all, scope_options: { with_archived: params[:archived] })
+      .includes(:services)
+      .order(:name)
 
     @my_exercises, @other_exercises = @exercises.partition do |ex|
       ex.virtual_machines.where(system_owner: current_user).exists?

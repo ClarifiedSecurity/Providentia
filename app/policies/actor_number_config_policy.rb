@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ActorNumberConfigPolicy < ApplicationPolicy
+  include EnvironmentAssociatedPolicy
+
   def index?
     show?
   end
@@ -10,7 +12,7 @@ class ActorNumberConfigPolicy < ApplicationPolicy
   end
 
   def create?
-    can_edit_exercise?
+    false
   end
 
   def update?
@@ -26,13 +28,4 @@ class ActorNumberConfigPolicy < ApplicationPolicy
     # relation.where(user: user)
     next relation
   end
-
-  private
-    def can_edit_exercise?
-      allowed_to?(:update?, record.exercise)
-    end
-
-    def can_read_exercise?
-      allowed_to?(:show?, record.exercise)
-    end
 end

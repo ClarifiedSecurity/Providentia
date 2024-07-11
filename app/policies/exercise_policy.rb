@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class ExercisePolicy < ApplicationPolicy
-  pre_check :allow_exercise_admins, except: [:create?, :list_archived?]
-
   def index?
     true
   end
@@ -12,15 +10,15 @@ class ExercisePolicy < ApplicationPolicy
   end
 
   def create?
-    user.super_admin?
-  end
-
-  def update?
     false
   end
 
+  def update?
+    has_env_role? 'environment_admin'
+  end
+
   def list_archived?
-    user.super_admin?
+    false
   end
 
   def clone?
@@ -44,7 +42,7 @@ class ExercisePolicy < ApplicationPolicy
   end
 
   private
-    def allow_exercise_admins
-      allow! if exercise_admin?(exercise: record)
+    def exercise
+      record
     end
 end
