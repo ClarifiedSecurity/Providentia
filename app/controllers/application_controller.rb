@@ -1,30 +1,41 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
-  include Pundit::Authorization
+  before_action :set_sentry_context, :authenticate_user!,
+    :set_paper_trail_whodunnit
+  before_action :load_exercises, if: :current_user
 
-  before_action :load_exercises, :set_sentry_context,
-    :authenticate_user!, :set_paper_trail_whodunnit
-
-  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+  rescue_from ActionPolicy::Unauthorized, with: :user_not_authorized
   rescue_from ActiveRecord::RecordNotFound, with: :user_not_authorized
+
+  # mock methods until transitioned
+  helper_method :policy
+  helper_method :policy_scope
+
+  def policy(_record)
+    ApplicationPolicy.new(user: current_user)
+  end
+
+  def policy_scope(scope)
+    scope
+  end
+
+  def authorize(_record = nil, _action = nil)
+    true
+  end
 
   private
     def load_exercises
-      @exercises = policy_scope(Exercise).active.order(:name)
+      @exercises = policy_scope(Exercise.all).active.order(:name)
     end
 
     def set_sentry_context
-      Sentry.set_user(id: current_user&.id, exercise: session[:exercise_id])
+      Sentry.set_user(id: current_user&.id)
       Sentry.set_extras(params: params.to_unsafe_h, url: request.url)
     end
 
     def get_exercise
-      @exercise = policy_scope(Exercise).friendly.find(params[:exercise_id])
-    end
-
-    def pundit_user
-      UserContext.new(current_user, @exercise)
+      @exercise = policy_scope(Exercise.all).friendly.find(params[:exercise_id])
     end
 
     def user_not_authorized

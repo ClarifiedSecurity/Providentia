@@ -1,78 +1,31 @@
 # frozen_string_literal: true
 
-class ApplicationPolicy
-  attr_reader :user_context, :record
-
-  delegate :user, :admin?, :local_admin?, :rt?, :user_has_exercise?, to: :user_context
-
-  def initialize(user_context, record)
-    @user_context = user_context
-    @record = record
-  end
-
-  def index?
-    admin?
-  end
+# Base class for application policies
+class ApplicationPolicy < ActionPolicy::Base
+  pre_check :allow_admins
 
   def show?
-    admin? || user_has_exercise?
-  end
-
-  def create?
-    admin?
-  end
-
-  def new?
-    admin? || create?
-  end
-
-  def update?
-    admin?
+    true
   end
 
   def edit?
-    admin? || update?
+    true
   end
 
   def destroy?
-    admin?
+    true
+  end
+
+  def update?
+    true
   end
 
   private
-    def exercise
-      if record.is_a?(ApplicationRecord)
-        record.exercise
-      else
-        Exercise.new
-      end
+    def allow_admins
+      allow! if user.super_admin?
     end
 
-    class Scope
-      attr_reader :user_context, :scope
-
-      delegate :user, :exercise, :admin?, :local_admin?, :rt?, to: :user_context
-
-      def initialize(user_context, scope)
-        @user_context = user_context
-        @scope = scope
-      end
-
-      def resolve
-        scope.all
-      end
-
-      private
-        def accessible_actors_for_user(ex_id = exercise.id)
-          ex = Exercise.find(ex_id)
-          if (user.accessible_exercises[ex_id.to_s] & %w(rt local_admin)).any?
-            ex.actors.pluck(:id)
-          else
-            ex.actors.where.not(abbreviation: 'rt').pluck(:id)
-          end
-        end
-
-        def exercise_ids_for_context
-          exercise.present? ? [exercise.id.to_s] : user.accessible_exercises.keys
-        end
+    def owner?
+      record.user_id == user.id
     end
 end
