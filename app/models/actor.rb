@@ -30,10 +30,6 @@ class Actor < ApplicationRecord
     'fa-building-shield'
   end
 
-  def red? # TEMPORARY
-    abbreviation == 'rt'
-  end
-
   def downcased_name
     name.downcase
   end

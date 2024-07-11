@@ -24,8 +24,6 @@ class ActorNumberConfigPolicy < ApplicationPolicy
   end
 
   relation_scope do |relation|
-    # next relation if user.admin?
-    # relation.where(user: user)
     next relation
   end
 end

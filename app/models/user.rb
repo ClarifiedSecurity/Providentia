@@ -34,10 +34,6 @@ class User < ApplicationRecord
       .upcase
   end
 
-  def admin?
-    permissions['admin']
-  end
-
   def accessible_exercises
     permissions.except('admin').tap do |hash|
       hash.default = []
