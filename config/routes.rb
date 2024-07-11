@@ -45,7 +45,7 @@ Rails.application.routes.draw do
   resource :search, only: [:show, :create]
 
   resources :api_tokens, except: %i[show edit update]
-  resources :versions, only: %i[index show]
+  resources :versions, only: %i[index show], path: :log
 
   get 'docs/api', to: 'docs#api'
   get 'docs/templating', to: 'docs#templating'

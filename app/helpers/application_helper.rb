@@ -98,7 +98,7 @@ module ApplicationHelper
     ].compact.join ', '
   end
 
-  def sorted_tree_options(collection = policy_scope(OperatingSystem))
+  def sorted_tree_options(collection = authorized_scope(OperatingSystem.all))
     OrderedTree
       .result_for(collection)
       .map { |i| ["#{'-' * i.depth} #{i.name}", i.id] }
@@ -142,7 +142,7 @@ module ApplicationHelper
     when 'Actor'
       sorted_tree_options(authorized_scope(@exercise.actors))
     when 'OperatingSystem'
-      sorted_tree_options(policy_scope(OperatingSystem))
+      sorted_tree_options(authorized_scope(OperatingSystem.all))
     when 'Network'
       policy_scope(@exercise.networks).order(:name).map do |network|
         [network.name, network.id]

@@ -1,12 +1,14 @@
 # frozen_string_literal: true
 
 class RoleBindingPolicy < ApplicationPolicy
+  include EnvironmentAssociatedPolicy
+
   def create?
-    can_edit_exercise?
+    false
   end
 
   def destroy?
-    can_edit_exercise?
+    false
   end
 
   relation_scope do |relation|
@@ -19,9 +21,4 @@ class RoleBindingPolicy < ApplicationPolicy
           .where(role: :environment_admin).pluck(:exercise_id)
       )
   end
-
-  private
-    def can_edit_exercise?
-      allowed_to?(:update?, record.exercise)
-    end
 end

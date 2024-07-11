@@ -6,20 +6,20 @@ class SearchesController < ApplicationController
   def create
     if params[:query].present?
       @results = [
-        policy_scope(VirtualMachine)
+        authorized_scope(VirtualMachine.all)
           .joins(:exercise)
           .merge(Exercise.active)
           .search(params[:query])
           .limit(5),
-        policy_scope(Network)
+        authorized_scope(Network.all)
           .joins(:exercise)
           .merge(Exercise.active)
           .search(params[:query])
           .limit(5),
-        policy_scope(OperatingSystem)
+        authorized_scope(OperatingSystem.all)
           .search(params[:query])
           .limit(5),
-        policy_scope(Exercise)
+        authorized_scope(Exercise.all)
           .active
           .search(params[:query])
           .limit(5),
