@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_21_113610) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_04_144412) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -325,6 +325,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_21_113610) do
     t.inet "current_sign_in_ip"
     t.inet "last_sign_in_ip"
     t.jsonb "permissions", default: {}
+    t.jsonb "resources", default: []
   end
 
   create_table "versions", force: :cascade do |t|

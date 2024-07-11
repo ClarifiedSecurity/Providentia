@@ -14,17 +14,16 @@ class User < ApplicationRecord
   }
 
   def self.from_external(uid:, email:, resources:, extra_fields: {})
-    permissions = UserPermissions.result_for(resources)
-    return unless permissions
+    resources = UserPermissions.result_for(resources || [])
+    return unless resources
 
-    user = find_by(uid:) || find_by(email:)
-    user ||= create(uid:)
-    user.update({
-      uid:,
-      email: email || '',
-      permissions:
-    }.merge(extra_fields))
-    user
+    (find_by(uid:) || find_by(email:) || create(uid:)).tap do |user|
+      user.update({
+        uid:,
+        email: email || '',
+        resources:
+      }.merge(extra_fields))
+    end
   end
 
   def initials
@@ -43,5 +42,9 @@ class User < ApplicationRecord
     permissions.except('admin').tap do |hash|
       hash.default = []
     end
+  end
+
+  def super_admin?
+    resources.include?(UserPermissions::SUPERADMIN_ACCESS)
   end
 end
