@@ -5,7 +5,7 @@ module API
     class ExercisesController < APIController
       def index
         render json: {
-          result: policy_scope(Exercise).map do |ex|
+          result: authorized_scope(Exercise.all).map do |ex|
             {
               id: ex.slug,
               name: ex.name
@@ -15,7 +15,7 @@ module API
       end
 
       def show
-        exercise = policy_scope(Exercise).friendly.find(params[:id])
+        exercise = authorized_scope(Exercise.all).friendly.find(params[:id])
 
         render json: { result: ExercisePresenter.new(exercise) }
       rescue ActiveRecord::RecordNotFound

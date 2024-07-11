@@ -6,7 +6,7 @@ module API
       before_action :get_exercise
 
       def index
-        capabilities = policy_scope(@exercise.capabilities)
+        capabilities = authorized_scope(@exercise.capabilities)
         render json: {
           result: capabilities.map { |capability| CapabilityPresenter.new(capability) }
         }
