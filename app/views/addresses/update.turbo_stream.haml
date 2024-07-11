@@ -9,7 +9,7 @@
 
 - else
   = turbo_stream.update dom_id(@address) do
-    = render @address
+    = render @address, disabled: false
 
 = turbo_stream.update "connection_info" do
   = render "virtual_machines/connection_info", vm: @address.virtual_machine

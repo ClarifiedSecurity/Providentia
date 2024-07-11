@@ -3,69 +3,70 @@
     = f.error_notification
     = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
 
-    = render ColumnFormSectionComponent.new(disabled: !policy(@virtual_machine).update?) do |c|
-      - c.with_description do
-        %h3.text-lg.leading-6.text-gray-900.dark:text-gray-50 Identity
-        %p.mt-1.text-gray-600.dark:text-gray-400
-          Name, owner and other identity information for this VM
+    %fieldset{disabled: !allowed_to?(:update?, @virtual_machine)}
+      = render ColumnFormSectionComponent.new do |c|
+        - c.with_description do
+          %h3.text-lg.leading-6.text-gray-900.dark:text-gray-50 Identity
+          %p.mt-1.text-gray-600.dark:text-gray-400
+            Name, owner and other identity information for this VM
 
-      - c.with_main do
-        .px-4.py-5.bg-white.dark:bg-gray-800.space-y-6.p-6
-          .grid.gap-6.grid-cols-2.xl:grid-cols-4
-            .col-span-2= f.input :name
-            = f.association :actor, collection: sorted_tree_options(@actors), include_blank: false, input_html: { data: { controller: 'select' } }
-            = f.input :visibility, collection: visibility_modes, include_blank: false, input_html: { data: { controller: 'select' } }
+        - c.with_main do
+          .px-4.py-5.bg-white.dark:bg-gray-800.space-y-6.p-6
+            .grid.gap-6.grid-cols-2.xl:grid-cols-4
+              .col-span-2= f.input :name
+              = f.association :actor, collection: sorted_tree_options(@actors), include_blank: false, input_html: { disabled: !allowed_to?(:update?, @virtual_machine), data: { controller: 'select' } }
+              = f.input :visibility, collection: visibility_modes, include_blank: false, input_html: { disabled: !allowed_to?(:update?, @virtual_machine), data: { controller: 'select' } }
 
-          = f.association :system_owner, collection: @system_owners, input_html: { data: { controller: 'select' } }
-          = f.input :description, input_html: { data: { controller: "textarea-autogrow" } }
+            = f.association :system_owner, collection: @system_owners, input_html: { disabled: !allowed_to?(:update?, @virtual_machine), data: { controller: 'select' } }
+            = f.input :description, input_html: { data: { controller: "textarea-autogrow" } }
+
+      .py-5
+        .border-t.border-gray-200.dark:border-gray-600
+
+      = render ColumnFormSectionComponent.new do |c|
+        - c.with_description do
+          %h3.text-lg.leading-6.text-gray-900.dark:text-gray-50 Hardware
+          %p.mt-1.text-gray-600.dark:text-gray-400 Resources for this VM
+          %p.mt-1.text-gray-600.dark:text-gray-400 Default vCPU and RAM for operating system will be used, if left blank
+
+        - c.with_main do
+          .px-4.py-5.bg-white.dark:bg-gray-800.space-y-6.p-6
+            .grid.gap-6.grid-cols-3
+              .col-span-3= f.association :operating_system, collection: sorted_tree_options, input_html: { disabled: !allowed_to?(:update?, @virtual_machine), data: { controller: 'select' } }
+              = f.input :cpu, placeholder: @virtual_machine.operating_system&.applied_cpu.to_s
+              %div
+                = f.label :ram
+                .mt-1.flex.rounded-md.shadow-sm
+                  = f.number_field :ram, placeholder: @virtual_machine.operating_system&.applied_ram.to_s, class: 'focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-l-md sm border-gray-300 dark:bg-gray-500 dark:border-black dark:placeholder:text-gray-400', disabled: !allowed_to?(:update?, @virtual_machine)
+                  %span.inline-flex.items-center.px-3.rounded-r-md.border.border-l-0.border-gray-300.bg-gray-50.text-gray-500.dark:bg-gray-600.dark:text-current.dark:border-black
+                    GB
+
+              %div
+                = f.label :primary_disk_size
+                .mt-1.flex.rounded-md.shadow-sm
+                  = f.number_field :primary_disk_size, placeholder: @virtual_machine.operating_system&.applied_primary_disk_size.to_s, class: 'focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-l-md sm border-gray-300 dark:bg-gray-500 dark:border-black dark:placeholder:text-gray-400', disabled: !allowed_to?(:update?, @virtual_machine)
+                  %span.inline-flex.items-center.px-3.rounded-r-md.border.border-l-0.border-gray-300.bg-gray-50.text-gray-500.dark:bg-gray-600.dark:text-current.dark:border-black
+                    GB
+
+      .py-5
+        .border-t.border-gray-200.dark:border-gray-600
+
+      = render ColumnFormSectionComponent.new do |c|
+        - c.with_description do
+          %h3.text-lg.leading-6.text-gray-900.dark:text-gray-50 Deployment
+          %p.mt-1.text-gray-600.dark:text-gray-400
+            The strategy for deployment can be individiual or numbered by an root level actor. Numbered actor configurations can also be chosen - in this scenario, the host is enabled for the selected configuration
+          %p.mt-1.text-gray-600.dark:text-gray-400
+            Additionally, sequential or clustered instances can be set
+
+        - c.with_main do
+          .px-4.py-5.bg-white.dark:bg-gray-800.space-y-6.p-6#deployment_section
+            = render 'deployment_section', f:
 
     .py-5
       .border-t.border-gray-200.dark:border-gray-600
 
-    = render ColumnFormSectionComponent.new(disabled: !policy(@virtual_machine).update?) do |c|
-      - c.with_description do
-        %h3.text-lg.leading-6.text-gray-900.dark:text-gray-50 Hardware
-        %p.mt-1.text-gray-600.dark:text-gray-400 Resources for this VM
-        %p.mt-1.text-gray-600.dark:text-gray-400 Default vCPU and RAM for operating system will be used, if left blank
-
-      - c.with_main do
-        .px-4.py-5.bg-white.dark:bg-gray-800.space-y-6.p-6
-          .grid.gap-6.grid-cols-3
-            .col-span-3= f.association :operating_system, collection: sorted_tree_options, input_html: { data: { controller: 'select' } }
-            = f.input :cpu, placeholder: @virtual_machine.operating_system&.applied_cpu.to_s
-            %div
-              = f.label :ram
-              .mt-1.flex.rounded-md.shadow-sm
-                = f.number_field :ram, placeholder: @virtual_machine.operating_system&.applied_ram.to_s, class: 'focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-l-md sm border-gray-300 dark:bg-gray-500 dark:border-black dark:placeholder:text-gray-400'
-                %span.inline-flex.items-center.px-3.rounded-r-md.border.border-l-0.border-gray-300.bg-gray-50.text-gray-500.dark:bg-gray-600.dark:text-current.dark:border-black
-                  GB
-
-            %div
-              = f.label :primary_disk_size
-              .mt-1.flex.rounded-md.shadow-sm
-                = f.number_field :primary_disk_size, placeholder: @virtual_machine.operating_system&.applied_primary_disk_size.to_s, class: 'focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-l-md sm border-gray-300 dark:bg-gray-500 dark:border-black dark:placeholder:text-gray-400'
-                %span.inline-flex.items-center.px-3.rounded-r-md.border.border-l-0.border-gray-300.bg-gray-50.text-gray-500.dark:bg-gray-600.dark:text-current.dark:border-black
-                  GB
-
-    .py-5
-      .border-t.border-gray-200.dark:border-gray-600
-
-    = render ColumnFormSectionComponent.new(disabled: !policy(@virtual_machine).update?) do |c|
-      - c.with_description do
-        %h3.text-lg.leading-6.text-gray-900.dark:text-gray-50 Deployment
-        %p.mt-1.text-gray-600.dark:text-gray-400
-          The strategy for deployment can be individiual or numbered by an root level actor. Numbered actor configurations can also be chosen - in this scenario, the host is enabled for the selected configuration
-        %p.mt-1.text-gray-600.dark:text-gray-400
-          Additionally, sequential or clustered instances can be set
-
-      - c.with_main do
-        .px-4.py-5.bg-white.dark:bg-gray-800.space-y-6.p-6#deployment_section
-          = render 'deployment_section', f:
-
-  .py-5
-    .border-t.border-gray-200.dark:border-gray-600
-
-  = render ColumnFormSectionComponent.new(disabled: !policy(@virtual_machine).update?) do |c|
+  = render ColumnFormSectionComponent.new do |c|
     - c.with_description do
       %h3.text-lg.font-medium.leading-6.text-gray-900.dark:text-gray-50 Customization
       %p.mt-1.text-gray-600.dark:text-gray-400
@@ -75,10 +76,11 @@
       .bg-white.dark:bg-gray-800
         .flex.py-2.px-3.gap-2.items-center.bg-blue-200.dark:bg-gray-500
           %h1.grow.text-2xl.font-bold.m-2= CustomizationSpec.model_name.human.pluralize
-          = form_with(url: [@virtual_machine.exercise, @virtual_machine, :customization_specs]) do |_form|
-            %button.form-submit-add.text-sm.h-8{type: 'submit'}
-              %i.fas.fa-plus.self-center
-              Add customization spec
+          - if allowed_to?(:update?, @virtual_machine)
+            = form_with(url: [@virtual_machine.exercise, @virtual_machine, :customization_specs]) do |_form|
+              %button.form-submit-add.text-sm.h-8{type: 'submit'}
+                %i.fas.fa-plus.self-center
+                Add customization spec
 
         #customization_specs.divide-y-4.divide-double.divide-gray-200.dark:divide-gray-500
           = render @virtual_machine.customization_specs.sort

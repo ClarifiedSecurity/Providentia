@@ -7,7 +7,7 @@
 
     - @virtual_machines.each do |machine|
       - c.with_table_row(id: dom_id(machine, 'first'), classes: 'group') do
-        - cache([machine.exercise.cache_key_with_version, machine.cache_key_with_version, machine.actor&.cache_key_with_version, 'index_fragment_1']) do
+        - cache([machine.exercise.cache_key_with_version, machine.cache_key_with_version, machine.actor&.cache_key_with_version, 'index_fragment_name']) do
           %td.px-5.py-3
             .flex.flex-row.items-center.gap-x-2
               = render ActorAvatarComponent.new(actor: machine.actor)
@@ -18,8 +18,10 @@
                   = machine.custom_instance_count
                   instances
 
+        - cache([machine.exercise.cache_key_with_version, machine.cache_key_with_version, machine.actor&.cache_key_with_version, 'index_fragment_fqdn']) do
           %td.px-5.py-3= render LiquidFQDNComponent.new({ vm: machine }, object: machine.host_spec)
 
+        - cache([machine.exercise.cache_key_with_version, machine.cache_key_with_version, machine.actor&.cache_key_with_version, 'index_fragment_buttons']) do
           %td.px-5.py-3
             = render ModalComponent.new(only_body: true) do |c|
               - c.with_body do
@@ -52,11 +54,12 @@
                     %span.inline-flex.items-center.px-3.py-2.text-center.text-sm.font-medium.shadow-sm.font-medium.text-slate-700.bg-transparent.hover:bg-slate-700.hover:text-white.focus:z-10.focus:ring-2.focus:ring-gray-500.focus:bg-gray-900.focus:text-white.dark:border-white.dark:text-white.dark:hover:text-white.dark:hover:bg-gray-700.dark:focus:bg-gray-700{data: {controller: 'tippy', tooltip: machine.operating_system.name}}
                       %i.fas.fa-fw{class: machine.operating_system.to_icon}
 
-          %td.px-5.py-3.w-10
+        %td.px-5.py-3.w-10
+          - if allowed_to?(:destroy?, machine)
             = link_to [machine.exercise, machine], data: { turbo_method: 'delete', turbo_confirm: 'Are you sure?' }, class: 'opacity-0 group-hover:opacity-100 transition-opacity' do
               %i.fas.fa-times-circle.text-red-600
 
-      - if machine.customization_specs.size > 1 || machine.customization_specs.flat_map(&:tags).size.positive?
+      - if machine.customization_specs.size > 1 || allowed_to?(:read_tags?, machine.host_spec) && machine.customization_specs.flat_map(&:tags).size.positive?
         - c.with_table_row(classes: '!border-t-0', id: dom_id(machine, 'fqdn')) do
           - cache([machine.exercise.cache_key_with_version, machine.cache_key_with_version, 'index_fragment_2']) do
             %td.px-5.pb-3{colspan: 10}
@@ -65,11 +68,10 @@
                   %div
                     .w-full.text-xs Customization specs
                     = render ChipComponent.with_collection(machine.customization_specs.mode_container.map(&:name), icon: 'book')
-                - if machine.customization_specs.flat_map(&:tags).size.positive?
+                - if allowed_to?(:read_tags?, machine.host_spec) && machine.customization_specs.flat_map(&:tags).size.positive?
                   %div
                     .w-full.text-xs Tag list
                     = render ChipComponent.with_collection(machine.customization_specs.flat_map(&:tags).map(&:name), flavor: 'cyan', icon: 'tags')
-
 
 - else
   = render 'shared/empty', klass: VirtualMachine

@@ -1,4 +1,4 @@
-- if policy(@exercise.virtual_machines.build).create?
+- if allowed_to?(:create?, @exercise.virtual_machines.build)
   - provide :new_url do
     = url_for [:new, @exercise, :virtual_machine]
 
@@ -18,8 +18,8 @@
           %li
             = link_to 'All', exercise_virtual_machines_path(@exercise, actor: nil, query: params[:query]), { role: :menuitem, class: 'inline-flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white'}
 
-          - cache([policy_scope(@exercise.actors).cache_key_with_version, 'tree']) do
-            - OrderedTree.result_for(policy_scope(@exercise.actors)).each do |actor|
+          - cache([authorized_scope(@exercise.actors).cache_key_with_version, 'tree']) do
+            - OrderedTree.result_for(authorized_scope(@exercise.actors)).each do |actor|
               %li
                 = link_to exercise_virtual_machines_path(@exercise, actor: actor.abbreviation, query: params[:query]), { role: :menuitem, class: 'inline-flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white'} do
                   %span.inline-flex.w-4.h-4.mr-2.rounded-full{class: actor_color_classes(actor)}

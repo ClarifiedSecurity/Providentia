@@ -98,9 +98,9 @@ module ApplicationHelper
     ].compact.join ', '
   end
 
-  def sorted_tree_options(collection = authorized_scope(OperatingSystem.all))
+  def sorted_tree_options(scope = authorized_scope(OperatingSystem.all))
     OrderedTree
-      .result_for(collection)
+      .result_for(scope)
       .map { |i| ["#{'-' * i.depth} #{i.name}", i.id] }
   end
 
@@ -108,10 +108,10 @@ module ApplicationHelper
     [
       @exercise.cache_key_with_version,
       'nav',
-      policy_scope(@exercise.virtual_machines).cache_key_with_version,
       policy_scope(@exercise.networks).cache_key_with_version,
       policy_scope(@exercise.services).cache_key_with_version,
       policy_scope(@exercise.capabilities).cache_key_with_version,
+      authorized_scope(@exercise.virtual_machines).cache_key_with_version,
     ]
   end
 
@@ -132,7 +132,7 @@ module ApplicationHelper
   def subject_selector_scope(match_condition)
     case match_condition.matcher_type
     when 'CustomizationSpec'
-      policy_scope(@exercise.customization_specs).select(:id, :name).order(:name).map do |spec|
+      authorized_scope(@exercise.customization_specs).select(:id, :name).order(:name).map do |spec|
         [spec.name, spec.id]
       end
     when 'Capability'

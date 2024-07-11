@@ -173,6 +173,11 @@
   label + select + & {
     @apply mt-1;
   }
+
+  &.disabled {
+    opacity: 0.75;
+    cursor: not-allowed;
+  }
 }
 
 .ts-dropdown,

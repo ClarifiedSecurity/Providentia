@@ -9,8 +9,9 @@ class AddressesController < ApplicationController
   respond_to :turbo_stream
 
   def create
-    authorize @network_interface, :update?
-    @address = @network_interface.addresses.create
+    @address = @network_interface.addresses.build
+    authorize! @address
+    @address.save
   end
 
   def update
@@ -30,7 +31,7 @@ class AddressesController < ApplicationController
     end
 
     def get_network_interface
-      @network_interface = policy_scope(@exercise.virtual_machines)
+      @network_interface = authorized_scope(@exercise.virtual_machines)
         .find(params[:virtual_machine_id])
         .network_interfaces
         .find(params[:network_interface_id])
@@ -41,6 +42,7 @@ class AddressesController < ApplicationController
     end
 
     def get_address
-      @address = authorize(@network_interface.addresses.find(params[:id]))
+      @address = @network_interface.addresses.find(params[:id])
+      authorize! @address
     end
 end
