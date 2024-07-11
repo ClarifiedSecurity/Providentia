@@ -4,8 +4,7 @@ class ColumnFormSectionComponent < ViewComponent::Base
   renders_one :description
   renders_one :main
 
-  def initialize(disabled: false, shadow: true)
-    @disabled = disabled
+  def initialize(shadow: true)
     @shadow = shadow
   end
 end

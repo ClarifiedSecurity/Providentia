@@ -3,16 +3,17 @@
 class NetworkInterfaceFormComponent < ViewComponent::Base
   with_collection_parameter :network_interface
 
-  attr_reader :network_interface, :network_interface_counter
+  attr_reader :network_interface, :network_interface_counter, :disabled
 
-  def initialize(network_interface:, network_interface_counter:)
+  def initialize(network_interface:, network_interface_counter:, disabled: false)
     @network_interface = network_interface
     @network_interface_counter = network_interface_counter
+    @disabled = disabled
   end
 
   private
-    def networks
-      network_interface.exercise.networks
+    def collection
+      helpers.authorized_scope(network_interface.exercise.networks).for_grouped_select
     end
 
     def team_classes

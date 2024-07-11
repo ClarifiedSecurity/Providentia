@@ -20,25 +20,27 @@
 
   .bg-white.dark:bg-gray-800.flex-grow
     = form_with(model: [network_interface.exercise, network_interface.virtual_machine, network_interface], class: 'px-4 py-5', data: { controller: 'model', action: "change->model#update"}) do |form|
-      .text-sm.text-gray-500.dark:text-gray-400= form.label :network_id
+      %fieldset{disabled:}
+        .text-sm.text-gray-500.dark:text-gray-400= form.label :network_id
 
-      .flex.gap-4.items-center
-        .flex-grow= form.grouped_collection_select :network_id, networks.for_grouped_select, :last, :first, :id, :abbreviation, {include_blank: true},  { data: { controller: 'select' }}
+        .flex.gap-4.items-center
+          .flex-grow= form.grouped_collection_select :network_id, collection, :last, :first, :id, :abbreviation, {include_blank: true},  { disabled: !helpers.allowed_to?(:update?, network_interface.virtual_machine), data: { controller: 'select' }}
 
-        - if network_interface.persisted?
-          %label.text-sm.text-gray-900.dark:text-white{id: form.field_id(:connection, network_interface.id)}
-            %a.form-submit.text-xs= egress_toggle_text
-            = form.check_box :egress, class: 'hidden'
+          - if network_interface.persisted? && !disabled
+            %label.cursor-pointer.text-sm.text-gray-900.dark:text-white{id: form.field_id(:connection, network_interface.id)}
+              %a.form-submit.text-xs= egress_toggle_text
+              = form.check_box :egress, class: 'hidden'
 
     - if network_interface.persisted?
       .text-center.text-lg.font-semibold Addresses
 
       .border.border-gray-200.dark:border-gray-500.mt-4{data: { controller: 'model' }}
         .bg-white.dark:bg-gray-700.divide-y-4.divide-double.divide-gray-200.dark:divide-gray-800{id: "#{dom_id(network_interface)}_addresses"}
-          = render network_interface.addresses.order(:created_at), network_interface: network_interface
+          = render network_interface.addresses.order(:created_at), network_interface: network_interface, disabled:
 
-      .text-center.p-6
-        = form_with(url: [network_interface.exercise, network_interface.virtual_machine, network_interface, network_interface.addresses.build]) do |form|
-          %button.form-submit-add.text-sm{type: 'submit'}
-            %i.fas.fa-plus.mr-1
-            Add new
+      - if !disabled
+        .text-center.p-6
+          = form_with(url: [network_interface.exercise, network_interface.virtual_machine, network_interface, network_interface.addresses.build]) do |form|
+            %button.form-submit-add.text-sm{type: 'submit'}
+              %i.fas.fa-plus.mr-1
+              Add new

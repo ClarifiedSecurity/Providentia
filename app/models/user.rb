@@ -6,11 +6,11 @@ class User < ApplicationRecord
 
   devise :trackable, :omniauthable, omniauth_providers: %i[sso]
 
-  scope :admins, -> { where("permissions -> 'admin' = 'true'") }
-  scope :for_exercise, ->(exercise) {
-    admins.or(
-      where('permissions ?| array[:keys]', keys: [exercise.id.to_s])
-    )
+  scope :join_role_bindings, ->() {
+    joins('inner join role_bindings on users.resources ? role_bindings.user_resource or users.email = role_bindings.user_email')
+  }
+  scope :in_exercise, ->(exercise) {
+    join_role_bindings.where(role_bindings: { exercise_id: exercise })
   }
 
   def self.from_external(uid:, email:, resources:, extra_fields: {})

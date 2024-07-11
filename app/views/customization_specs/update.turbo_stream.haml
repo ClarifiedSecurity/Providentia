@@ -1,4 +1,6 @@
 - if @customization_spec.mode_host?
+  = turbo_stream.update "connection_info" do
+    = render "virtual_machines/connection_info", vm: @customization_spec.virtual_machine
   - @customization_spec.virtual_machine.customization_specs.reload
   - @customization_spec.virtual_machine.customization_specs.each do |spec|
     = turbo_stream.replace dom_id(spec) do

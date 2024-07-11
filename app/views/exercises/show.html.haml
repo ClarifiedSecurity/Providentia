@@ -41,13 +41,13 @@
           .grid.grid-flow-col.gap-4.auto-cols-fr
             %div
               %dt.text-sm.text-gray-500 Virtual machines
-              %dd.mt-1.text-sm.text-gray-900.dark:text-white.mt-0= policy_scope(@exercise.virtual_machines).size
+              %dd.mt-1.text-sm.text-gray-900.dark:text-white.mt-0= authorized_scope(@exercise.virtual_machines).size
 
             %div
               %dt.text-sm.text-gray-500 Virtual machine instances
               %dd.mt-1.text-sm.text-gray-900.dark:text-white.mt-0
-                - cache [policy_scope(@exercise.virtual_machines), 'count'] do
-                  = policy_scope(@exercise.virtual_machines).map { |vm| vm.deploy_count * (vm.custom_instance_count || 1) }.sum
+                - cache [authorized_scope(@exercise.virtual_machines), 'count'] do
+                  = authorized_scope(@exercise.virtual_machines).map { |vm| vm.deploy_count * (vm.custom_instance_count || 1) }.sum
 
             %div
               %dt.text-sm.text-gray-500 Networks

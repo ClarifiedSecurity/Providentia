@@ -32,4 +32,18 @@ class ApplicationPolicy < ActionPolicy::Base
     def modifiable_through_actor_role?
       actor_roles.include? 'actor_dev'
     end
+
+    def accessible_through_actor_role?(exercise: record.exercise)
+      RoleBinding
+        .for_user(user)
+        .where(exercise:, actor_id: record.actor_id)
+        .exists?
+    end
+
+    def modifiable_through_actor_role?(exercise: record.exercise)
+      RoleBinding
+        .for_user(user)
+        .where(exercise:, actor_id: record.actor&.root_id, role: :actor_dev)
+        .exists?
+    end
 end
