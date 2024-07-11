@@ -1,40 +1,15 @@
 # frozen_string_literal: true
 
 class UserPermissions < Patterns::Calculation
-  ADMIN_RESOURCE_NAME = 'Admin'
+  BASIC_ACCESS = Rails.configuration.resource_prefix + 'User'
+  SUPERADMIN_ACCESS = Rails.configuration.resource_prefix + 'Super_Admin'
 
   private
     def result
-      return if filtered_list.empty?
-
-      filtered_list.each_with_object({ admin: false }) do |resource, hash|
-        if resource == ADMIN_RESOURCE_NAME
-          hash[:admin] = true
-        else
-          Exercise.where(dev_resource_name: resource).each do |ex|
-            hash[ex.id] ||= []
-            hash[ex.id] << :gt
-          end
-
-          Exercise.where(dev_red_resource_name: resource).each do |ex|
-            hash[ex.id] ||= []
-            hash[ex.id] << :rt
-          end
-
-          Exercise.where(local_admin_resource_name: resource).each do |ex|
-            hash[ex.id] ||= []
-            hash[ex.id] << :local_admin
-          end
-        end
-      end.symbolize_keys
-    end
-
-    def filtered_list
-      (subject || []).filter_map do |resource|
-        if resource.match? resource_regex
-          resource.sub(resource_regex, '')
-        end
+      list = subject.select do |resource|
+        resource.match? resource_regex
       end
+      list if list.include?(BASIC_ACCESS)
     end
 
     def resource_regex

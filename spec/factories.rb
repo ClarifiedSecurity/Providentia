@@ -88,6 +88,8 @@ FactoryBot.define do
   end
 
   factory :user do
+    email { Faker::Internet.email }
+    resources { [UserPermissions::BASIC_ACCESS] }
   end
 
   factory :api_token do
