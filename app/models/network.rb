@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Network < ApplicationRecord
+  include VisibilityFromActor
   extend FriendlyId
   friendly_id :slug_candidates, use: [:slugged, :scoped], scope: :exercise
   has_paper_trail

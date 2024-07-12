@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_05_145203) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_08_080230) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -34,6 +34,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_05_145203) do
     t.string "ancestry"
     t.integer "number"
     t.text "description"
+    t.integer "default_visibility", default: 1
     t.index ["ancestry"], name: "index_actors_on_ancestry"
     t.index ["exercise_id"], name: "index_actors_on_exercise_id"
   end
@@ -207,6 +208,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_05_145203) do
     t.string "slug"
     t.jsonb "config_map"
     t.bigint "actor_id"
+    t.integer "visibility", default: 1
     t.index ["actor_id"], name: "index_networks_on_actor_id"
     t.index ["exercise_id"], name: "index_networks_on_exercise_id"
     t.index ["team_id"], name: "index_networks_on_team_id"

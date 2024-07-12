@@ -8,11 +8,11 @@
 - c.with_column { Network.human_attribute_name(:description) }
 - c.with_column { '' }
 
-- actor.networks.each do |network|
+- @networks[actor].each do |network|
   - c.with_table_row do
     %td.px-6.py-4
       .text-sm
-        = link_to_if policy(network).show?, network.name, [network.exercise, network], class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-200'
+        = link_to_if allowed_to?(:show?, network), network.name, [network.exercise, network], class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-200'
       .text-sm.text-gray-500.dark:text-gray-50
         = network.abbreviation
 
@@ -40,7 +40,7 @@
         %span.text-gray{title: 'Default from exercise'}= network.exercise.root_domain
     %td.px-6.py-4= network.description
     %td.px-6.py-4.whitespace-nowrap.text-right
-      - if policy(network).destroy?
+      - if allowed_to?(:destroy?, network)
         = link_to [network.exercise, network], data: { turbo_method: 'delete', turbo_confirm: 'Are you sure?' } do
           %i.fas.fa-times-circle.text-red-600
 
@@ -48,6 +48,7 @@
   - c.with_table_row do
     %td.p-4.opacity-90{colspan: 100}
       - sub.each do |actor, sub|
-        %section.text-xl.font-bold.text-center.pb-2= actor.name
-        = render TableComponent.new do |c|
-          = render 'result_set', actor:, c:, sub:
+        - if @networks[actor]
+          %section.text-xl.font-bold.text-center.pb-2= actor.name
+          = render TableComponent.new do |c|
+            = render 'result_set', actor:, c:, sub:
