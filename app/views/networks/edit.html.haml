@@ -1,4 +1,4 @@
-- if policy(Network.new(exercise: @exercise)).create?
+- if allowed_to?(:create?, Network.new(exercise: @exercise))
   - provide :new_url do
     = url_for [:new, @exercise, :network]
 

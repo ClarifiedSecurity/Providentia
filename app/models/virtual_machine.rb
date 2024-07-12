@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class VirtualMachine < ApplicationRecord
+  include VisibilityFromActor
   include SpecCacheUpdateOnSave
   include SpecCacheUpdateBeforeDestroy
   has_paper_trail

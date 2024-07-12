@@ -6,17 +6,17 @@
         Name and other identity information for this actor
 
     - c.with_main do
-      .px-4.py-5.bg-white.dark:bg-gray-800.space-y-6.p-6
-        = simple_form_for([@exercise, actor], html: { autocomplete: "off", data: { controller: 'model', action: "change->model#update" } }) do |f|
-          = f.error_notification
-          = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
+      = simple_form_for([@exercise, actor], html: { class: 'p-4 bg-white dark:bg-gray-800 space-y-3', autocomplete: "off", data: { controller: 'model', action: "change->model#update" } }) do |f|
+        = f.error_notification
+        = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
 
-          .grid.gap-6.grid-cols-1.xl:grid-cols-2.py-1
-            = f.input :name
-            = f.input :abbreviation
+        .grid.gap-6.grid-cols-5.gap-4
+          .col-span-2= f.input :name
+          .col-span-2= f.input :abbreviation
+          = f.input :default_visibility, collection: visibility_modes, include_blank: false, input_html: { data: { controller: 'select' } }
 
-          .py-1= f.input :description, input_html: { data: { controller: "textarea-autogrow" } }
-          .py-1= f.input :number, hint: 'How many cloned instances this actor has'
+        = f.input :description, input_html: { data: { controller: "textarea-autogrow" } }
+        = f.input :number, hint: 'How many cloned instances this actor has'
 
   = render ColumnFormSectionComponent.new do |c|
     - c.with_description do

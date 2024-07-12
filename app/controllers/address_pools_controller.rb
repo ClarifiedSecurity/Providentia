@@ -7,8 +7,9 @@ class AddressPoolsController < ApplicationController
   respond_to :turbo_stream
 
   def create
-    authorize @network, :update?
-    @address_pool = @network.address_pools.create(name: "New addresspool #{@network.address_pools.size + 1}")
+    @address_pool = @network.address_pools.build(name: "New addresspool #{@network.address_pools.size + 1}")
+    authorize! @address_pool
+    @address_pool.save
   end
 
   def update
@@ -22,11 +23,12 @@ class AddressPoolsController < ApplicationController
 
   private
     def get_network
-      @network = policy_scope(@exercise.networks)
+      @network = authorized_scope(@exercise.networks)
         .friendly.find(params[:network_id])
     end
 
     def get_address_pool
-      @address_pool = authorize(@network.address_pools.friendly.find(params[:id]))
+      @address_pool = @network.address_pools.friendly.find(params[:id])
+      authorize! @address_pool
     end
 end

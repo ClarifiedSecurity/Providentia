@@ -5,20 +5,24 @@ class NetworksController < ApplicationController
   before_action :get_network, only: %i[show edit update destroy]
 
   def index
-    @actors = policy_scope(@exercise.actors)
-      .joins(:networks)
-      .arrange
-    @networks = policy_scope(@exercise.networks).order(:name).includes(:actor, :address_pools)
+    @actors = authorized_scope(@exercise.actors).arrange
+    @networks =
+      authorized_scope(@exercise.networks)
+      .order(:name)
+      .includes(:actor, :address_pools)
+      .group_by(&:actor)
   end
 
   def new
-    @network = authorize(@exercise.networks.build)
+    @network = @exercise.networks.build
+    authorize! @network
   end
 
   def create
     @network = @exercise.networks.build(network_params)
+    authorize! @network
 
-    if @network.valid? && authorize(@network).save
+    if @network.save
       redirect_to [:edit, @network.exercise, @network], notice: 'Network was successfully created.'
     else
       render :new, status: 400
@@ -49,12 +53,13 @@ class NetworksController < ApplicationController
     def network_params
       params.require(:network).permit(
         :name, :actor_id, :cloud_id, :domain, :abbreviation, :description,
-        :ignore_root_domain, { capability_ids: [] }
+        :visibility, :ignore_root_domain
       )
     end
 
     def get_network
-      @network = authorize(@exercise.networks.friendly.find(params[:id]))
+      @network = @exercise.networks.friendly.find(params[:id])
+      authorize! @network
     end
 
     def config_map_update

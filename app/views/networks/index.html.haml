@@ -1,15 +1,15 @@
-- if policy(Network.new(exercise: @exercise)).create?
+- if allowed_to?(:create?, Network.new(exercise: @exercise))
   - provide :new_url do
     = url_for [:new, @exercise, :network]
 
 - if @networks.any?
   - @actors.each do |actor, sub|
-    .py-4.text-center.text-xl.font-semibold
-      = render ActorChipComponent.new(actor:)
-    .pb-5
-      .border-t.border-gray-200.dark:border-gray-600
+    - if (@networks.keys & actor.subtree).any?
+      .py-4.text-center.text-xl.font-semibold= render ActorChipComponent.new(actor:)
+      .pb-5
+        .border-t.border-gray-200.dark:border-gray-600
 
-    = render TableComponent.new do |c|
-      = render 'result_set', actor:, c:, sub:
+      = render TableComponent.new do |c|
+        = render 'result_set', actor:, c:, sub:
 - else
   = render 'shared/empty', klass: Network
