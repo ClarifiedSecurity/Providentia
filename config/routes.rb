@@ -72,5 +72,7 @@ Rails.application.routes.draw do
     mount RailsPgExtras::Web::Engine, at: 'pg_extras'
   end
 
+  get 'healthz' => 'rails/health#show', as: :rails_health_check
+
   root to: 'dashboard#index'
 end

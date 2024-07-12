@@ -98,7 +98,7 @@ services:
     entrypoint: ["/srv/app/docker/dev/docker-entrypoint.sh"]
     command: ["rails", "server", "-b", "0.0.0.0"]
     healthcheck:
-      test: "curl -f localhost:3000"
+      test: "curl -f localhost:3000/healthz"
       interval: 5s
       timeout: 5s
       retries: 20

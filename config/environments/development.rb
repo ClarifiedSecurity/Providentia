@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'active_support/core_ext/integer/time'
+require 'silencer/rails/logger'
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
@@ -87,4 +88,12 @@ Rails.application.configure do
 
   config.web_console.allowed_ips = '172.16.0.0/12'
   RailsPgExtras.configuration.public_dashboard = true
+
+  config.middleware.insert_before(
+    Rails::Rack::Logger,
+    Silencer::Logger,
+    config.log_tags,
+    silence: ['/healthz']
+  )
+  config.middleware.delete Rails::Rack::Logger
 end

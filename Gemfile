@@ -77,4 +77,6 @@ group :development do
   # For call-stack profiling flamegraphs
   gem 'flamegraph'
   gem 'stackprof'
+
+  gem 'silencer'
 end
