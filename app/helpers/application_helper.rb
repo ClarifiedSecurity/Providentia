@@ -108,10 +108,10 @@ module ApplicationHelper
     [
       @exercise.cache_key_with_version,
       'nav',
-      policy_scope(@exercise.networks).cache_key_with_version,
       policy_scope(@exercise.services).cache_key_with_version,
       policy_scope(@exercise.capabilities).cache_key_with_version,
       authorized_scope(@exercise.virtual_machines).cache_key_with_version,
+      authorized_scope(@exercise.networks).cache_key_with_version,
     ]
   end
 
@@ -144,7 +144,7 @@ module ApplicationHelper
     when 'OperatingSystem'
       sorted_tree_options(authorized_scope(OperatingSystem.all))
     when 'Network'
-      policy_scope(@exercise.networks).order(:name).map do |network|
+      authorized_scope(@exercise.networks).order(:name).map do |network|
         [network.name, network.id]
       end
     when 'ActsAsTaggableOn::Tagging'

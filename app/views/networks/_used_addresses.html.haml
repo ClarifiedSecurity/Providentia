@@ -7,6 +7,7 @@
 
   - sorted_used_addresses(@network).each do |vm, addresses|
     - c.with_table_row do
+      - next if !allowed_to?(:show?, vm)
       %td.px-6.py-4= link_to vm.name, [vm.exercise, vm], class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-200'
       - addresses.each do |group, address_list|
         %td.px-6.py-4
