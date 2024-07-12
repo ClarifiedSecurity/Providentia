@@ -177,12 +177,11 @@ class Address < ApplicationRecord
 
     def parse_ipv4
       return if ipv6?
-      if @offset_address && @offset_address.blank?
+      if offset_address && offset_address.blank?
         self.offset = nil
       else
         network_object = ip_family_network
-
-        address = IPAddress::IPv4.new("#{@offset_address}/#{network_object.prefix}") rescue nil
+        address = IPAddress::IPv4.new("#{offset_address}/#{network_object.prefix}") rescue nil
         if address && network_object.include?(address)
           self.offset = address.u32 - network_object.network_u32 - 1
         else
