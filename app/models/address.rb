@@ -48,7 +48,7 @@ class Address < ApplicationRecord
       .where('addresses.offset = address_pools.gateway::varchar')
   }
 
-  before_validation :parse_ipv6, :parse_ipv4,
+  before_validation :parse_ipv6,
     :clear_on_mode_change,
     :clear_offset, :set_to_connection_if_first_address,
     on: :update
@@ -132,7 +132,20 @@ class Address < ApplicationRecord
     ip_object.to_s
   end
 
-  attr_writer :offset_address
+  def offset_address=(input)
+    if input && input.blank?
+      self.offset = nil
+    else
+      network_object = ip_family_network
+      address = IPAddress::IPv4.new("#{input}/#{network_object.prefix}") rescue nil
+      if address && network_object.include?(address)
+        self.offset = address.u32 - network_object.network_u32 - 1
+      else
+        errors.add(:offset, :invalid)
+        errors.add(:offset_address, :invalid)
+      end
+    end
+  end
 
   def all_ip_objects
     return unless offset
@@ -173,22 +186,6 @@ class Address < ApplicationRecord
       self.errors.add(:parsed_ipv6, :invalid)
     rescue StopIteration
       self.errors.add(:parsed_ipv6, :invalid)
-    end
-
-    def parse_ipv4
-      return if ipv6?
-      if offset_address && offset_address.blank?
-        self.offset = nil
-      else
-        network_object = ip_family_network
-        address = IPAddress::IPv4.new("#{offset_address}/#{network_object.prefix}") rescue nil
-        if address && network_object.include?(address)
-          self.offset = address.u32 - network_object.network_u32 - 1
-        else
-          errors.add(:offset, :invalid)
-          errors.add(:offset_address, :invalid)
-        end
-      end
     end
 
     def check_ip_offset4
