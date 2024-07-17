@@ -4,7 +4,7 @@
   "dependencies": {
     "@codemirror/lang-yaml": "^6.1.1",
     "@codemirror/state": "^6.4.1",
-    "@codemirror/view": "^6.28.4",
+    "@codemirror/view": "^6.28.5",
     "@fortawesome/fontawesome-svg-core": "^6.6.0",
     "@fortawesome/free-brands-svg-icons": "^6.6.0",
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
