@@ -8,18 +8,19 @@
       The addressing is handled by creating address pools. There can be multiple pools in each IP family.
 
   - c.with_main do
-    .bg-white.dark:bg-gray-800
-      .flex.py-2.px-3.gap-2.items-center.bg-blue-200.dark:bg-gray-500
+    = render SubResourceSectionComponent.new(header: 'Address pools') do |section|
+      - section.with_button do
+        = form_with(url: [@network.exercise, @network, :address_pools]) do |_form|
+          %button.form-submit-add.text-sm.h-8{type: 'submit'}
+            %i.fas.fa-plus.self-center
+            Add pool
+
+      - section.with_button do
         = render ModalComponent.new(header: "Network addresses") do |c|
           - c.with_body do
             = turbo_stream_from ["network_addresses", @network.id]
             #address_preview= render 'address_preview', network: @network
 
-          %h1.grow.text-2xl.font-bold.m-2 Address pools
-          = form_with(url: [@network.exercise, @network, :address_pools]) do |_form|
-            %button.form-submit-add.text-sm.h-8{type: 'submit'}
-              %i.fas.fa-plus.self-center
-              Add pool
           = link_to 'Preview', 'javascript:;', class: 'form-submit text-sm h-8', data: { action: "click->modal#open" }
 
       #address_pools.divide-y-4.divide-double.divide-gray-200.dark:divide-gray-500
