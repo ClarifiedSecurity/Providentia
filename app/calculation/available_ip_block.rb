@@ -24,7 +24,7 @@ class AvailableIPBlock < Patterns::Calculation
     end
 
     def used_ipv4
-      @used_ipv4 ||= (subject.addresses.all_ip_objects - options[:without]).select(&:ipv4?)
+      @used_ipv4 ||= (subject.addresses.all_ip_objects - (options[:without] || [])).select(&:ipv4?)
     end
 
     def addresses_in_used_block?(addresses)

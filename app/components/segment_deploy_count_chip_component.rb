@@ -20,7 +20,7 @@ class SegmentDeployCountChipComponent < ViewComponent::Base
     end
 
     def network_not_numbered_and_actor_is_numbered?
-      !@network.numbered? && @vm.deploy_count > 1
+      !@network.numbered? && @vm.team_numbers
     end
 
     def generate_attributes
@@ -30,7 +30,7 @@ class SegmentDeployCountChipComponent < ViewComponent::Base
         @css_color_classes = 'bg-green-100 text-green-500'
       elsif network_not_numbered_and_actor_is_numbered?
         @title = I18n.t('deploy_modes.per_item', item: @vm.numbered_actor.name)
-        @value = @vm.deploy_count - 1
+        @value = @vm.team_numbers.size - 1
         @css_color_classes = 'bg-indigo-100 text-indigo-500'
       end
     end

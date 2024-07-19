@@ -91,10 +91,6 @@ class VirtualMachine < ApplicationRecord
     end
   end
 
-  def deploy_count
-    numbered_actor.presence&.number || 1
-  end
-
   def clustered?
     custom_instance_count.to_i > 0
   end
@@ -102,6 +98,22 @@ class VirtualMachine < ApplicationRecord
   def connection_address
     return unless connection_nic
     connection_nic.addresses.detect(&:connection?)
+  end
+
+  def deployable_instances(cluster_mode= true)
+    (team_numbers || [nil]).product(cluster_mode && sequential_numbers || [nil])
+  end
+
+  def team_numbers
+    if numbered_by && numbered_actor.number != 1
+      numbered_actor.all_numbers
+    end
+  end
+
+  def sequential_numbers
+    if custom_instance_count
+      1.upto(custom_instance_count).to_a
+    end
   end
 
   private

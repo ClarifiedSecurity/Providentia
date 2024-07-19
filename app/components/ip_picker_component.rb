@@ -82,13 +82,9 @@ class IPPickerComponent < ViewComponent::Base
     end
 
     def reserve_amount
-      if vm.custom_instance_count
-        [vm.custom_instance_count, 1].max
-      elsif !network.numbered?
-        vm.deploy_count
-      else
-        1
-      end
+      count = [vm.custom_instance_count.to_i, 1].max
+      count *= vm.team_numbers.size if !network.numbered? && vm.team_numbers
+      count
     end
 
     def liquid_template_shortening(text)

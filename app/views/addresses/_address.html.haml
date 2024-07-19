@@ -1,4 +1,6 @@
 %article[address]
+  = form_with(model: @address_form || AddressForm.new(address), url: [address.exercise, address.virtual_machine, address.network_interface, address], class: 'hidden', id: dom_id(address, :secondary)) do
+    &nbsp;
   = form_with(model: @address_form || AddressForm.new(address), url: [address.exercise, address.virtual_machine, address.network_interface, address], class: 'p-3 group', data: { action: "change->model#update"}) do |form|
     %fieldset{disabled:}
       .flex.gap-3.items-center
@@ -25,8 +27,14 @@
             = form.collection_select :address_pool_id, address.network.address_pools.for_address(address), :id, :name, { include_blank: address.address_pool.nil? }, { data: { controller: 'select' }, disabled: disabled || (address.address_pool && address.network.address_pools.for_address(address).size == 1) }
 
         .grow
-          = form.label :offset, class: 'block font-bold text-gray-700 dark:text-gray-200', for: "#{dom_id(address)}_offset" do
-            = Address.human_attribute_name(:offset)
+          .flex
+            .grow
+              = form.label :offset, class: 'block font-bold text-gray-700 dark:text-gray-200', for: "#{dom_id(address)}_offset" do
+                = Address.human_attribute_name(:offset)
+            - if address.fixed?
+              %button.text-white.bg-gradient-to-r.from-cyan-500.to-blue-500.hover:bg-gradient-to-bl.focus:ring-4.focus:outline-none.focus:ring-cyan-300.dark:focus:ring-cyan-800.font-medium.rounded-lg.text-sm.px-2.text-center{class: "py-0.5", type: "submit", name: "address[randomize_address]", form: dom_id(address, :secondary)}
+                %i.fas.fa-dice
+                Randomize
 
           - case address.mode
           - when "ipv4_static"
