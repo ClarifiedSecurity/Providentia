@@ -92,6 +92,8 @@ services:
       args:
         CONTAINER_USER_ID:
         CONTAINER_GROUP_ID:
+    tty: true
+    stdin_open: true
     volumes:
       - /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt
       - ../../:/srv/app
@@ -106,6 +108,7 @@ services:
       caddy: providentia.localhost:80
       caddy.reverse_proxy: "{{upstreams 3000}}"
     environment:
+      COREPACK_ENABLE_DOWNLOAD_PROMPT: 0
       SECRET_KEY_BASE: 0 # don't care in development mode
       VITE_RUBY_HOST: vite.localhost
       VITE_RUBY_PORT: 80
