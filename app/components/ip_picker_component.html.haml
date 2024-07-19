@@ -6,6 +6,9 @@
       = @form.label @field, class: 'block font-bold text-gray-700 dark:text-gray-200', for: "#{dom_id(real_form_object)}_#{@field}"
     = @form.select @field, collection, { include_blank: '(None)' }, { id: "#{dom_id(real_form_object)}_#{@field}", disabled:, data: { controller: 'select' }}
 
+  - if @form.object.errors["#{@field}_address"].any? || @form.object.errors[@field].any?
+    %span.text-red-600= (@form.object.errors["#{@field}_address"] + @form.object.errors[@field]).join ', '
+
 - elsif label
   = @form.label "#{@field}_address", real_form_object.class.human_attribute_name(@field), class: 'font-bold text-gray-700 dark:text-gray-200'
   .mt-1.flex.rounded-md.shadow-sm

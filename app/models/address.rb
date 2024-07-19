@@ -122,16 +122,9 @@ class Address < ApplicationRecord
 
   def all_ip_objects
     return unless offset
-    if virtual_machine.custom_instance_count
-      1.upto(virtual_machine.custom_instance_count).map do |seq|
-        ip_object(sequence_number: seq, sequence_total: virtual_machine.custom_instance_count)
-      end
-    elsif !(address_pool || network).numbered? && virtual_machine.deploy_count > 1
-      1.upto(virtual_machine.deploy_count).map do |team_nr|
-        ip_object(actor_number: team_nr, sequence_total: virtual_machine.custom_instance_count)
-      end
-    else
-      [ip_object]
+
+    virtual_machine.deployable_instances.map do |(actor_number, sequence_number)|
+      ip_object(sequence_number:, actor_number:, sequence_total: virtual_machine.custom_instance_count)
     end
   end
 
@@ -139,6 +132,8 @@ class Address < ApplicationRecord
     def check_overlap
       return unless offset && !vip?
       errors.add(:offset, :overlap) if (other_used_addresses & all_ip_objects).any?
+    rescue StopIteration
+      errors.add(:offset, :invalid_overlap)
     end
 
     def other_used_addresses
@@ -155,7 +150,7 @@ class Address < ApplicationRecord
       errors.add(:offset, :invalid) unless address_pool.available_range.include?(address)
     rescue StopIteration
       self.offset = self.offset_was
-      errors.add(:offset, :invalid)
+      errors.add(:offset, :invalid_offset4)
     end
 
     def check_ip_offset6
@@ -163,7 +158,7 @@ class Address < ApplicationRecord
       ip_family_network.allocate(offset.to_i - 1)
     rescue StopIteration
       self.offset = self.offset_was
-      errors.add(:offset, :invalid)
+      errors.add(:offset, :invalid_offset6)
     end
 
     def clear_on_mode_change

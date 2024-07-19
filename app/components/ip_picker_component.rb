@@ -30,11 +30,7 @@ class IPPickerComponent < ViewComponent::Base
     def address_ip_objects
       case @hosts
       when :available_for_object # for specific network interface
-        AvailableIPBlock.result_for(
-          address_pool,
-          count: reserve_amount,
-          without: nic.addresses.mode_ipv4_static.flat_map(&:all_ip_objects)
-        )
+        AvailableIPBlock.result_for(address)
       when :all
         address_pool.ip_network.hosts
       end
@@ -79,16 +75,6 @@ class IPPickerComponent < ViewComponent::Base
 
     def exercise
       address_pool.exercise
-    end
-
-    def reserve_amount
-      if vm.custom_instance_count
-        [vm.custom_instance_count, 1].max
-      elsif !network.numbered?
-        vm.deploy_count
-      else
-        1
-      end
     end
 
     def liquid_template_shortening(text)

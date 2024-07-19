@@ -11,6 +11,8 @@ class AddressForm < Patterns::Form
   attribute :ipv6_address_input, String, default: ->(form, attribute) { Ipv6Offset.load(form.send(:resource).offset) }
   attribute :dns_enabled, Boolean
   attribute :connection, Boolean
+  attribute :randomize_address, Boolean
+  attribute :clear_address, Boolean
 
   def available_modes
     Address.modes.keys.tap do |modes|
@@ -58,6 +60,19 @@ class AddressForm < Patterns::Form
   private
     def persist
       # set default mode on ip family change
+      if randomize_address
+        new_offset = GetRandomValidAddress.result_for(resource)
+        case new_offset
+        when String, Integer
+          self.offset = new_offset
+          resource.offset = new_offset
+          self.reset_attribute(:offset_address)
+          self.reset_attribute(:ipv6_address_input)
+        when Symbol
+          self.errors.add(:offset_address, new_offset)
+          self.errors.add(:ipv6_address_input, new_offset)
+        end
+      end
       self.mode = available_modes.dig(0, 1).to_sym if ip_family != resource.ip_family
       resource.update(attributes.slice(:address_pool_id, :offset, :mode, :dns_enabled, :connection))
     end

@@ -14,6 +14,7 @@ import {
   faClone,
   faAnglesRight,
   faGears,
+  faDice,
   faCloudUploadAlt,
   faBuildingShield,
   faAngleLeft,
@@ -67,6 +68,7 @@ library.add(
   faClone,
   faAnglesRight,
   faGears,
+  faDice,
   faCloudUploadAlt,
   faBuildingShield,
   faAngleLeft,
@@ -98,7 +100,7 @@ library.add(
   faDatabase,
   faSlash,
   faEllipsisVertical,
-  faCircleQuestion,
+  faCircleQuestion
 );
 
 dom.watch();

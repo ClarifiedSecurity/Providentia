@@ -5,6 +5,8 @@ en:
       missing_in_path: is missing for this record or its parent(s)
       hostname_conflict: is conflicting with another DNS name
       not_allowed_hostname: is not allowed as hostname
+      network_too_small: Network is too small!
+      no_contiguous_block_available: No contiguous address block with sufficient size available
   activemodel:
     attributes:
       add_access_form:
