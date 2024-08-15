@@ -47,11 +47,11 @@
 
           - when "ipv6_static", "ipv6_linklocal", "ipv6_uniqlocal", "ipv6_vip"
             - if address.mode_ipv6_uniqlocal? || address.mode_ipv6_linklocal? || address.address_pool&.ip_network.present?
-              .mt-1.flex.rounded-md.shadow-sm.grow
-                %span.inline-flex.items-center.px-3.rounded-l-md.border.border-r-0.border-gray-300.bg-gray-50.text-gray-500.dark:bg-gray-600.dark:text-current.dark:border-black.text-sm
+              = render SplitInputComponent.new do |split|
+                - split.with_left_cell do
                   = render LiquidAddressNetworkSansPrefixComponent.new(object: address)
-                = form.text_field :ipv6_address_input, class: 'focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full sm:text-sm border-gray-300 dark:bg-gray-500 dark:border-black disabled:cursor-not-allowed disabled:opacity-75', autocomplete: "off"
-                %span.inline-flex.items-center.px-3.rounded-r-md.border.border-l-0.border-gray-300.bg-gray-50.text-gray-500.dark:bg-gray-600.dark:text-current.dark:border-black.text-sm<
+                - split.with_input(form_helper: form, field: :ipv6_address_input)
+                - split.with_right_cell do
                   = "/#{address.ip_family_network&.prefix}"
 
               - if address.errors[:ipv6_address_input].any? || address.errors[:offset].any?

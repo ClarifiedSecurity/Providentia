@@ -15,9 +15,9 @@
         = f.input :cpu
         %div
           = f.label :ram
-          .mt-1.flex.rounded-md.shadow-sm
-            = f.number_field :ram, class: 'focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-l-md sm border-gray-300 dark:bg-gray-500 dark:border-black'
-            %span.inline-flex.items-center.px-3.rounded-r-md.border.border-l-0.border-gray-300.bg-gray-50.text-gray-500.dark:bg-gray-600.dark:text-current.dark:border-black
+          = render SplitInputComponent.new do |split|
+            - split.with_input(form_helper: f, field: :ram, method: :number_field)
+            - split.with_right_cell do
               GB
 
           - if @operating_system.errors[:ram].any?
@@ -25,9 +25,9 @@
 
         %div
           = f.label :primary_disk_size
-          .mt-1.flex.rounded-md.shadow-sm
-            = f.number_field :primary_disk_size, class: 'focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-l-md sm border-gray-300 dark:bg-gray-500 dark:border-black'
-            %span.inline-flex.items-center.px-3.rounded-r-md.border.border-l-0.border-gray-300.bg-gray-50.text-gray-500.dark:bg-gray-600.dark:text-current.dark:border-black
+          = render SplitInputComponent.new do |split|
+            - split.with_input(form_helper: f, field: :primary_disk_size, method: :number_field)
+            - split.with_right_cell do
               GB
 
           - if @operating_system.errors[:primary_disk_size].any?
