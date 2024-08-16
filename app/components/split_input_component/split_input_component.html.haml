@@ -1,10 +1,10 @@
 .mt-1.flex.shadow-sm.rounded-md.border.border-gray-300.dark:bg-gray-500.dark:border-black.divide-x.divide-gray-300.dark:divide-black.focus:border-indigo-500
   - if left_cells?
     - left_cells.each do
-      %span.first:rounded-l-md.inline-flex.items-center.px-3.bg-gray-50.text-gray-500.dark:bg-gray-600.dark:text-current.dark:border-black.text-sm<= _1
+      %span.first:rounded-l-md.inline-flex.items-center.px-3.bg-gray-50.text-gray-500.dark:bg-gray-600.dark:text-current.dark:border-black.text-sm.overflow-hidden.relative<= _1
 
   .flex-1.block.first:rounded-l-md.last:rounded-r-md.overflow-hidden= input
 
   - if right_cells?
     - right_cells.each do
-      %span.last:rounded-r-md.inline-flex.items-center.px-3.bg-gray-50.text-gray-500.dark:bg-gray-600.dark:text-current.dark:border-black.text-sm<= _1
+      %span.last:rounded-r-md.inline-flex.items-center.px-3.bg-gray-50.text-gray-500.dark:bg-gray-600.dark:text-current.dark:border-black.text-sm.overflow-hidden.relative<= _1

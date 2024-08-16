@@ -50,9 +50,14 @@
               = render SplitInputComponent.new do |split|
                 - split.with_left_cell do
                   = render LiquidAddressNetworkSansPrefixComponent.new(object: address)
-                - split.with_input(form_helper: form, field: :ipv6_address_input)
+                - split.with_input(form_helper: form, field: :ipv6_address_input, placeholder: (!address.offset && 'Address not set').presence )
                 - split.with_right_cell do
                   = "/#{address.ip_family_network&.prefix}"
+
+                - if address.offset && allowed_to?(:update?, address)
+                  - split.with_right_cell do
+                    %button.bg-orange-400.inset-0.absolute{type: "submit", name: "address[clear_address]", form: dom_id(address, :secondary), data: {controller: 'tippy', tooltip: 'Clear address'}}
+                      %i.fas.fa-times
 
               - if address.errors[:ipv6_address_input].any? || address.errors[:offset].any?
                 .w-full
@@ -79,6 +84,7 @@
             = form.check_box :connection, class: 'sr-only peer', disabled:, id: "#{dom_id(address)}_connection"
             .relative.w-11.h-6.bg-gray-200.peer-focus:outline-none.peer-focus:ring-4.peer-focus:ring-blue-300.dark:peer-focus:ring-blue-800.rounded-full.peer.dark:bg-gray-700.peer-checked:after:translate-x-full.rtl:peer-checked:after:-translate-x-full.peer-checked:after:border-white.after:absolute.after:bg-white.after:border-gray-300.after:border.after:rounded-full.after:w-5.after:h-5.after:transition-all.dark:border-gray-600.peer-checked:bg-blue-600{class: "after:content-[''] after:top-[2px] after:start-[2px]"}
 
-        .opacity-0.group-hover:opacity-100.transition-opacity
-          = link_to 'javascript:;', data: { action: "model#delete", turbo_confirm: 'Are you sure?' } do
-            %i.fas.fa-times-circle.text-red-500
+        - if allowed_to?(:destroy?, address)
+          .opacity-0.group-hover:opacity-100.transition-opacity
+            = link_to 'javascript:;', data: { action: "model#delete", turbo_confirm: 'Are you sure?' } do
+              %i.fas.fa-times-circle.text-red-500

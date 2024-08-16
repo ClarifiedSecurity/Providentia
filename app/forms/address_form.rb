@@ -46,11 +46,7 @@ class AddressForm < Patterns::Form
     return if resource.offset.nil? && input.blank?
 
     super(input) # set internal variable, not offset
-    self.offset = if input.blank?
-      self.offset = nil
-    else
-      Ipv6Offset.dump(input)
-    end
+    self.offset = Ipv6Offset.dump(input)
   rescue ArgumentError
     self.errors.add(:ipv6_address_input, :invalid)
   rescue StopIteration
@@ -59,7 +55,6 @@ class AddressForm < Patterns::Form
 
   private
     def persist
-      # set default mode on ip family change
       if randomize_address
         new_offset = GetRandomValidAddress.result_for(resource)
         case new_offset
@@ -73,6 +68,10 @@ class AddressForm < Patterns::Form
           self.errors.add(:ipv6_address_input, new_offset)
         end
       end
+      if clear_address
+        self.ipv6_address_input = nil
+      end
+      # set default mode on ip family change
       self.mode = available_modes.dig(0, 1).to_sym if ip_family != resource.ip_family
       resource.update(attributes.slice(:address_pool_id, :offset, :mode, :dns_enabled, :connection))
     end
