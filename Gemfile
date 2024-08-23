@@ -55,7 +55,7 @@ gem 'sentry-ruby'
 gem 'sentry-rails'
 
 group :development, :test do
-  gem 'bundler-audit', '~> 0.9.1'
+  gem 'bundler-audit', '~> 0.9.2'
   gem 'brakeman'
   gem 'rubocop-rails_config'
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
