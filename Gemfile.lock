@@ -81,8 +81,9 @@ GEM
       minitest (>= 5.1)
       mutex_m
       tzinfo (~> 2.0)
-    acts-as-taggable-on (10.0.0)
-      activerecord (>= 6.1, < 7.2)
+    acts-as-taggable-on (11.0.0)
+      activerecord (>= 7.0, < 8.0)
+      zeitwerk (>= 2.4, < 3.0)
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
     aes_key_wrap (1.1.0)
@@ -231,7 +232,7 @@ GEM
     memory_profiler (1.0.2)
     method_source (1.1.0)
     mini_mime (1.1.5)
-    minitest (5.24.1)
+    minitest (5.25.1)
     msgpack (1.7.2)
     mutex_m (0.2.0)
     naturally (2.2.1)
@@ -527,7 +528,7 @@ PLATFORMS
   x86_64-linux-musl
 
 DEPENDENCIES
-  acts-as-taggable-on (~> 10.0)
+  acts-as-taggable-on (~> 11.0)
   ancestry
   bootsnap (>= 1.4.2)
   brakeman
