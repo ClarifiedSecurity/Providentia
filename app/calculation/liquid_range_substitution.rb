@@ -62,6 +62,8 @@ class LiquidRangeSubstitution < Patterns::Calculation
       case subject
       when VirtualMachine
         [1, subject.custom_instance_count]
+      when CustomizationSpec
+        [1, subject.virtual_machine.custom_instance_count]
       else
         []
       end
