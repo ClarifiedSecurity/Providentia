@@ -14,6 +14,7 @@ module.exports = {
     return [
       `bg-${color}-200`,
       `bg-${color}-500`,
+      `peer-checked:outline-${color}-500`,
       `dark:bg-${color}-700`,
       `dark:text-${color}-300`,
       `dark:bg-${color}-500`,

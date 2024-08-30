@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Actor < ApplicationRecord
+  ALLOWED_COLORS = %w(slate amber emerald rose sky orange violet).freeze
+
   has_ancestry
 
   attribute :default_visibility, :integer # rails bug during migrations
@@ -55,6 +57,11 @@ class Actor < ApplicationRecord
 
   def ui_color
     parent&.ui_color || prefs&.dig('ui_color') || 'gray'
+  end
+
+  def ui_color=(value)
+    return if !ALLOWED_COLORS.include?(value)
+    prefs['ui_color'] = value
   end
 
   private

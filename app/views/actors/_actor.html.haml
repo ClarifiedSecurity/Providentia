@@ -10,13 +10,22 @@
         = f.error_notification
         = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
 
-        .grid.gap-6.grid-cols-5.gap-4
+        .grid.grid-cols-5.gap-4
           .col-span-2= f.input :name
           .col-span-2= f.input :abbreviation
           = f.input :default_visibility, collection: visibility_modes, include_blank: false, input_html: { data: { controller: 'select' } }
 
         = f.input :description, input_html: { data: { controller: "textarea-autogrow" } }
-        = f.input :number, hint: 'How many cloned instances this actor has'
+        .flex.gap-4
+          .flex-1= f.input :number, hint: 'How many cloned instances this actor has'
+          .shrink
+            = f.label :ui_color, class: 'block font-bold text-gray-700 dark:text-gray-200'
+            %ul.flex.gap-2.mt-1.py-1
+              - Actor::ALLOWED_COLORS.each do |color|
+                %li.shrink
+                  = f.radio_button :ui_color, color, class: 'sr-only peer', id: "#{dom_id(actor)}_ui_color_#{color}", checked: @actor.ui_color == color
+                  = f.label :ui_color, for: "#{dom_id(actor)}_ui_color_#{color}", class: "block rounded-full w-8 h-8 select-none cursor-pointer border border-white border-3 peer-checked:outline peer-checked:outline-3 peer-checked:outline-#{color}-500 bg-#{color}-500 dark:bg-#{color}-700" do
+                    &nbsp;
 
   = render ColumnFormSectionComponent.new do |c|
     - c.with_description do

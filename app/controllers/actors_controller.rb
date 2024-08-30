@@ -47,7 +47,7 @@ class ActorsController < ApplicationController
     def actor_params
       params.require(:actor).permit(
         :name, :abbreviation, :description, :number,
-        :parent_id, :default_visibility
+        :parent_id, :default_visibility, :ui_color
       )
     end
 end
