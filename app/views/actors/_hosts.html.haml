@@ -1,0 +1,10 @@
+%h1.text-2xl.font-bold.py-3.pb-6 Inventory
+
+= render TableComponent.new do |c|
+  - c.with_column { VirtualMachine.model_name.human }
+  - c.with_column { VirtualMachine.human_attribute_name(:description) }
+
+  - @virtual_machines.each do |vm|
+    - c.with_table_row do
+      %td.px-6.py-4= link_to vm.name, [vm.exercise, vm], class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-200'
+      %td.px-6.py-4= vm.description

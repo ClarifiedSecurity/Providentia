@@ -1,0 +1,10 @@
+%h1.text-2xl.font-bold.py-3.pb-6 Networks
+
+= render TableComponent.new do |c|
+  - c.with_column { Network.model_name.human }
+  - c.with_column { Network.human_attribute_name(:description) }
+
+  - @networks.each do |network|
+    - c.with_table_row do
+      %td.px-6.py-4= link_to network.name, [network.exercise, network], class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-200'
+      %td.px-6.py-4= network.description

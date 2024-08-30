@@ -58,6 +58,9 @@ en:
         dns_name: DNS name
       actor_number_config:
         matcher: Applies to numbers
+      actor:
+        number: Clones
+        ui_color: Colour
 
   pool_scopes:
     default: Default

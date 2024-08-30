@@ -21,6 +21,11 @@ class ActorsController < ApplicationController
   end
 
   def show
+    @networks = authorized_scope(@actor.networks).order(:name)
+    @virtual_machines = authorized_scope(@exercise.virtual_machines.where(actor: @actor.subtree_ids)).order(:name)
+  end
+
+  def edit
     authorize! @actor, to: :update?
   end
 
