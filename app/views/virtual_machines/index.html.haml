@@ -22,13 +22,17 @@
 
           - cache([authorized_scope(@exercise.actors).cache_key_with_version, 'tree']) do
             - OrderedTree.result_for(authorized_scope(@exercise.actors)).each do |actor|
-              %li
-                = link_to exercise_virtual_machines_path(@exercise, actor: actor.abbreviation, query: params[:query]), { role: :menuitem, class: 'inline-flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white'} do
+              %li.flex.divide-x.divide-gray-400.py-1.hover:bg-gray-100.text-gray-700.dark:text-gray-400.dark:hover:bg-gray-600.text-sm
+                = link_to exercise_virtual_machines_path(@exercise, actor: actor.abbreviation, query: params[:query]), { role: :menuitem, class: 'inline-flex items-center w-full grow px-4 my-1 dark:hover:text-white'} do
                   %span.inline-flex.w-4.h-4.mr-2.rounded-full{class: actor_color_classes(actor)}
                   = "#{'-' * actor.depth} #{actor.name}"
+                - if actor.has_children?
+                  = link_to exercise_virtual_machines_path(@exercise, actor: actor.abbreviation, query: params[:query], only: true), { role: :menuitem, class: 'inline-flex items-center px-2 my-1 dark:hover:text-white shrink'} do
+                    (only)
 
       = form_with(url: [@exercise, :virtual_machines], method: :get, data: { turbo_frame: 'searchresults', controller: 'vmsearch' }, class: 'relative w-full') do
         = hidden_field_tag :actor, params[:actor]
+        = hidden_field_tag :only, params[:only]
         = text_field_tag :query,
           params[:query],
           class: 'block w-full p-2.5 z-20 text-sm text-gray-900 bg-gray-50 rounded-r-lg border-l-gray-50 border-l-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-l-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500',

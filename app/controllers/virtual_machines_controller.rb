@@ -96,7 +96,8 @@ class VirtualMachinesController < ApplicationController
     def filter_by_actor
       return unless params[:actor].present?
       @filter_actor = authorized_scope(@exercise.actors).find_by(abbreviation: params[:actor])
-      @virtual_machines = @virtual_machines.where(actor: @filter_actor)
+      filterable = params[:only].present? ? @filter_actor : @filter_actor.subtree
+      @virtual_machines = @virtual_machines.where(actor: filterable)
     end
 
     def filter_by_name
