@@ -10,6 +10,7 @@ class AddressPoolForm < Patterns::Form
   attribute :gateway, String
   attribute :range_start, String
   attribute :range_end, String
+  attribute :clear_gateway, Boolean
 
   ADDRESS_FIELDS = %i(gateway_address range_start_address range_end_address).freeze
   ADDRESS_FIELDS.each do |field|
@@ -57,7 +58,11 @@ class AddressPoolForm < Patterns::Form
   private
     def persist
       sort_range_fields
-      resource.update(attributes)
+      self.gateway = nil if clear_gateway
+      resource.update(attributes.slice(
+        :name, :ip_family, :scope, :network_address,
+        :gateway, :range_start, :range_end)
+      )
     end
 
     def sort_range_fields
