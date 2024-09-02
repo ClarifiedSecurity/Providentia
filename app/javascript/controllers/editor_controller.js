@@ -1,10 +1,11 @@
 import { Controller } from "@hotwired/stimulus";
 import throttle from "throttleit";
 
-import { EditorView } from "@codemirror/view";
+import { EditorView, keymap } from "@codemirror/view";
 import { EditorState } from "@codemirror/state";
 import { yaml } from "@codemirror/lang-yaml";
 import { cobalt } from "thememirror";
+import { defaultKeymap } from "@codemirror/commands";
 
 export default class extends Controller {
   editor;
@@ -13,8 +14,9 @@ export default class extends Controller {
     const textarea = this.element;
     const form = textarea.closest("form");
     let updatehandler;
+    let throttled_submit;
     if (!textarea.readonly && !textarea.disabled) {
-      const throttled_submit = throttle(() => form.requestSubmit(), 500);
+      throttled_submit = throttle(() => form.requestSubmit(), 500);
       updatehandler = EditorView.updateListener.of((v) => {
         if (v.docChanged) {
           textarea.value = v.state.doc.toString();
@@ -31,12 +33,7 @@ export default class extends Controller {
       extensions: [
         cobalt,
         yaml(),
-        EditorView.updateListener.of((v) => {
-          if (v.docChanged) {
-            textarea.value = v.state.doc.toString();
-            throttled_submit();
-          }
-        }),
+        keymap.of(defaultKeymap),
         updatehandler,
       ].filter((obj) => obj),
     });
