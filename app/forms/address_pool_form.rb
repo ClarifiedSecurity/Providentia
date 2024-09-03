@@ -62,7 +62,7 @@ class AddressPoolForm < Patterns::Form
       resource.update(attributes.slice(
         :name, :ip_family, :scope, :network_address,
         :gateway, :range_start, :range_end)
-      )
+                     )
     end
 
     def sort_range_fields

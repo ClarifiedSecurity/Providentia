@@ -100,7 +100,7 @@ class VirtualMachine < ApplicationRecord
     connection_nic.addresses.detect(&:connection?)
   end
 
-  def deployable_instances(cluster_mode= true)
+  def deployable_instances(cluster_mode = true)
     (team_numbers || [nil]).product(cluster_mode && sequential_numbers || [nil])
   end
 

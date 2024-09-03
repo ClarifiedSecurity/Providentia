@@ -15,5 +15,4 @@ module EnvironmentAssociatedPolicy
     def can_read_exercise?
       allowed_to?(:show?, exercise)
     end
-
 end

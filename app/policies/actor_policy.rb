@@ -42,5 +42,4 @@ class ActorPolicy < ApplicationPolicy
         .or(actor_admin)
       )
   end
-
 end

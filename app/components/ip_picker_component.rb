@@ -42,7 +42,7 @@ class IPPickerComponent < ViewComponent::Base
                           real_form_object
                         when Address
                           real_form_object.address_pool
-                        end
+      end
     end
 
     def network
