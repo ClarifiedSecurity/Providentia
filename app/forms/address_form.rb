@@ -15,10 +15,12 @@ class AddressForm < Patterns::Form
   attribute :clear_address, Boolean
 
   def available_modes
-    Address.modes.keys.tap do |modes|
-      modes -= %w(ipv4_static ipv4_vip) if resource.network.address_pools.ip_v4.empty?
-      modes - %w(ipv6_static ipv6_vip) if resource.network.address_pools.ip_v6.empty?
-    end.partition { _1.start_with?('ipv4') }[ip_family == :ipv4 ? 0 : 1].map do |mode|
+    Rails.cache.fetch([resource.network.address_pools.cache_key_with_version, 'available_modes']) do
+      Address.modes.keys.tap do |modes|
+        modes -= %w(ipv4_static ipv4_vip) if resource.network.address_pools.ip_v4.empty?
+        modes - %w(ipv6_static ipv6_vip) if resource.network.address_pools.ip_v6.empty?
+      end.partition { _1.start_with?('ipv4') }
+    end[ip_family == :ipv4 ? 0 : 1].map do |mode|
       [I18n.t("address_modes.#{mode}"), mode]
     end
   end

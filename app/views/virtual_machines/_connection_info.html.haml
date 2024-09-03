@@ -1,18 +1,19 @@
-.grid.grid-flow-col.gap-4
-  %div
-    %dt.text-gray-500.dark:text-gray-400 Connected networks
-    %dd.mt-1.text-sm.text-gray-900.dark:text-white.mt-0
-      - vm.networks.each do |network|
-        = link_to [network.exercise, network], class: 'mr-1' do
-          = render ActorChipComponent.new(actor: network.actor, text: network.name)
-
-  - if vm.connection_nic
+- cache([vm.cache_key_with_version]) do
+  .grid.grid-flow-col.gap-4
     %div
-      %dt.text-gray-500.dark:text-gray-400= NetworkInterface.human_attribute_name(:fqdn)
+      %dt.text-gray-500.dark:text-gray-400 Connected networks
       %dd.mt-1.text-sm.text-gray-900.dark:text-white.mt-0
-        = render LiquidFQDNComponent.new(object: vm)
+        - vm.networks.each do |network|
+          = link_to [network.exercise, network], class: 'mr-1' do
+            = render ActorChipComponent.new(actor: network.actor, text: network.name)
 
-    %div
-      %dt.text-gray-500.dark:text-gray-400 Connection address
-      %dd.mt-1.text-sm.text-gray-900.dark:text-white.mt-0
-        = render LiquidAddressComponent.new(object: vm.connection_address)
+    - if vm.connection_nic
+      %div
+        %dt.text-gray-500.dark:text-gray-400= NetworkInterface.human_attribute_name(:fqdn)
+        %dd.mt-1.text-sm.text-gray-900.dark:text-white.mt-0
+          = render LiquidFQDNComponent.new(object: vm)
+
+      %div
+        %dt.text-gray-500.dark:text-gray-400 Connection address
+        %dd.mt-1.text-sm.text-gray-900.dark:text-white.mt-0
+          = render LiquidAddressComponent.new(object: vm.connection_address)

@@ -4,7 +4,8 @@
       %fieldset.flex.gap-6{disabled:}
         .flex-auto
           = form.label :network_id, class: 'block font-bold text-gray-700 dark:text-gray-200', for: "#{dom_id(network_interface)}_network"
-          = form.grouped_collection_select :network_id, collection, :last, :first, :id, :name, {include_blank: true}, { id: "#{dom_id(network_interface)}_network", disabled: !helpers.allowed_to?(:update?, network_interface.virtual_machine), data: { controller: 'select' }}
+          - cache([network_collection_scope.cache_key_with_version]) do
+            = form.grouped_collection_select :network_id, network_collection, :last, :first, :id, :name, {include_blank: true}, { id: "#{dom_id(network_interface)}_network", disabled: !helpers.allowed_to?(:update?, network_interface.virtual_machine), data: { controller: 'select' }}
 
         - if network_interface.persisted?
           .pt-7.flex.items-center.gap-2
@@ -14,7 +15,7 @@
             %label.inline-flex.items-center.cursor-pointer
               = form.check_box :egress, class: 'sr-only peer', disabled:, id: "#{dom_id(network_interface)}_egress"
               .relative.w-11.h-6.bg-gray-200.peer-focus:outline-none.peer-focus:ring-4.peer-focus:ring-blue-300.dark:peer-focus:ring-blue-800.rounded-full.peer.dark:bg-gray-700.peer-checked:after:translate-x-full.rtl:peer-checked:after:-translate-x-full.peer-checked:after:border-white.after:absolute.after:bg-white.after:border-gray-300.after:border.after:rounded-full.after:w-5.after:h-5.after:transition-all.dark:border-gray-600.peer-checked:bg-blue-600{class: "after:content-[''] after:top-[2px] after:start-[2px]"}
-            - if network_interface.connection?
+            - if addresses.any?(:connection?)
               %span.block.font-bold.text-gray-700.dark:text-gray-200.pl-6
                 %i.fas.fa-satellite-dish.text-sm
                 Connection interface
@@ -37,7 +38,7 @@
 
     .border.border-gray-200.dark:border-gray-500{data: { controller: 'model' }}
       .bg-white.dark:bg-gray-600.divide-y-4.divide-double.divide-gray-200.dark:divide-gray-800{id: "#{dom_id(network_interface)}_addresses"}
-        = render network_interface.addresses.order(:created_at), network_interface: network_interface, disabled:
+        = render addresses, network_interface: network_interface, disabled:
 
   - else
     .p-10.text-center.opacity-80

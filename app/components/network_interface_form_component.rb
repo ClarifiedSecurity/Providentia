@@ -11,8 +11,21 @@ class NetworkInterfaceFormComponent < ViewComponent::Base
   end
 
   private
-    def collection
-      helpers.authorized_scope(network_interface.exercise.networks).for_grouped_select
+    def network_collection_scope
+      @network_collection_scope ||= helpers
+        .authorized_scope(network_interface.exercise.networks)
+        .order(:name)
+        .includes(:actor)
+    end
+
+    def network_collection
+      network_collection_scope.group_by { |network| network.actor.name }
+    end
+
+    def addresses
+      network_interface.addresses
+        .order(:created_at)
+        .includes(:network, :address_pool, :virtual_machine)
     end
 
     def team_classes

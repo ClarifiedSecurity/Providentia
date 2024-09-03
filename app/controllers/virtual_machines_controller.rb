@@ -87,8 +87,10 @@ class VirtualMachinesController < ApplicationController
         .includes(
             :actor,
             :operating_system,
+            :numbered_by,
+            customization_specs: [:tags],
             networks: [:exercise],
-            network_interfaces: [{ addresses: [:network] }, { network: [:actor] }]
+            network_interfaces: [{ network: [:actor] }]
           )
         .find(params[:id])
     end

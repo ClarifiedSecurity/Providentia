@@ -21,10 +21,11 @@
             = Address.human_attribute_name(:mode)
           = form.select :mode, form.object.available_modes, { include_blank: false }, { id: "#{dom_id(address)}_mode", disabled: ,data: { controller: 'select' } }
 
-        - if address.needs_pool? && address.network.address_pools.for_address(address).size > 1
-          %div
-            = form.label :address_pool_id, class: 'block font-bold text-gray-700 dark:text-gray-200'
-            = form.collection_select :address_pool_id, address.network.address_pools.for_address(address), :id, :name, { include_blank: address.address_pool.nil? }, { data: { controller: 'select' }, disabled: disabled || (address.address_pool && address.network.address_pools.for_address(address).size == 1) }
+        - cache([address.cache_key_with_version]) do
+          - if address.needs_pool? && address.network.address_pools.for_address(address).size > 1
+            %div
+              = form.label :address_pool_id, class: 'block font-bold text-gray-700 dark:text-gray-200'
+              = form.collection_select :address_pool_id, address.network.address_pools.for_address(address), :id, :name, { include_blank: address.address_pool.nil? }, { data: { controller: 'select' }, disabled: disabled || (address.address_pool && address.network.address_pools.for_address(address).size == 1) }
 
         .grow
           .flex

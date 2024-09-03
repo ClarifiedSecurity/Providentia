@@ -24,9 +24,6 @@ class Network < ApplicationRecord
 
   validates :name, :abbreviation, presence: true
 
-  scope :for_grouped_select, -> {
-    order(:name).includes(:actor).group_by { |network| network.actor.name }
-  }
   scope :search, ->(query) {
     columns = %w{
       networks.name networks.abbreviation

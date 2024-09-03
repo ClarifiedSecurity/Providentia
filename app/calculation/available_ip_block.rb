@@ -29,13 +29,15 @@ class AvailableIPBlock < Patterns::Calculation
     end
 
     def used_ipv4
-      @used_ipv4 ||= Set.new(
-        address_pool
-          .addresses
-          .mode_ipv4_static
-          .where.not(id: network_interface.addresses.mode_ipv4_static.pluck(:id))
-          .all_ip_objects
-      )
+      @used_ipv4 ||= Rails.cache.fetch([address_pool.addresses.cache_key_with_version, 'used_ipv4']) do
+        Set.new(
+          address_pool
+            .addresses
+            .mode_ipv4_static
+            .where.not(id: network_interface.addresses.mode_ipv4_static.pluck(:id))
+            .all_ip_objects
+        )
+      end
     end
 
     def addresses_in_used_block?(addresses)
