@@ -79,4 +79,5 @@ group :development do
   gem 'stackprof'
 
   gem 'silencer'
+  gem 'awesome_print', '~> 1.9'
 end
