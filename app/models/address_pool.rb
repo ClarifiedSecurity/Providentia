@@ -36,7 +36,7 @@ class AddressPool < ApplicationRecord
     where(ip_family: address.ipv4? ? :v4 : :v6)
   }
 
-  before_validation :set_mgmt_default_name
+  before_validation :set_default_ipv6_gw_offset, :set_mgmt_default_name
   before_update :clear_dangling_addresses, :clear_address_range
   after_validation :revert_invalid_network_values
 
@@ -175,5 +175,10 @@ class AddressPool < ApplicationRecord
       return unless scope_changed? && scope_mgmt?
       self.name = 'MGMT'
       self.ip_family = 'v6'
+      self.gateway = nil
+    end
+
+    def set_default_ipv6_gw_offset
+      self.gateway = 1 if !scope_mgmt? && ip_family == 'v6' && network_address_changed?
     end
 end
