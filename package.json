@@ -16,7 +16,7 @@
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/forms": "^0.5.8",
     "@tailwindcss/typography": "^0.5.15",
-    "cssnano": "^7.0.5",
+    "cssnano": "^7.0.6",
     "cytoscape": "^3.30.0",
     "cytoscape-elk": "^2.2.0",
     "cytoscape-node-html-label": "^1.2.2",
