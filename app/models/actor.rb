@@ -40,16 +40,6 @@ class Actor < ApplicationRecord
     name.split(' ').map(&:first).map(&:upcase).join
   end
 
-  def numbering
-    return unless prefs['numbered']
-    count = prefs.dig('numbered', 'count').presence || 0
-    dev_count = prefs.dig('numbered', 'dev_count').presence || 0
-    {
-      entries: 1.step(by: 1).take(count + dev_count),
-      dev_entries: (count + 1).step(by: 1).take(dev_count)
-    }
-  end
-
   def all_numbers
     return if !number?
     1.upto(number).to_a

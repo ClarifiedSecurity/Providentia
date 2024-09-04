@@ -28,8 +28,6 @@ class VirtualMachine < ApplicationRecord
   has_many :addresses, through: :network_interfaces
   has_and_belongs_to_many :services,
     after_add: :invalidate_cache, after_remove: :invalidate_cache
-  has_and_belongs_to_many :capabilities,
-    after_add: :invalidate_cache, after_remove: :invalidate_cache
 
   has_one :connection_nic, -> { connectable },
     class_name: 'NetworkInterface', foreign_key: :virtual_machine_id
@@ -147,7 +145,7 @@ class VirtualMachine < ApplicationRecord
       errors.add(:custom_instance_count, :invalid)
     end
 
-    def invalidate_cache(_service_or_capability)
+    def invalidate_cache(_service)
       touch
     end
 

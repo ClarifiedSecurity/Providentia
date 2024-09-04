@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_08_080230) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_04_071618) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -95,18 +95,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_08_080230) do
     t.index ["customization_spec_id", "capability_id"], name: "spec_capability_index"
   end
 
-  create_table "capabilities_networks", id: false, force: :cascade do |t|
-    t.bigint "capability_id", null: false
-    t.bigint "network_id", null: false
-    t.index ["network_id", "capability_id"], name: "network_capability_index"
-  end
-
-  create_table "capabilities_virtual_machines", id: false, force: :cascade do |t|
-    t.bigint "capability_id", null: false
-    t.bigint "virtual_machine_id", null: false
-    t.index ["virtual_machine_id", "capability_id"], name: "vm_capability_index"
-  end
-
   create_table "checks", force: :cascade do |t|
     t.bigint "service_id", null: false
     t.string "source_type", null: false
@@ -160,8 +148,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_08_080230) do
     t.string "abbreviation", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "blue_team_count"
-    t.integer "dev_team_count"
     t.string "root_domain"
     t.string "dev_resource_name"
     t.string "dev_red_resource_name"
@@ -202,7 +188,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_08_080230) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "team_id"
     t.string "domain"
     t.boolean "ignore_root_domain", default: false, null: false
     t.string "slug"
@@ -211,7 +196,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_08_080230) do
     t.integer "visibility", default: 1
     t.index ["actor_id"], name: "index_networks_on_actor_id"
     t.index ["exercise_id"], name: "index_networks_on_exercise_id"
-    t.index ["team_id"], name: "index_networks_on_team_id"
   end
 
   create_table "operating_systems", force: :cascade do |t|
@@ -241,19 +225,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_08_080230) do
     t.index ["exercise_id"], name: "index_role_bindings_on_exercise_id"
   end
 
-  create_table "service_checks", force: :cascade do |t|
-    t.bigint "service_id", null: false
-    t.bigint "network_id", null: false
-    t.integer "protocol", default: 0, null: false
-    t.integer "ip_family", default: 0, null: false
-    t.integer "destination_port"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean "scored", default: true, null: false
-    t.index ["network_id"], name: "index_service_checks_on_network_id"
-    t.index ["service_id"], name: "index_service_checks_on_service_id"
-  end
-
   create_table "service_subjects", force: :cascade do |t|
     t.bigint "service_id", null: false
     t.jsonb "customization_spec_ids", default: []
@@ -277,17 +248,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_08_080230) do
     t.bigint "service_id", null: false
     t.bigint "virtual_machine_id", null: false
     t.index ["virtual_machine_id", "service_id"], name: "vm_service_index"
-  end
-
-  create_table "special_checks", force: :cascade do |t|
-    t.bigint "service_id", null: false
-    t.bigint "network_id"
-    t.string "name", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean "scored", default: true, null: false
-    t.index ["network_id"], name: "index_special_checks_on_network_id"
-    t.index ["service_id"], name: "index_special_checks_on_service_id"
   end
 
   create_table "taggings", force: :cascade do |t|
@@ -319,12 +279,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_08_080230) do
     t.datetime "updated_at", null: false
     t.integer "taggings_count", default: 0
     t.index ["name"], name: "index_tags_on_name", unique: true
-  end
-
-  create_table "teams", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -359,7 +313,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_08_080230) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "team_id"
     t.integer "deploy_mode", default: 0, null: false
     t.integer "custom_instance_count"
     t.bigint "operating_system_id"
@@ -368,7 +321,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_08_080230) do
     t.integer "ram"
     t.string "hostname"
     t.integer "system_owner_id"
-    t.boolean "bt_visible", default: true, null: false
     t.integer "primary_disk_size"
     t.integer "visibility", default: 1
     t.bigint "actor_id"
@@ -378,7 +330,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_08_080230) do
     t.index ["exercise_id"], name: "index_virtual_machines_on_exercise_id"
     t.index ["name", "exercise_id"], name: "index_virtual_machines_on_name_and_exercise_id", unique: true
     t.index ["operating_system_id"], name: "index_virtual_machines_on_operating_system_id"
-    t.index ["team_id"], name: "index_virtual_machines_on_team_id"
   end
 
   add_foreign_key "actor_number_configs", "actors"
@@ -396,19 +347,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_08_080230) do
   add_foreign_key "network_interfaces", "virtual_machines"
   add_foreign_key "networks", "actors"
   add_foreign_key "networks", "exercises"
-  add_foreign_key "networks", "teams"
   add_foreign_key "role_bindings", "actors"
   add_foreign_key "role_bindings", "exercises"
-  add_foreign_key "service_checks", "networks"
-  add_foreign_key "service_checks", "services"
   add_foreign_key "service_subjects", "services"
   add_foreign_key "services", "exercises"
-  add_foreign_key "special_checks", "networks"
-  add_foreign_key "special_checks", "services"
   add_foreign_key "taggings", "tags"
   add_foreign_key "virtual_machines", "actors"
   add_foreign_key "virtual_machines", "exercises"
   add_foreign_key "virtual_machines", "operating_systems"
-  add_foreign_key "virtual_machines", "teams"
   add_foreign_key "virtual_machines", "users", column: "system_owner_id"
 end
