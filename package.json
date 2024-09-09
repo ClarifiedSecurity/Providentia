@@ -20,7 +20,7 @@
     "cytoscape": "^3.30.0",
     "cytoscape-elk": "^2.2.0",
     "cytoscape-node-html-label": "^1.2.2",
-    "debounce": "^2.1.0",
+    "debounce": "^2.1.1",
     "element-matches-polyfill": "^1.0.0",
     "postcss": "^8.4.44",
     "postcss-import": "^16.1.0",

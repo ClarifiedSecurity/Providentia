@@ -1643,10 +1643,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"debounce@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "debounce@npm:2.1.0"
-  checksum: 10/9fa12d893b23f7f8574aceefeebd259f1058c74e80c3590d4dc319f35fd5feab08b8e7771ca2af626eb4d24562defb61c6b5a53a1741686de7732273579a5d50
+"debounce@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "debounce@npm:2.1.1"
+  checksum: 10/3cf6211ff894894234899494fe9f141795cd22f48f2359a5eb555523b7fc4316954b1bd39cd215127d2b3828953e5a419347a93af66eca2fd5ca148ebd01388e
   languageName: node
   linkType: hard
 
@@ -3470,7 +3470,7 @@ __metadata:
     cytoscape: "npm:^3.30.0"
     cytoscape-elk: "npm:^2.2.0"
     cytoscape-node-html-label: "npm:^1.2.2"
-    debounce: "npm:^2.1.0"
+    debounce: "npm:^2.1.1"
     element-matches-polyfill: "npm:^1.0.0"
     postcss: "npm:^8.4.44"
     postcss-import: "npm:^16.1.0"
