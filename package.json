@@ -25,7 +25,7 @@
     "postcss": "^8.4.44",
     "postcss-import": "^16.1.0",
     "postcss-nesting": "^13.0.0",
-    "postcss-preset-env": "^10.0.2",
+    "postcss-preset-env": "^10.0.3",
     "stimulus-clipboard": "^4.0.1",
     "stimulus-textarea-autogrow": "^4.1.0",
     "stimulus-vite-helpers": "^3.1.0",
