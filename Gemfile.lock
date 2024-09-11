@@ -293,7 +293,7 @@ GEM
       ast (~> 2.4.1)
       racc
     pg (1.5.8)
-    propshaft (0.9.1)
+    propshaft (1.0.0)
       actionpack (>= 7.0.0)
       activesupport (>= 7.0.0)
       rack
@@ -381,7 +381,7 @@ GEM
     redis-client (0.22.2)
       connection_pool
     regexp_parser (2.9.2)
-    reline (0.5.9)
+    reline (0.5.10)
       io-console (~> 0.5)
     request_store (1.7.0)
       rack (>= 1.4)
