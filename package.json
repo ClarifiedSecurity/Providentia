@@ -22,7 +22,7 @@
     "cytoscape-node-html-label": "^1.2.2",
     "debounce": "^2.1.0",
     "element-matches-polyfill": "^1.0.0",
-    "postcss": "^8.4.44",
+    "postcss": "^8.4.47",
     "postcss-import": "^16.1.0",
     "postcss-nesting": "^13.0.0",
     "postcss-preset-env": "^10.0.2",
