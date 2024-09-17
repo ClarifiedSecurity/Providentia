@@ -393,7 +393,7 @@ GEM
       pairing_heap (>= 0.3, < 4.0)
       rexml (~> 3.2, >= 3.2.4)
       stream (~> 0.5.3)
-    rouge (4.3.0)
+    rouge (4.4.0)
     rspec-core (3.13.0)
       rspec-support (~> 3.13.0)
     rspec-expectations (3.13.2)
