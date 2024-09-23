@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class MigrateToRoleBindings < ActiveRecord::Migration[7.1]
+class MigrateToRoleBindings < ActiveRecord::Migration[7.2]
   def change
     Exercise.all.each do |ex|
       create_gt_binding(ex) if ex.attributes['dev_resource_name'] # gt
