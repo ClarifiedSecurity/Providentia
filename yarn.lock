@@ -3481,7 +3481,7 @@ __metadata:
     throttleit: "npm:^2.1.0"
     tippy.js: "npm:^6.3.7"
     tom-select: "npm:^2.3.1"
-    vite: "npm:^5.4.7"
+    vite: "npm:^5.4.8"
     vite-plugin-ruby: "npm:^5.1.0"
     vite-plugin-stimulus-hmr: "npm:^3.0.0"
     web-worker: "npm:^1.3.0"
@@ -4073,9 +4073,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^5.4.7":
-  version: 5.4.7
-  resolution: "vite@npm:5.4.7"
+"vite@npm:^5.4.8":
+  version: 5.4.8
+  resolution: "vite@npm:5.4.8"
   dependencies:
     esbuild: "npm:^0.21.3"
     fsevents: "npm:~2.3.3"
@@ -4112,7 +4112,7 @@ __metadata:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: 10/3f27e870930ad83b51e009604c6b69ab090e69bb5bfe85007c7e4ec3326efae4e33ac799645926363f258595b3be3055cc1ebc5ee158cff4bacdf41adf4ef8ed
+  checksum: 10/17fdffa558abaf854f04ead7d3ddd76e4556a59871f9ac63cca3fc20a79979984837d8dddaae4b171e3d73061f781e4eec0f6d3babdbce2b4d111d29cf474c1c
   languageName: node
   linkType: hard
 
