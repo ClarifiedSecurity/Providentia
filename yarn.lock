@@ -29,15 +29,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@codemirror/commands@npm:^6.6.1":
-  version: 6.6.1
-  resolution: "@codemirror/commands@npm:6.6.1"
+"@codemirror/commands@npm:^6.7.0":
+  version: 6.7.0
+  resolution: "@codemirror/commands@npm:6.7.0"
   dependencies:
     "@codemirror/language": "npm:^6.0.0"
     "@codemirror/state": "npm:^6.4.0"
     "@codemirror/view": "npm:^6.27.0"
     "@lezer/common": "npm:^1.1.0"
-  checksum: 10/533f33db08a4ff7e400ff61e48d34525afdc894f92442a5bf469ed24b1992a61bf726b61647e2faa552a2f4703c149c92026d9a1f9169f615582cdfc36fcb010
+  checksum: 10/3f331b4c2f4e3cc029cbfd75946d85bf82b403dcaf4b0dd317ad0fff1018b872378adaae5d9f1c66a3a470f376fb270ea8578264b77d70b6aadeb545c984cb02
   languageName: node
   linkType: hard
 
@@ -3448,7 +3448,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "providentia@workspace:."
   dependencies:
-    "@codemirror/commands": "npm:^6.6.1"
+    "@codemirror/commands": "npm:^6.7.0"
     "@codemirror/lang-yaml": "npm:^6.1.1"
     "@codemirror/state": "npm:^6.4.1"
     "@codemirror/view": "npm:^6.33.0"
