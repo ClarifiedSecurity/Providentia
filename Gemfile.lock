@@ -186,7 +186,7 @@ GEM
       concurrent-ruby (~> 1.0)
     ice_nine (0.11.2)
     io-console (0.7.2)
-    irb (1.14.0)
+    irb (1.14.1)
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
     json (2.7.2)
@@ -353,9 +353,9 @@ GEM
       activerecord (>= 4.2.6)
       ruby2_keywords
       virtus
-    rails-pg-extras (5.4.0)
+    rails-pg-extras (5.4.1)
       rails
-      ruby-pg-extras (= 5.4.0)
+      ruby-pg-extras (= 5.4.1)
     railties (7.2.1)
       actionpack (= 7.2.1)
       activesupport (= 7.2.1)
@@ -443,7 +443,7 @@ GEM
       rubocop-performance (~> 1.11)
       rubocop-rails (~> 2.0)
     ruby-next-core (1.0.3)
-    ruby-pg-extras (5.4.0)
+    ruby-pg-extras (5.4.1)
       pg
       terminal-table
     ruby-progressbar (1.13.0)
@@ -513,7 +513,7 @@ GEM
       activesupport
       faraday (~> 2.0)
       faraday-follow_redirects
-    webrick (1.8.1)
+    webrick (1.8.2)
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
