@@ -163,9 +163,10 @@ class VirtualMachine < ApplicationRecord
       NetworkInterface.transaction do
         network_interfaces.first.update(egress: true) if network_interfaces.egress.empty?
         if network_interfaces.connectable.empty?
-          (addresses.joins(:address_pool).merge(AddressPool.scope_mgmt).first ||
+          new_connection_address = addresses.joins(:address_pool).merge(AddressPool.scope_mgmt).first ||
             addresses.mode_ipv4_static.first ||
-            addresses.mode_ipv6_static.first).update(connection: true)
+            addresses.mode_ipv6_static.first
+          new_connection_address.update(connection: true) if new_connection_address
         end
       end
     end
