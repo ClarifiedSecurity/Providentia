@@ -76,5 +76,8 @@ class AddressForm < Patterns::Form
       # set default mode on ip family change
       self.mode = available_modes.dig(0, 1).to_sym if ip_family != resource.ip_family
       resource.update(attributes.slice(:address_pool_id, :offset, :mode, :dns_enabled, :connection))
+      if resource.errors.of_kind? :offset, :overlap
+        errors.add(:offset_address, :overlap)
+      end
     end
 end

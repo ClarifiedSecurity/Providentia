@@ -7,6 +7,8 @@ en:
       not_allowed_hostname: is not allowed as hostname
       network_too_small: Network is too small!
       no_contiguous_block_available: No contiguous address block with sufficient size available
+      overlap: overlaps with reserved address(es)
+
   activemodel:
     attributes:
       add_access_form:
@@ -26,10 +28,6 @@ en:
               invalid: is invalid (must not contain _)
             numbered_by:
               incoherent_numbering: would result in numbering incoherence
-        address:
-          attributes:
-            offset:
-              overlap: overlaps with reserved address(es)
     attributes:
       exercise:
         dev_resource_name: SSO resource name for GT access
