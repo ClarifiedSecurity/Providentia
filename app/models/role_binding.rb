@@ -17,4 +17,9 @@ class RoleBinding < ApplicationRecord
     where(user_email: user.email)
       .or(where(user_resource: user.resources))
   }
+
+  scope :for_environment, ->(environment) {
+    where(actor_id: environment.actor_ids).
+      or(where(exercise: environment))
+  }
 end

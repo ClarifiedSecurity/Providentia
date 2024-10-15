@@ -22,7 +22,7 @@
         .col-span-4
           %dt.text-sm.text-gray-500.dark:text-gray-400 Your permissions
           %dd.mt-1.text-sm.text-gray-900.dark:text-white.mt-0
-            - RoleBinding.for_user(current_user).each do |role_binding|
+            - RoleBinding.for_user(current_user).for_environment(@exercise).each do |role_binding|
               %p.my-1{data: {controller: 'tippy', tooltip: I18n.t("roles.#{role_binding.role}.description")}}
                 = I18n.t("roles.#{role_binding.role}.name")
                 - if role_binding.actor
