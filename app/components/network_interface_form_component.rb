@@ -39,4 +39,19 @@ class NetworkInterfaceFormComponent < ViewComponent::Base
         'Mark egress'
       end
     end
+
+    def network_options_for_select
+      network_collection_scope
+        .group_by { _1.actor }
+        .map do |actor, networks|
+          helpers.content_tag(
+            :optgroup,
+            helpers.options_for_select(
+              networks.map { [_1.name, _1.id, { data: { terms: [_1.abbreviation, _1.cloud_id].compact } }] },
+              network_interface.network_id
+            ),
+            label: actor.name
+          )
+        end.join.html_safe
+    end
 end

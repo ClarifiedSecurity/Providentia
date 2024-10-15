@@ -5,7 +5,7 @@
         .flex-auto
           = form.label :network_id, class: 'block font-bold text-gray-700 dark:text-gray-200', for: "#{dom_id(network_interface)}_network"
           - cache([network_interface.cache_key_with_version, network_collection_scope.cache_key_with_version]) do
-            = form.grouped_collection_select :network_id, network_collection, :last, :first, :id, :name, {include_blank: true}, { id: "#{dom_id(network_interface)}_network", disabled: !helpers.allowed_to?(:update?, network_interface.virtual_machine), data: { controller: 'select' }}
+            = form.select :network_id, network_options_for_select, { include_blank: true }, { id: "#{dom_id(network_interface)}_network", disabled: !helpers.allowed_to?(:update?, network_interface.virtual_machine), data: { controller: 'select' }}
 
         - if network_interface.persisted?
           .pt-7.flex.items-center.gap-2
