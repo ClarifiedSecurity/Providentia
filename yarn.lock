@@ -955,12 +955,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rails/activestorage@npm:7.2.100":
-  version: 7.2.100
-  resolution: "@rails/activestorage@npm:7.2.100"
+"@rails/activestorage@npm:7.2.101":
+  version: 7.2.101
+  resolution: "@rails/activestorage@npm:7.2.101"
   dependencies:
     spark-md5: "npm:^3.0.1"
-  checksum: 10/6e877106907b3fdf0bf985da6e3ec1ddbd8807ba1af8b9849e6e7859facbd9c22b1205ba4ff33bc22c8bcc54f938ded9b52635bb9e7a7383c4f0def6c3e69662
+  checksum: 10/9dadfb2911a705a9dba50f02a1ef8d930e4f563ed2bec0ad30b7497dfa0c63ee287b62ddb8e1f60adc69a64e1d0604a3d93772495dd8e3aad0593c4382ea774a
   languageName: node
   linkType: hard
 
@@ -3467,7 +3467,7 @@ __metadata:
     "@hotwired/stimulus": "npm:^3.2.2"
     "@hotwired/turbo-rails": "npm:^8.0.10"
     "@rails/actioncable": "npm:7.2.100"
-    "@rails/activestorage": "npm:7.2.100"
+    "@rails/activestorage": "npm:7.2.101"
     "@stimulus-components/clipboard": "npm:^5.0.0"
     "@tailwindcss/aspect-ratio": "npm:^0.4.2"
     "@tailwindcss/forms": "npm:^0.5.9"
