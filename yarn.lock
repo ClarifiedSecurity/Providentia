@@ -753,20 +753,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hotwired/turbo-rails@npm:^8.0.10":
-  version: 8.0.10
-  resolution: "@hotwired/turbo-rails@npm:8.0.10"
+"@hotwired/turbo-rails@npm:^8.0.12":
+  version: 8.0.12
+  resolution: "@hotwired/turbo-rails@npm:8.0.12"
   dependencies:
-    "@hotwired/turbo": "npm:^8.0.6"
+    "@hotwired/turbo": "npm:^8.0.12"
     "@rails/actioncable": "npm:^7.0"
-  checksum: 10/d4a5a4af76f87d3ef2f79fae597197e8391cc8a8974312ef85b8955579de65db2fd1a60ac39fea82c8b4bdba5c51c3fcf5f39c0b95d3e7e56ef89d2e74e9d0da
+  checksum: 10/c88fb676a9329a526eba9e1947298ea7f607bd1315943a3243b7d9862a75e9fe9bc93ead30531ae40e2fa1d8718bad27650ca7dbfb4a6a53aadfcbbe595f5af6
   languageName: node
   linkType: hard
 
-"@hotwired/turbo@npm:^8.0.6":
-  version: 8.0.10
-  resolution: "@hotwired/turbo@npm:8.0.10"
-  checksum: 10/71ac7b5aba3245764c649daec81a695f04fe318fdbc8e7f99e74e124e370031d2463b5cce3ca4dae7987e616f1f3e343d0a9d3bb82c24aa196d86bd3db3d5bf0
+"@hotwired/turbo@npm:^8.0.12":
+  version: 8.0.12
+  resolution: "@hotwired/turbo@npm:8.0.12"
+  checksum: 10/6ac981387a6a1bdad9e91f83c7acbebf4c31f0ca7fcaca386bd1d1f20099609db3ef28fdcac335c42d7ac9c67352a9667d3f9c3ec41fcaa728211cb0cbb14395
   languageName: node
   linkType: hard
 
@@ -3465,7 +3465,7 @@ __metadata:
     "@fortawesome/free-brands-svg-icons": "npm:^6.6.0"
     "@fortawesome/free-solid-svg-icons": "npm:^6.6.0"
     "@hotwired/stimulus": "npm:^3.2.2"
-    "@hotwired/turbo-rails": "npm:^8.0.10"
+    "@hotwired/turbo-rails": "npm:^8.0.12"
     "@rails/actioncable": "npm:7.2.100"
     "@rails/activestorage": "npm:7.2.100"
     "@stimulus-components/clipboard": "npm:^5.0.0"
