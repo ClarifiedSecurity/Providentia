@@ -11,7 +11,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@hotwired/stimulus": "^3.2.2",
     "@hotwired/turbo-rails": "^8.0.10",
-    "@rails/actioncable": "7.2.100",
+    "@rails/actioncable": "7.2.101",
     "@rails/activestorage": "7.2.100",
     "@stimulus-components/clipboard": "^5.0.0",
     "@tailwindcss/aspect-ratio": "^0.4.2",
