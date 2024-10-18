@@ -122,4 +122,17 @@ FactoryBot.define do
     instance { 'MyString' }
     metadata { '' }
   end
+
+  factory :credential do
+    credential_set
+
+    name { Faker::Name.name }
+    password { Faker::Internet.password }
+    description { 'Some user' }
+  end
+
+  factory :credential_set do
+    exercise
+    name { 'MyString' }
+  end
 end

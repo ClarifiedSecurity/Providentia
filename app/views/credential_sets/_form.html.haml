@@ -1,0 +1,24 @@
+-# frozen_string_literal: true
+
+- data = { controller: 'model', action: "change->model#update" } if @credential_set.persisted?
+= simple_form_for([@credential_set.exercise, @credential_set], html: { autocomplete: "off", data: }) do |f|
+  = f.error_notification
+  = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
+
+  = render ColumnFormSectionComponent.new do |c|
+    - c.with_description do
+      %h3.text-lg.leading-6.text-gray-900.dark:text-gray-50 Identity
+      %p.mt-1.text-sm.text-gray-600.dark:text-gray-400
+        Name, actor and description for this capability
+
+    - c.with_main do
+      .px-4.py-5.bg-white.dark:bg-gray-800.space-y-6.sm:p-6
+        .grid.grid-cols-2.gap-6
+          = f.input :name
+          = f.association :network, collection: authorized_scope(@exercise.networks).order(:name), input_html: { data: { controller: 'select' } }
+
+        = f.input :description
+
+      - if allowed_to?(:update?, @credential_set) && !@credential_set.persisted?
+        .px-4.py-3.bg-slate-200.dark:bg-gray-500.text-right.sm:px-6
+          = f.button :submit, 'Save', class: 'form-submit'
