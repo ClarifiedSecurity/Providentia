@@ -35,6 +35,7 @@ module API
               &.slug,
             tags:,
             capabilities:,
+            credentials:,
             services:,
             instances:
           }
@@ -50,6 +51,7 @@ module API
             vm.operating_system&.path&.cache_key_with_version,
             vm.cache_key_with_version,
             spec.cache_key_with_version,
+            spec.credential_sets.cache_key_with_version,
             vm.actor&.cache_key_with_version,
             vm.actor&.root&.cache_key_with_version,
             'numbering',
@@ -87,6 +89,22 @@ module API
 
         def capabilities
           spec.capabilities.pluck(:slug).to_a
+        end
+
+        def credentials
+          spec.credential_sets.map do |cred_set|
+            {
+              name: cred_set.name,
+              credentials: cred_set.credentials.map do |cred|
+                {
+                  name: cred.name,
+                  password: cred.password,
+                  username: cred.username,
+                  email: cred.email
+                }
+              end
+            }
+          end
         end
 
         def sequence_info

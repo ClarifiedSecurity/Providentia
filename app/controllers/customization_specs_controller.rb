@@ -5,7 +5,7 @@ class CustomizationSpecsController < ApplicationController
   before_action :get_exercise, :get_virtual_machine
   before_action :preload_form_collections, :preload_services, only: %i[create update]
   before_action :get_customization_spec, only: %i[update destroy]
-  before_action :get_and_verify_capability_ids, only: %i[update]
+  before_action :get_and_verify_manytomany_associations, only: %i[update]
 
   respond_to :turbo_stream
 
@@ -20,6 +20,7 @@ class CustomizationSpecsController < ApplicationController
     preload_services
     @customization_spec.assign_attributes(spec_params)
     @customization_spec.capability_ids = @permitted_capability_ids
+    @customization_spec.credential_set_ids = @permitted_credential_set_ids
     @customization_spec.save
   end
 
@@ -44,9 +45,13 @@ class CustomizationSpecsController < ApplicationController
       )
     end
 
-    def get_and_verify_capability_ids
+    def get_and_verify_manytomany_associations
       @permitted_capability_ids = authorized_scope(@exercise.capabilities).where(
         id: params[:customization_spec].extract!(:capability_ids)[:capability_ids]
+      ).pluck(:id)
+
+      @permitted_credential_set_ids = authorized_scope(@exercise.credential_sets).where(
+        id: params[:customization_spec].extract!(:credential_set_ids)[:credential_set_ids]
       ).pluck(:id)
     end
 end

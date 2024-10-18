@@ -60,6 +60,10 @@
         = form.label :capability_ids, Capability.model_name.human.pluralize, class: 'block font-bold text-gray-700 dark:text-gray-200'
         = form.collection_select :capability_ids, @capabilities, :id, :name, {}, multiple: true, data: { controller: 'select' }, disabled: !allowed_to?(:update?, @virtual_machine)
 
+      .mt-2
+        = form.label :credential_set_ids, CredentialSet.model_name.human.pluralize, class: 'block font-bold text-gray-700 dark:text-gray-200'
+        = form.collection_select :credential_set_ids, authorized_scope(@exercise.credential_sets), :id, :name, {}, multiple: true, data: { controller: 'select' }, disabled: !allowed_to?(:update?, @virtual_machine)
+
       - if allowed_to?(:read_tags?, customization_spec)
         .mt-2
           = render ModalComponent.new(header: "Checks") do |c|

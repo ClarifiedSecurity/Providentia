@@ -135,4 +135,9 @@ FactoryBot.define do
     exercise
     name { 'MyString' }
   end
+
+  factory :credential_binding do
+    credential_set { nil }
+    customization_spec { nil }
+  end
 end

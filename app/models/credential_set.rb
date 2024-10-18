@@ -7,7 +7,9 @@ class CredentialSet < ApplicationRecord
 
   belongs_to :exercise
   belongs_to :network, optional: true
-  has_many :credentials
+  has_many :credentials, dependent: :destroy
+  has_many :credential_bindings, dependent: :destroy
+  has_many :customization_specs, through: :credential_bindings
 
   validates :name, presence: true
 

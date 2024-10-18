@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Credential < ApplicationRecord
-  belongs_to :credential_set
+  belongs_to :credential_set, touch: true
 
   validates :name, :password, presence: true
 

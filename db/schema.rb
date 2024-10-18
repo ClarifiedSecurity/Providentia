@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_18_093757) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_18_114725) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -113,6 +113,15 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_18_093757) do
     t.index ["destination_type", "destination_id"], name: "index_checks_on_destination"
     t.index ["service_id"], name: "index_checks_on_service_id"
     t.index ["source_type", "source_id"], name: "index_checks_on_source"
+  end
+
+  create_table "credential_bindings", force: :cascade do |t|
+    t.bigint "credential_set_id", null: false
+    t.bigint "customization_spec_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["credential_set_id"], name: "index_credential_bindings_on_credential_set_id"
+    t.index ["customization_spec_id"], name: "index_credential_bindings_on_customization_spec_id"
   end
 
   create_table "credential_sets", force: :cascade do |t|
@@ -367,6 +376,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_18_093757) do
   add_foreign_key "capabilities", "actors"
   add_foreign_key "capabilities", "exercises"
   add_foreign_key "checks", "services"
+  add_foreign_key "credential_bindings", "credential_sets"
+  add_foreign_key "credential_bindings", "customization_specs"
   add_foreign_key "credential_sets", "exercises"
   add_foreign_key "credential_sets", "networks"
   add_foreign_key "credentials", "credential_sets"
