@@ -8,6 +8,10 @@ import { cobalt } from "thememirror";
 import { defaultKeymap } from "@codemirror/commands";
 
 export default class extends Controller {
+  static values = {
+    live: { type: Boolean, default: true },
+  };
+
   editor;
 
   connect() {
@@ -20,7 +24,7 @@ export default class extends Controller {
       updatehandler = EditorView.updateListener.of((v) => {
         if (v.docChanged) {
           textarea.value = v.state.doc.toString();
-          throttled_submit();
+          this.liveValue && throttled_submit();
         }
       });
     }

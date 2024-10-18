@@ -14,6 +14,7 @@ class Exercise < ApplicationRecord
   has_many :services, dependent: :destroy
   has_many :service_subjects, through: :services
   has_many :capabilities, dependent: :destroy
+  has_many :credential_sets, dependent: :destroy
   has_many :address_pools, through: :networks
   has_many :addresses, through: :virtual_machines
   has_many :customization_specs, through: :virtual_machines

@@ -1,0 +1,24 @@
+- if allowed_to?(:create?, CredentialSet.new(exercise: @exercise))
+  - provide :new_url do
+    = url_for [:new, @exercise, :credential_set]
+
+- if @credential_sets.any?
+  = render TableComponent.new do |c|
+    - c.with_column { CredentialSet.human_attribute_name(:name) }
+    - c.with_column { Network.model_name.human }
+    - c.with_column {}
+
+    - @credential_sets.each do |cred_set|
+      - c.with_table_row(classes: 'group') do
+        %td.px-6.py-4= link_to cred_set.name, [@exercise, cred_set], class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-200'
+        %td.px-6.py-4
+          - if cred_set.network
+            = link_to [@exercise, cred_set.network] do
+              = render ActorChipComponent.new(actor: cred_set.network.actor, text: cred_set.network.name)
+        %td.px-6.py-4.whitespace-nowrap.text-right
+          - if allowed_to?(:destroy?, cred_set)
+            = link_to [cred_set.exercise, cred_set], data: { turbo_method: 'delete', turbo_confirm: 'Are you sure?' }, class: 'opacity-0 group-hover:opacity-100 transition-opacity' do
+              %i.fas.fa-times-circle.text-red-600
+
+- else
+  = render 'shared/empty', klass: CredentialSet

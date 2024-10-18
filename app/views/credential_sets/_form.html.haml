@@ -1,0 +1,47 @@
+-# frozen_string_literal: true
+
+- data = { controller: 'model', action: "change->model#update" } if @credential_set.persisted?
+= simple_form_for([@credential_set.exercise, @credential_set], html: { autocomplete: "off", data: }) do |f|
+  = f.error_notification
+  = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
+
+  = render ColumnFormSectionComponent.new do |c|
+    - c.with_description do
+      %h3.text-lg.leading-6.text-gray-900.dark:text-gray-50 Identity
+      %p.mt-1.text-sm.text-gray-600.dark:text-gray-400
+        Name, network and description for this set of credentials.
+
+    - c.with_main do
+      .bg-white.dark:bg-gray-800.space-y-3
+        .px-5.py-3= f.input :name
+        .border-t.border-gray-200.dark:border-gray-600
+        .px-5.py-3= f.input :description
+        .border-t.border-gray-200.dark:border-gray-600
+        .px-5.py-3
+          = render ModalComponent.new(header: 'Network for credentials') do |c|
+            - c.with_body do
+              %p The network will be used to generate the e-mail addresses for each credential.
+              %p The first portion of domain will be used as the name of AD domain - this can be overridden, if this does not match the actual configuration.
+            %div
+              = f.label :network_id, class: 'block font-bold text-gray-700 dark:text-gray-200' do
+                = f.object.class.human_attribute_name(:network_id)
+                = link_to 'javascript:;', class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-200', data: { action: "click->modal#open" } do
+                  %i.fas.fa-circle-question
+              = f.collection_select :network_id, authorized_scope(@exercise.networks).order(:name), :id, :name, {include_blank: true}, data: { controller: 'select' }
+
+          - if @credential_set.network
+            .grid.grid-cols-2.gap-4.mt-3
+              %div
+                %dt.text-sm.text-gray-500.dark:text-gray-400 Domain user prefix
+                %dd.mt-1.text-sm.text-gray-900.dark:text-white.mt-0= @credential_set.network_domain_prefix
+
+              %div
+                %dt.text-sm.text-gray-500.dark:text-gray-400 Credential e-mail format
+                %dd.mt-1.text-sm.text-gray-900.dark:text-white.mt-0
+                  = render LiquidTextComponent.new({ text: @credential_set.network.full_domain }, object: @credential_set.network)
+
+
+
+      - if allowed_to?(:update?, @credential_set) && !@credential_set.persisted?
+        .px-4.py-3.bg-slate-200.dark:bg-gray-500.text-right.sm:px-6
+          = f.button :submit, 'Save', class: 'form-submit'

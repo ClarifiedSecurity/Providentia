@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_31_091614) do
+ActiveRecord::Schema[8.0].define(version: 2024_11_15_104725) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -119,6 +119,37 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_31_091614) do
     t.index ["destination_type", "destination_id"], name: "index_checks_on_destination"
     t.index ["service_id"], name: "index_checks_on_service_id"
     t.index ["source_type", "source_id"], name: "index_checks_on_source"
+  end
+
+  create_table "credential_bindings", force: :cascade do |t|
+    t.bigint "credential_set_id", null: false
+    t.bigint "customization_spec_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["credential_set_id"], name: "index_credential_bindings_on_credential_set_id"
+    t.index ["customization_spec_id"], name: "index_credential_bindings_on_customization_spec_id"
+  end
+
+  create_table "credential_sets", force: :cascade do |t|
+    t.bigint "exercise_id", null: false
+    t.bigint "network_id"
+    t.string "name", null: false
+    t.string "slug", null: false
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["exercise_id"], name: "index_credential_sets_on_exercise_id"
+    t.index ["network_id"], name: "index_credential_sets_on_network_id"
+  end
+
+  create_table "credentials", force: :cascade do |t|
+    t.bigint "credential_set_id", null: false
+    t.string "name", null: false
+    t.string "password", null: false
+    t.jsonb "config_map", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["credential_set_id"], name: "index_credentials_on_credential_set_id"
   end
 
   create_table "custom_check_subjects", force: :cascade do |t|
@@ -350,6 +381,11 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_31_091614) do
   add_foreign_key "capabilities", "actors"
   add_foreign_key "capabilities", "exercises"
   add_foreign_key "checks", "services"
+  add_foreign_key "credential_bindings", "credential_sets"
+  add_foreign_key "credential_bindings", "customization_specs"
+  add_foreign_key "credential_sets", "exercises"
+  add_foreign_key "credential_sets", "networks"
+  add_foreign_key "credentials", "credential_sets"
   add_foreign_key "customization_specs", "virtual_machines"
   add_foreign_key "instance_metadata", "customization_specs"
   add_foreign_key "network_interfaces", "networks"

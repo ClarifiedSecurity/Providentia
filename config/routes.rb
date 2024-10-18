@@ -35,6 +35,15 @@ Rails.application.routes.draw do
       resources :checks, only: %i[create update destroy]
     end
     resources :capabilities
+    if Rails.configuration.x.features.credentials
+      resources :credential_sets, path: :credentials do
+        resources :credentials, only: %i[new create show update destroy] do
+          collection do
+            post :import
+          end
+        end
+      end
+    end
     resource :clone, only: %i[show create]
   end
 

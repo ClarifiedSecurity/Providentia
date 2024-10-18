@@ -74,6 +74,15 @@
                       - if @exercise.capabilities.size > 0
                         %span.text-xs.text-white.bg-indigo-500.px-2.rounded-sm= authorized_scope(@exercise.capabilities).size
 
+
+            - if Rails.configuration.x.features.dig(:credentials)
+              %li
+                = link_to [@exercise, :credential_sets], class: 'block transition-colors hover:text-sky-400 p-2 px-3 rounded hover:bg-gray-100 dark:hover:bg-gray-700' do
+                  .flex.items-center.justify-between
+                    .flex.flex-grow.items-center.gap-x-1
+                      %i.fas{class: Credential.to_icon}
+                      %span.text-sm Credentials
+
         - if content_for?(:new_url)
           = link_to content_for(:new_url), class: 'form-submit-add h-6' do
             %i.fas.fa-plus.self-center

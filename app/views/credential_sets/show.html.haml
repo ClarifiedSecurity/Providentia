@@ -1,0 +1,8 @@
+- if allowed_to?(:create?, CredentialSet.new(exercise: @exercise))
+  - provide :new_url do
+    = url_for [:new, @exercise, :credential_set]
+
+- title @credential_set.name
+
+= render 'form'
+= render 'credentials_section'
