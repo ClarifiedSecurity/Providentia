@@ -20,7 +20,7 @@ export default class extends Controller {
           disabled: this.element.disabled,
           createOnBlur: true,
           create: true,
-          searchField: "terms",
+          searchField: ["text", "terms"],
         };
       } else {
         const hasEmptyOption =
@@ -29,7 +29,7 @@ export default class extends Controller {
           allowEmptyOption: hasEmptyOption,
           maxOptions: null,
           wrapperClass: "ts-wrapper form-input",
-          searchField: "terms",
+          searchField: ["text", "terms"],
           onDelete: function (values, event) {
             return (
               this.element.multiple || !(values.length == 1 && !hasEmptyOption)
@@ -48,7 +48,8 @@ export default class extends Controller {
       );
 
       Object.values(this.instance.options).forEach((option) => {
-        if (option["$option"].dataset.terms) {
+        if (option["$option"] && option["$option"].dataset.terms) {
+          console.log(option["$option"].dataset.terms);
           this.instance.updateOption(option.value, {
             value: option.value,
             text: option.text,
