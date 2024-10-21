@@ -133,7 +133,7 @@ GEM
     diff-lcs (1.5.1)
     domain_name (0.6.20240107)
     drb (2.2.1)
-    dry-cli (1.1.0)
+    dry-cli (1.2.0)
     email_validator (2.2.4)
       activemodel
     erubi (1.13.0)
@@ -305,7 +305,7 @@ GEM
     puma (6.4.3)
       nio4r (~> 2.0)
     racc (1.8.1)
-    rack (3.1.7)
+    rack (3.1.8)
     rack-mini-profiler (3.3.1)
       rack (>= 1.2.0)
     rack-oauth2 (2.2.1)
@@ -495,11 +495,12 @@ GEM
       axiom-types (~> 0.1)
       coercible (~> 1.0)
       descendants_tracker (~> 0.0, >= 0.0.3)
-    vite_rails (3.0.17)
-      railties (>= 5.1, < 8)
+    vite_rails (3.0.18)
+      railties (>= 5.1, < 9)
       vite_ruby (~> 3.0, >= 3.2.2)
-    vite_ruby (3.8.2)
+    vite_ruby (3.9.0)
       dry-cli (>= 0.7, < 2)
+      logger (~> 1.6)
       rack-proxy (~> 0.6, >= 0.6.1)
       zeitwerk (~> 2.2)
     warden (1.2.9)
@@ -517,7 +518,7 @@ GEM
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    zeitwerk (2.7.0)
+    zeitwerk (2.7.1)
 
 PLATFORMS
   x86_64-linux
