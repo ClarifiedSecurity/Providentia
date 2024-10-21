@@ -29,16 +29,17 @@ class ActorPolicy < ApplicationPolicy
 
   relation_scope(:vm_dev) do |relation|
     next relation if user.super_admin?
-    actor_dev = Actor.arel_table[:id].eq(RoleBinding.arel_table[:actor_id]).and(
-      RoleBinding.arel_table[:role].eq(:actor_dev)
-    )
+    developer_actors = Actor.where(
+      id: RoleBinding.for_user(user).where(role: :actor_dev).pluck(:actor_id)
+    ).flat_map(&:subtree_ids)
+
     is_env_role = Actor.arel_table[:exercise_id].eq(RoleBinding.arel_table[:exercise_id])
     actor_admin = is_env_role.and(RoleBinding.arel_table[:role].in([:environment_admin]))
     relation
       .joins(:exercise)
       .merge(Exercise.for_user(user))
       .where(
-        actor_dev
+        Actor.arel_table[:id].in(developer_actors)
         .or(actor_admin)
       )
   end
