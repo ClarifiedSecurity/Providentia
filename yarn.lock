@@ -3485,7 +3485,7 @@ __metadata:
     stimulus-textarea-autogrow: "npm:^4.1.0"
     stimulus-vite-helpers: "npm:^3.1.0"
     tailwindcss: "npm:^3.4.13"
-    tailwindcss-stimulus-components: "npm:^6.0.2"
+    tailwindcss-stimulus-components: "npm:^6.1.2"
     thememirror: "npm:^2.0.1"
     throttleit: "npm:^2.1.0"
     tippy.js: "npm:^6.3.7"
@@ -3857,12 +3857,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tailwindcss-stimulus-components@npm:^6.0.2":
-  version: 6.0.2
-  resolution: "tailwindcss-stimulus-components@npm:6.0.2"
+"tailwindcss-stimulus-components@npm:^6.1.2":
+  version: 6.1.2
+  resolution: "tailwindcss-stimulus-components@npm:6.1.2"
   peerDependencies:
     "@hotwired/stimulus": ">= 3.0.0"
-  checksum: 10/167aa4f616827dcc3bee1647ae7dd46b94593de03275dac567c59c39e21ed41554ec0bbcbf40cbe8ff619d25039f4bf63e90c35b5742c546f78713886881fce3
+  checksum: 10/6a9fc4a7b9c232f540eb04367a931b696f655d9e0a93d85222253aa01ec180ad0c5c50a8761b88140b952466c7639211d474fb3124aa34f6479df68da0f58af0
   languageName: node
   linkType: hard
 
