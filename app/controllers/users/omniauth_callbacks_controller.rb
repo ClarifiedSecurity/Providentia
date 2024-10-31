@@ -20,7 +20,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def failure
-    redirect_to new_user_session_path
+    redirect_to new_user_session_path, flash: { error: "Error from SSO: #{request.env['omniauth.error.type']}" }
   end
 
   private
