@@ -20,6 +20,6 @@
           %i.fas.fa-plus.self-center
           Add check
 
-- if @service.checks.any?
-  #checks-table.flex.flex-col.align-middle.border.border-gray-200.dark:border-gray-500.bg-white.dark:bg-gray-700.divide-y.divide-double.divide-gray-200.dark:divide-gray-500
+#checks-table.flex.flex-col.align-middle.border.border-gray-200.dark:border-gray-500.bg-white.dark:bg-gray-700.divide-y.divide-double.divide-gray-200.dark:divide-gray-500.empty:hidden<>
+  - if @service.checks.any?
     = render @service.checks.sort_by(&:created_at)
