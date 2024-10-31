@@ -10,18 +10,9 @@ class Check < ApplicationRecord
   belongs_to :destination, polymorphic: true
   has_one :exercise, through: :service
 
-  enum protocol: Protocols.to_enum_hash, _prefix: :protocol
-
-  enum ip_family: {
-    v4v6: 0,
-    v4: 1,
-    v6: 2
-  }, _prefix: :ip_family
-
-  enum check_mode: {
-    network: 1,
-    special: 2
-  }, _prefix: :check_mode
+  enum :protocol, Protocols.to_enum_hash, prefix: :protocol
+  enum :ip_family, { v4v6: 0, v4: 1, v6: 2  }, prefix: :ip_family
+  enum :check_mode, { network: 1, special: 2 }, prefix: :check_mode
 
   def self.to_icon
     'fa-flask'

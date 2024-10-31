@@ -6,10 +6,7 @@ class Network < ApplicationRecord
   friendly_id :slug_candidates, use: [:slugged, :scoped], scope: :exercise
   has_paper_trail
 
-  enum visibility: {
-    public: 1,
-    actor_only: 2
-  }, _prefix: :visibility
+  enum :visibility, { public: 1, actor_only: 2 }, prefix: :visibility
 
   belongs_to :exercise
   belongs_to :actor

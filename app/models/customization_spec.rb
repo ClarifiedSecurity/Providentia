@@ -10,10 +10,7 @@ class CustomizationSpec < ApplicationRecord
 
   friendly_id :api_id, use: [:slugged, :scoped], scope: :virtual_machine
 
-  enum mode: {
-    host: 1,
-    container: 2
-  }, _prefix: :mode, _default: 'host'
+  enum :mode, { host: 1, container: 2 }, prefix: :mode, default: 'host'
 
   scope :for_api, -> {
     includes(

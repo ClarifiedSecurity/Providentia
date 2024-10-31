@@ -6,16 +6,7 @@ class VirtualMachine < ApplicationRecord
   include SpecCacheUpdateBeforeDestroy
   has_paper_trail
 
-  # TO BE REMOVED
-  enum deploy_mode: {
-    single: 0,
-    bt: 1
-  }, _prefix: :deploy_mode
-
-  enum visibility: {
-    public: 1,
-    actor_only: 2
-  }, _prefix: :visibility
+  enum :visibility, { public: 1, actor_only: 2  }, prefix: :visibility
 
   belongs_to :exercise
   belongs_to :actor

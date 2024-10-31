@@ -9,16 +9,8 @@ class AddressPool < ApplicationRecord
   has_one :exercise, through: :network
   has_many :addresses
 
-  enum ip_family: {
-    v4: 1,
-    v6: 2,
-  }, _prefix: :ip, _default: 'v4'
-
-  enum scope: {
-    default: 1,
-    mgmt: 2,
-    other: 999,
-  }, _prefix: :scope, _default: 'default'
+  enum :ip_family, { v4: 1, v6: 2 }, prefix: :ip, default: 'v4'
+  enum :scope, { default: 1, mgmt: 2, other: 999 }, prefix: :scope, default: 'default'
 
   validates :name, :ip_family, :scope, presence: true
   validates :network_address, format: {

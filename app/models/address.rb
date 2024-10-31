@@ -11,7 +11,7 @@ class Address < ApplicationRecord
 
   delegate :exercise, to: :network
 
-  enum mode: {
+  enum :mode, {
     ipv4_static: 1,
     ipv4_dhcp: 2,
     ipv6_static: 3,
@@ -21,7 +21,7 @@ class Address < ApplicationRecord
     ipv6_uniqlocal: 7,
     ipv4_vip: 8,
     ipv6_vip: 9
-  }, _prefix: :mode, _default: 'ipv4_static'
+  }, prefix: :mode, default: 'ipv4_static'
 
   scope :all_ip_objects, -> {
     includes(:virtual_machine, :network)
