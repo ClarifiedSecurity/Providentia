@@ -28,7 +28,7 @@ FactoryBot.define do
   factory :capability do
     sequence(:name) { |n| "Capability #{n}" }
     sequence(:slug) { |n| "capability#{n}" }
-    actor { exercise.actors.sample }
+    actors { [exercise.actors.sample] }
     exercise
   end
 

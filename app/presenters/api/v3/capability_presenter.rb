@@ -9,7 +9,8 @@ module API
             id: capability.slug,
             name: capability.name,
             description: capability.description,
-            virtual_machines: capability.customization_specs.pluck(:slug)
+            actors: capability.actors.map(&:abbreviation),
+            hosts: capability.customization_specs.pluck(:slug)
           }
         end
       end

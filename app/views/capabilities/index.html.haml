@@ -4,11 +4,8 @@
 
 
 - if @capabilities.any?
-  - grouped_caps = @capabilities.group_by(&:actor)
-  = render 'result_set', actor: nil, capabilities: grouped_caps[nil] if grouped_caps[nil]
-  - @actors.each do |actor|
-    - next unless grouped_caps[actor]
-    = render 'result_set', actor:, capabilities: grouped_caps[actor]
+  - @capabilities.group_by(&:actor_ids).each do |actor_ids, capabilities|
+    = render 'result_set', actors: authorized_scope(@exercise.actors).find(actor_ids) , capabilities:
 
 - else
   = render 'shared/empty', klass: Capability

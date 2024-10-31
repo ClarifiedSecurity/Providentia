@@ -4,8 +4,8 @@ class Capability < ApplicationRecord
   extend FriendlyId
 
   belongs_to :exercise, touch: true
-  belongs_to :actor, touch: true
   has_and_belongs_to_many :customization_specs
+  has_and_belongs_to_many :actors, touch: true
 
   validates :name, uniqueness: { scope: :exercise }, presence: true
 

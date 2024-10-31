@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_23_123317) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_31_091614) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -37,6 +37,12 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_23_123317) do
     t.integer "default_visibility", default: 1
     t.index ["ancestry"], name: "index_actors_on_ancestry"
     t.index ["exercise_id"], name: "index_actors_on_exercise_id"
+  end
+
+  create_table "actors_capabilities", id: false, force: :cascade do |t|
+    t.bigint "actor_id", null: false
+    t.bigint "capability_id", null: false
+    t.index ["actor_id", "capability_id"], name: "actor_capability_index"
   end
 
   create_table "address_pools", force: :cascade do |t|

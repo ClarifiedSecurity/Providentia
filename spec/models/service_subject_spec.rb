@@ -103,7 +103,7 @@ RSpec.describe ServiceSubject do
     }
     let!(:nic1) { create(:network_interface, virtual_machine: virtual_machine1, network: create(:network, exercise: service.exercise), egress: true) }
     let(:spec1) { create(:customization_spec, tag_list: 'tag1') }
-    let(:capability1) { create(:capability, actor:, exercise: service.exercise) }
+    let(:capability1) { create(:capability, actors: [actor], exercise: service.exercise) }
     before { spec1.capabilities << capability1 }
 
 
@@ -129,7 +129,7 @@ RSpec.describe ServiceSubject do
     }
     let!(:nic3) { create(:network_interface, virtual_machine: virtual_machine3, network: nic1.network, egress: true) }
     let(:spec3) { create(:customization_spec, tag_list: 'tag3') }
-    let(:capability3) { create(:capability, actor: actor3, exercise: service.exercise) }
+    let(:capability3) { create(:capability, actors: [actor3], exercise: service.exercise) }
     before { spec3.capabilities << capability3 }
 
     let(:actor_matcher) { ServiceSubjectMatchCondition.new(matcher_type: 'Actor', matcher_id: actor.id.to_s) }
