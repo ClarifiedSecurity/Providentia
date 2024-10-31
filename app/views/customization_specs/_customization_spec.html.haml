@@ -3,24 +3,24 @@
     %fieldset{disabled: !allowed_to?(:update?, customization_spec)}
       .flex.flex-row.flex-wrap.gap-x-4.gap-y-2
         .grow
-          = form.label :name, class: 'block font-bold text-gray-700 dark:text-gray-200'
-          = form.text_field :name, class: 'form-input', disabled: customization_spec.mode_host?
+          = form.label :name, for: "customization_spec#{customization_spec.id}_name", class: 'block font-bold text-gray-700 dark:text-gray-200'
+          = form.text_field :name, id: "customization_spec#{customization_spec.id}_name", class: 'form-input', disabled: customization_spec.mode_host?
 
           - if customization_spec.errors[:name].any?
             %span.text-red-600= customization_spec.errors[:name].join(', ')
 
         %div
-          = form.label :role_name, class: 'block font-bold text-gray-700 dark:text-gray-200'
-          = form.text_field :role_name, class: 'form-input', placeholder: customization_spec.default_role_name
+          = form.label :role_name, for: "customization_spec#{customization_spec.id}_role_name", class: 'block font-bold text-gray-700 dark:text-gray-200'
+          = form.text_field :role_name, id: "customization_spec#{customization_spec.id}_role_name", class: 'form-input', placeholder: customization_spec.default_role_name
 
           - if customization_spec.errors[:role_name].any?
             %span.text-red-600= customization_spec.errors[:role_name].join(', ')
 
         - if customization_spec.virtual_machine.clustered?
           %div
-            = form.label :cluster_mode, class: 'block font-bold text-gray-700 dark:text-gray-200'
+            = form.label :cluster_mode, for: "customization_spec#{customization_spec.id}_cluster_mode", class: 'block font-bold text-gray-700 dark:text-gray-200'
             %label.inline-flex.items-center.cursor-pointer.mt-1
-              = form.check_box :cluster_mode, class: 'sr-only peer'
+              = form.check_box :cluster_mode, id: "customization_spec#{customization_spec.id}_cluster_mode", class: 'sr-only peer'
               .relative.w-11.h-6.my-2.bg-gray-200.peer-focus:outline-none.peer-focus:ring-4.peer-focus:ring-blue-300.dark:peer-focus:ring-blue-800.rounded-full.peer.dark:bg-gray-700.peer-checked:after:translate-x-full.rtl:peer-checked:after:-translate-x-full.peer-checked:after:border-white.after:absolute.after:bg-white.after:border-gray-300.after:border.after:rounded-full.after:w-5.after:h-5.after:transition-all.dark:border-gray-600.peer-checked:bg-blue-600{class: "after:content-[''] after:top-[2px] after:start-[2px]"}
 
         %div
@@ -35,11 +35,11 @@
         .h-0.basis-full
 
         .grow
-          = form.label :dns_name, class: 'block font-bold text-gray-700 dark:text-gray-200'
+          = form.label :dns_name, for: "customization_spec#{customization_spec.id}_dns_name", class: 'block font-bold text-gray-700 dark:text-gray-200'
 
           - if customization_spec.virtual_machine.connection_nic
             = render SplitInputComponent.new do |split|
-              - split.with_input(form_helper: form, field: :dns_name, placeholder: customization_spec.default_dns_name)
+              - split.with_input(form_helper: form, field: :dns_name, placeholder: customization_spec.default_dns_name, id: "customization_spec#{customization_spec.id}_dns_name")
               - split.with_right_cell do
                 = ".#{render LiquidDomainComponent.new(object: customization_spec.virtual_machine)}"
           - else
@@ -53,11 +53,11 @@
           .h-0.basis-full
 
           .grow
-            = form.label :description, class: 'block font-bold text-gray-700 dark:text-gray-200'
-            = form.text_area :description, class: 'form-input', data: { controller: "textarea-autogrow" }
+            = form.label :description, for: "customization_spec#{customization_spec.id}_description", class: 'block font-bold text-gray-700 dark:text-gray-200'
+            = form.text_area :description, id: "customization_spec#{customization_spec.id}_description", class: 'form-input', data: { controller: "textarea-autogrow" }
 
       .mt-2
-        = form.label :capability_ids, Capability.model_name.human.pluralize, class: 'block font-bold text-gray-700 dark:text-gray-200'
+        = form.label :capability_ids, Capability.model_name.human.pluralize, for: "customization_spec#{customization_spec.id}_capability_ids", class: 'block font-bold text-gray-700 dark:text-gray-200'
         = form.collection_select :capability_ids, @capabilities, :id, :name, {}, multiple: true, data: { controller: 'select' }, disabled: !allowed_to?(:update?, @virtual_machine)
 
       - if allowed_to?(:read_tags?, customization_spec)
@@ -68,9 +68,9 @@
                 The tags will be added to the API with
                 %code custom_
                 prefix
-            = form.label :tag_list, class: 'block font-bold text-gray-700 dark:text-gray-200' do
+            = form.label :tag_list, for: "customization_spec#{customization_spec.id}_tag_list", class: 'block font-bold text-gray-700 dark:text-gray-200' do
               = CustomizationSpec.human_attribute_name(:tag_list)
-              = link_to 'javascript:;', class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400', data: { action: "click->modal#open" } do
+              = link_to 'javascript:;', id: "customization_spec#{customization_spec.id}_tag_list", class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400', data: { action: "click->modal#open" } do
                 %i.fas.fa-circle-question
 
           = form.text_field :tag_list, { value: customization_spec.tags.map(&:name).join(', '), data: { controller: 'select', create: true, select_options_value: ActsAsTaggableOn::Tag.for_tenant("exercise_#{@exercise.id}").uniq.pluck(:name) }, disabled: !allowed_to?(:update?, @virtual_machine) }
