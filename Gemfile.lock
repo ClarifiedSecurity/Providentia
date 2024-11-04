@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/ipaddress-gem/ipaddress.git
-  revision: fb310dff8889c39f1caa457ccf354ec34fdb2d68
+  revision: 50a3d73bb1dbeec24a8dd957e3bb7cf7dd207960
   specs:
     ipaddress (0.8.3)
 
