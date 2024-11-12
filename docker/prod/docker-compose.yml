@@ -58,12 +58,6 @@ services:
       - POSTGRES_PASSWORD=secret
       - POSTGRES_DB=providentia
 
-  redis:
-    image: "redis:alpine"
-    restart: unless-stopped
-    volumes:
-      - "redis:/data"
-
   keycloak:
     image: bitnami/keycloak:25.0.4
     depends_on:
@@ -98,6 +92,5 @@ services:
       - IMPORT_FILES='/config/*'
 
 volumes:
-  redis: {}
   caddy_data: {}
   providentia_db: {}

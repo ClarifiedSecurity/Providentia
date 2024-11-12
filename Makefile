@@ -36,8 +36,10 @@ console: .makerc-vars ## Open rails console
 logs: .makerc-vars ## Tail all logs
 	$(SUDO_COMMAND) docker compose -f docker/$(DEPLOY_ENVIRONMENT)/docker-compose.yml logs -f --tail=100
 
-clear-redis: .makerc-vars ## Clear rails cache (by flushing redis)
-	$(SUDO_COMMAND) docker compose -f docker/$(DEPLOY_ENVIRONMENT)/docker-compose.yml exec redis redis-cli flushdb
+clear-redis: clear-cache # dummy until migrated
+
+clear-cache: .makerc-vars ## Clear rails cache
+	$(SUDO_COMMAND) docker compose -f docker/$(DEPLOY_ENVIRONMENT)/docker-compose.yml exec web bin/rails r 'Rails.cache.clear'
 
 import-db:
 	$(SUDO_COMMAND) docker compose -f docker/$(DEPLOY_ENVIRONMENT)/docker-compose.yml up -d postgresql --wait

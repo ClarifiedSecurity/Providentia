@@ -61,7 +61,6 @@ Providentia is a [Ruby on Rails](https://github.com/rails/rails) based web appli
 
   Can be switched to any OpenID Connect provider
 
-- ~~Redis~~[Garnet](https://github.com/microsoft/garnet) for caching and session storage
 - [PostgreSQL](https://www.postgresql.org/)
 - [Rails](https://github.com/rails/rails) app
 - [Caddy](https://github.com/caddyserver/caddy) reverse proxy

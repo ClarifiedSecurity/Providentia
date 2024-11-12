@@ -16,15 +16,12 @@ gem 'nilify_blanks', '~> 1.4'
 gem 'data_migrate'
 gem 'solid_cable'
 gem 'solid_queue'
+gem 'solid_cache'
 
 # frontend
 gem 'haml-rails', '~> 2.0'
 gem 'turbo-rails', '~> 2.0'
 gem 'view_component'
-
-# TO BE REMOVED
-gem 'redis'
-gem 'hiredis', '~> 0.6.3'
 
 # functionality
 gem 'stringex', '~> 2.8', require: 'stringex_lite'

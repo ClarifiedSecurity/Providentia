@@ -68,23 +68,9 @@ services:
       - KEYCLOAK_AVAILABILITYCHECK_TIMEOUT=30s
       - IMPORT_FILES='/config/*'
 
-  redis:
-    image: "redis:alpine"
-    volumes:
-      - "redis:/data"
-
-  garnet:
-    image: "ghcr.io/microsoft/garnet"
-    ulimits:
-      memlock: -1
-    volumes:
-      - garnetdata:/data
-
   web:
     depends_on:
       - "postgresql"
-      - "redis"
-      - "garnet"
     build:
       context: ../../
       dockerfile: Dockerfile
@@ -112,7 +98,6 @@ services:
       VITE_RUBY_PORT: 80
       VITE_RUBY_SKIP_PROXY: true
       DATABASE_URL: postgres://providentia:secret@postgresql/providentia?pool=5
-      REDIS_URL: redis://garnet:6379/0
       OIDC_ISSUER: http://keycloak.localhost/realms/Providentia
       OIDC_CLIENT_ID: Providentia
       OIDC_CLIENT_SECRET: 00000000-0000-0000-0000-000000000000
@@ -171,7 +156,5 @@ services:
 
 volumes:
   caddy_data:
-  redis:
   postgres_providentia:
   postgres_keycloak:
-  garnetdata:
