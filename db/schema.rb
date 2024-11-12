@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema[7.2].define(version: 2024_10_31_091614) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  enable_extension "pg_catalog.plpgsql"
 
   create_table "actor_number_configs", force: :cascade do |t|
     t.bigint "actor_id", null: false

@@ -1,7 +1,35 @@
-version: "3.7"
-
+---
 name: providentia
 services:
+  web:
+    depends_on:
+      - "db"
+    build:
+      context: ../../
+      dockerfile: Dockerfile
+      target: production
+    restart: unless-stopped
+    volumes:
+      - /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt
+    environment:
+      # persistence config
+      - DATABASE_URL=postgres://providentia:secret@db/providentia?pool=5
+      - REDIS_URL=redis://redis:6379/0
+
+      # OpenID connect config to local keycloak, which uses http
+      - OIDC_ISSUER=http://keycloak.localhost/realms/Providentia
+      - OIDC_CLIENT_ID=Providentia
+      - OIDC_CLIENT_SECRET=00000000-0000-0000-0000-000000000000
+      - OIDC_RESOURCE_PREFIX=Providentia_
+      - OIDC_ENABLE_HTTP=true # example only!
+
+      # use real FQDN here
+      - BASE_URI=https://providentia.localhost
+    labels:
+      caddy: "providentia.localhost"
+      caddy.tls: internal
+      caddy.reverse_proxy: "{{upstreams 3000}}"
+
   caddy:
     image: lucaslorentz/caddy-docker-proxy:ci-alpine
     ports:
@@ -25,8 +53,10 @@ services:
     volumes:
       - ./initdb_keycloak.sql:/docker-entrypoint-initdb.d/001-initdb.sql
       - "providentia_db:/var/lib/postgresql/data"
-    env_file:
-      - db.env
+    environment:
+      - POSTGRES_USER=providentia
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=providentia
 
   redis:
     image: "redis:alpine"
@@ -34,30 +64,8 @@ services:
     volumes:
       - "redis:/data"
 
-  web:
-    depends_on:
-      - "db"
-      - "redis"
-    build:
-      context: ../../
-      dockerfile: Dockerfile
-      target: production
-    entrypoint: ["/srv/app/docker-entrypoint.sh"]
-    command: ["puma", "-C", "config/puma.production.rb"]
-    restart: unless-stopped
-    volumes:
-      - /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt
-    expose:
-      - 3000
-    env_file:
-      - web.env
-    labels:
-      caddy: "providentia.localhost"
-      caddy.tls: internal
-      caddy.reverse_proxy: "{{upstreams 3000}}"
-
   keycloak:
-    image: bitnami/keycloak:23.0.4
+    image: bitnami/keycloak:25.0.4
     depends_on:
       - db
     environment:
@@ -76,7 +84,7 @@ services:
       caddy.reverse_proxy: "{{upstreams 8080}}"
 
   keycloak_config:
-    image: adorsys/keycloak-config-cli:latest-23.0.1
+    image: adorsys/keycloak-config-cli:latest-25
     depends_on:
       - keycloak
     volumes:

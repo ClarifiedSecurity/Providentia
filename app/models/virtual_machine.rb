@@ -6,6 +6,7 @@ class VirtualMachine < ApplicationRecord
   include SpecCacheUpdateBeforeDestroy
   has_paper_trail
 
+  attribute :visibility, :integer # rails bug during migrations
   enum :visibility, { public: 1, actor_only: 2  }, prefix: :visibility
 
   belongs_to :exercise

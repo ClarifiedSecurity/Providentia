@@ -97,10 +97,8 @@ services:
     volumes:
       - /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt
       - ../../:/srv/app
-    entrypoint: ["/srv/app/docker/dev/docker-entrypoint.sh"]
-    command: ["rails", "server", "-b", "0.0.0.0"]
     healthcheck:
-      test: "curl -f localhost:3000/healthz"
+      test: "wget -q 127.0.0.1:3000/healthz -O /dev/null"
       interval: 5s
       timeout: 5s
       retries: 20

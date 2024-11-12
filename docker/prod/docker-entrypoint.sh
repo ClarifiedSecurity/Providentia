@@ -1,15 +1,17 @@
-#!/bin/sh
+#!/bin/bash
 set -ex
 
-if [ -f tmp/pids/server.pid ]; then
-  rm tmp/pids/server.pid
+# Enable jemalloc for reduced memory usage and latency.
+if [ -z "${LD_PRELOAD+x}" ]; then
+  LD_PRELOAD=$(find /usr/lib -name libjemalloc.so.2 -print -quit)
+  export LD_PRELOAD
 fi
 
-if [ ! -f config/credentials.yml.enc ]; then
-  EDITOR=true bundle exec rails credentials:edit
+# If running the rails server then create or migrate existing database
+if [ "${@:1:1}" == "./bin/rails" ] && [ "${@:2:1}" == "server" ]; then
+  ./bin/rails db:prepare
+  ./bin/rails db:seed
+  ./bin/rails data:migrate
 fi
 
-bundle exec rails db:prepare:with_data
-bundle exec rails db:seed
-
-exec "$@"
+exec "${@}"

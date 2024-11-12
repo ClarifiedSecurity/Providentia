@@ -14,6 +14,7 @@ config: .makerc-vars ## Regenerate config file
 
 clean: .makerc-vars ## Stop containers, remove volumes and built images
 	$(SUDO_COMMAND) docker compose -f docker/$(DEPLOY_ENVIRONMENT)/docker-compose.yml down --rmi local -v --remove-orphans
+	rm storage/*.sqlite3
 
 build: .makerc-vars $(if $(findstring $(DEPLOY_ENVIRONMENT),prod),CURRENT_VERSION) ## Build app images
 	$(SUDO_COMMAND) docker compose -f docker/$(DEPLOY_ENVIRONMENT)/docker-compose.yml build
@@ -22,7 +23,7 @@ stop: .makerc-vars ## Stop containers
 	$(SUDO_COMMAND) docker compose -f docker/$(DEPLOY_ENVIRONMENT)/docker-compose.yml down
 
 start: .makerc-vars ## Start daemonized containers
-	$(SUDO_COMMAND) docker compose -f docker/$(DEPLOY_ENVIRONMENT)/docker-compose.yml up -d
+	$(SUDO_COMMAND) docker compose -f docker/$(DEPLOY_ENVIRONMENT)/docker-compose.yml up -d --wait
 
 restart: stop start ## Restart the containers
 
