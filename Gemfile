@@ -15,6 +15,7 @@ gem 'friendly_id', '~> 5.5.0'
 gem 'nilify_blanks', '~> 1.4'
 gem 'data_migrate'
 gem 'solid_cable'
+gem 'solid_queue'
 
 # frontend
 gem 'haml-rails', '~> 2.0'
