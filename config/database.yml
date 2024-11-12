@@ -1,2 +1,48 @@
+default_pg: &default_pg
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+default_sqlite: &default_sqlite
+  adapter: sqlite3
+  pool: 5
+  timeout: 5000
+
+development:
+  primary:
+    <<: *default_pg
+    url: <%= ENV["DATABASE_URL"] %>
+  cache:
+    <<: *default_sqlite
+    database: storage/development_cache.sqlite3
+    migrations_paths: db/cache_migrate
+  queue:
+    <<: *default_sqlite
+    database: storage/development_queue.sqlite3
+    migrations_paths: db/queue_migrate
+  cable:
+    <<: *default_sqlite
+    database: storage/development_cable.sqlite3
+    migrations_paths: db/cable_migrate
+
+# only specify one for test
 test:
-  url: "postgres://providentia:secret@postgresql/providentia_test?pool=5"
+  primary:
+    url: "postgres://providentia:secret@postgresql/providentia_test?pool=5"
+
+production:
+  primary:
+    <<: *default_pg
+    url: <%= ENV["DATABASE_URL"] %>
+  cache:
+    <<: *default_sqlite
+    database: storage/production_cache.sqlite3
+    migrations_paths: db/cache_migrate
+  queue:
+    <<: *default_sqlite
+    database: storage/production_queue.sqlite3
+    migrations_paths: db/queue_migrate
+  cable:
+    <<: *default_sqlite
+    database: storage/production_cable.sqlite3
+    migrations_paths: db/cable_migrate

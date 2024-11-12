@@ -4,30 +4,32 @@ source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 # core
-gem 'bootsnap', '>= 1.4.2', require: false
-gem 'haml-rails', '~> 2.0'
-gem 'rgl'
-gem 'pg'
-gem 'puma'
-gem 'nilify_blanks', '~> 1.4'
 gem 'rails', '~> 8.0.0'
+gem 'pg'
+gem 'sqlite3'
+gem 'bootsnap', '>= 1.4.2', require: false
+gem 'puma'
 gem 'oj', '~> 3.10'
-gem 'pry-rails', '~> 0.3.9'
 gem 'rails-patterns'
 gem 'friendly_id', '~> 5.5.0'
-gem 'view_component'
-gem 'jwt'
-gem 'http', '~> 5.0'
+gem 'nilify_blanks', '~> 1.4'
+gem 'data_migrate'
+gem 'solid_cable'
+
+# frontend
+gem 'haml-rails', '~> 2.0'
 gem 'turbo-rails', '~> 2.0'
-gem 'liquid', '~> 5.5'
+gem 'view_component'
+
+# TO BE REMOVED
 gem 'redis'
 gem 'hiredis', '~> 0.6.3'
-gem 'mail', '~> 2.8'
-gem 'nokogiri', '~> 1.16'
-gem 'stringex', '~> 2.8', require: 'stringex_lite'
-gem 'data_migrate'
 
 # functionality
+gem 'stringex', '~> 2.8', require: 'stringex_lite'
+gem 'http', '~> 5.0'
+gem 'liquid', '~> 5.5'
+gem 'rgl'
 gem 'acts-as-taggable-on', '~> 12.0'
 gem 'ipaddress', github: 'ipaddress-gem/ipaddress'
 gem 'simple_form', '~> 5.3'
@@ -81,4 +83,5 @@ group :development do
 
   gem 'silencer'
   gem 'awesome_print', '~> 1.9'
+  gem 'pry-rails', '~> 0.3.9'
 end
