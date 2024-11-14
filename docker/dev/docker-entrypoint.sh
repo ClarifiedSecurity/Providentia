@@ -14,7 +14,7 @@ fi
 
 git describe --tags >CURRENT_VERSION
 touch tmp/caching-dev.txt
-bundle exec rake db:prepare
+bundle exec rake db:prepare:with_data
 bundle exec rake db:seed
 yarn
 

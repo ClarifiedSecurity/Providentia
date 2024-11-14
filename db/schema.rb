@@ -143,6 +143,9 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_23_123317) do
     t.index ["customization_spec_id", "service_id"], name: "spec_service_index"
   end
 
+  create_table "data_migrations", primary_key: "version", id: :string, force: :cascade do |t|
+  end
+
   create_table "exercises", force: :cascade do |t|
     t.string "name", null: false
     t.string "abbreviation", null: false

@@ -25,6 +25,7 @@ gem 'hiredis', '~> 0.6.3'
 gem 'mail', '~> 2.8'
 gem 'nokogiri', '~> 1.16'
 gem 'stringex', '~> 2.8', require: 'stringex_lite'
+gem 'data_migrate'
 
 # functionality
 gem 'acts-as-taggable-on', '~> 11.0'

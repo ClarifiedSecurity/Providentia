@@ -9,7 +9,7 @@ if [ ! -f config/credentials.yml.enc ]; then
   EDITOR=true bundle exec rails credentials:edit
 fi
 
-bundle exec rails db:prepare
+bundle exec rails db:prepare:with_data
 bundle exec rails db:seed
 
 exec "$@"
