@@ -28,7 +28,7 @@ gem 'stringex', '~> 2.8', require: 'stringex_lite'
 gem 'data_migrate'
 
 # functionality
-gem 'acts-as-taggable-on', '~> 11.0'
+gem 'acts-as-taggable-on', '~> 12.0'
 gem 'ipaddress', github: 'ipaddress-gem/ipaddress'
 gem 'simple_form', '~> 5.3'
 gem 'ancestry'
