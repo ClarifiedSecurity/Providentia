@@ -49,7 +49,6 @@ export default class extends Controller {
 
       Object.values(this.instance.options).forEach((option) => {
         if (option["$option"] && option["$option"].dataset.terms) {
-          console.log(option["$option"].dataset.terms);
           this.instance.updateOption(option.value, {
             value: option.value,
             text: option.text,
