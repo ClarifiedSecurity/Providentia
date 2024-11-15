@@ -25,6 +25,7 @@ RSpec.describe 'API v3 networks', type: :request do
           actor: net.actor.abbreviation.downcase,
           instances: [{
             team_nr: nil,
+            actor_nr: nil,
             cloud_id: '',
             domains: net.domain_bindings.full_names,
             address_pools: [
@@ -40,7 +41,7 @@ RSpec.describe 'API v3 networks', type: :request do
 
   context 'with numbered network' do
     let!(:numbered_actor) { create(:actor, :numbered, exercise:) }
-    let!(:networks) { [create(:network, exercise:, actor: numbered_actor, cloud_id: 'hello{{ team_nr }}')] }
+    let!(:networks) { [create(:network, exercise:, actor: numbered_actor, cloud_id: 'hello{{ actor_nr }}')] }
 
     it 'should list network with numbered instances' do
       expect(response).to be_successful
@@ -53,6 +54,7 @@ RSpec.describe 'API v3 networks', type: :request do
           actor: numbered_actor.abbreviation.downcase,
           instances: [{
             team_nr: 1,
+            actor_nr: 1,
             cloud_id: 'hello1',
             domains: networks.first.domain_bindings.full_names,
             address_pools: [
@@ -62,6 +64,7 @@ RSpec.describe 'API v3 networks', type: :request do
             config_map: nil
           }, {
             team_nr: 2,
+            actor_nr: 2,
             cloud_id: 'hello2',
             domains: networks.first.domain_bindings.full_names,
             address_pools: [
@@ -71,6 +74,7 @@ RSpec.describe 'API v3 networks', type: :request do
             config_map: nil
           }, {
             team_nr: 3,
+            actor_nr: 3,
             cloud_id: 'hello3',
             domains: networks.first.domain_bindings.full_names,
             address_pools: [

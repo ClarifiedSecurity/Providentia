@@ -87,7 +87,7 @@ class Domains < ActiveRecord::Migration[8.0]
     end
 
     def render_liquid_template(domain_template)
-      template_vars = { 'team_nr' => 1, 'team_nr_str' => '1' }
+      template_vars = { 'actor_nr' => 1, 'actor_nr_str' => '1' }
       Liquid::Template.parse(domain_template).render(template_vars)
     rescue Liquid::Error => e
       log "Warning: Failed to parse Liquid template '#{domain_template}': #{e.message}"

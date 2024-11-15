@@ -60,7 +60,7 @@ class Network < ApplicationRecord
   end
 
   def numbered?
-    cloud_id =~ /#|team_nr/ || address_pools.any?(&:numbered?)
+    cloud_id =~ /#|team_nr|actor_nr/ || address_pools.any?(&:numbered?)
   end
 
   def slug_candidates
@@ -78,9 +78,7 @@ class Network < ApplicationRecord
     def ip_network(index, type)
       return unless public_send(type)
       raw_value = public_send(type).dup
-      templated = StringSubstituter.result_for(raw_value, {
-        team_nr: index || 1
-      })
+      templated = StringSubstituter.result_for(raw_value, { actor_nr: index || 1 })
       IPAddress(templated).network
     end
 

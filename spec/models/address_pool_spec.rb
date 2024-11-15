@@ -8,7 +8,7 @@ RSpec.describe AddressPool do
 
   context 'dynamic last octet' do
     let(:network) { build(:network, actor: build(:actor, :numbered)) }
-    subject { build(:address_pool, network_address: '1.0.0.{{ team_nr }}/28', network:) }
+    subject { build(:address_pool, network_address: '1.0.0.{{ actor_nr }}/28', network:) }
 
     it 'should generate correctly numbered network segments' do
       expect(subject.ip_network(1).to_string).to eq '1.0.0.0/28'

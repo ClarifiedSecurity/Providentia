@@ -32,7 +32,7 @@ class HostnameGenerator < Patterns::Calculation
     def suffixes
       [].tap do |parts|
         parts << '{{ seq }}' if virtual_machine.clustered?
-        parts << '{{ team_nr_str }}' if team_suffix?
+        parts << '{{ actor_nr_str }}' if team_suffix?
       end.join('-')
     end
 

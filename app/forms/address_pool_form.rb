@@ -29,7 +29,7 @@ class AddressPoolForm < Patterns::Form
       if input == ''
         public_send("#{field.to_s.sub('_address', '')}=", nil)
       else
-        address = IPAddress::IPv4.new("#{StringSubstituter.result_for(input, { team_nr: 1 })}/#{resource.ip_network.prefix}") rescue nil
+        address = IPAddress::IPv4.new("#{StringSubstituter.result_for(input, { actor_nr: 1 })}/#{resource.ip_network.prefix}") rescue nil
         if address && resource.ip_network.include?(address)
           public_send("#{field.to_s.sub('_address', '')}=", address.u32 - resource.ip_network.network_u32 - 1)
         else

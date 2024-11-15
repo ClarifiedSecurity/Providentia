@@ -108,15 +108,19 @@ Example:
 {
   "result": {
     "id": "server",
-    "owner": null,
-    "description": null,
+    "spec_name": "server",
+    "owner": "Main Developer",
+    "description": "Some kind of server",
     "role": "server",
-    "team_name": "blue",
+    "actor_id": "blue",
+    "actor_name": "Blue team",
     "visibility": "public",
-    "hardware_cpu": null,
-    "hardware_ram": null,
-    "hardware_primary_disk_size": null,
-    "tags": ["team_blue"],
+    "hardware_cpu": 2,
+    "hardware_ram": 4,
+    "hardware_primary_disk_size": 80,
+    "egress_networks": ["blu"],
+    "connection_network": "blu",
+    "tags": ["actor_blue", "server", "custom_my_favourite_colour_is_blue", "zone_blu"],
     "capabilities": [],
     "services": [],
     "sequence_tag": null,
@@ -124,12 +128,13 @@ Example:
     "instances": [
       {
         "id": "server_t01",
-        "vm_name": "te_",
+        "parent_id": null,
+        "vm_name": "te_server.blu.01.te",
         "team_unique_id": "server",
         "hostname": "server",
-        "domain": "",
-        "fqdn": "",
-        "connection_address": null,
+        "domain": "blu.01.te",
+        "fqdn": "server.blu.01.te",
+        "connection_address": "2a07:a:b:1:d::666",
         "interfaces": [
           {
             "network_id": "blu",
@@ -153,17 +158,20 @@ Example:
         "checks": [],
         "config_map": {},
         "team_nr": 1,
-        "team_nr_str": "01"
+        "team_nr_str": "01",
+        "actor_nr": 1,
+        "actor_nr_str": "01",
       },
       ...
       {
         "id": "server_t05",
-        "vm_name": "te_",
+        "parent_id": null,
+        "vm_name": "te_server.blu.05.te",
         "team_unique_id": "server",
         "hostname": "server",
-        "domain": "",
-        "fqdn": "",
-        "connection_address": null,
+        "domain": "blu.05.te",
+        "fqdn": "server.blu.05.te",
+        "connection_address": "2a07:a:b:5:d::666",
         "interfaces": [
           {
             "network_id": "blu",
@@ -187,7 +195,9 @@ Example:
         "checks": [],
         "config_map": {},
         "team_nr": 5,
-        "team_nr_str": "05"
+        "team_nr_str": "05",
+        "actor_nr": 5,
+        "actor_nr_str": "05",
       }
     ]
   }

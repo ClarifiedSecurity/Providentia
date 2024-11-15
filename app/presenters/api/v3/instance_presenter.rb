@@ -3,15 +3,15 @@
 module API
   module V3
     class InstancePresenter
-      attr_reader :spec, :sequential_number, :team_number, :options
+      attr_reader :spec, :sequential_number, :actor_number, :options
       delegate :operating_system, to: :vm
 
       AddressWithGenerator = Data.define(:address, :generator, :connection?)
 
-      def initialize(spec, sequential_number = nil, team_number = nil, **opts)
+      def initialize(spec, sequential_number = nil, actor_number = nil, **opts)
         @spec = spec
         @sequential_number = sequential_number
-        @team_number = team_number
+        @actor_number = actor_number
         @options = opts
       end
 
@@ -31,7 +31,7 @@ module API
           checks:,
           tags:,
           config_map: {}
-        }.merge(team_numbers)
+        }.merge(actor_numbers)
          .merge(sequence_info)
          .merge(metadata)
       end
@@ -81,7 +81,7 @@ module API
         end
 
         def hostname_team_suffix
-          't{{ team_nr_str }}' if vm.numbered_actor
+          't{{ actor_nr_str }}' if vm.numbered_actor
         end
 
         def clustered_parent_suffix
@@ -90,11 +90,13 @@ module API
 
         # --- Team and Sequence Info ---
 
-        def team_numbers
-          return {} unless team_number
+        def actor_numbers
+          return {} unless actor_number
           {
-            team_nr: team_number,
-            team_nr_str: team_number.to_s.rjust(2, '0'),
+            team_nr: actor_number,
+            team_nr_str: actor_number.to_s.rjust(2, '0'),
+            actor_nr: actor_number,
+            actor_nr_str: actor_number.to_s.rjust(2, '0'),
           }
         end
 
@@ -115,7 +117,7 @@ module API
         # --- Numbering Logic ---
 
         def skip_by_numbering
-          team_number && vm.numbered_actor && !enabled_numbered_actors.include?(team_number)
+          actor_number && vm.numbered_actor && !enabled_numbered_actors.include?(actor_number)
         end
 
         def enabled_numbered_actors
@@ -132,7 +134,7 @@ module API
           StringSubstituter.result_for(
             text,
             {
-              team_nr: team_number,
+              actor_nr: actor_number,
               seq: sequential_number
             }
           )
@@ -144,7 +146,7 @@ module API
           primary_generator.address&.ip_object(
             sequence_number: sequential_number,
             sequence_total: vm.custom_instance_count,
-            actor_number: team_number
+            actor_number: actor_number
           )&.to_s
         end
 
@@ -187,13 +189,13 @@ module API
           address.ip_object(
             sequence_number: sequential_number,
             sequence_total: vm.custom_instance_count,
-            actor_number: team_number
+            actor_number: actor_number
           ).to_string
         end
 
         def gateway_address(address, nic)
           return unless nic.egress? && (address.mode_ipv4_static? || address.mode_ipv6_static?)
-          address.address_pool.gateway_ip(team_number)&.to_s
+          address.address_pool.gateway_ip(actor_number)&.to_s
         end
 
         def addresses_with_generator

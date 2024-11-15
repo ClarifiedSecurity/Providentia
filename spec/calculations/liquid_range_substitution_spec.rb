@@ -9,6 +9,24 @@ RSpec.describe LiquidRangeSubstitution do
   context 'vm' do
     let(:source_object) { build(:virtual_machine) }
 
+    context 'with actor number node' do
+      let(:input_string) { '{{ actor_nr }}' }
+
+      it { is_expected.to eq 'actor_nr: N/A' }
+
+      context 'with numbered actor' do
+        let(:source_object) { build(:virtual_machine, actor: build(:actor, :numbered)) }
+
+        it { is_expected.to eq "actor_nr: 1 - #{source_object.actor.number}" }
+      end
+
+      context 'with numbering actor' do
+        let(:source_object) { build(:virtual_machine, numbered_by: build(:actor, :numbered)) }
+
+        it { is_expected.to eq "actor_nr: 1 - #{source_object.numbered_by.number}" }
+      end
+    end
+
     context 'with team number node' do
       let(:input_string) { '{{ team_nr }}' }
 
@@ -24,6 +42,24 @@ RSpec.describe LiquidRangeSubstitution do
         let(:source_object) { build(:virtual_machine, numbered_by: build(:actor, :numbered)) }
 
         it { is_expected.to eq "team_nr: 1 - #{source_object.numbered_by.number}" }
+      end
+    end
+
+    context 'with team number node' do
+      let(:input_string) { '{{ actor_nr }}' }
+
+      it { is_expected.to eq 'actor_nr: N/A' }
+
+      context 'with numbered actor' do
+        let(:source_object) { build(:virtual_machine, actor: build(:actor, :numbered)) }
+
+        it { is_expected.to eq "actor_nr: 1 - #{source_object.actor.number}" }
+      end
+
+      context 'with numbering actor' do
+        let(:source_object) { build(:virtual_machine, numbered_by: build(:actor, :numbered)) }
+
+        it { is_expected.to eq "actor_nr: 1 - #{source_object.numbered_by.number}" }
       end
     end
   end
