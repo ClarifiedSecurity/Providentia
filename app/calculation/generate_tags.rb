@@ -43,13 +43,13 @@ class GenerateTags < Patterns::Calculation
           item.spec.capabilities
         ])
       when API::V3::InstancePresenter
-        return if !item.team_number
+        return if !item.actor_number
         actor = item.spec.virtual_machine.actor
         numbered_actor = item.spec.virtual_machine.numbered_actor
         if actor.path.include?(numbered_actor)
-          resolve_inputs(actor.path.map { ActorWithNumber.new(actor: _1, number: item.team_number) })
+          resolve_inputs(actor.path.map { ActorWithNumber.new(actor: _1, number: item.actor_number) })
         else
-          tag_sources.add NumberedByAnotherActor.new(actor:, numbered_actor:, number: item.team_number)
+          tag_sources.add NumberedByAnotherActor.new(actor:, numbered_actor:, number: item.actor_number)
         end
       when Actor, OperatingSystem
         item.path.each { tag_sources.add _1 }

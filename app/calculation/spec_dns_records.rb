@@ -81,7 +81,7 @@ class SpecDNSRecords < Patterns::Calculation
         def substitute_variables(text)
           StringSubstituter.result_for(
             text,
-            team_nr: @number,
+            actor_nr: @number,
             seq: @sequential_number
           )
         end

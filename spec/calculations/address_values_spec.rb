@@ -13,7 +13,7 @@ RSpec.describe AddressValues do
   end
 
   context 'and dynamic last octet' do
-    let(:address_pool) { build(:address_pool, network_address: '1.0.0.{{ team_nr }}/27', network:) }
+    let(:address_pool) { build(:address_pool, network_address: '1.0.0.{{ actor_nr }}/27', network:) }
 
     it { is_expected.to be_nil }
 

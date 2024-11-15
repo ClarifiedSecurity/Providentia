@@ -37,7 +37,7 @@ class AddressPool < ApplicationRecord
   end
 
   def numbered?
-    network_address =~ /#|team_nr/
+    network_address =~ /#|team_nr|actor_nr/
   end
 
   def gateway_address_object
@@ -59,12 +59,12 @@ class AddressPool < ApplicationRecord
     return unless base
 
     if last_octet_is_dynamic?
-      first_net = IPAddress(StringSubstituter.result_for(base, { team_nr: 1 })).network
+      first_net = IPAddress(StringSubstituter.result_for(base, { actor_nr: 1 })).network
       IPAddress::IPv4.parse_u32(
         first_net.to_i + ((team || 1) - 1) * first_net.size, first_net.prefix
       )
     else
-      templated = StringSubstituter.result_for(base, { team_nr: team || 1 })
+      templated = StringSubstituter.result_for(base, { actor_nr: team || 1 })
       IPAddress(templated).network
     end
   end

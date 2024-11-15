@@ -42,11 +42,11 @@ module API
               name: cred.name,
               password: cred.password,
               username: cred.username,
-              email: StringSubstituter.result_for(cred.email, { team_nr: number }),
+              email: StringSubstituter.result_for(cred.email, { actor_nr: number }),
               domain_username:,
               config_map: JSON.parse(
                 StringSubstituter.result_for(
-                  JSON.dump(cred.config_map), { team_nr: number }
+                  JSON.dump(cred.config_map), { actor_nr: number }
                 )
               )
             }

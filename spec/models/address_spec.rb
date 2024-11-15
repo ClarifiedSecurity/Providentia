@@ -42,7 +42,7 @@ RSpec.describe Address do
       end
 
       context 'numbered net' do
-        let(:network_address) { '1.{{ team_nr }}.0.0/24' }
+        let(:network_address) { '1.{{ actor_nr }}.0.0/24' }
 
         it 'should return first address by default' do
           expect(subject.ip_object.to_s).to eq '1.1.0.1'
@@ -112,7 +112,7 @@ RSpec.describe Address do
       end
 
       context 'numbered net' do
-        let(:network_address) { '1:a:{{ team_nr }}::/64' }
+        let(:network_address) { '1:a:{{ actor_nr }}::/64' }
 
         it 'should return first address by default' do
           expect(subject.ip_object.to_s).to eq '1:a:1::'
