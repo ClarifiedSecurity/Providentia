@@ -52,9 +52,11 @@ class LiquidRangeSubstitution < Patterns::Calculation
 
     def replacement_ranges
       {
-        'seq' => sequential_range.map { |a| a.to_s.rjust(2, '0') },
+        'seq' => sequential_range.map { _1.to_s.rjust(2, '0') },
         'team_nr' => numbering_range,
-        'team_nr_str' => numbering_range&.map { |a| a.to_s.rjust(2, '0') }
+        'team_nr_str' => numbering_range&.map { _1.to_s.rjust(2, '0') },
+        'actor_nr' => numbering_range,
+        'actor_nr_str' => numbering_range&.map { _1.to_s.rjust(2, '0') }
       }
     end
 

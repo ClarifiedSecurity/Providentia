@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class StringSubstituter < Patterns::Calculation
-  VALID_LIQUID_KEYS = %i(seq team_nr)
+  VALID_LIQUID_KEYS = %i(seq team_nr actor_nr)
 
   private
     def result
@@ -21,6 +21,7 @@ class StringSubstituter < Patterns::Calculation
       options.slice(*VALID_LIQUID_KEYS).symbolize_keys.tap do |keys|
         keys[:seq] = keys[:seq].to_s.rjust(2, '0') if keys[:seq]
         keys[:team_nr_str] = keys[:team_nr].to_s.rjust(2, '0') if keys[:team_nr]
+        keys[:actor_nr_str] = keys[:actor_nr].to_s.rjust(2, '0') if keys[:actor_nr]
       end.stringify_keys
     end
 end
