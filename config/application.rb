@@ -41,5 +41,6 @@ module Providentia
       'Cross-Origin-Embedder-Policy-Report-Only' => 'require-corp',
       'Cross-Origin-Opener-Policy' => 'same-origin'
     )
+    config.x.features = config_for(:features) || {}
   end
 end

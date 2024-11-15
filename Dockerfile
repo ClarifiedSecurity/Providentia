@@ -97,7 +97,7 @@ RUN bundle install --no-binstubs --jobs $(nproc) --retry 3 && \
   bundle exec bootsnap precompile --gemfile
 
 COPY . .
-RUN bundle exec bootsnap precompile app/ lib/
+RUN touch config/features.yml && bundle exec bootsnap precompile app/ lib/
 RUN SECRET_KEY_BASE_DUMMY=1 bundle exec rails assets:precompile && \
   rm -r node_modules .yarn
 
