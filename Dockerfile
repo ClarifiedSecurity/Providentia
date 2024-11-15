@@ -30,7 +30,6 @@ RUN bundle install --jobs $(nproc) --retry 3 && \
 
 ## DEVELOPMENT IMAGE
 FROM base AS development
-ENV RAILS_ENV="development"
 RUN apk add --no-cache --update \
   build-base \
   git \
