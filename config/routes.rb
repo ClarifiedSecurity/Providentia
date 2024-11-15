@@ -35,7 +35,7 @@ Rails.application.routes.draw do
       resources :checks, only: %i[create update destroy]
     end
     resources :capabilities
-    if Rails.configuration.x.features.credentials
+    if Rails.configuration.x.features.dig(:credentials)
       resources :credential_sets, path: :credentials do
         resources :credentials, only: %i[new create show update destroy] do
           collection do
@@ -68,6 +68,9 @@ Rails.application.routes.draw do
         resources :services, only: %i[index show]
         resources :capabilities, only: %i[index]
         resources :tags, only: %i[index]
+        if Rails.configuration.x.features.dig(:credentials)
+          resources :credential_sets, path: 'credentials', only: %i[index]
+        end
         resource :inventory, only: %i[show]
         resource :graph, only: %i[show]
         resources :customization_specs, path: 'hosts', only: %i[index show] do
