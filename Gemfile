@@ -17,6 +17,7 @@ gem 'data_migrate'
 gem 'solid_cable'
 gem 'solid_queue'
 gem 'solid_cache'
+gem 'jwt'
 
 # frontend
 gem 'haml-rails', '~> 2.0'
