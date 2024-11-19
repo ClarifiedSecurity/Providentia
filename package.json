@@ -34,7 +34,7 @@
     "thememirror": "^2.0.1",
     "throttleit": "^2.1.0",
     "tippy.js": "^6.3.7",
-    "tom-select": "^2.3.1",
+    "tom-select": "^2.4.1",
     "vite": "^5.4.11",
     "vite-plugin-ruby": "^5.1.1",
     "vite-plugin-stimulus-hmr": "^3.0.0",
