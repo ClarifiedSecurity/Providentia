@@ -309,7 +309,7 @@ RSpec.describe GenerateTags do
       end
     end
 
-    context 'customization spec (clustered)' do
+    context 'customization spec (clustered, host)' do
       let(:input) { create(:customization_spec, virtual_machine: create(:virtual_machine, custom_instance_count: 2)) }
 
       let(:expected_id) { input.slug.tr('-', '_') }
@@ -317,6 +317,26 @@ RSpec.describe GenerateTags do
       let(:expected_priority) { 90 }
 
       it { is_expected.to eq([expected_tag]) }
+    end
+
+    context 'customization spec (clustered, container, clustered)' do
+      let(:input) { create(:customization_spec, virtual_machine: create(:virtual_machine, custom_instance_count: 2), cluster_mode: true, mode: :container) }
+
+      let(:expected_id) { input.slug.tr('-', '_') }
+      let(:expected_name) { "All instances of #{input.slug}" }
+      let(:expected_priority) { 90 }
+
+      it { is_expected.to include(expected_tag) }
+    end
+
+    context 'customization spec (clustered, not cluster mode)' do
+      let(:input) { create(:customization_spec, virtual_machine: create(:virtual_machine, custom_instance_count: 2), cluster_mode: false, mode: :container) }
+
+      let(:expected_id) { input.slug.tr('-', '_') }
+      let(:expected_name) { "All instances of #{input.slug}" }
+      let(:expected_priority) { 90 }
+
+      it { is_expected.to_not include(expected_tag) }
     end
 
     context 'customization spec (numbered by actor)' do

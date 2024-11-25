@@ -59,7 +59,7 @@ class GenerateTags < Patterns::Calculation
         item.path.each { tag_sources.add _1 }
       when CustomizationSpec
         tag_sources.add CustomizationContainer.new if item.mode_container?
-        tag_sources.add MultiContainer.new(item) if item.virtual_machine.clustered? || item.virtual_machine.numbered_by
+        tag_sources.add MultiContainer.new(item) if item.virtual_machine.clustered? && item.cluster_mode? || item.virtual_machine.numbered_by
         resolve_inputs(item.taggings)
       when VirtualMachine
         tag_sources.add AllSpecs.new(item) if item.customization_specs.size > 1
