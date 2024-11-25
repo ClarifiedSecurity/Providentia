@@ -19,11 +19,11 @@ RUN apk add --no-cache --update bash
 
 # DEV BUILDER IMAGE
 FROM base AS builder_development
-COPY Gemfile Gemfile.lock ./
 RUN apk add --no-cache --update \
   build-base \
   postgresql-dev \
   git
+COPY Gemfile Gemfile.lock ./
 RUN bundle install --jobs $(nproc) --retry 3 && \
   rm -rf ~/.bundle/ /usr/local/bundle/ruby/*/cache /usr/local/bundle/ruby/*/bundler/gems/*/.git && \
   bundle exec bootsnap precompile --gemfile
