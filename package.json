@@ -19,7 +19,7 @@
     "@tailwindcss/typography": "^0.5.15",
     "cssnano": "^7.0.6",
     "cytoscape": "^3.30.3",
-    "cytoscape-elk": "^2.2.0",
+    "cytoscape-elk": "^2.3.0",
     "cytoscape-node-html-label": "^1.2.2",
     "debounce": "^2.2.0",
     "element-matches-polyfill": "^1.0.0",
