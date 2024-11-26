@@ -1,0 +1,11 @@
+%nav.flex.mb-4.bg-neutral-300.dark:bg-gray-600
+  %ol.static-width.grid.grid-flow-col.auto-cols-fr.text-center
+    - menu_items.each do |item|
+      %li.px-4.py-2.font-medium
+        = link_to item.url do
+          = item.content
+
+  -#   - if content_for?(:new_url)
+  -#     = link_to content_for(:new_url), class: 'form-submit-add h-6' do
+  -#       %i.fas.fa-plus.self-center
+  -#       = add_button_text
