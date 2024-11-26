@@ -1661,14 +1661,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cytoscape-elk@npm:^2.2.0":
-  version: 2.2.0
-  resolution: "cytoscape-elk@npm:2.2.0"
+"cytoscape-elk@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "cytoscape-elk@npm:2.3.0"
   dependencies:
-    elkjs: "npm:^0.8.1"
+    elkjs: "npm:^0.9.3"
   peerDependencies:
     cytoscape: ^3.2.0
-  checksum: 10/cea4faff613c819dd6bdeddcea6107212f36a65bb7018bed252645d6a2b7dc1578cb38645a5d3d776d6f0de6397a6e04128b8308260ff2e8846ef140b3e8ba37
+  checksum: 10/38a31b42e9426934f548c078c7f61010ba40c648cbcd4a89ea1b4ccf888ac61a9139dece30e7a22599de1ebaf731c0c9098a6ce2fd526055fbd15d83471647bf
   languageName: node
   linkType: hard
 
@@ -1798,10 +1798,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"elkjs@npm:^0.8.1":
-  version: 0.8.2
-  resolution: "elkjs@npm:0.8.2"
-  checksum: 10/0076f3b41ab874144eaab5e9edd3a592006cff154425d9d9adc8201614caa6673babc0ca9bd0ea2e8bae2a16ac87c07c2d4d4cc04f22d660928e50886481143e
+"elkjs@npm:^0.9.3":
+  version: 0.9.3
+  resolution: "elkjs@npm:0.9.3"
+  checksum: 10/397986e271827a5e13d2722b1883aea3557006d2777be8c34568f8fe743e81f4f71210e4e81b9958f597b0af8e96afaa883d2705eba84a3d5d0973bcb02fa59e
   languageName: node
   linkType: hard
 
@@ -3513,7 +3513,7 @@ __metadata:
     "@tailwindcss/typography": "npm:^0.5.15"
     cssnano: "npm:^7.0.6"
     cytoscape: "npm:^3.30.3"
-    cytoscape-elk: "npm:^2.2.0"
+    cytoscape-elk: "npm:^2.3.0"
     cytoscape-node-html-label: "npm:^1.2.2"
     debounce: "npm:^2.2.0"
     element-matches-polyfill: "npm:^1.0.0"
