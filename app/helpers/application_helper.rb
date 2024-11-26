@@ -26,6 +26,8 @@ module ApplicationHelper
       [model.exercise, model.network]
     when NetworkInterface, Address, CustomizationSpec
       [model.exercise, model.virtual_machine]
+    when Credential
+      [model.credential_set.exercise, model.credential_set]
     when Exercise
       [model]
     when OperatingSystem
