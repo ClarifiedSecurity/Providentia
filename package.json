@@ -29,7 +29,7 @@
     "postcss-preset-env": "^10.1.1",
     "stimulus-textarea-autogrow": "^4.1.0",
     "stimulus-vite-helpers": "^3.1.0",
-    "tailwindcss": "^3.4.15",
+    "tailwindcss": "^3.4.16",
     "tailwindcss-stimulus-components": "^6.1.2",
     "thememirror": "^2.0.1",
     "throttleit": "^2.1.0",
