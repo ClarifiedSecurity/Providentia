@@ -34,7 +34,7 @@ export default class extends Controller {
             return (
               this.element.multiple || !(values.length == 1 && !hasEmptyOption)
             );
-          },
+          }.bind(this),
           onChange: function () {
             document.activeElement.blur();
           }.bind(this),
