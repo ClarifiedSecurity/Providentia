@@ -98,6 +98,8 @@ class Address < ApplicationRecord
     static_offset += ((actor_number || 1) - 1) * (sequence_total || 1) if !address_pool&.numbered?
 
     ip_family_network(actor_number).allocate(static_offset)
+  rescue StopIteration # cannot allocate, maybe host only network?
+    ip_family_network
   end
 
   def ipv4?
