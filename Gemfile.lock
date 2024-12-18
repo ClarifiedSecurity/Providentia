@@ -261,7 +261,7 @@ GEM
     nio4r (2.7.4)
     nokogiri (1.17.2-x86_64-linux)
       racc (~> 1.4)
-    oj (3.16.7)
+    oj (3.16.8)
       bigdecimal (>= 3.0)
       ostruct (>= 0.2)
     omniauth (2.1.2)
@@ -574,7 +574,7 @@ DEPENDENCIES
   memory_profiler
   naturally (~> 2.2)
   nilify_blanks (~> 1.4)
-  oj (~> 3.10)
+  oj (~> 3.16)
   omniauth (~> 2.0)
   omniauth-rails_csrf_protection
   omniauth_openid_connect
