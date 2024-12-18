@@ -1,6 +1,9 @@
-const colors = require("tailwindcss/colors");
+import colors from "tailwindcss/colors";
+import forms from "@tailwindcss/forms";
+import typography from "@tailwindcss/typography";
+import aspectRatio from "@tailwindcss/aspect-ratio";
 
-module.exports = {
+export default {
   content: [
     "./config/initializers/simple_form.rb",
     "./app/**/*.{html.erb,html.haml,rb,js}",
@@ -66,9 +69,5 @@ module.exports = {
       },
     },
   },
-  plugins: [
-    require("@tailwindcss/forms"),
-    require("@tailwindcss/typography"),
-    require("@tailwindcss/aspect-ratio"),
-  ],
+  plugins: [forms, typography, aspectRatio],
 };
