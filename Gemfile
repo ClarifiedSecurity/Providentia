@@ -9,7 +9,7 @@ gem 'pg'
 gem 'sqlite3'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'puma'
-gem 'oj', '~> 3.10'
+gem 'oj', '~> 3.16'
 gem 'rails-patterns'
 gem 'friendly_id', '~> 5.5.0'
 gem 'nilify_blanks', '~> 1.4'
