@@ -41,17 +41,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@codemirror/lang-yaml@npm:^6.1.1":
-  version: 6.1.1
-  resolution: "@codemirror/lang-yaml@npm:6.1.1"
+"@codemirror/lang-yaml@npm:^6.1.2":
+  version: 6.1.2
+  resolution: "@codemirror/lang-yaml@npm:6.1.2"
   dependencies:
     "@codemirror/autocomplete": "npm:^6.0.0"
     "@codemirror/language": "npm:^6.0.0"
     "@codemirror/state": "npm:^6.0.0"
     "@lezer/common": "npm:^1.2.0"
     "@lezer/highlight": "npm:^1.2.0"
+    "@lezer/lr": "npm:^1.0.0"
     "@lezer/yaml": "npm:^1.0.0"
-  checksum: 10/b751727c5fed180e28718a3ec8277835e62e2e760ed18f3a1594062e80b7b241c02aed189d63443e50216db3eb688a3dbe7baa634bdacf3909937fcf341b414b
+  checksum: 10/1a1ad16554b27d9f66ad2a342170e7c7e51781876280727790e763e9a770163772d4880a9c344705ca65acc2b5fb228962dc3281ba05a71d2c071515541258ae
   languageName: node
   linkType: hard
 
@@ -3497,7 +3498,7 @@ __metadata:
   resolution: "providentia@workspace:."
   dependencies:
     "@codemirror/commands": "npm:^6.6.1"
-    "@codemirror/lang-yaml": "npm:^6.1.1"
+    "@codemirror/lang-yaml": "npm:^6.1.2"
     "@codemirror/state": "npm:^6.4.1"
     "@codemirror/view": "npm:^6.33.0"
     "@fortawesome/fontawesome-svg-core": "npm:^6.7.2"
