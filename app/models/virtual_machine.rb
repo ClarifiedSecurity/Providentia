@@ -42,7 +42,7 @@ class VirtualMachine < ApplicationRecord
   }
 
   validates :name, uniqueness: { scope: :exercise }, presence: true, length: { minimum: 1, maximum: 63 }, hostname: true
-  validates :ram, numericality: true, inclusion: 1..200, allow_blank: true
+  validates :ram, numericality: true, inclusion: 1..2000, allow_blank: true
   validates :cpu, numericality: { only_integer: true }, inclusion: 1..100, allow_blank: true
   validates :custom_instance_count, numericality: { only_integer: true, greater_than_or_equal_to: 1 }, allow_blank: true
   validates :numbered_by_type, inclusion: { in: %w(Actor ActorNumberConfig) }, if: :numbered_by
