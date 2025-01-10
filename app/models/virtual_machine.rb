@@ -41,6 +41,7 @@ class VirtualMachine < ApplicationRecord
       .group(:id)
   }
 
+  validates :actor, presence: true
   validates :name, uniqueness: { scope: :exercise }, presence: true, length: { minimum: 1, maximum: 63 }, hostname: true
   validates :ram, numericality: true, inclusion: 1..2000, allow_blank: true
   validates :cpu, numericality: { only_integer: true }, inclusion: 1..100, allow_blank: true

@@ -1,18 +1,24 @@
-= simple_form_for([@exercise, @virtual_machine], html: { autocomplete: "off" }) do |f|
-  = f.error_notification
-  = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
+.mt-4
+  %h1.text-xl.mb-6
+    Adding new host to
+    %strong= @exercise.name
 
-  = render ColumnFormSectionComponent.new do |c|
-    - c.with_description do
-      %h3.text-lg.leading-6.text-gray-900.dark:text-gray-50 Basic information
-      %p.mt-1.text-gray-600.dark:text-gray-400
-        Basic information for new virtual machine
+  = simple_form_for([@exercise, @virtual_machine], html: { autocomplete: "off" }) do |f|
+    = f.error_notification
+    = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
 
-    - c.with_main do
-      .px-4.py-5.bg-white.dark:bg-gray-800.space-y-6.sm:p-6
-        .grid.grid-cols-2.gap-6
+    = render ColumnFormSectionComponent.new do |c|
+      - c.with_description do
+        %h3.text-lg.leading-6.text-gray-900.dark:text-gray-50 Essentials
+        %p.mt-1.text-gray-600.dark:text-gray-400
+          This is minimal required information about the host - its name and actor it belongs to
+
+      - c.with_main do
+        .px-4.py-5.bg-white.dark:bg-gray-800.space-y-6.sm:p-6
           = f.input :name
           = f.association :actor, collection: sorted_tree_options(authorized_scope(@exercise.actors, as: :vm_dev)), input_html: { data: { controller: 'select' } }
 
-      .px-4.py-3.bg-slate-200.dark:bg-gray-500.text-right.sm:px-6
-        = f.button :submit, 'Save', class: 'form-submit'
+    = render ColumnFormSectionComponent.new do |c|
+      - c.with_main do
+        .px-4.py-3.bg-slate-200.dark:bg-gray-500.text-right.sm:px-6
+          = f.button :submit, 'Save', class: 'form-submit'

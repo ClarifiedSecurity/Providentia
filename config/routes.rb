@@ -16,6 +16,7 @@ Rails.application.routes.draw do
     end
     resources :virtual_machines, except: %i[edit] do
       member do
+        get 'simple'
         get 'address_preview'
       end
 

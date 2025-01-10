@@ -8,7 +8,7 @@ class HeaderTextComponent < ViewComponent::Base
   end
 
   CrumbableControllers = %w[networks virtual_machines services capabilities credential_sets]
-  CrumbableActions = %w[show edit]
+  CrumbableActions = %w[show simple edit]
 
   private
     def breadcrumb_items
