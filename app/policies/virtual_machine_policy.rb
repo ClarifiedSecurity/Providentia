@@ -33,7 +33,7 @@ class VirtualMachinePolicy < ApplicationPolicy
     public_vm = VirtualMachine.arel_table[:visibility].eq(:public)
     in_same_env = VirtualMachine.arel_table[:exercise_id].eq(RoleBinding.arel_table[:exercise_id])
     env_role = in_same_env.and(RoleBinding.arel_table[:role].in([:environment_admin, :environment_service_dev]))
-    actor_role = VirtualMachine.arel_table[:actor_id].in(RoleBinding.for_user(user).map(&:actor).compact.flat_map(&:subtree_ids).uniq)
+    actor_role = VirtualMachine.arel_table[:actor_id].in(RoleBinding.for_user(user).filter_map(&:actor).flat_map(&:subtree_ids).uniq)
     relation
       .joins(:exercise)
       .merge(Exercise.for_user(user))
