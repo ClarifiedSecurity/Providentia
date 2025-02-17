@@ -22,6 +22,9 @@ gem 'jwt'
 # frontend
 gem 'haml-rails', '~> 2.0'
 gem 'turbo-rails', '~> 2.0'
+gem 'importmap-rails', '~> 2.1'
+gem 'stimulus-rails'
+gem 'tailwindcss-rails'
 gem 'view_component'
 
 # functionality
@@ -50,7 +53,6 @@ gem 'action_policy'
 
 # frontend
 gem 'propshaft'
-gem 'vite_rails', '~> 3.0'
 
 # monitoring
 gem 'sentry-ruby'

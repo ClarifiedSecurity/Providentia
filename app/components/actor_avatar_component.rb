@@ -9,10 +9,7 @@ class ActorAvatarComponent < ViewComponent::Base
     def attributes
       {
         class: helpers.actor_color_classes(@actor),
-        data: {
-          controller: 'tippy',
-          tooltip: @actor.name
-        }
+        data: { action: "mouseenter->tooltip#show mouseleave->tooltip#hide" }
       }
     end
 end

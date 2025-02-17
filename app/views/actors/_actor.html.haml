@@ -24,7 +24,7 @@
               - Actor::ALLOWED_COLORS.each do |color|
                 %li.shrink
                   = f.radio_button :ui_color, color, class: 'sr-only peer', id: "#{dom_id(actor)}_ui_color_#{color}", checked: @actor.ui_color == color
-                  = f.label :ui_color, for: "#{dom_id(actor)}_ui_color_#{color}", class: "block rounded-full w-8 h-8 select-none cursor-pointer border border-white border-3 peer-checked:outline peer-checked:outline-3 peer-checked:outline-#{color}-500 bg-#{color}-500 dark:bg-#{color}-700" do
+                  = f.label :ui_color, for: "#{dom_id(actor)}_ui_color_#{color}", class: "block rounded-full w-8 h-8 select-none cursor-pointer border border-white border-2 peer-checked:outline peer-checked:outline-3 peer-checked:outline-#{color}-500 bg-#{color}-500 dark:bg-#{color}-700" do
                     &nbsp;
 
   = render ColumnFormSectionComponent.new do |c|

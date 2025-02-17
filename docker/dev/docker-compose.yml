@@ -94,9 +94,6 @@ services:
     environment:
       COREPACK_ENABLE_DOWNLOAD_PROMPT: 0
       SECRET_KEY_BASE: 0 # don't care in development mode
-      VITE_RUBY_HOST: vite.localhost
-      VITE_RUBY_PORT: 80
-      VITE_RUBY_SKIP_PROXY: true
       DATABASE_URL: postgres://providentia:secret@postgresql/providentia?pool=5
       OIDC_ISSUER: http://keycloak.localhost/realms/Providentia
       OIDC_CLIENT_ID: Providentia
@@ -113,28 +110,6 @@ services:
       RUBY_GC_MALLOC_LIMIT: 100000000
       RUBY_HEAP_FREE_MIN: 5000000
 
-  vite:
-    depends_on:
-      web:
-        condition: service_healthy
-    build:
-      context: ../../
-      dockerfile: Dockerfile
-      target: development
-      args:
-        CONTAINER_USER_ID:
-        CONTAINER_GROUP_ID:
-    volumes:
-      - ../../:/srv/app
-    command: ["bin/vite", "dev"]
-    environment:
-      RAILS_ENV: development
-      VITE_RUBY_HOST: 0.0.0.0
-      VITE_RUBY_PORT: 80
-    labels:
-      caddy: vite.localhost:80
-      caddy.reverse_proxy: "{{upstreams 80}}"
-
   caddy:
     image: lucaslorentz/caddy-docker-proxy:ci-alpine
     ports:
@@ -144,7 +119,6 @@ services:
         aliases:
           - caddy
           - keycloak.localhost
-          - vite.localhost
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - caddy_data:/data

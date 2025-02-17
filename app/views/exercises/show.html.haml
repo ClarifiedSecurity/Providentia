@@ -2,7 +2,7 @@
 
 .bg-white.dark:bg-gray-800.shadow.overflow-hidden.rounded-lg.mb-6
   .flex.items-center.justify-end.px-6.py-5
-    %h3.flex-grow.text-lg.leading-6.text-gray-900.dark:text-gray-300
+    %h3.grow.text-lg.leading-6.text-gray-900.dark:text-gray-300
       Environment information
     - if allowed_to?(:update?, @exercise)
       %hr.w-px.h-6.bg-gray-200.dark:bg-gray-400.dark:border-gray-400.mx-3.justify-self-end/
@@ -23,11 +23,12 @@
           %dt.text-sm.text-gray-500.dark:text-gray-400 Your permissions
           %dd.mt-1.text-sm.text-gray-900.dark:text-white.mt-0
             - RoleBinding.for_user(current_user).for_environment(@exercise).each do |role_binding|
-              %p.my-1{data: {controller: 'tippy', tooltip: I18n.t("roles.#{role_binding.role}.description")}}
-                = I18n.t("roles.#{role_binding.role}.name")
-                - if role_binding.actor
-                  on
-                  = render ActorChipComponent.new(actor: role_binding.actor)
+              %p.my-1{data: {controller: 'tooltip', tooltip: I18n.t("roles.#{role_binding.role}.description")}}
+                %span{ data: { action: "mouseenter->tooltip#show mouseleave->tooltip#hide" }}
+                  = I18n.t("roles.#{role_binding.role}.name")
+                  - if role_binding.actor
+                    on
+                    = render ActorChipComponent.new(actor: role_binding.actor)
 
       .px-6.py-5
         %dt.text-sm.text-gray-500.dark:text-gray-400= Exercise.human_attribute_name(:description)
