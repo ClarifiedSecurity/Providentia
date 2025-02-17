@@ -21,7 +21,7 @@
       .static-width.flex.flex-row.items-center.gap-x-2.min-h-12
         - if @exercise&.persisted?
           .relative.inline-flex.min-w-44{"data-controller" => "dropdown", "data-action"=>"click@window->dropdown#hide touchstart@window->dropdown#hide keydown.up->dropdown#previousItem keydown.down->dropdown#nextItem keydown.esc->dropdown#hide"}
-            %button.group.select-none.rounded.bg-gray-100.dark:bg-gray-700.hover:bg-gray-300.hover:dark:bg-gray-500.w-full{"data-action" => "dropdown#toggle:stop", :role => "button", :tabindex => "0"}
+            %button.group.select-none.rounded.bg-gray-100.dark:bg-gray-700.hover:bg-gray-300.dark:hover:bg-gray-500.w-full{"data-action" => "dropdown#toggle:stop", :role => "button", :tabindex => "0"}
               %span.font-medium.text-lg.p-1.px-3.flex.items-center.w-full
                 %span.grow= @exercise.name
                 %i.fas.fa-square-caret-down.ml-2
@@ -35,9 +35,9 @@
           %ul.flex.flex-col.md:flex-row.items-center.gap-x-4.text-sm.grow{class: 'min-h-[3rem]'}
             - cache(nav_cache_key) do
               %li
-                = link_to [@exercise, :networks], class: 'block transition-colors hover:text-sky-400 p-2 px-3 rounded hover:bg-gray-100 dark:hover:bg-gray-700' do
+                = link_to [@exercise, :networks], class: 'block transition-colors hover:text-sky-400 p-2 px-3 rounded-sm hover:bg-gray-100 dark:hover:bg-gray-700' do
                   .flex.items-center.justify-between
-                    .flex.flex-grow.items-center.gap-x-1
+                    .flex.grow.items-center.gap-x-1
                       %i.fas{class: Network.to_icon}
                       %span.text-sm Networks
 
@@ -45,9 +45,9 @@
                         %span.text-xs.text-white.bg-indigo-500.px-2.rounded-sm= authorized_scope(@exercise.networks).size
 
               %li
-                = link_to [@exercise, :virtual_machines], class: 'block transition-colors hover:text-sky-400 p-2 px-3 rounded hover:bg-gray-100 dark:hover:bg-gray-700' do
+                = link_to [@exercise, :virtual_machines], class: 'block transition-colors hover:text-sky-400 p-2 px-3 rounded-sm hover:bg-gray-100 dark:hover:bg-gray-700' do
                   .flex.items-center.justify-between
-                    .flex.flex-grow.items-center.gap-x-1
+                    .flex.grow.items-center.gap-x-1
                       %i.fas{class: VirtualMachine.to_icon}
                       %span.text-sm Inventory
 
@@ -55,9 +55,9 @@
                         %span.text-xs.text-white.bg-indigo-500.px-2.rounded-sm= authorized_scope(@exercise.virtual_machines).size
 
               %li
-                = link_to [@exercise, :services], class: 'block transition-colors hover:text-sky-400 p-2 px-3 rounded hover:bg-gray-100 dark:hover:bg-gray-700' do
+                = link_to [@exercise, :services], class: 'block transition-colors hover:text-sky-400 p-2 px-3 rounded-sm hover:bg-gray-100 dark:hover:bg-gray-700' do
                   .flex.items-center.justify-between
-                    .flex.flex-grow.items-center.gap-x-1
+                    .flex.grow.items-center.gap-x-1
                       %i.fas{class: Service.to_icon}
                       %span.text-sm Services
 
@@ -65,9 +65,9 @@
                         %span.text-xs.text-white.bg-indigo-500.px-2.rounded-sm= authorized_scope(@exercise.services).size
 
               %li
-                = link_to [@exercise, :capabilities], class: 'block transition-colors hover:text-sky-400 p-2 px-3 rounded hover:bg-gray-100 dark:hover:bg-gray-700' do
+                = link_to [@exercise, :capabilities], class: 'block transition-colors hover:text-sky-400 p-2 px-3 rounded-sm hover:bg-gray-100 dark:hover:bg-gray-700' do
                   .flex.items-center.justify-between
-                    .flex.flex-grow.items-center.gap-x-1
+                    .flex.grow.items-center.gap-x-1
                       %i.fas{class: Capability.to_icon}
                       %span.text-sm Capabilities
 
@@ -77,9 +77,9 @@
 
             - if Rails.configuration.x.features.dig(:credentials)
               %li
-                = link_to [@exercise, :credential_sets], class: 'block transition-colors hover:text-sky-400 p-2 px-3 rounded hover:bg-gray-100 dark:hover:bg-gray-700' do
+                = link_to [@exercise, :credential_sets], class: 'block transition-colors hover:text-sky-400 p-2 px-3 rounded-sm hover:bg-gray-100 dark:hover:bg-gray-700' do
                   .flex.items-center.justify-between
-                    .flex.flex-grow.items-center.gap-x-1
+                    .flex.grow.items-center.gap-x-1
                       %i.fas{class: Credential.to_icon}
                       %span.text-sm Credentials
 

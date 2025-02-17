@@ -14,7 +14,7 @@
     = link_to 'javascript:;', class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-200', data: { action: "click->modal#open" } do
       %i.fas.fa-circle-question
   - if @service.persisted? && allowed_to?(:create?, Check.new(service: @service))
-    .flex-grow.text-right.space-x-2
+    .grow.text-right.space-x-2
       = form_with(url: [@service.exercise, @service, :checks], class: 'inline-block') do |form|
         %button.leading-5.p-1.px-2.rounded-sm.text-white.bg-indigo-500{type: 'submit'}
           %i.fas.fa-plus.self-center

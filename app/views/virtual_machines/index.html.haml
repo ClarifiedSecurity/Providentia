@@ -7,7 +7,7 @@
 %div
   %section.relative.mb-4
     .flex{"data-controller" => "dropdown"}
-      %button#dropdown-button-2.flex-shrink-0.z-10.inline-flex.items-center.px-4.text-sm.font-medium.text-center.text-gray-500.bg-emerald-200.border.border-gray-300.rounded-l-lg.hover:bg-emerald-300.focus:ring-4.focus:outline-none.focus:ring-gray-100.dark:bg-emerald-600.dark:hover:bg-emerald-500.dark:focus:ring-gray-700.dark:text-white.dark:border-gray-600{"data-action" => "click->dropdown#toggle click@window->dropdown#hide", "data-dropdown-target" => "button", :role => "button", :tabindex => "0"}
+      %button#dropdown-button-2.shrink-0.z-10.inline-flex.items-center.px-4.text-sm.font-medium.text-center.text-gray-500.bg-emerald-200.border.border-gray-300.rounded-l-lg.hover:bg-emerald-300.focus:ring-4.focus:outline-hidden.focus:ring-gray-100.dark:bg-emerald-600.dark:hover:bg-emerald-500.dark:focus:ring-gray-700.dark:text-white.dark:border-gray-600{"data-action" => "click->dropdown#toggle click@window->dropdown#hide", "data-dropdown-target" => "button", :role => "button", :tabindex => "0"}
         - if @filter_actor
           %span.inline-flex.w-4.h-4.mr-2.rounded-full{class: actor_color_classes(@filter_actor)}
 
@@ -38,7 +38,7 @@
           placeholder: "Search",
           type: :search
 
-        %button.absolute.top-0.bottom-0.right-0.text-sm.font-medium.text-white.bg-blue-700.rounded-r-lg.border.border-blue-700.hover:bg-blue-800.focus:ring-4.focus:outline-none.focus:ring-blue-300.dark:bg-blue-600.dark:hover:bg-blue-700.dark:focus:ring-blue-800{:class => "p-2.5", :type => "submit"}
+        %button.absolute.top-0.bottom-0.right-0.text-sm.font-medium.text-white.bg-blue-700.rounded-r-lg.border.border-blue-700.hover:bg-blue-800.focus:ring-4.focus:outline-hidden.focus:ring-blue-300.dark:bg-blue-600.dark:hover:bg-blue-700.dark:focus:ring-blue-800{:class => "p-2.5", :type => "submit"}
           %i.fas.fa-search.w-5.h-5
 
   = turbo_frame_tag 'searchresults', data: { turbo_action: "advance" } do

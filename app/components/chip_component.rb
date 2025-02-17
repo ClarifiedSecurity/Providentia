@@ -14,3 +14,7 @@ class ChipComponent < ViewComponent::Base
       "bg-#{@flavor}-200 text-#{@flavor}-800 dark:bg-#{@flavor}-700 dark:text-#{@flavor}-300"
     end
 end
+
+# For tailwind to discover all the classes
+# bg-cyan-200 text-cyan-800 dark:bg-cyan-700 dark:text-cyan-300
+# bg-stone-200 text-stone-800 dark:bg-stone-700 dark:text-stone-300

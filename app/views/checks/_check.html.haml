@@ -7,20 +7,20 @@
     .flex.flex-row.divide-x.divide-dashed.text-center
       = render CheckSourceComponent.new(check:, f:, disabled: !allowed_to?(:update?, check))
 
-      .px-4.text-left{class: 'flex-[3]'}
+      .px-4.text-left{class: 'flex-3'}
         .flex.items-center
-          %header.text-xl.font-semibold{class: 'flex-[1]'} Method
-          .grow.text-right{class: 'flex-[3]'}
+          %header.text-xl.font-semibold{class: 'flex-1'} Method
+          .grow.text-right{class: 'flex-3'}
             .inline-flex.-space-x-0.divide-x.divide-gray-400.overflow-hidden.rounded-lg.border.border-gray-400.shadow-sm
               = f.radio_button "check_mode", 'network', class: 'hidden peer/network', hidden: true, id: "check_#{check.id}_mode_network", disabled: !allowed_to?(:update?, check)
-              = f.label "#{check.id}_mode_network", class: 'inline-flex items-center px-3 py-2 peer-disabled/network:cursor-not-allowed cursor-pointer text-center text-sm font-medium text-gray-600 shadow-sm bg-white peer-enabled/network:hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-200 peer-enabled/network:dark:hover:bg-gray-400 peer-checked/network:bg-blue-200 peer-checked/network:dark:bg-blue-600' do
+              = f.label "#{check.id}_mode_network", class: 'inline-flex items-center px-3 py-2 peer-disabled/network:cursor-not-allowed cursor-pointer text-center text-sm font-medium text-gray-600 shadow-xs bg-white hover:peer-enabled/network:bg-gray-200 dark:bg-gray-800 dark:text-gray-200 dark:hover:peer-enabled/network:bg-gray-400 peer-checked/network:bg-blue-200 dark:peer-checked/network:bg-blue-600' do
                 Network
 
               = f.radio_button "check_mode", :special, class: 'hidden peer/special', hidden: true, id: "check_#{check.id}_mode_special", disabled: !allowed_to?(:update?, check)
-              = f.label "#{check.id}_mode_special", class: 'inline-flex items-center px-3 py-2 peer-disabled/special:cursor-not-allowed cursor-pointer text-center text-sm font-medium text-gray-600 shadow-sm bg-white peer-enabled/special:hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-200 peer-enabled/special:dark:hover:bg-gray-400 peer-checked/special:bg-blue-200 peer-checked/special:dark:bg-blue-600' do
+              = f.label "#{check.id}_mode_special", class: 'inline-flex items-center px-3 py-2 peer-disabled/special:cursor-not-allowed cursor-pointer text-center text-sm font-medium text-gray-600 shadow-xs bg-white hover:peer-enabled/special:bg-gray-200 dark:bg-gray-800 dark:text-gray-200 dark:hover:peer-enabled/special:bg-gray-400 peer-checked/special:bg-blue-200 dark:peer-checked/special:bg-blue-600' do
                 Special
 
-          .text-right{class: 'flex-[1]'}
+          .text-right{class: 'flex-1'}
             %label.font-bold
               = f.check_box :scored, disabled: !allowed_to?(:update?, check), id: "check_#{check.id}_scored"
               = f.object.class.human_attribute_name(:scored)
@@ -32,7 +32,7 @@
                 = f.label :special_label, class: 'font-bold', for: "check_#{check.id}_special_label"
                 = f.text_field :special_label, class: 'form-input', id: "check_#{check.id}_special_label", disabled: !allowed_to?(:update?, check)
               .pt-9.ml-2
-                = link_to 'javascript:;', class: 'text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm  text-center px-5 py-2.5', data: { action: "click->modal#open" } do
+                = link_to 'javascript:;', class: 'text-white bg-linear-to-r from-purple-500 to-pink-500 hover:bg-linear-to-l focus:ring-4 focus:outline-hidden focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm  text-center px-5 py-2.5', data: { action: "click->modal#open" } do
                   Config map
                   %i.fas.fa-up-right-from-square
 

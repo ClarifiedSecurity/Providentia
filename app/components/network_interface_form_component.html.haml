@@ -14,7 +14,7 @@
               = NetworkInterface.human_attribute_name(:egress)
             %label.inline-flex.items-center.cursor-pointer
               = form.check_box :egress, class: 'sr-only peer', disabled:, id: "#{dom_id(network_interface)}_egress"
-              .relative.w-11.h-6.bg-gray-200.peer-focus:outline-none.peer-focus:ring-4.peer-focus:ring-blue-300.dark:peer-focus:ring-blue-800.rounded-full.peer.dark:bg-gray-700.peer-checked:after:translate-x-full.rtl:peer-checked:after:-translate-x-full.peer-checked:after:border-white.after:absolute.after:bg-white.after:border-gray-300.after:border.after:rounded-full.after:w-5.after:h-5.after:transition-all.dark:border-gray-600.peer-checked:bg-blue-600{class: "after:content-[''] after:top-[2px] after:start-[2px]"}
+              .relative.w-11.h-6.bg-gray-200.peer-focus:outline-hidden.peer-focus:ring-4.peer-focus:ring-blue-300.dark:peer-focus:ring-blue-800.rounded-full.peer.dark:bg-gray-700.peer-checked:after:translate-x-full.peer-checked:rtl:after:-translate-x-full.peer-checked:after:border-white.after:absolute.after:bg-white.after:border-gray-300.after:border.after:rounded-full.after:w-5.after:h-5.after:transition-all.dark:border-gray-600.peer-checked:bg-blue-600{class: "after:content-[''] after:top-[2px] after:start-[2px]"}
             - if addresses.any?(:connection?)
               %span.block.font-bold.text-gray-700.dark:text-gray-200.pl-6
                 %i.fas.fa-satellite-dish.text-sm
@@ -30,7 +30,7 @@
       %h2.text-xl.font-semibold Addresses
 
       - if !disabled && network_interface.persisted?
-        .flex-grow.text-right.space-x-2
+        .grow.text-right.space-x-2
           = form_with(url: [network_interface.exercise, network_interface.virtual_machine, network_interface, network_interface.addresses.build]) do |form|
             %button.form-submit-add.text-sm{type: 'submit'}
               %i.fas.fa-plus.self-center

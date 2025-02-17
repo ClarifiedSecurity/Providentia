@@ -1,0 +1,104 @@
+@import "tailwindcss";
+@import "./tomselect.css";
+
+@plugin "@tailwindcss/typography";
+@plugin "@tailwindcss/forms";
+@plugin "@tailwindcss/aspect-ratio";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Raleway", ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-serif: "Lusitana", ui-serif, Georgia, Cambria, "Times New Roman", Times,
+    serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+  --spacing-9xl: 96rem;
+  --font-lusitana: "Lusitana", "sans-serif";
+  --font-raleway: "Raleway", "serif";
+}
+
+@font-face {
+  font-family: "Lusitana";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("Lusitana-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Lusitana";
+  font-style: bold;
+  font-weight: 700;
+  font-display: swap;
+  src: url("Lusitana-Bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Raleway";
+  font-display: swap;
+  src: url("Raleway-VariableFont_wght.ttf") format("truetype");
+}
+
+@utility form-input {
+  /* simple_form hacks */
+  @apply disabled:cursor-not-allowed disabled:opacity-75;
+
+  &:not(.boolean):not(.ts-wrapper):not([hidden]) {
+    @apply focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-xs border-gray-300 rounded-md dark:bg-gray-500 dark:border-black dark:placeholder:text-gray-400;
+
+    label + & {
+      @apply mt-1;
+    }
+  }
+
+  &.boolean {
+    @apply focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded-sm align-text-bottom mr-1 p-1;
+  }
+}
+
+@utility boolean {
+  &.form-input {
+    @apply focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded-sm align-text-bottom mr-1 p-1;
+  }
+}
+
+@utility form-button {
+  @apply inline-flex gap-1 leading-tight uppercase justify-center items-center py-2 px-4 border border-transparent shadow-xs font-medium rounded-md focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out;
+}
+
+@utility form-submit {
+  @apply form-button text-white bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500;
+}
+
+@utility form-submit-add {
+  @apply form-button text-white bg-green-500 hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg active:bg-green-700 active:shadow-lg;
+}
+
+@utility background-arrow {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2364748b' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+
+  @media (prefers-color-scheme: dark) {
+    & {
+      background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 fill=%27none%27 viewBox=%270 0 20 20%27%3e%3cpath stroke=%27%23fff%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%271.5%27 d=%27M6 8l4 4 4-4%27/%3e%3c/svg%3e");
+    }
+  }
+}
+
+@utility static-width {
+  @apply max-w-9xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+@layer components {
+  select {
+    @apply background-arrow;
+  }
+
+  .floating {
+    @apply w-max top-0 left-0 bg-stone-900/70 absolute p-1 rounded;
+  }
+
+  button {
+    @apply cursor-pointer;
+  }
+}

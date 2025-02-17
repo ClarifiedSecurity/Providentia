@@ -1,7 +1,7 @@
 .contents{data: {controller: 'modal'}}
   = content
 
-  %dialog.font-raleway.max-h-screen.w-full.max-w-5xl.relative.overflow-x-hidden.bg-transparent{data: {"modal-target" => 'dialog', 'action' => 'click->modal#backdropClose'}, class:'backdrop:bg-gray-900/80 dark:backdrop:bg-gray-900/80'}
+  %dialog.font-raleway.h-max-screen.w-full.max-w-5xl.m-auto.relative.overflow-x-hidden.bg-transparent{data: {"modal-target" => 'dialog', 'action' => 'click->modal#backdropClose'}, class:'backdrop:bg-gray-900/80 dark:backdrop:bg-gray-900/80'}
     - if @only_body
       = body
     - else

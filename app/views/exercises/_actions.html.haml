@@ -15,11 +15,11 @@
   - c.with_main do
     .flex.flex-row-reverse.gap-x-2.leading-8
       - if allowed_to?(:archive?, @exercise)
-        = link_to exercise_path(@exercise, exercise: { archived: true }), class: 'inline-flex items-center justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500', data: { turbo_method: :put, turbo_confirm: "Are you sure you want to archive #{@exercise.name}?"} do
+        = link_to exercise_path(@exercise, exercise: { archived: true }), class: 'inline-flex items-center justify-center py-2 px-4 border border-transparent shadow-xs text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-red-500', data: { turbo_method: :put, turbo_confirm: "Are you sure you want to archive #{@exercise.name}?"} do
           %i.fas.fa-box.mr-2
           Archive
 
       - if allowed_to?(:clone?, @exercise)
-        = link_to exercise_clone_path(@exercise), class: 'inline-flex items-center justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500' do
+        = link_to exercise_clone_path(@exercise), class: 'inline-flex items-center justify-center py-2 px-4 border border-transparent shadow-xs text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-orange-500' do
           %i.fas.fa-clone.mr-2
           Clone

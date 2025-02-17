@@ -16,7 +16,7 @@
         .font-bold.text-gray-700.dark:text-gray-200= service_subject_match_condition.class.human_attribute_name(:invert)
         %label.inline-flex.items-center.cursor-pointer
           = form.check_box :invert, class: 'sr-only peer', disabled: !allowed_to?(:update?, @service)
-          .relative.w-11.h-6.my-2.bg-gray-200.peer-focus:outline-none.peer-focus:ring-4.peer-focus:ring-blue-300.dark:peer-focus:ring-blue-800.rounded-full.peer.dark:bg-gray-700.peer-checked:after:translate-x-full.rtl:peer-checked:after:-translate-x-full.peer-checked:after:border-white.after:absolute.after:bg-white.after:border-gray-300.after:border.after:rounded-full.after:w-5.after:h-5.after:transition-all.dark:border-gray-600.peer-checked:bg-blue-600{class: "after:content-[''] after:top-[2px] after:start-[2px]"}
+          .relative.w-11.h-6.my-2.bg-gray-200.peer-focus:outline-hidden.peer-focus:ring-4.peer-focus:ring-blue-300.dark:peer-focus:ring-blue-800.rounded-full.peer.dark:bg-gray-700.peer-checked:after:translate-x-full.peer-checked:rtl:after:-translate-x-full.peer-checked:after:border-white.after:absolute.after:bg-white.after:border-gray-300.after:border.after:rounded-full.after:w-5.after:h-5.after:transition-all.dark:border-gray-600.peer-checked:bg-blue-600{class: "after:content-[''] after:top-[2px] after:start-[2px]"}
 
       - if service_subject.errors[:matcher_id].any?
         %span.text-red-600= vm.errors[:matcher_id].join(', ')

@@ -11,11 +11,16 @@ class LiquidTooltipSnippetComponent < ViewComponent::Base
   def call
     LiquidReplacer.new(template_text).iterate do |variable_node|
       content_tag(
-        :strong,
-        "[ #{variable_node.name.name} ]",
+        :div,
+        content_tag(
+          :strong,
+          "[ #{variable_node.name.name} ]",
+          { data: { action: "mouseenter->tooltip#show mouseleave->tooltip#hide" }}
+        ),
         {
+          class: 'contents',
           data: {
-            controller: 'tippy',
+            controller: 'tooltip',
             tooltip: LiquidRangeSubstitution.result_for(@object, node: variable_node, actor: options[:actor])
           }
         }
