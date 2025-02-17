@@ -21,11 +21,14 @@ class VirtualMachinePolicy < ApplicationPolicy
   end
 
   def update?
-    create?
+    RoleBinding
+      .for_user(user)
+      .where(exercise:, role: :actor_dev, actor: record.actor&.root)
+      .exists?
   end
 
   def destroy?
-    create?
+    update?
   end
 
   relation_scope do |relation|
