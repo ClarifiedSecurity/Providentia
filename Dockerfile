@@ -34,14 +34,12 @@ RUN apk add --no-cache --update \
   build-base \
   git \
   tzdata \
-  nodejs-current \
   sqlite \
   postgresql-client \
   less \
   graphviz \
   ttf-dejavu
 
-RUN corepack enable
 RUN addgroup -S -g ${CONTAINER_GROUP_ID} $CONTAINER_USER_NAME && \
   adduser -S -u ${CONTAINER_USER_ID} -g $CONTAINER_USER_NAME -h /home/$CONTAINER_USER_NAME -s /bin/bash $CONTAINER_USER_NAME
 
@@ -77,7 +75,6 @@ RUN wget -O - https://github.com/jemalloc/jemalloc/releases/download/5.3.0/jemal
 # BUILDER IMAGE
 FROM base AS builder_prod
 ENV RAILS_ENV=production \
-  NODE_ENV=production \
   BUNDLE_FROZEN="1" \
   BUNDLE_WITHOUT="development"
 
@@ -87,9 +84,7 @@ RUN apk add --no-cache --update \
   git \
   tzdata \
   postgresql-dev \
-  nodejs-current \
   less
-RUN corepack enable
 
 COPY Gemfile Gemfile.lock ./
 RUN bundle install --no-binstubs --jobs $(nproc) --retry 3 && \
@@ -98,13 +93,11 @@ RUN bundle install --no-binstubs --jobs $(nproc) --retry 3 && \
 
 COPY . .
 RUN touch config/features.yml && bundle exec bootsnap precompile app/ lib/
-RUN SECRET_KEY_BASE_DUMMY=1 bundle exec rails assets:precompile && \
-  rm -r node_modules .yarn
+RUN SECRET_KEY_BASE_DUMMY=1 bundle exec rails assets:precompile
 
 ## PRODUCTION IMAGE
 FROM base AS production
 ENV RAILS_ENV=production \
-  NODE_ENV=production \
   BUNDLE_WITHOUT="development" \
   RAILS_SERVE_STATIC_FILES=true \
   RUBY_GC_HEAP_INIT_SLOTS=2000000 \

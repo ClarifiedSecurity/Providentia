@@ -20,7 +20,7 @@ class ModalComponent < ViewComponent::Base
 
     def content_classes
       if @full_screen
-        'h-full flex-grow'
+        'h-full grow'
       end
     end
 

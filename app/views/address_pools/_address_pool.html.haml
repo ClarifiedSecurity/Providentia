@@ -49,7 +49,7 @@
             .grow= render IPPickerComponent.new(form: form, field: :range_end, label: true)
 
         - else
-          .flex-1
+          .flex-1{data: {controller: 'tooltip', tooltip: 'Clear gateway'}}
             = form.label :gateway, class: 'block font-bold text-gray-700 dark:text-gray-200'
             = render SplitInputComponent.new do |split|
               - split.with_left_cell do
@@ -59,5 +59,5 @@
                 = "/#{address_pool.ip_network.prefix}"
               - if address_pool.gateway
                 - split.with_right_cell do
-                  %button.bg-orange-400.inset-0.absolute{type: "submit", name: "address_pool[clear_gateway]", form: dom_id(address_pool, :secondary), data: {controller: 'tippy', tooltip: 'Clear gateway'}}
-                    %i.fas.fa-times
+                  %button.bg-orange-400.inset-0.absolute{type: "submit", name: "address_pool[clear_gateway]", form: dom_id(address_pool, :secondary)}
+                    %i.fas.fa-times{ data: { action: "mouseenter->tooltip#show mouseleave->tooltip#hide" }}

@@ -53,7 +53,7 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 
 // Make sure this is before any other `fontawesome` API calls
-config.autoAddCss = false;
+config.autoAddCss = true;
 
 library.add(
   faTimes,
