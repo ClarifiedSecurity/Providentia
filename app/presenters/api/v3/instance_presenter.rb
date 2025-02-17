@@ -211,7 +211,7 @@ module API
           Current.services_cache[spec.id].map do |check_name|
             {
               id: check_name,
-              budget_id: "#{spec.slug}_#{check_name}",
+              budget_id: "#{name}_#{check_name}",
               exercise_unique_id: "#{inventory_name}_#{check_name}"
             }
           end
