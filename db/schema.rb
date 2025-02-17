@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_11_15_104725) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_17_085123) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -170,7 +170,9 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_15_104725) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "cluster_mode", default: true
+    t.bigint "user_id"
     t.index ["name", "virtual_machine_id"], name: "index_customization_specs_on_name_and_virtual_machine_id", unique: true
+    t.index ["user_id"], name: "index_customization_specs_on_user_id"
     t.index ["virtual_machine_id"], name: "index_customization_specs_on_virtual_machine_id"
   end
 
@@ -386,6 +388,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_15_104725) do
   add_foreign_key "credential_sets", "exercises"
   add_foreign_key "credential_sets", "networks"
   add_foreign_key "credentials", "credential_sets"
+  add_foreign_key "customization_specs", "users"
   add_foreign_key "customization_specs", "virtual_machines"
   add_foreign_key "instance_metadata", "customization_specs"
   add_foreign_key "network_interfaces", "networks"
