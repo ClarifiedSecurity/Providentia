@@ -27,9 +27,7 @@ module API
         end
 
         def numbers
-          Hash[
-            numbers_configuration.map { [_1, credentials(_1)] }
-          ]
+          numbers_configuration.index_with { credentials(_1) }
         end
 
         def credentials(number)
