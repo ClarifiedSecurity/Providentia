@@ -48,13 +48,14 @@
           - if customization_spec.errors[:dns_name].any?
             %span.text-red-600= customization_spec.errors[:dns_name].join(', ')
 
+      .mt-2
+        = form.label :user_id, for: "customization_spec#{customization_spec.id}_user", class: 'block font-bold text-gray-700 dark:text-gray-200'
+        = form.collection_select :user_id, @system_owners, :id, :name, {}, data: { controller: 'select' }, disabled: !allowed_to?(:update?, @virtual_machine)
 
-        - if customization_spec.mode_container?
-          .h-0.basis-full
-
-          .grow
-            = form.label :description, for: "customization_spec#{customization_spec.id}_description", class: 'block font-bold text-gray-700 dark:text-gray-200'
-            = form.text_area :description, id: "customization_spec#{customization_spec.id}_description", class: 'form-input', data: { controller: "textarea-autogrow" }
+      - if customization_spec.mode_container?
+        .mt-2
+          = form.label :description, for: "customization_spec#{customization_spec.id}_description", class: 'block font-bold text-gray-700 dark:text-gray-200'
+          = form.text_area :description, id: "customization_spec#{customization_spec.id}_description", class: 'form-input', data: { controller: "textarea-autogrow" }
 
       .mt-2
         = form.label :capability_ids, Capability.model_name.human.pluralize, for: "customization_spec#{customization_spec.id}_capability_ids", class: 'block font-bold text-gray-700 dark:text-gray-200'

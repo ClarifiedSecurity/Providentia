@@ -2,6 +2,7 @@
 
 class User < ApplicationRecord
   has_many :owned_systems, class_name: 'VirtualMachine', foreign_key: :system_owner_id
+  has_many :customization_specs
   has_many :api_tokens
 
   devise :trackable, :omniauthable, omniauth_providers: %i[sso]

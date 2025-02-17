@@ -164,7 +164,7 @@ class VirtualMachine < ApplicationRecord
     end
 
     def create_default_spec
-      customization_specs.first_or_create(mode: 'host', name:)
+      customization_specs.first_or_create(mode: 'host', name:, user: system_owner)
     end
 
     def forced_numbered_by

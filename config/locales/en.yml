@@ -55,6 +55,7 @@ en:
       address_pool:
         mode: IP family
       customization_spec:
+        user_id: Owner
         api_id: Instance ID in API
         role_name: Customization role name
         dns_name: DNS name

@@ -35,6 +35,7 @@ class VirtualMachinesController < ApplicationController
       params.require(:virtual_machine).permit(:name)
     )
     @virtual_machine.actor = @submitted_actor
+    @virtual_machine.system_owner = current_user
     authorize! @virtual_machine
 
     if @virtual_machine.save

@@ -17,7 +17,7 @@ module API
             id: spec.slug,
             spec_name: spec.name.to_url,
             customization_context: spec.mode,
-            owner: vm.system_owner&.name,
+            owner: (spec.user || vm.system_owner)&.name,
             description: spec.mode_host? ? vm.description : spec.description,
             role: spec.role,
             actor_id: vm.actor.abbreviation,

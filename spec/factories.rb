@@ -19,6 +19,7 @@ FactoryBot.define do
 
   factory :customization_spec do
     virtual_machine
+    user
     mode { 'host' }
     sequence(:name) { |n| "CoolSpec#{n}" }
     role_name { 'MyString' }
@@ -55,6 +56,7 @@ FactoryBot.define do
 
   factory :virtual_machine do
     sequence(:name) { |n| "CoolTarget#{n}" }
+    association :system_owner, factory: :user
     actor
     operating_system
     exercise

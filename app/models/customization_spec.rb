@@ -30,6 +30,7 @@ class CustomizationSpec < ApplicationRecord
   }
 
   belongs_to :virtual_machine, touch: true
+  belongs_to :user
   has_one :exercise, through: :virtual_machine
   has_and_belongs_to_many :capabilities,
     after_add: :invalidate_capability_cache, after_remove: :invalidate_capability_cache
