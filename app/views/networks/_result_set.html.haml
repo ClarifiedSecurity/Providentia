@@ -45,7 +45,7 @@
           = link_to [network.exercise, network], data: { turbo_method: 'delete', turbo_confirm: 'Are you sure?' } do
             %i.fas.fa-times-circle.text-red-600
 
-- if sub.any?
+- if sub.any? && (@networks.keys & sub.keys).any?
   - c.with_table_row do
     %td.p-4.opacity-90{colspan: 100}
       - sub.each do |actor, sub|
