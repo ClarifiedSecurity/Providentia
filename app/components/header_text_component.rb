@@ -13,7 +13,7 @@ class HeaderTextComponent < ViewComponent::Base
   private
     def breadcrumb_items
       [].tap do |items|
-        items << BreadcrumbItem.new(url: root_path, content: 'Home', icon: :logo)
+        items << BreadcrumbItem.new(url: root_path, content: '', icon: :logo)
         items << BreadcrumbItem.new(url: [exercise], content: exercise.name) if exercise
         if CrumbableControllers.include?(controller_name)
           items << BreadcrumbItem.new(

@@ -4,14 +4,40 @@
   - provide :new_url do
     = url_for [:new, :exercise]
 
+- if @latest_stuff.any?
+  %h1.text-xl.py-2.font-semibold Owned specs
+  %section.grid.grid-cols-23.gap-x-4
+    - @latest_stuff.each do |host|
+      %article.col-span-4.bg-white.rounded-md.shadow-md.dark:bg-gray-800.p-4.flex.flex-col.items-center.justify-center
+        = link_to [host.exercise, host], class: 'text-lg font-bold' do
+          = render ActorAvatarComponent.new(actor: host.actor)
+          - if host.name.size > 20
+            = host.name.truncate(17)
+          - else
+            = host.name
+        %span.text-sm
+          in
+          = host.exercise.name
+        %span.text-xs
+          updated
+          = time_ago_in_words host.updated_at
+          ago
+
+    %aside.col-span-3
+      %aside.text-xl.text-center.bg-white.rounded-md.shadow-md.dark:bg-gray-800.p-4
+        Total
+        %strong.block.text-2xl= @owned_specs_count
+        specs
+
+
 .mt-2
   - if @my_exercises.any?
-    %h1.text-xl.py-2.font-bold My environments
+    %h1.text-xl.py-2.font-semibold Environments
     .grid.grid-cols-3.gap-4.justify-items-stretch.pb-10
       = render partial: 'environments/environment_card', collection: @my_exercises, as: :environment
 
   - if @other_exercises.any?
-    %h1.text-xl.py-2.font-medium Public environments
+    %h1.text-xl.py-2.font-medium Visible environments
     .grid.grid-cols-4.gap-6.justify-items-stretch.pb-10
       = render partial: 'environments/environment_card_small', collection: @other_exercises, as: :environment
 
