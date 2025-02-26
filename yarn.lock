@@ -1685,10 +1685,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cytoscape@npm:^3.30.3":
-  version: 3.30.3
-  resolution: "cytoscape@npm:3.30.3"
-  checksum: 10/41d9c5fd276a130bb7fbf27d0072ff2362b2ada8ef23fa63704fec57a31b65500c374a7a25d037bfb38d63fcf74a0f1723504497be8786b98fd548a5c41db355
+"cytoscape@npm:^3.31.1":
+  version: 3.31.1
+  resolution: "cytoscape@npm:3.31.1"
+  checksum: 10/1be5582146aad279e3880f6860171c98d2a0c22afed8cf173cf37f57061a92f2b74ed605e1221b22f6838d36478ce832eb6bcad761f993d30dd9bf9b9c01bc8a
   languageName: node
   linkType: hard
 
@@ -3537,7 +3537,7 @@ __metadata:
     "@tailwindcss/forms": "npm:^0.5.9"
     "@tailwindcss/typography": "npm:^0.5.15"
     cssnano: "npm:^7.0.6"
-    cytoscape: "npm:^3.30.3"
+    cytoscape: "npm:^3.31.1"
     cytoscape-elk: "npm:^2.2.0"
     cytoscape-node-html-label: "npm:^1.2.2"
     debounce: "npm:^2.2.0"
