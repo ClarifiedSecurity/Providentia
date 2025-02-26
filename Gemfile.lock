@@ -223,7 +223,7 @@ GEM
     kaminari-core (1.2.2)
     language_server-protocol (3.17.0.4)
     lint_roller (1.1.0)
-    liquid (5.7.2)
+    liquid (5.8.1)
       bigdecimal
       strscan (>= 3.1.1)
     listen (3.9.0)
@@ -590,7 +590,7 @@ DEPENDENCIES
   ipaddress!
   jwt
   kaminari
-  liquid (~> 5.6)
+  liquid (~> 5.8)
   listen
   memory_profiler
   naturally (~> 2.2)
