@@ -27,7 +27,7 @@ gem 'view_component'
 # functionality
 gem 'stringex', '~> 2.8', require: 'stringex_lite'
 gem 'http', '~> 5.0'
-gem 'liquid', '~> 5.6'
+gem 'liquid', '~> 5.8'
 gem 'rgl'
 gem 'acts-as-taggable-on', '~> 12.0'
 gem 'ipaddress', github: 'ipaddress-gem/ipaddress'
