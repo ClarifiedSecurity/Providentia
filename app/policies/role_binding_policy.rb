@@ -25,6 +25,6 @@ class RoleBindingPolicy < ApplicationPolicy
 
   private
     def not_last_access?
-      exercise.role_bindings.role_environment_admin.where.not(user_email: user.email).exists?
+      exercise.role_bindings.role_environment_admin.where.not(id: record.id).exists?
     end
 end
