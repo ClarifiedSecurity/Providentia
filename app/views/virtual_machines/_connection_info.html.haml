@@ -1,9 +1,10 @@
-- cache([vm.cache_key_with_version]) do
+- net_scope = authorized_scope(@exercise.networks).where(id: vm.network_ids)
+- cache([vm.cache_key_with_version, net_scope.cache_key_with_version]) do
   .grid.grid-flow-col.gap-4
     %div
       %dt.text-gray-500.dark:text-gray-400 Connected networks
       %dd.mt-1.text-sm.text-gray-900.dark:text-white.mt-0
-        - vm.networks.each do |network|
+        - net_scope.each do |network|
           = link_to [network.exercise, network], class: 'mr-1' do
             = render ActorChipComponent.new(actor: network.actor, text: network.name)
 

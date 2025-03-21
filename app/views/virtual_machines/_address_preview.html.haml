@@ -1,4 +1,5 @@
-- cache([@virtual_machine.cache_key_with_version, 'address_preview']) do
+- net_scope = authorized_scope(@exercise.networks).where(id: @virtual_machine.network_ids)
+- cache([@virtual_machine.cache_key_with_version, 'address_preview', net_scope.cache_key_with_version]) do
   = render TableComponent.new do |c|
     - @virtual_machine.host_spec.deployable_instances(AddressPreviewPresenter).group_by(&:team_number).each do |team_nr, instances|
       - c.with_table_row do
@@ -18,6 +19,7 @@
 
           %td.px-6.py-4.space-y-3
             - instance.interfaces.each do |interface|
+              - next if !allowed_to?(:show?, interface[:network])
               %div
                 %h4= interface[:name]
                 .grid.grid-flow-col.auto-cols-max.space-x-4.text-sm

@@ -8,6 +8,7 @@ class AddressPreviewPresenter < Struct.new(:spec, :sequential_number, :team_numb
   def interfaces
     vm.network_interfaces.map do |nic|
       {
+        network: nic.network,
         name: nic.network.name,
         addresses: nic.addresses.for_api.map do |address|
           {
