@@ -13,7 +13,11 @@ module API
 
       def show
         render json: {
-          result: CustomizationSpecPresenter.new(spec, include_metadata: true)
+          result: CustomizationSpecPresenter.new(
+            spec,
+            include_metadata: true,
+            include_custom_tags: allowed_to?(:read_tags?, spec)
+          )
         }
       rescue ActiveRecord::RecordNotFound
         render_not_found

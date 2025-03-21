@@ -55,6 +55,7 @@ module API
             'numbering',
             vm.numbered_actor&.cache_key_with_version,
             vm.numbered_actor&.root&.cache_key_with_version,
+            options[:include_custom_tags],
             options[:include_metadata] ? 'metadata' : nil,
             options[:include_metadata] ? spec.instance_metadata.cache_key_with_version : nil
           ].compact
