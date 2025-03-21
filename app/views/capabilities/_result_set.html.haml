@@ -7,6 +7,7 @@
 
 = render TableComponent.new do |c|
   - c.with_column { Capability.human_attribute_name(:name) }
+  - c.with_column { Capability.human_attribute_name(:description) }
   - c.with_column { CustomizationSpec.model_name.human.pluralize }
   - c.with_column { '' }
 
@@ -15,6 +16,7 @@
       %td.px-6.py-4
         .text-sm
           = link_to_if allowed_to?(:show?, capability), capability.name, [capability.exercise, capability], class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-200'
+      %td.px-6.py-4= capability.description
 
       %td.px-6.py-4.space-y-3
         - cache([capability.cache_key_with_version, 'index_fragnment']) do
