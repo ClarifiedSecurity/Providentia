@@ -8,15 +8,13 @@ module API
       def show
         scope = authorized_scope(@exercise.customization_specs).for_api
         render json: {
-          result: Rails.cache.fetch([
-            'apiv3',
-            @exercise.cache_key_with_version,
-            scope,
-            authorized_scope(@exercise.virtual_machines),
-            'inventory'
-          ]) do
-            scope.map { |spec| CustomizationSpecPresenter.new(spec) }
-          end
+          result: scope.map {
+            CustomizationSpecPresenter.new(
+              it,
+              include_metadata: false,
+              include_custom_tags: allowed_to?(:read_tags?, it)
+            )
+          }
         }
       end
     end
