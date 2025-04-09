@@ -112,6 +112,9 @@ en:
     ipv4: IPv4
     ipv6: IPv6
 
+  service_subject_match_conditions:
+    SpecMode: Spec mode
+
   roles:
     environment_member:
       name: Environment member

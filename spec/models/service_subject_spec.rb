@@ -144,6 +144,11 @@ RSpec.describe ServiceSubject do
     let(:network_inverted_matcher) { ServiceSubjectMatchCondition.new(matcher_type: 'Network', matcher_id: nic2.network_id.to_s, invert: '1') }
     let(:capability_matcher) { ServiceSubjectMatchCondition.new(matcher_type: 'Capability', matcher_id: capability1.id.to_s) }
     let(:capability_inverted_matcher) { ServiceSubjectMatchCondition.new(matcher_type: 'Capability', matcher_id: capability3.id.to_s, invert: '1') }
+    let(:spec_mode_host_matcher) { ServiceSubjectMatchCondition.new(matcher_type: 'SpecMode', matcher_id: 'host') }
+    let(:spec_mode_host_inverted_matcher) { ServiceSubjectMatchCondition.new(matcher_type: 'SpecMode', matcher_id: 'host', invert: '1') }
+    let(:spec_mode_container_matcher) { ServiceSubjectMatchCondition.new(matcher_type: 'SpecMode', matcher_id: 'container') }
+    let(:spec_mode_container_inverted_matcher) { ServiceSubjectMatchCondition.new(matcher_type: 'SpecMode', matcher_id: 'container', invert: '1') }
+
 
     context 'actor matcher' do
       let(:match_conditions) { [actor_matcher] }
@@ -238,6 +243,42 @@ RSpec.describe ServiceSubject do
 
       it 'should match correct vms' do
         expect(subject.matched_spec_ids).to eq([spec1.id])
+      end
+    end
+
+    context 'container mode specs' do
+      let!(:spec1_container) { create(:customization_spec, mode: :container, virtual_machine: virtual_machine1) }
+
+      context 'spec mode matcher (host)' do
+        let(:match_conditions) { [spec_mode_host_matcher] }
+
+        it 'should match correct vms' do
+          expect(subject.matched_spec_ids.sort).to eq([spec1.id, spec2.id, spec3.id].sort)
+        end
+      end
+
+      context 'inversion on spec mode matcher (host)' do
+        let(:match_conditions) { [spec_mode_host_inverted_matcher] }
+
+        it 'should match correct vms' do
+          expect(subject.matched_spec_ids).to eq([spec1_container.id])
+        end
+      end
+
+      context 'spec mode matcher (container)' do
+        let(:match_conditions) { [spec_mode_container_matcher] }
+
+        it 'should match correct vms' do
+          expect(subject.matched_spec_ids).to eq([spec1_container.id])
+        end
+      end
+
+      context 'inversion on spec mode matcher (container)' do
+        let(:match_conditions) { [spec_mode_container_inverted_matcher] }
+
+        it 'should match correct vms' do
+          expect(subject.matched_spec_ids.sort).to eq([spec1.id, spec2.id, spec3.id].sort)
+        end
       end
     end
   end

@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
+  FLASH_CLASSES = {
+    notice: 'bg-green-400 border-l-4 border-green-700 text-white',
+    error:  'bg-red-400 border-l-4 border-red-700 text-black',
+    alert:  'bg-red-400 border-l-4 border-red-700 text-black'
+  }.freeze
+
   def session_path(scope)
     new_user_session_path
   end
@@ -28,9 +34,7 @@ module ApplicationHelper
       [model.exercise, model.virtual_machine]
     when Credential
       [model.credential_set.exercise, model.credential_set]
-    when Exercise
-      [model]
-    when OperatingSystem
+    when Exercise, OperatingSystem
       [model]
     when Check, ServiceSubject
       [model.exercise, model.service]
@@ -40,11 +44,7 @@ module ApplicationHelper
   end
 
   def tailwind_classes_for(flash_type)
-    {
-      notice: 'bg-green-400 border-l-4 border-green-700 text-white',
-      error:  'bg-red-400 border-l-4 border-red-700 text-black',
-      alert:  'bg-red-400 border-l-4 border-red-700 text-black',
-    }.stringify_keys[flash_type.to_s] || flash_type.to_s
+    FLASH_CLASSES.stringify_keys[flash_type.to_s] || flash_type.to_s
   end
 
   def pool_ip_families
@@ -73,7 +73,14 @@ module ApplicationHelper
 
   def service_subject_types
     ServiceSubjectMatchCondition::VALID_TYPES.map do |type_klass|
-      [type_klass.model_name.human, type_klass.to_s]
+      case type_klass
+      when Class
+        [type_klass.model_name.human, type_klass.to_s]
+      when String
+        [I18n.t("service_subject_match_conditions.#{type_klass}"), type_klass]
+      else
+        [type_klass.to_s.humanize, type_klass.to_s]
+      end
     end
   end
 
@@ -86,9 +93,9 @@ module ApplicationHelper
   def nic_tooltip(nic)
     [
       nic.network.name,
-      nic.egress? ? 'egress' : nil,
-      nic.connection? ? 'connection' : nil
-    ].compact.join ', '
+      ('egress' if nic.egress?),
+      ('connection' if nic.connection?)
+    ].compact.join(', ')
   end
 
   def sorted_tree_options(scope = authorized_scope(OperatingSystem.all))
@@ -104,7 +111,7 @@ module ApplicationHelper
       authorized_scope(@exercise.virtual_machines).cache_key_with_version,
       authorized_scope(@exercise.networks).cache_key_with_version,
       authorized_scope(@exercise.services).cache_key_with_version,
-      authorized_scope(@exercise.capabilities).cache_key_with_version,
+      authorized_scope(@exercise.capabilities).cache_key_with_version
     ]
   end
 
@@ -123,29 +130,35 @@ module ApplicationHelper
   end
 
   def subject_selector_scope(match_condition)
-    case match_condition.matcher_type
-    when 'CustomizationSpec'
-      authorized_scope(@exercise.customization_specs).select(:id, :name).order(:name).map do |spec|
-        [spec.name, spec.id]
-      end
-    when 'Capability'
-      authorized_scope(@exercise.capabilities).select(:id, :name).order(:name).map do |cap|
-        [cap.name, cap.id]
-      end
-    when 'Actor'
-      sorted_tree_options(authorized_scope(@exercise.actors))
-    when 'OperatingSystem'
-      sorted_tree_options(authorized_scope(OperatingSystem.all))
-    when 'Network'
-      authorized_scope(@exercise.networks).order(:name).map do |network|
-        [network.name, network.id]
-      end
-    when 'ActsAsTaggableOn::Tagging'
-      ActsAsTaggableOn::Tag.for_tenant("exercise_#{@exercise.id}").map do |tag|
-        [tag.name] * 2
-      end
-    else
-      []
+    scope = case match_condition.matcher_type
+            when 'CustomizationSpec'
+              @exercise.customization_specs
+            when 'Capability'
+              @exercise.capabilities
+            when 'Actor'
+              @exercise.actors
+            when 'OperatingSystem'
+              OperatingSystem.all
+            when 'Network'
+              @exercise.networks
+            when 'ActsAsTaggableOn::Tagging'
+              return ActsAsTaggableOn::Tag.for_tenant("exercise_#{@exercise.id}").map { |tag| [tag.name] }
+            when 'SpecMode'
+              return CustomizationSpec.modes.keys.map { |it| [it.humanize, it] }
+            else
+              return []
     end
+
+    process_scope(scope, match_condition.matcher_type)
+  end
+
+  private
+    def process_scope(scope, matcher_type)
+      case matcher_type
+      when 'Actor', 'OperatingSystem'
+        sorted_tree_options(authorized_scope(scope))
+      else
+        authorized_scope(scope).select(:id, :name).order(:name).map { |item| [item.name, item.id] }
+      end
   end
 end
