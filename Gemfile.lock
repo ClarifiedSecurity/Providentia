@@ -600,7 +600,7 @@ DEPENDENCIES
   naturally (~> 2.2)
   nilify_blanks (~> 1.4)
   oj (~> 3.16)
-  omniauth (~> 2.0)
+  omniauth (~> 2.1)
   omniauth-rails_csrf_protection
   omniauth_openid_connect
   paper_trail
