@@ -11,11 +11,12 @@ class ServiceSubjectMatchCondition
     Capability,
     Network,
     Actor,
-    ActsAsTaggableOn::Tagging
+    ActsAsTaggableOn::Tagging,
+    'SpecMode'
   ]
 
   validates :matcher_type, inclusion: { in: VALID_TYPES.map(&:to_s), allow_blank: true }
-  validates :matcher_id, numericality: true, allow_blank: true, unless: -> { matcher_type == 'ActsAsTaggableOn::Tagging' }
+  validates :matcher_id, numericality: true, allow_blank: true, unless: -> { %w(ActsAsTaggableOn::Tagging SpecMode).include? matcher_type }
 
   def attributes
     {
@@ -37,6 +38,8 @@ class ServiceSubjectMatchCondition
     case matcher_type
     when 'ActsAsTaggableOn::Tagging'
       matcher_type.constantize.joins(:tag).where(tags: { name: matcher_id })
+    when 'SpecMode'
+      CustomizationSpec.where(mode: matcher_id)
     else
       matcher_type.constantize.where(id: matcher_id)
     end

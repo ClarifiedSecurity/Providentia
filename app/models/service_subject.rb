@@ -74,6 +74,10 @@ class ServiceSubject < ApplicationRecord
         scope.tagged_with(condition.matcher_id, exclude: true)
       in matcher_type: 'ActsAsTaggableOn::Tagging', matcher_id: String
         scope.tagged_with(condition.matcher_id)
+      in matcher_type: 'SpecMode', invert: '1', matcher_id: String
+        scope.where.not(mode: condition.matcher_id)
+      in matcher_type: 'SpecMode'
+        scope.where(mode: condition.matcher_id)
       else
         scope.none
       end
