@@ -15,7 +15,7 @@ class LiquidTooltipSnippetComponent < ViewComponent::Base
         content_tag(
           :strong,
           "[ #{variable_node.name.name} ]",
-          { data: { action: "mouseenter->tooltip#show mouseleave->tooltip#hide" }}
+          { data: { action: 'mouseenter->tooltip#show mouseleave->tooltip#hide' } }
         ),
         {
           class: 'contents',
