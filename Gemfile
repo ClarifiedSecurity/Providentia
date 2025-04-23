@@ -46,7 +46,7 @@ gem 'rouge'
 
 # auth
 gem 'devise'
-gem 'omniauth', '~> 2.0'
+gem 'omniauth', '~> 2.1'
 gem 'omniauth_openid_connect'
 gem 'omniauth-rails_csrf_protection'
 gem 'action_policy'
