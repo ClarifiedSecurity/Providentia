@@ -121,12 +121,8 @@ module ApplicationHelper
 
   def actor_color_classes(actor)
     color = (actor || Actor.new).ui_color
-    case color
-    when 'yellow'
-      "bg-#{color}-200 text-#{color}-800 dark:bg-#{color}-400 dark:text-#{color}-700"
-    else
-      "bg-#{color}-200 text-#{color}-800 dark:bg-#{color}-700 dark:text-#{color}-300"
-    end
+    dark_suffix = color == 'yellow' ? '400 dark:text-700' : '700 dark:text-300'
+    "bg-#{color}-200 text-#{color}-800 dark:bg-#{dark_suffix}"
   end
 
   def subject_selector_scope(match_condition)
