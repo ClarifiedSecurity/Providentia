@@ -6,11 +6,11 @@ RSpec.describe API::V3::InstancePresenter do
   let(:virtual_machine) { create(:virtual_machine) }
   let(:spec) { virtual_machine.host_spec }
 
-  let(:team_nr) { nil }
+  let(:actor_nr) { nil }
   let(:seq_nr) { nil }
   let(:opts) { nil }
 
-  subject { described_class.new(spec, team_nr, seq_nr, **opts) }
+  subject { described_class.new(spec, actor_nr, seq_nr, **opts) }
 
   before {
     Current.interfaces_cache ||= {}
