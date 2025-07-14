@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 # check=error=true
 
-ARG RUBY_VERSION=3.4.1
+ARG RUBY_VERSION=3.4.4
 
 # BASE IMAGE
 FROM ruby:$RUBY_VERSION-alpine AS base
@@ -22,6 +22,7 @@ FROM base AS builder_development
 RUN apk add --no-cache --update \
   build-base \
   postgresql-dev \
+  yaml-dev \
   git
 COPY Gemfile Gemfile.lock ./
 RUN bundle install --jobs $(nproc) --retry 3 && \
@@ -38,6 +39,7 @@ RUN apk add --no-cache --update \
   postgresql-client \
   less \
   graphviz \
+  yaml-dev \
   ttf-dejavu
 
 RUN addgroup -S -g ${CONTAINER_GROUP_ID} $CONTAINER_USER_NAME && \
