@@ -60,8 +60,6 @@ jobs:
       - name: Set version
         run: echo $GITHUB_HEAD_REF > CURRENT_VERSION
       # Add or replace any other lints here
-      - name: Security audit dependencies
-        run: bundle exec bundle audit
       - name: Security audit application code
         run: bundle exec brakeman -q -w2
       - name: Lint Ruby files

@@ -92,7 +92,6 @@ services:
       caddy: providentia.localhost:80
       caddy.reverse_proxy: "{{upstreams 3000}}"
     environment:
-      COREPACK_ENABLE_DOWNLOAD_PROMPT: 0
       SECRET_KEY_BASE: 0 # don't care in development mode
       DATABASE_URL: postgres://providentia:secret@postgresql/providentia?pool=5
       OIDC_ISSUER: http://keycloak.localhost/realms/Providentia
