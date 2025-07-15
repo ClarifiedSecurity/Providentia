@@ -91,4 +91,9 @@ Rails.application.configure do
     silence: ['/healthz']
   )
   config.middleware.delete Rails::Rack::Logger
+
+  if ENV.fetch('BASE_URI', false)
+    uri = URI.parse(ENV['BASE_URI'])
+    Rails.application.config.hosts << uri.host
+  end
 end

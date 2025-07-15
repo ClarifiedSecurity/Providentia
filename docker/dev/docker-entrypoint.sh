@@ -1,6 +1,10 @@
 #!/bin/bash
 set -ex
 
+if [ -f ./docker/dev/dynamic/env ]; then
+  set -a && source ./docker/dev/dynamic/env && set +a
+fi
+
 ln -sf ../../docker/dev/post-commit .git/hooks/post-commit
 chmod +x .git/hooks/post-commit
 

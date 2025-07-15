@@ -1,76 +1,11 @@
-version: "3"
-
 name: providentia-dev
 services:
-  postgresql:
-    image: "postgres:16-alpine"
-    ports:
-      - "5432:5432"
-    volumes:
-      - "postgres_providentia:/var/lib/postgresql/data"
-      - ./initdb.sql:/docker-entrypoint-initdb.d/001-initdb.sql
-    command: postgres -c shared_preload_libraries=pg_stat_statements -c pg_stat_statements.track=all
-    environment:
-      - PGUSER=providentia
-      - POSTGRES_USER=providentia
-      - POSTGRES_PASSWORD=secret
-      - POSTGRES_DB=providentia
-    healthcheck:
-      test:
-        [
-          "CMD-SHELL",
-          "pg_isready",
-          "-q",
-          "-d",
-          "providentia",
-          "-U",
-          "providentia",
-        ]
-      interval: 5s
-      timeout: 3s
-      retries: 3
-
-  keycloak:
-    image: bitnami/keycloak:24.0.3
-    depends_on:
-      - postgresql
-    environment:
-      - KEYCLOAK_PROXY_ADDRESS_FORWARDING=true
-      - KEYCLOAK_ADMIN_USER=admin
-      - KEYCLOAK_ADMIN_PASSWORD=adminsecret
-      - KEYCLOAK_MANAGEMENT_USER=mgmt
-      - KEYCLOAK_MANAGEMENT_PASSWORD=mgmtsecret
-      - KEYCLOAK_DATABASE_HOST=postgresql
-      - KEYCLOAK_DATABASE_PORT=5432
-      - KEYCLOAK_DATABASE_NAME=keycloak
-      - KEYCLOAK_DATABASE_USER=keycloak
-      - KEYCLOAK_DATABASE_PASSWORD=secret
-      - KEYCLOAK_REALM=ruby
-      - KEYCLOAK_CLIENT_URL=http://providentia.localhost
-      - KEYCLOAK_CLIENT_ID=Providentia
-      - KEYCLOAK_CLIENT_SECRET=00000000-0000-0000-0000-000000000000
-      - KEYCLOAK_CLIENT_SCOPE=resources
-    labels:
-      caddy: keycloak.localhost:80
-      caddy.reverse_proxy: "{{upstreams 8080}}"
-
-  keycloak_config:
-    image: adorsys/keycloak-config-cli:latest-24.0.1
-    depends_on:
-      - keycloak
-    volumes:
-      - ./providentia.yaml:/config/providentia.yaml
-    environment:
-      - KEYCLOAK_URL=http://keycloak:8080/
-      - KEYCLOAK_USER=admin
-      - KEYCLOAK_PASSWORD=adminsecret
-      - KEYCLOAK_AVAILABILITYCHECK_ENABLED=true
-      - KEYCLOAK_AVAILABILITYCHECK_TIMEOUT=30s
-      - IMPORT_FILES='/config/*'
-
   web:
     depends_on:
-      - "postgresql"
+      postgresql:
+        condition: service_healthy
+      zitadel-configurator:
+        condition: service_completed_successfully
     build:
       context: ../../
       dockerfile: Dockerfile
@@ -81,7 +16,7 @@ services:
     tty: true
     stdin_open: true
     volumes:
-      - /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt
+      - /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
       - ../../:/srv/app
     healthcheck:
       test: "wget -q 127.0.0.1:3000/healthz -O /dev/null"
@@ -89,47 +24,152 @@ services:
       timeout: 5s
       retries: 20
     labels:
-      caddy: providentia.localhost:80
+      caddy: providentia.*:80
       caddy.reverse_proxy: "{{upstreams 3000}}"
     environment:
-      SECRET_KEY_BASE: 0 # don't care in development mode
-      DATABASE_URL: postgres://providentia:secret@postgresql/providentia?pool=5
-      OIDC_ISSUER: http://keycloak.localhost/realms/Providentia
-      OIDC_CLIENT_ID: Providentia
-      OIDC_CLIENT_SECRET: 00000000-0000-0000-0000-000000000000
-      OIDC_RESOURCE_PREFIX: Providentia_
-      OIDC_RESOURCE_LOGIN: User
-      OIDC_RESOURCE_SUPERADMIN: Super_Admin
-      OIDC_RESOURCE_ENV_CREATOR: Environment_Creator
-      OIDC_EXTRA_SCOPES: ""
-      OIDC_AUTHORIZATION_ROLES_CLAIM: resource_access.Providentia.roles
-      OIDC_ENABLE_HTTP: true
-      BASE_URI: http://providentia.localhost
-      RUBY_GC_HEAP_INIT_SLOTS: 10000000
-      RUBY_HEAP_SLOTS_INCREMENT: 1000000
-      RUBY_HEAP_SLOTS_GROWTH_FACTOR: 1
-      RUBY_GC_MALLOC_LIMIT: 100000000
-      RUBY_HEAP_FREE_MIN: 5000000
+      # don't care in development mode
+      - SECRET_KEY_BASE=0
+
+      - DATABASE_URL=postgres://providentia:secret@postgresql/providentia?pool=5
+      - REDIS_URL=redis://redis:6379/0
+
+      # authentication config
+      # the client is dynamic and will be created by the terraform script
+      - OIDC_ISSUER=http://${ZITADEL_DOMAIN:-zitadel.localhost}
+      - OIDC_CLIENT_SECRET=00000000-0000-0000-0000-000000000000
+      - OIDC_ENABLE_HTTP=true
+      - OIDC_EXTRA_SCOPES=profile,email
+      - OIDC_AUTHORIZATION_ROLES_CLAIM=urn:zitadel:iam:org:project:roles
+
+      - BASE_URI=http://${PROVIDENTIA_DOMAIN:-providentia.localhost}
+
+      - RUBY_GC_HEAP_INIT_SLOTS=10000000
+      - RUBY_HEAP_SLOTS_INCREMENT=1000000
+      - RUBY_HEAP_SLOTS_GROWTH_FACTOR=1
+      - RUBY_GC_MALLOC_LIMIT=100000000
+      - RUBY_HEAP_FREE_MIN=5000000
+
+  postgresql:
+    image: "postgres:17-alpine"
+    volumes:
+      - "postgres_data:/var/lib/postgresql/data"
+    command: postgres -c shared_preload_libraries=pg_stat_statements -c pg_stat_statements.track=all
+    configs:
+      - source: initdb_providentia.sql
+        target: /docker-entrypoint-initdb.d/001-initdb.sql
+    environment:
+      - PGUSER=${POSTGRES_USER:-postgres}
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-secret}
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready",
+          "-q",
+          "-d",
+          "zitadel",
+          "-U",
+          "${POSTGRES_USER:-postgres}",
+        ]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+
+  zitadel:
+    image: "ghcr.io/zitadel/zitadel:latest"
+    command: 'start-from-init --masterkey "MasterkeyNeedsToHave32Characters" --tlsMode disabled'
+    environment:
+      ZITADEL_EXTERNALDOMAIN: ${ZITADEL_DOMAIN:-zitadel.localhost}
+      ZITADEL_FIRSTINSTANCE_ORG_HUMAN_EMAIL_ADDRESS: zitadel-admin@localhost
+      ZITADEL_FIRSTINSTANCE_ORG_HUMAN_PASSWORD: Password1!
+      ZITADEL_FIRSTINSTANCE_ORG_HUMAN_PASSWORDCHANGEREQUIRED: false
+      ZITADEL_FIRSTINSTANCE_MACHINEKEYPATH: /dynamic/zitadel-admin-sa.json
+      ZITADEL_FIRSTINSTANCE_ORG_MACHINE_MACHINE_USERNAME: zitadel-admin-sa
+      ZITADEL_FIRSTINSTANCE_ORG_MACHINE_MACHINE_NAME: Admin
+      ZITADEL_FIRSTINSTANCE_ORG_MACHINE_MACHINEKEY_TYPE: 1
+      ZITADEL_DATABASE_POSTGRES_HOST: postgresql
+      ZITADEL_DATABASE_POSTGRES_PORT: 5432
+      ZITADEL_DATABASE_POSTGRES_DATABASE: zitadel
+      ZITADEL_DATABASE_POSTGRES_USER_USERNAME: zitadel
+      ZITADEL_DATABASE_POSTGRES_USER_PASSWORD: zitadel
+      ZITADEL_DATABASE_POSTGRES_USER_SSL_MODE: disable
+      ZITADEL_DATABASE_POSTGRES_ADMIN_USERNAME: ${POSTGRES_USER:-postgres}
+      ZITADEL_DATABASE_POSTGRES_ADMIN_PASSWORD: ${POSTGRES_PASSWORD:-secret}
+      ZITADEL_DATABASE_POSTGRES_ADMIN_SSL_MODE: disable
+      ZITADEL_EXTERNALSECURE: false
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    volumes:
+      - ./dynamic:/dynamic
+    configs:
+      - source: healthcheck.yaml
+        target: /healthcheck.yaml
+    healthcheck:
+      test: ["CMD", "/app/zitadel", "ready", "--config", "/healthcheck.yaml"]
+      interval: "10s"
+      timeout: "5s"
+      retries: 5
+      start_period: "10s"
+    labels:
+      caddy: zitadel.*:80
+      caddy.reverse_proxy: "h2c://{{upstreams 8080}}"
+
+  zitadel-configurator:
+    image: hashicorp/terraform:latest
+    entrypoint:
+      - /bin/sh
+      - -c
+    depends_on:
+      zitadel:
+        condition: service_healthy
+    restart: on-failure:3
+    environment:
+      - TF_DATA_DIR=/terraformstate
+      - TF_VAR_ZITADEL_LOCATION=${ZITADEL_DOMAIN:-zitadel.localhost}
+    volumes:
+      - terraformstate:/terraformstate
+      - ./zitadel.tf:/main.tf
+      - ./dynamic:/dynamic
+    command:
+      - |
+        terraform init -input=false &&
+        terraform apply -auto-approve -input=false
 
   caddy:
     image: lucaslorentz/caddy-docker-proxy:ci-alpine
     ports:
       - "80:80"
-    networks:
-      default:
-        aliases:
-          - caddy
-          - keycloak.localhost
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - caddy_data:/data
     restart: unless-stopped
+    networks:
+      default:
+        aliases:
+          - caddy
+          - ${ZITADEL_DOMAIN:-zitadel.localhost}
     labels:
       caddy_0:
       caddy_0.auto_https: off
+      caddy_0.servers_0: :80
+      caddy_0.servers_0.protocols: h1 h2c
       # caddy_0.debug:
 
 volumes:
   caddy_data:
-  postgres_providentia:
-  postgres_keycloak:
+  postgres_data:
+  terraformstate:
+
+configs:
+  initdb_providentia.sql:
+    content: |
+      CREATE USER providentia WITH PASSWORD 'secret';
+      ALTER USER providentia CREATEDB;
+      CREATE DATABASE providentia WITH OWNER providentia;
+
+  healthcheck.yaml:
+    content: |
+      TLS:
+        Enabled: false
