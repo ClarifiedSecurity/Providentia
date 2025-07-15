@@ -35,6 +35,7 @@
 config/credentials.yml.enc
 
 ## custom
+docker/dev/dynamic/*
 docker/**/*.env
 CURRENT_VERSION
 .makerc-vars

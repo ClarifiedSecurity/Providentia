@@ -51,13 +51,13 @@ make build
 make start
 ```
 
-After bootup, Providentia can be accessed at [http://providentia.localhost](http://providentia.localhost) and Keycloak will be running at [http://keycloak.localhost](http://keycloak.localhost). You may need to trust the self-signed TLS certificate if running production mode.
+After bootup, Providentia can be accessed at [http://providentia.localhost](http://providentia.localhost) and Zitadel admin UI will be running at [http://zitadel.localhost:8080](http://zitadel.localhost:8080).
 
 ### Components
 
 Providentia is a [Ruby on Rails](https://github.com/rails/rails) based web application, but contains multiple containers by default:
 
-- [Keycloak](https://github.com/keycloak/keycloak) for authentication (SSO)
+- [Zitadel](https://github.com/zitadel/zitadel) for authentication (SSO)
 
   Can be switched to any OpenID Connect provider
 
@@ -65,25 +65,27 @@ Providentia is a [Ruby on Rails](https://github.com/rails/rails) based web appli
 - [Rails](https://github.com/rails/rails) app
 - [Caddy](https://github.com/caddyserver/caddy) reverse proxy
 
-### Credentials
+### Pre-generated data
 
-**Keycloak**:
+**Zitadel**:
 
-- u: `admin` p: `adminsecret`
+- u: `zitadel-admin@localhost` p: `Password1!`
 
 **Providentia**:
 
-On first development mode boot, a sample environemnt is created for you - "Test exercise". The setup mimics a typical cyber-defense actor pattern and creates users with varied permissions:
+On first development mode boot, a sample environment is created for you - "Test exercise". The setup mimics a typical cyber-defense actor pattern and creates users with varied permissions:
 
-- u: `providentia.noaccess` p: `pass` - cannot login.
-- u: `providentia.admin` p: `pass` - superadmin, has access to everything.
-- u: `providentia.teadmin` p: `pass` - has access to Test Exercise as environment administrator (all permissions)
-- u: `providentia.rt` p: `pass` - has access to Test Exercise as RT member (can see public machines, can see and alter RT virtual machines).
-- u: `providentia.dev` p: `pass` - has access to Test Exercise as GT member (can see public machines, can see and alter infra virtual machines and bt virtual machines).
-- u: `providentia.bt` p: `pass` - has access to Test Exercise as BT member (can see public machines, can see BT virtual machines).
-- u: `providentia.personal1` p: `pass` - can login, cannot see any environments, can create personal environments.
-- u: `providentia.personal2` p: `pass` - can login, cannot see any environments, can create personal environments.
-- u: `providentia.personal3` p: `pass` - can login, cannot see any environments, can create personal environments.
+| Username              | Password   | Permissions                                                                                         |
+| --------------------- | ---------- | --------------------------------------------------------------------------------------------------- |
+| providentia.noaccess  | Password1! | Cannot login.                                                                                       |
+| providentia.admin     | Password1! | Superadmin, has access to everything.                                                               |
+| providentia.teadmin   | Password1! | Access to Test Exercise as environment administrator (all permissions).                             |
+| providentia.rt        | Password1! | Access to Test Exercise as RT member (can see public machines, can see and alter RT VMs).           |
+| providentia.dev       | Password1! | Access to Test Exercise as GT member (can see public machines, can see and alter infra and bt VMs). |
+| providentia.bt        | Password1! | Access to Test Exercise as BT member (can see public machines, can see BT VMs).                     |
+| providentia.personal1 | Password1! | Can login, cannot see any environments, can create personal environments.                           |
+| providentia.personal2 | Password1! | Can login, cannot see any environments, can create personal environments.                           |
+| providentia.personal3 | Password1! | Can login, cannot see any environments, can create personal environments.                           |
 
 ## Running in production
 

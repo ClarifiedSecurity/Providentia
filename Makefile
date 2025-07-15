@@ -3,6 +3,9 @@
 CONTAINER_USER_ID := $(shell id -u)
 CONTAINER_GROUP_ID := $(shell id -u)
 
+export PROVIDENTIA_DOMAIN = providentia.$(APP_DOMAIN)
+export ZITADEL_DOMAIN = zitadel.$(APP_DOMAIN)
+
 .DEFAULT_GOAL := help
 .PHONY: help clean stop start shell console logs config
 
