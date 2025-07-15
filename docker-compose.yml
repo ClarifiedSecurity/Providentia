@@ -1,0 +1,11 @@
+---
+name: providentia
+
+include:
+  - support/compose-postgresql.yml
+  - support/compose-zitadel.yml
+  - support/compose-caddy.yml
+  - support/compose-web.yml
+
+volumes:
+  dynamic_env:
