@@ -1,0 +1,47 @@
+---
+name: providentia-dev
+
+include:
+  - support/compose-postgresql.yml
+  - support/compose-zitadel.yml
+
+services:
+  web:
+    extends:
+      file: support/compose-web.yml
+      service: web
+
+    build:
+      dockerfile: Dockerfile
+      target: development
+      args:
+        CONTAINER_USER_ID:
+        CONTAINER_GROUP_ID:
+    volumes:
+      - /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
+      - ./:/srv/app
+    tty: true
+    stdin_open: true
+    environment:
+      RAILS_ENV: development
+    labels: !override
+      caddy: ${PROVIDENTIA_DOMAIN:-providentia.localhost}:80
+      caddy.reverse_proxy: "{{upstreams 3000}}"
+
+  caddy:
+    extends:
+      file: support/compose-caddy.yml
+      service: caddy
+
+    ports: !override
+      - "80:80"
+    labels: !override
+      caddy_0:
+      caddy_0.auto_https: off
+      caddy_0.servers_0: :80
+      caddy_0.servers_0.protocols: h1 h2c
+      # caddy_0.debug:
+
+volumes:
+  caddy_data:
+  dynamic_env:

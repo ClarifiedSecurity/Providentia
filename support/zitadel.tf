@@ -24,7 +24,7 @@ provider "zitadel" {
   domain           = var.ZITADEL_LOCATION
   insecure         = "true"
   port             = "80"
-  jwt_profile_file = "dynamic/zitadel-admin-sa.json"
+  jwt_profile_file = "/zitadel_credentials/zitadel-admin-sa.json"
 }
 
 resource "zitadel_org" "default" {
@@ -135,8 +135,11 @@ resource "zitadel_application_oidc" "default" {
 }
 
 resource "local_file" "foo" {
-  content  = "OIDC_CLIENT_ID=${zitadel_application_oidc.default.client_id}"
-  filename = "dynamic/env"
+  content  = <<-ENVFILE
+    OIDC_CLIENT_ID=${zitadel_application_oidc.default.client_id}
+    OIDC_CLIENT_SECRET=${zitadel_application_oidc.default.client_secret}
+  ENVFILE
+  filename = "/env/oidcclient.env"
 }
 
 resource "zitadel_human_user" "providentia_noaccess" {

@@ -1,0 +1,88 @@
+---
+services:
+  init_volumes:
+    image: alpine:latest
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      [
+        "mkdir -p /zitadel_credentials && mkdir -p /terraformstate && chown 1000:1000 /zitadel_credentials && chown 1000:1000 /terraformstate",
+      ]
+    volumes:
+      - zitadel_credentials:/zitadel_credentials
+      - terraform_state:/terraformstate
+    restart: "no"
+
+  zitadel:
+    depends_on:
+      init_volumes:
+        condition: service_completed_successfully
+      postgresql:
+        condition: service_healthy
+    image: "ghcr.io/zitadel/zitadel:v3.3.2"
+    command: 'start-from-init --masterkey "MasterkeyNeedsToHave32Characters" --tlsMode disabled'
+    environment:
+      ZITADEL_EXTERNALDOMAIN: ${ZITADEL_DOMAIN:-zitadel.localhost}
+      ZITADEL_EXTERNALSECURE: false
+      ZITADEL_FIRSTINSTANCE_ORG_HUMAN_EMAIL_ADDRESS: zitadel-admin@localhost
+      ZITADEL_FIRSTINSTANCE_ORG_HUMAN_PASSWORD: Password1!
+      ZITADEL_FIRSTINSTANCE_ORG_HUMAN_PASSWORDCHANGEREQUIRED: false
+      ZITADEL_FIRSTINSTANCE_MACHINEKEYPATH: /zitadel_credentials/zitadel-admin-sa.json
+      ZITADEL_FIRSTINSTANCE_ORG_MACHINE_MACHINE_USERNAME: zitadel-admin-sa
+      ZITADEL_FIRSTINSTANCE_ORG_MACHINE_MACHINE_NAME: Admin
+      ZITADEL_FIRSTINSTANCE_ORG_MACHINE_MACHINEKEY_TYPE: 1
+      ZITADEL_DATABASE_POSTGRES_HOST: postgresql
+      ZITADEL_DATABASE_POSTGRES_PORT: 5432
+      ZITADEL_DATABASE_POSTGRES_DATABASE: ${ZITADEL_DB_NAME:-zitadel_db}
+      ZITADEL_DATABASE_POSTGRES_USER_USERNAME: ${ZITADEL_DB_USER:-zitadel_user}
+      ZITADEL_DATABASE_POSTGRES_USER_PASSWORD: ${ZITADEL_DB_PASS:-zitadel_password}
+      ZITADEL_DATABASE_POSTGRES_USER_SSL_MODE: disable
+      ZITADEL_DATABASE_POSTGRES_ADMIN_USERNAME: ${POSTGRES_USER:-postgres}
+      ZITADEL_DATABASE_POSTGRES_ADMIN_PASSWORD: ${POSTGRES_PASSWORD:-postgres_password}
+      ZITADEL_DATABASE_POSTGRES_ADMIN_SSL_MODE: disable
+    volumes:
+      - zitadel_credentials:/zitadel_credentials
+    configs:
+      - source: healthcheck.yaml
+        target: /healthcheck.yaml
+    healthcheck:
+      test: ["CMD", "/app/zitadel", "ready", "--config", "/healthcheck.yaml"]
+      interval: "10s"
+      timeout: "5s"
+      retries: 5
+      start_period: "10s"
+    labels:
+      caddy: "http://${ZITADEL_DOMAIN:-zitadel.localhost}, https://${ZITADEL_DOMAIN:-zitadel.localhost}"
+      caddy.tls: internal
+      caddy.reverse_proxy: "h2c://{{upstreams 8080}}"
+
+  zitadel-configurator:
+    depends_on:
+      zitadel:
+        condition: service_healthy
+    image: hashicorp/terraform:latest
+    entrypoint:
+      - /bin/sh
+      - -c
+    command:
+      - |
+        terraform init -input=false &&
+        terraform apply -auto-approve -input=false
+    restart: on-failure:3
+    environment:
+      - TF_DATA_DIR=/terraformstate
+      - TF_VAR_ZITADEL_LOCATION=${ZITADEL_DOMAIN:-zitadel.localhost}
+    volumes:
+      - ./zitadel.tf:/main.tf
+      - terraform_state:/terraformstate
+      - zitadel_credentials:/zitadel_credentials
+      - dynamic_env:/env
+
+volumes:
+  zitadel_credentials:
+  terraform_state:
+
+configs:
+  healthcheck.yaml:
+    content: |
+      TLS:
+        Enabled: false

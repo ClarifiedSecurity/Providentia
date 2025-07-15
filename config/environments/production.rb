@@ -43,7 +43,7 @@ Rails.application.configure do
   config.log_level = ENV.fetch('RAILS_LOG_LEVEL', 'info')
 
   # Prevent health checks from clogging up the logs.
-  config.silence_healthcheck_path = '/up'
+  config.silence_healthcheck_path = '/healthz'
 
   # Don't log any deprecations.
   config.active_support.report_deprecations = false
@@ -89,7 +89,7 @@ Rails.application.configure do
   # ]
   #
   # Skip DNS rebinding protection for the default health check endpoint.
-  # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+  config.host_authorization = { exclude: ->(request) { request.path == '/healthz' } }
 
   config.session_store :cache_store,
       key: "__Host-providentia_session_#{Rails.env}",

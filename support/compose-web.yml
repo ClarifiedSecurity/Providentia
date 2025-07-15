@@ -1,0 +1,38 @@
+---
+services:
+  web:
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      zitadel-configurator:
+        condition: service_completed_successfully
+    image: ghcr.io/clarifiedsecurity/providentia:25.4.0
+    restart: unless-stopped
+    environment:
+      RAILS_ENV: ${RAILS_ENV:-production}
+      SECRET_KEY_BASE: ${PROVIDENTIA_DB_USER:-change-me-this-is-not-secure}
+      DATABASE_URL: postgres://${PROVIDENTIA_DB_USER:-providentia_user}:${PROVIDENTIA_DB_PASS:-providentia_secret}@postgresql/providentia_db?pool=5
+
+      # authentication config for builtin zitadel
+      # the client is dynamic and will be created by the terraform script:
+      # OIDC_CLIENT_ID and OIDC_CLIENT_SECRET will be red by container entrypoint
+      OIDC_ISSUER: http://${ZITADEL_DOMAIN:-zitadel.localhost}
+      OIDC_ENABLE_HTTP: true
+      OIDC_EXTRA_SCOPES: profile,email
+      OIDC_AUTHORIZATION_ROLES_CLAIM: urn:zitadel:iam:org:project:roles
+
+      BASE_URI: http://${PROVIDENTIA_DOMAIN:-providentia.localhost}
+    volumes:
+      - dynamic_env:/srv/env
+    healthcheck:
+      test: "wget -q 127.0.0.1:3000/healthz -O /dev/null"
+      interval: 10s
+      timeout: 5s
+      retries: 20
+    labels:
+      caddy: "${PROVIDENTIA_DOMAIN:-providentia.localhost}"
+      caddy.tls: internal
+      caddy.reverse_proxy: "{{upstreams 3000}}"
+
+volumes:
+  dynamic_env:
