@@ -23,16 +23,6 @@ def main():
     Prompts user for environment and Docker sudo preferences, then
     writes them to .makerc-vars configuration file.
     """
-    valid_environments = ['dev', 'prod']
-
-    # Get environment setting
-    while True:
-        environment = input(f'{bcolors.HEADER}[*] Enter your Providentia environment ({"/".join(valid_environments)}): {bcolors.ENDC}')
-        if environment.lower() in valid_environments:
-            environment = environment.lower()  # Normalize case
-            break
-        else:
-            print(f'{bcolors.WARNING}[*] Please select one of the supported environments: {", ".join(valid_environments)}{bcolors.ENDC}')
 
     # Get sudo preference
     while True:
@@ -47,9 +37,16 @@ def main():
 
     # Get network exposure setting
     while True:
-        network_mode = input(f'{bcolors.HEADER}[*] Will the app run locally or be exposed to network? [local/network]: {bcolors.ENDC}')
+        network_mode = input(f'{bcolors.HEADER}[*] Will the app run locally or be exposed to network? [LOCAL/network]: {bcolors.ENDC}')
         if network_mode.lower() in ['local', 'network']:
             network_mode = network_mode.lower()
+            break
+        elif network_mode.lower() in ['l', 'n']:
+            network_mode = 'local' if network_mode.lower() == 'l' else 'network'
+            break
+        elif network_mode == '':
+            network_mode = 'local'
+            print(f'{bcolors.OKBLUE}[+] Defaulting to "local" mode{bcolors.ENDC}')
             break
         else:
             print(f'{bcolors.WARNING}[*] Please choose "local" or "network"{bcolors.ENDC}')
@@ -66,9 +63,10 @@ def main():
     # Write configuration to file
     try:
         with open('./.makerc-vars', 'w+') as f:
-            f.write(f'DEPLOY_ENVIRONMENT := {environment}\n')
             f.write(f'SUDO_COMMAND := {"sudo -E" if sudo.lower()=="y" else ""}\n')
-            f.write(f'APP_DOMAIN := {domain}\n')
+        with open('./.env', 'w+') as f:
+            f.write(f'PROVIDENTIA_DOMAIN=providentia.{domain}\n')
+            f.write(f'ZITADEL_DOMAIN=zitadel.{domain}\n')
         print(f'{bcolors.OKGREEN}[+] Configuration saved successfully to .makerc-vars{bcolors.ENDC}')
     except IOError as e:
         print(f'{bcolors.FAIL}[!] Error writing configuration file: {e}{bcolors.ENDC}')

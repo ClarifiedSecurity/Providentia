@@ -52,10 +52,8 @@ WORKDIR $APP_PATH
 USER $CONTAINER_USER_NAME
 
 # Entrypoint prepares the database and the rest of environment
-ENTRYPOINT ["/srv/app/docker/dev/docker-entrypoint.sh"]
+ENTRYPOINT ["/srv/app/bin/docker-entrypoint"]
 CMD ["./bin/rails", "server", "-b", "0.0.0.0"]
-
-
 
 
 
@@ -112,6 +110,7 @@ COPY --from=builder_prod $APP_PATH $APP_PATH
 COPY --from=builder_jemalloc /usr/local/lib/libjemalloc.so.2 /usr/local/lib/
 
 RUN apk add --no-cache --update \
+  libstdc++ \
   libpq \
   tzdata
 
@@ -122,6 +121,6 @@ RUN addgroup -S -g ${CONTAINER_GROUP_ID} $CONTAINER_USER_NAME && \
 USER $CONTAINER_USER_NAME
 
 # Entrypoint prepares the database.
-ENTRYPOINT ["/srv/app/docker/prod/docker-entrypoint.sh"]
+ENTRYPOINT ["/srv/app/bin/docker-entrypoint"]
 EXPOSE 3000
 CMD ["./bin/rails", "server", "-b", "0.0.0.0"]
