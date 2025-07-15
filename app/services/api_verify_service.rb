@@ -13,17 +13,18 @@ class APIVerifyService < Patterns::Service
     User.from_external(
       uid: payload.dig('preferred_username'),
       email: payload.dig('email'),
-      resources: resource_list(payload)
+      resources: SsoTokenRoles.result_for(payload.to_h)
     )
   rescue JWT::DecodeError, JWT::InvalidIssuerError
   end
 
   private
     def public_key
-      @@issuer_public_key ||= Oj.safe_load(HTTP.get(Rails.configuration.oidc_issuer).to_s).dig('public_key')
-      OpenSSL::PKey::RSA.new(
-        Base64.decode64(@@issuer_public_key)
-      )
+      @@issuer_public_key ||= begin
+        jwks = ::OpenIDConnect::Discovery::Provider::Config.discover!(Rails.configuration.oidc_issuer).jwks
+        key = jwks.find { |jwk| jwk['use'] == 'sig' && jwk['alg'] == 'RS256' }
+        JSON::JWK.new(key).to_key
+      end
     end
 
     def decode_opts
@@ -32,17 +33,5 @@ class APIVerifyService < Patterns::Service
         iss: Rails.configuration.oidc_issuer,
         algorithm: 'RS256'
       }
-    end
-
-    def resource_list(payload)
-      case Rails.configuration.authorization_mode
-      when 'scope'
-        payload.dig('resources')
-      when 'resource_access'
-        payload.dig(
-          'resource_access',
-          ENV.fetch('OIDC_CLIENT_ID', ''), 'roles'
-        )
-      end
     end
 end

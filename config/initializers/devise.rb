@@ -276,7 +276,7 @@ Devise.setup do |config|
 
   config.omniauth :openid_connect, {
     name: :sso,
-    scope: Rails.configuration.authorization_mode == 'scope' ? [:resources] : [],
+    scope: Rails.configuration.oidc_extra_scopes,
     discovery: true,
     issuer: Rails.configuration.oidc_issuer,
     # post_logout_redirect_uri: base_url

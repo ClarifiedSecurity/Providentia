@@ -9,7 +9,7 @@ module API
         render json: {
           issuer: Rails.configuration.oidc_issuer,
           client_id: ENV.fetch('OIDC_CLIENT_ID', ''),
-          scopes: [:openid] + (Rails.configuration.authorization_mode == 'scope' ? [:resources] : [])
+          scopes: [:openid] + Rails.configuration.oidc_extra_scopes
         }
       end
     end

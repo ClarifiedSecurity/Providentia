@@ -34,7 +34,8 @@ module Providentia
 
     config.resource_prefix = ENV.fetch('OIDC_RESOURCE_PREFIX', '')
     config.oidc_issuer = ENV.fetch('OIDC_ISSUER', '')
-    config.authorization_mode = ENV.fetch('AUTH_MODE', 'resource_access')
+    config.oidc_extra_scopes = ENV.fetch('OIDC_EXTRA_SCOPES', '').split(',').map(&:to_sym)
+    config.oidc_authorization_roles_claim = ENV.fetch('OIDC_AUTHORIZATION_ROLES_CLAIM', '').split('.')
 
     # add some security headers
     config.action_dispatch.default_headers.merge!(

@@ -25,14 +25,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   private
     def resource_list
-      case Rails.configuration.authorization_mode
-      when 'scope'
-        request.env['omniauth.auth'].extra.raw_info.resources
-      when 'resource_access'
-        request.env['omniauth.auth'].dig(
-          'extra', 'raw_info', 'resource_access',
-          ENV.fetch('OIDC_CLIENT_ID', ''), 'roles'
-        )
-      end
+      SsoTokenRoles.result_for(request.env['omniauth.auth'].dig('extra', 'raw_info'))
     end
 end
