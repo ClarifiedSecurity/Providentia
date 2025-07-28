@@ -29,9 +29,9 @@
 
         .grow{data: {controller: 'tooltip', tooltip: 'Clear address'}}
           .flex
-            .grow
-              = form.label :offset, class: 'block font-bold text-gray-700 dark:text-gray-200', for: "#{dom_id(address)}_offset" do
-                = Address.human_attribute_name(:offset)
+            = form.label :offset, class: 'block font-bold text-gray-700 dark:text-gray-200', for: "#{dom_id(address)}_offset" do
+              = Address.human_attribute_name(:offset)
+            .grow.mx-2= render AddressSpecialChipComponent.new(address: address)
             - if address.fixed? && allowed_to?(:update?, address)
               %button.text-white.bg-linear-to-r.from-cyan-500.to-blue-500.hover:bg-linear-to-bl.focus:ring-4.focus:outline-hidden.focus:ring-cyan-300.dark:focus:ring-cyan-800.font-medium.rounded-lg.text-sm.px-2.text-center{class: "py-0", type: "submit", name: "address[randomize_address]", form: dom_id(address, :secondary)}
                 %i.fas.fa-dice
@@ -46,8 +46,8 @@
             - if address.address_pool.present? && address.address_pool.ip_network
               .mt-1= render IPPickerComponent.new(form: form, field: :offset, hosts: :all, label: false)
 
-          - when "ipv6_static", "ipv6_linklocal", "ipv6_uniqlocal", "ipv6_vip"
-            - if address.mode_ipv6_uniqlocal? || address.mode_ipv6_linklocal? || address.address_pool&.ip_network.present?
+          - when "ipv6_static", "ipv6_vip"
+            - if address.address_pool&.ip_network.present?
               = render SplitInputComponent.new do |split|
                 - split.with_left_cell do
                   = render LiquidAddressNetworkSansPrefixComponent.new(object: address)

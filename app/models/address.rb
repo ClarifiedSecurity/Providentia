@@ -17,8 +17,8 @@ class Address < ApplicationRecord
     ipv6_static: 3,
     ipv6_slaac: 4,
     ipv6_dhcp: 5,
-    ipv6_linklocal: 6,
-    ipv6_uniqlocal: 7,
+    # ipv6_linklocal: 6 These are now removed and left here as past reference
+    # ipv6_uniqlocal: 7 These are now removed and left here as past reference
     ipv4_vip: 8,
     ipv6_vip: 9
   }, prefix: :mode, default: 'ipv4_static'
@@ -35,7 +35,7 @@ class Address < ApplicationRecord
   }
 
   scope :for_search, -> {
-    where(mode: %i(ipv4_static ipv4_vip ipv6_static ipv6_linklocal ipv6_uniqlocal ipv6_vip))
+    where(mode: %i(ipv4_static ipv4_vip ipv6_static ipv6_vip))
     includes(:network)
     .where.not(offset: nil)
     .order(%i(mode offset))
@@ -72,10 +72,6 @@ class Address < ApplicationRecord
     case mode
     when 'ipv4_static', 'ipv4_vip', 'ipv6_static', 'ipv6_vip'
       address_pool.ip_network(team)
-    when 'ipv6_linklocal'
-      IPAddress::IPv6.new('fe80::/10')
-    when 'ipv6_uniqlocal'
-      IPAddress::IPv6.new('fc00::/7')
     end
   end
 
@@ -83,10 +79,6 @@ class Address < ApplicationRecord
     case mode
     when 'ipv4_static', 'ipv4_vip', 'ipv6_static', 'ipv6_vip'
       address_pool.network_address
-    when 'ipv6_linklocal'
-      'fe80::/64'
-    when 'ipv6_uniqlocal'
-      'fc00::/7'
     end
   end
 
@@ -107,7 +99,7 @@ class Address < ApplicationRecord
   end
 
   def ipv6?
-    mode_ipv6_static? || mode_ipv6_slaac? || mode_ipv6_dhcp? || mode_ipv6_linklocal? || mode_ipv6_uniqlocal? || mode_ipv6_vip?
+    mode_ipv6_static? || mode_ipv6_slaac? || mode_ipv6_dhcp? || mode_ipv6_vip?
   end
 
   def vip?
@@ -115,7 +107,7 @@ class Address < ApplicationRecord
   end
 
   def fixed?
-    mode_ipv4_static? || mode_ipv6_static? || mode_ipv6_linklocal? || mode_ipv6_uniqlocal? || vip?
+    mode_ipv4_static? || mode_ipv6_static? || vip?
   end
 
   def needs_pool?
@@ -127,6 +119,16 @@ class Address < ApplicationRecord
 
     virtual_machine.deployable_instances.map do |(actor_number, sequence_number)|
       ip_object(sequence_number:, actor_number:, sequence_total: virtual_machine.custom_instance_count)
+    end
+  end
+
+  def special_range
+    return false if ipv4?
+
+    if ip_family_network.link_local?
+      :link_local
+    elsif ip_family_network.unique_local?
+      :uniqlocal
     end
   end
 

@@ -84,8 +84,6 @@ en:
     ipv6_static: IPv6 static
     ipv6_slaac: IPv6 SLAAC
     ipv6_dhcp: IPv6 DHCPv6
-    ipv6_linklocal: IPv6 link-local
-    ipv6_uniqlocal: IPv6 unique local
     ipv4_vip: IPv4 virtual
     ipv6_vip: IPv6 virtual
 
@@ -111,6 +109,10 @@ en:
     v6: IPv6
     ipv4: IPv4
     ipv6: IPv6
+
+  special_ranges:
+    link_local: Link-local
+    uniqlocal: Unique local
 
   service_subject_match_conditions:
     SpecMode: Spec mode
