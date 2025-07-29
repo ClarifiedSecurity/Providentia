@@ -37,8 +37,8 @@ class CredentialsController < ApplicationController
     Credential.transaction do
       parsed_creds[:credentials].each do |cred|
         next unless cred[:name].to_s.strip.present?
-        cred in {password:}
-        cred in {custom_fields: Hash => custom_fields}
+        cred in { password: }
+        cred in { custom_fields: Hash => custom_fields }
 
         @credential_set.credentials
           .where(name: cred[:name].to_s.strip)
