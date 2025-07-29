@@ -22,6 +22,7 @@ FROM base AS builder_development
 RUN apk add --no-cache --update \
   build-base \
   postgresql-dev \
+  gcompat \
   yaml-dev \
   git
 COPY Gemfile Gemfile.lock ./
@@ -37,6 +38,7 @@ RUN apk add --no-cache --update \
   tzdata \
   sqlite \
   postgresql-client \
+  gcompat \
   less \
   graphviz \
   yaml-dev \
@@ -86,6 +88,7 @@ RUN apk add --no-cache --update \
   git \
   tzdata \
   postgresql-dev \
+  gcompat \
   less
 
 COPY Gemfile Gemfile.lock ./
@@ -112,6 +115,7 @@ COPY --from=builder_jemalloc /usr/local/lib/libjemalloc.so.2 /usr/local/lib/
 
 RUN apk add --no-cache --update \
   libpq \
+  gcompat \
   tzdata
 
 RUN addgroup -S -g ${CONTAINER_GROUP_ID} $CONTAINER_USER_NAME && \
