@@ -3,6 +3,7 @@
 class OperatingSystemsController < ApplicationController
   before_action :get_operating_system, only: %i[show update destroy]
   before_action :load_arranged_operating_systems, except: %i[destroy]
+  before_action :populate_add_action, except: %i[new create]
 
   def index
   end
@@ -60,5 +61,9 @@ class OperatingSystemsController < ApplicationController
 
     def operating_system_params
       params.require(:operating_system).permit(:name, :parent_id, :cpu, :ram, :primary_disk_size)
+    end
+
+    def populate_add_action
+      @add_action = OpenStruct.new(url: url_for([:new, :operating_system]))
     end
 end

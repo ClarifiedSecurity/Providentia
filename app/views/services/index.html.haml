@@ -1,7 +1,3 @@
-- if allowed_to?(:create?, Service.new(exercise: @exercise))
-  - provide :new_url do
-    = url_for [:new, @exercise, :service]
-
 - if @services.any?
   = render TableComponent.new do |c|
     - c.with_column { Service.human_attribute_name(:name) }

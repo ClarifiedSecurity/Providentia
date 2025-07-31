@@ -1,7 +1,3 @@
-- if allowed_to?(:create?, Capability.new(exercise: @exercise))
-  - provide :new_url do
-    = url_for [:new, @exercise, :capability]
-
 - title @capability.name
 
 = render 'form'

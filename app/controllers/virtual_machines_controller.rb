@@ -1,12 +1,14 @@
 # frozen_string_literal: true
 
 class VirtualMachinesController < ApplicationController
-  include VmPage
   before_action :get_exercise
   before_action :get_virtual_machine, only: %i[update destroy]
   before_action :get_virtual_machine_for_show, only: %i[show]
   before_action :get_and_verify_submitted_actor, only: %i[create update]
   before_action :preload_form_collections, only: %i[new create show destroy]
+
+  include VmPage
+  include AddButton
 
   respond_to :turbo_stream
 

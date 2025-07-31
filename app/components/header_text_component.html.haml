@@ -17,3 +17,7 @@
           = item.content
       - else
         %span.ms-1.text-md.font-medium.text-gray-500.md:ms-2.dark:text-gray-400.group-last:font-bold= item.content
+
+      - if item.action
+        = link_to item.action.url, data: {turbo_stream: true}, class: 'ml-2 inline-flex items-center justify-center w-5 h-5 bg-green-500 rounded-sm text-xs' do
+          %i.fas.fa-fw.fa-plus

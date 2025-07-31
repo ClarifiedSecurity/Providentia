@@ -4,6 +4,8 @@ class CredentialSetsController < ApplicationController
   before_action :get_exercise
   before_action :get_credential_sets, only: %i[show update destroy]
 
+  include AddButton
+
   def index
     @credential_sets = authorized_scope(@exercise.credential_sets).order(:name)
   end
