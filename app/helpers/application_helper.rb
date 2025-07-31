@@ -172,5 +172,10 @@ module ApplicationHelper
     end
 
   def select_contextual_menu_component
+    case { controller_name:, action_name: }
+    in controller_name: 'exercises'
+      ContextualExerciseLinksComponent.new(exercise: @exercise)
+    else
+    end
   end
 end

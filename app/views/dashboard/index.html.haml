@@ -1,22 +1,62 @@
 - title "Dashboard"
 
-- if allowed_to?(:create?, :exercise)
-  - provide :new_url do
-    = url_for [:new, :exercise]
+%h1.text-xl.py-2.font-semibold Hello, #{current_user.name}!
 
-.flex.justify-end.gap-1
-  - if allowed_to?(:list_archived?, :exercise) && !params[:archived]
-    = link_to 'Show archived', root_path(archived: true), class: 'form-submit h-10'
+- if @latest_stuff.any?
+  %h2.text-lg.py-2.font-semibold.opacity-75 You have recently worked on these specs
+  %section.grid.grid-cols-23.gap-x-4.mb-2
+    - @latest_stuff.each do |host|
+      %article.col-span-4.bg-white.rounded-md.shadow-md.dark:bg-gray-800.p-4.flex.flex-col.items-center.justify-center
+        = link_to [host.exercise, host], class: 'text-lg font-bold' do
+          = render ActorAvatarComponent.new(actor: host.actor)
+          - if host.name.size > 20
+            = host.name.truncate(17)
+          - else
+            = host.name
+        %span.text-sm
+          in
+          = host.exercise.name
+        %span.text-xs
+          updated
+          = time_ago_in_words host.updated_at
+          ago
+
+    %aside.col-span-3
+      %aside.text-xl.text-center.bg-white.rounded-md.shadow-md.dark:bg-gray-800.p-4
+        Total
+        %strong.block.text-2xl= @owned_specs_count
+        specs
+
+
 
 - if @my_exercises.any?
-  %h1.text-xl.py-2.font-bold My environments
-  .grid.grid-cols-3.gap-4.justify-items-stretch.pb-10
-    = render partial: 'environments/environment_card', collection: @my_exercises, as: :environment
+  %section.mb-10
+    %h2.text-lg.py-2.font-semibold.opacity-75 You have been granted access to the following environments
+    .grid.grid-cols-3.gap-4.justify-items-stretch
+      = render partial: 'environments/environment_card', collection: @my_exercises, as: :environment
+
+- if allowed_to?(:create?, :exercise)
+  %section.mb-10
+    %h2.text-lg.font-semibold.opacity-75 You are allowed to create new environments
+    %p.text-md.opacity-80
+      These start out as personal playgrounds, but you can ask to share them with others.
+      = link_to "Get started on new environment", [:new, :exercise], class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-200'
 
 - if @other_exercises.any?
-  %h1.text-xl.py-2.font-medium Public environments
-  .grid.grid-cols-4.gap-6.justify-items-stretch.pb-10
+  %h2.text-lg.font-semibold.opacity-75 You do not have explicit access to these environments
+  %p.text-md.opacity-80
+    As Providentia administrator, you can still manage these environments.
+  .grid.grid-cols-4.gap-6.justify-items-stretch.mt-4.pb-10
     = render partial: 'environments/environment_card_small', collection: @other_exercises, as: :environment
+
+- if allowed_to?(:list_archived?, :exercise)
+  - if !params[:archived]
+    .text-center= link_to 'Show archived', root_path(archived: true), class: 'form-submit h-10'
+
+  - if @archived_exercises.any?
+    %h1.text-xl.py-2.font-medium Archived environments
+    .grid.grid-cols-4.gap-6.justify-items-stretch.pb-10
+      = render partial: 'environments/environment_card_small', collection: @archived_exercises, as: :environment
 
 - if @my_exercises.empty? && @other_exercises.empty?
   = render EmptylistingComponent.new(klass: Exercise) do
