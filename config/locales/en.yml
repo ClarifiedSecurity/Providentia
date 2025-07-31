@@ -19,7 +19,9 @@ en:
   activerecord:
     models:
       exercise: Environment
-      virtual_machine: Host
+      virtual_machine:
+        one: Host
+        other: Inventory
     errors:
       models:
         virtual_machine:
