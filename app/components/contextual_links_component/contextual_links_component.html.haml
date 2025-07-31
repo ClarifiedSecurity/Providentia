@@ -1,0 +1,6 @@
+%nav.flex.mb-4.bg-neutral-300.dark:bg-gray-600
+  %ol.static-width.grid.grid-flow-col.auto-cols-fr.text-center
+    - menu_items.each do |item|
+      %li.px-4.py-2.font-medium
+        = link_to item.url do
+          = item.content
