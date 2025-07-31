@@ -1,7 +1,3 @@
-- if allowed_to?(:create?, Network.new(exercise: @exercise))
-  - provide :new_url do
-    = url_for [:new, @exercise, :network]
-
 - if @networks.any?
   - @actors.each do |actor, sub|
     - if (@networks.keys & actor.subtree).any?

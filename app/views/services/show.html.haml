@@ -1,9 +1,5 @@
 - title @service.name
 
-- if allowed_to?(:create?, Service.new(exercise: @exercise))
-  - provide :new_url do
-    = url_for [:new, @exercise, :service]
-
 %article[@service]
   = render ColumnFormSectionComponent.new do |c|
     - c.with_description do

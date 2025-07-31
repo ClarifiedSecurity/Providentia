@@ -1,8 +1,3 @@
-- if allowed_to?(:create?, Capability.new(exercise: @exercise))
-  - provide :new_url do
-    = url_for [:new, @exercise, :capability]
-
-
 - if @capabilities.any?
   - @capabilities.group_by(&:actor_ids).each do |actor_ids, capabilities|
     = render 'result_set', actors: authorized_scope(@exercise.actors).find(actor_ids) , capabilities:

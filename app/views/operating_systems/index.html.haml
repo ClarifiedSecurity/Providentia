@@ -1,7 +1,3 @@
-- if allowed_to?(:create?, OperatingSystem.new)
-  - provide :new_url do
-    = url_for({ action: :new })
-
 - if @operating_systems.any?
   = render TableComponent.new do |c|
     - c.with_column { OperatingSystem.human_attribute_name(:name) }

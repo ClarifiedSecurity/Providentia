@@ -1,7 +1,3 @@
-- if allowed_to?(:create?, @exercise.virtual_machines.build)
-  - provide :new_url do
-    = url_for [:new, @exercise, :virtual_machine]
-
 - title @virtual_machine.name
 = render 'form'
 

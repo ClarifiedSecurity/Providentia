@@ -4,6 +4,7 @@ class ServicesController < ApplicationController
   before_action :get_exercise
   before_action :get_service, only: %i[update destroy]
 
+  include AddButton
   include ServicePage
 
   def index

@@ -1,7 +1,3 @@
-- if allowed_to?(:create?, CredentialSet.new(exercise: @exercise))
-  - provide :new_url do
-    = url_for [:new, @exercise, :credential_set]
-
 - if @credential_sets.any?
   = render TableComponent.new do |c|
     - c.with_column { CredentialSet.human_attribute_name(:name) }
