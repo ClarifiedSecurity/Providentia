@@ -175,6 +175,8 @@ module ApplicationHelper
     case { controller_name:, action_name: }
     in controller_name: 'exercises'
       ContextualExerciseLinksComponent.new(exercise: @exercise)
+    in controller_name: 'virtual_machines', action_name: 'index'
+      ContextualInventoryComponent.new(exercise: @exercise, filter_actor: @filter_actor)
     else
     end
   end

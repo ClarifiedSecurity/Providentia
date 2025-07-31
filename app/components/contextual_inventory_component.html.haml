@@ -1,0 +1,34 @@
+.bg-white.dark:bg-gray-700.z-30
+  .static-width.pb-2
+    .relative.flex.h-8{"data-controller" => "dropdown"}
+      %button#dropdown-button-2.flex-shrink-0.z-10.inline-flex.items-center.px-4.text-sm.font-medium.text-center.text-gray-500.bg-emerald-200.border.border-gray-300.rounded-l-lg.hover:bg-emerald-300.focus:ring-4.focus:outline-none.focus:ring-gray-100.dark:bg-emerald-600.dark:hover:bg-emerald-500.dark:focus:ring-gray-700.dark:text-white.dark:border-gray-600{"data-action" => "dropdown#toggle click@window->dropdown#hide", type: "button"}
+        - if filter_actor
+          %span.inline-flex.w-4.h-4.mr-2.rounded-full{class: helpers.actor_color_classes(filter_actor)}
+
+        = filter_actor&.name || 'All'
+        %svg.w-4.h-4.ml-1{"aria-hidden" => "true", :fill => "currentColor", :viewbox => "0 0 20 20", :xmlns => "http://www.w3.org/2000/svg"}
+          %path{"clip-rule" => "evenodd", :d => "M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z", "fill-rule" => "evenodd"}
+
+      .hidden.transition.transform.origin-bottom-right.absolute.top-full.mt-2.left-0.z-10.bg-white.divide-y.divide-gray-100.rounded-lg.shadow.w-50.dark:bg-slate-200.dark:text-gray-800{"data-dropdown-target" => "menu", "data-transition-enter-from" => "opacity-0 scale-95", "data-transition-enter-to" => "opacity-100 scale-100", "data-transition-leave-from" => "opacity-100 scale-100", "data-transition-leave-to" => "opacity-0 scale-95"}
+        %ul.py-2.text-sm.text-gray-700.dark:text-gray-200{"aria-labelledby" => "dropdown-button-2"}
+          %li
+            = link_to 'All', exercise_virtual_machines_path(exercise, actor: nil, query: params[:query]), { role: :menuitem, class: 'inline-flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white'}
+
+          - cache([helpers.authorized_scope(exercise.actors).cache_key_with_version, 'tree']) do
+            - OrderedTree.result_for(helpers.authorized_scope(exercise.actors)).each do |actor|
+              %li.flex.divide-x.divide-gray-400.py-1.hover:bg-gray-100.text-gray-700.dark:text-gray-400.dark:hover:bg-gray-600.text-sm
+                = link_to exercise_virtual_machines_path(exercise, actor: actor.abbreviation, query: params[:query]), { role: :menuitem, class: 'inline-flex items-center w-full grow px-4 my-1 dark:hover:text-white'} do
+                  %span.inline-flex.w-4.h-4.mr-2.rounded-full{class: helpers.actor_color_classes(actor)}
+                  = "#{'-' * actor.depth} #{actor.name}"
+                - if actor.has_children?
+                  = link_to exercise_virtual_machines_path(exercise, actor: actor.abbreviation, query: params[:query], only: true), { role: :menuitem, class: 'inline-flex items-center px-2 my-1 dark:hover:text-white shrink'} do
+                    (only)
+
+      = form_with(url: [@exercise, :virtual_machines], method: :get, data: { controller: 'vmsearch' }, class: 'relative w-full') do
+        = hidden_field_tag :actor, params[:actor]
+        = hidden_field_tag :only, params[:only]
+        = text_field_tag :query,
+          params[:query],
+          class: 'block w-full h-8 px-1 p-0.5 z-20 text-sm text-gray-900 bg-gray-50 rounded-r-lg border-l-gray-50 border-l-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-l-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500',
+          placeholder: "Filter",
+          type: :search
