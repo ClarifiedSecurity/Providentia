@@ -161,4 +161,16 @@ module ApplicationHelper
         authorized_scope(scope).select(:id, :name).order(:name).map { |item| [item.name, item.id] }
       end
   end
+
+    def ar_class_to_link_text(klass)
+      i18n_plural = klass.model_name.human(count: 2)
+      if i18n_plural == klass.model_name.human
+        klass.model_name.human.pluralize
+      else
+        i18n_plural
+      end
+    end
+
+  def select_contextual_menu_component
+  end
 end

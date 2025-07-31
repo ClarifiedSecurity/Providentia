@@ -1,34 +1,46 @@
 # frozen_string_literal: true
 
 class HeaderTextComponent < ViewComponent::Base
-  attr_reader :text
-
-  def initialize(text:)
-    @text = text
+  include ApplicationHelper
+  BreadcrumbItem = Data.define(:url, :content, :icon) do
+    def initialize(url:, content:, icon: nil)
+      super(url:, content:, icon:)
+    end
   end
+
+  CrumbableControllers = %w[networks virtual_machines services capabilities credential_sets]
+  CrumbableActions = %w[show edit]
 
   private
     def breadcrumb_items
       [].tap do |items|
-        if !%w[exercises versions clones docs].include?(controller_name) || action_name == 'new'
-          items << [controller_class.to_icon, controller_action_text]
+        items << BreadcrumbItem.new(url: root_path, content: '', icon: :logo)
+        items << BreadcrumbItem.new(url: [exercise], content: exercise.name) if exercise
+        if CrumbableControllers.include?(controller_name)
+          items << BreadcrumbItem.new(
+            url: [exercise, controller_name.pluralize.to_sym],
+            content: ar_class_to_link_text(controller_class),
+            icon: controller_class.to_icon
+          )
+          if CrumbableActions.include?(action_name)
+            items << BreadcrumbItem.new(
+              url: [exercise, controller_item],
+              content: controller_item.name
+            )
+          end
         end
-      end
-    end
-
-    def controller_action_text
-      case action_name
-      when 'index'
-        "List of #{controller_class.model_name.human.downcase.pluralize}"
-      when 'show', 'edit', 'create'
-        model_instance = controller.instance_variable_get("@#{controller_name.singularize}")
-        model_instance.name
-      when 'new'
-        "New #{controller_class.model_name.human.downcase}"
       end
     end
 
     def controller_class
       controller_path.classify.constantize
+    end
+
+    def controller_item
+      controller.instance_variable_get("@#{controller_name.singularize}")
+    end
+
+    def exercise
+      controller.instance_variable_get('@exercise')
     end
 end

@@ -1,1 +1,9 @@
-= render "form"
+.my-2
+  = render ColumnFormSectionComponent.new do |c|
+    - c.with_description do
+      %h3.text-lg.leading-6.text-gray-900.dark:text-gray-50 Identity
+      %p.mt-1.text-gray-600.dark:text-gray-400
+        Name and description for this service
+
+    - c.with_main do
+      .px-4.py-5.bg-white.dark:bg-gray-800.space-y-6.p-6= render 'form'

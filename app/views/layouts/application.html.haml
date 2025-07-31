@@ -28,15 +28,15 @@
 
   %body#body.w-full.font-raleway.antialiased.bg-gray-100.text-gray-600.dark:bg-gray-900.dark:text-gray-200{data: {controller: "search"}}
     - if user_signed_in?
-      .flex.h-screen.flex-col.flex-1.overflow-y-auto.overflow-x-hidden.relative
-        = render 'header'
-        .static-width.py-8.pb-48.w-full
+      = render 'header'
+      .pt-16.pb-48
+        = render select_contextual_menu_component if select_contextual_menu_component
+        .static-width
           = render 'flashes'
           = render 'content'
 
       = render SearchComponent.new
       = render 'footer'
     - else
-      .static-width.py-8.w-full
-        = render 'flashes'
+      .static-width.py-8.w-full= render 'flashes'
       = render 'not_signed_in'
