@@ -41,4 +41,6 @@ pin '@floating-ui/dom', to: '@floating-ui--dom.js' # @1.6.13
 pin '@floating-ui/core', to: '@floating-ui--core.js' # @1.6.9
 pin '@floating-ui/utils', to: '@floating-ui--utils.js' # @0.2.9
 pin '@floating-ui/utils/dom', to: '@floating-ui--utils--dom.js' # @0.2.9
+pin '@stimulus-components/dropdown', to: '@stimulus-components--dropdown.js' # @3.0.0
+pin 'stimulus-use' # @0.52.3
 pin 'crelt' # @1.0.6
