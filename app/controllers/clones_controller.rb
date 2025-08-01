@@ -8,7 +8,7 @@ class ClonesController < ApplicationController
   end
 
   def create
-    authorize! @exercise, :create?
+    authorize! @exercise, to: :create?
     @clone = CloneExerciseForm.new(params[:clone])
     @clone.exercise_id = @exercise.id
 

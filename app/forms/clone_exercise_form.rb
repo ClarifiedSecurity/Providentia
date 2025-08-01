@@ -7,7 +7,7 @@ class CloneExerciseForm < Patterns::Form
   attribute :name, String
   attribute :abbreviation, String
 
-  validate :exercise_valid?
+  validate :target_does_not_exist?
 
   def source_name
     source_exercise.name
@@ -19,16 +19,16 @@ class CloneExerciseForm < Patterns::Form
 
   private
     def persist
-      calculation.cached_result
+      CloneEnvironment.result_for(exercise_id, attributes)
     end
 
-    def exercise_valid?
-      calculation.cloned_environment.valid?
-      errors.copy!(calculation.cloned_environment.errors)
-    end
-
-    def calculation
-      @calculation ||= CloneEnvironment.new(exercise_id, attributes)
+    def target_does_not_exist?
+      if Exercise.where(name: name).exists?
+        errors.add(:name, "An exercise with the name '#{name}' already exists.")
+      end
+      if Exercise.where(abbreviation: abbreviation).exists?
+        errors.add(:abbreviation, "An exercise with the abbreviation '#{abbreviation}' already exists.")
+      end
     end
 
     def source_exercise
