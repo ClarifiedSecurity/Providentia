@@ -88,6 +88,7 @@ RUN apk add --no-cache --update \
   git \
   tzdata \
   postgresql-dev \
+  yaml-dev \
   gcompat \
   less
 
