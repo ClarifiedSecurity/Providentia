@@ -168,6 +168,7 @@ configs:
       CREATE USER providentia WITH PASSWORD 'secret';
       ALTER USER providentia CREATEDB;
       CREATE DATABASE providentia WITH OWNER providentia;
+      CREATE DATABASE providentia_test WITH OWNER providentia;
 
   healthcheck.yaml:
     content: |
