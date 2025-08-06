@@ -1,6 +1,250 @@
 {
   "ignored_warnings": [
     {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "078ed47be8bb62648774e93a955b22fb7885b1f66ba397e9bc2863233fd9b1a1",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/calculation/clone_environment.rb",
+      "line": 122,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "ActiveRecord::Base.connection.execute(\"INSERT INTO capabilities_customization_specs (\\\"capability_id\\\", \\\"customization_spec_id\\\") VALUES\\n#{[].map(&:values).map do\n \"(#{values.join(\",\")})\"\n end.join(\", \")}\\n\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "CloneEnvironment",
+        "method": "clone_customization_specs"
+      },
+      "user_input": "[].map(&:values).map do\n \"(#{values.join(\",\")})\"\n end.join(\", \")",
+      "confidence": "Medium",
+      "cwe_id": [
+        89
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "1f2cd7e43b7836019f2a4be5a5f7d4db3dcb019600654e126c450179d729ef71",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped model attribute",
+      "file": "app/views/environments/_environment_card.html.haml",
+      "line": 13,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "::Haml::AttributeBuilder.build_class(true, \"fas\", VirtualMachine.to_icon)",
+      "render_path": [
+        {
+          "type": "template",
+          "name": "dashboard/index",
+          "line": 36,
+          "file": "app/views/dashboard/index.html.haml",
+          "rendered": {
+            "name": "environments/_environment_card",
+            "file": "app/views/environments/_environment_card.html.haml"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "environments/_environment_card"
+      },
+      "user_input": "VirtualMachine.to_icon",
+      "confidence": "Weak",
+      "cwe_id": [
+        79
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "37f6f5c45b1f2cd31487549aa8bf9f429ffea451c0cf802041dc0c66ea707960",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped model attribute",
+      "file": "app/views/environments/_environment_card.html.haml",
+      "line": 10,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "::Haml::AttributeBuilder.build_class(true, \"fas\", Network.to_icon)",
+      "render_path": [
+        {
+          "type": "template",
+          "name": "dashboard/index",
+          "line": 36,
+          "file": "app/views/dashboard/index.html.haml",
+          "rendered": {
+            "name": "environments/_environment_card",
+            "file": "app/views/environments/_environment_card.html.haml"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "environments/_environment_card"
+      },
+      "user_input": "Network.to_icon",
+      "confidence": "Weak",
+      "cwe_id": [
+        79
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "3ae8537aab48cdae56fe53c5db05547f9dba28225de3a20f053e8ee65066b2bf",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped model attribute",
+      "file": "app/views/clones/show.html.haml",
+      "line": 4,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "::Haml::AttributeBuilder.build_class(true, \"fas mr-2 mt-1\".freeze, Exercise.to_icon)",
+      "render_path": null,
+      "location": {
+        "type": "template",
+        "template": "clones/show"
+      },
+      "user_input": "Exercise.to_icon",
+      "confidence": "Weak",
+      "cwe_id": [
+        79
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "6f9749b54bc16091d31dec3f26dc883e22214e73de6726a94eb6007aebc6a4f2",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped model attribute",
+      "file": "app/views/virtual_machines/address_preview.html.haml",
+      "line": 2,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "::Haml::AttributeBuilder.build_id(true, dom_id(authorized_scope(Exercise.all).friendly.find(params[:exercise_id]).virtual_machines.find(params[:id]), :address_preview))",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "VirtualMachinesController",
+          "method": "address_preview",
+          "line": 61,
+          "file": "app/controllers/virtual_machines_controller.rb",
+          "rendered": {
+            "name": "virtual_machines/address_preview",
+            "file": "app/views/virtual_machines/address_preview.html.haml"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "virtual_machines/address_preview"
+      },
+      "user_input": "Exercise.all",
+      "confidence": "Weak",
+      "cwe_id": [
+        79
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "89edf528a5a14b5d32d222c2719173265a2c685e44b11bfc7fea4627c7233c26",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped model attribute",
+      "file": "app/views/environments/_environment_card.html.haml",
+      "line": 21,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "::Haml::AttributeBuilder.build_class(true, \"fas\", Capability.to_icon)",
+      "render_path": [
+        {
+          "type": "template",
+          "name": "dashboard/index",
+          "line": 36,
+          "file": "app/views/dashboard/index.html.haml",
+          "rendered": {
+            "name": "environments/_environment_card",
+            "file": "app/views/environments/_environment_card.html.haml"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "environments/_environment_card"
+      },
+      "user_input": "Capability.to_icon",
+      "confidence": "Weak",
+      "cwe_id": [
+        79
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "8eeb2fe31b6e9c130da9f8f6d0821fe83fa6bce0241202f0f4858bbb891e6794",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped model attribute",
+      "file": "app/views/environments/_environment_card.html.haml",
+      "line": 17,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "::Haml::AttributeBuilder.build_class(true, \"fas\", Service.to_icon)",
+      "render_path": [
+        {
+          "type": "template",
+          "name": "dashboard/index",
+          "line": 36,
+          "file": "app/views/dashboard/index.html.haml",
+          "rendered": {
+            "name": "environments/_environment_card",
+            "file": "app/views/environments/_environment_card.html.haml"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "environments/_environment_card"
+      },
+      "user_input": "Service.to_icon",
+      "confidence": "Weak",
+      "cwe_id": [
+        79
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "b95950fbc43faa6d8a4ec568df094f8701b7250f2ce9fe07111f591b1d131fa8",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped model attribute",
+      "file": "app/views/virtual_machines/_search_results.html.haml",
+      "line": 57,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "::Haml::AttributeBuilder.build_class(true, \"fas fa-fw\", Capability.to_icon)",
+      "render_path": [
+        {
+          "type": "template",
+          "name": "virtual_machines/index",
+          "line": 3,
+          "file": "app/views/virtual_machines/index.html.haml",
+          "rendered": {
+            "name": "virtual_machines/_search_results",
+            "file": "app/views/virtual_machines/_search_results.html.haml"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "virtual_machines/_search_results"
+      },
+      "user_input": "Capability.to_icon",
+      "confidence": "Weak",
+      "cwe_id": [
+        79
+      ],
+      "note": ""
+    },
+    {
       "warning_type": "Mass Assignment",
       "warning_code": 70,
       "fingerprint": "b9640f0b578ce0f42fa22029cc34707b93042782595f423412420f9481c44bc7",
@@ -22,8 +266,107 @@
         915
       ],
       "note": "We are explicitly storing custom user generated fields here"
+    },
+    {
+      "warning_type": "Dynamic Render Path",
+      "warning_code": 15,
+      "fingerprint": "beff1c8d2ef3e7bd8714ba9d141e77cbe946282772192bb40a1ba5c25183ab75",
+      "check_name": "Render",
+      "message": "Render path contains parameter value",
+      "file": "app/views/services/_checks.html.haml",
+      "line": 25,
+      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
+      "code": "render(action => authorized_scope(Exercise.all).friendly.find(params[:exercise_id]).services.includes(:service_subjects, :checks => ([:source, :destination])).friendly.find(params[:id]).checks.sort_by(&:created_at), {})",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "ServicesController",
+          "method": "show",
+          "line": 37,
+          "file": "app/controllers/services_controller.rb",
+          "rendered": {
+            "name": "services/show",
+            "file": "app/views/services/show.html.haml"
+          }
+        },
+        {
+          "type": "template",
+          "name": "services/show",
+          "line": 47,
+          "file": "app/views/services/show.html.haml",
+          "rendered": {
+            "name": "services/_checks",
+            "file": "app/views/services/_checks.html.haml"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "services/_checks"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        22
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Dynamic Render Path",
+      "warning_code": 15,
+      "fingerprint": "df7ea13af92a144e8c964a80e5771897f0c07814a75a744f99f7fc4fff2c08d0",
+      "check_name": "Render",
+      "message": "Render path contains parameter value",
+      "file": "app/views/actors/edit.html.haml",
+      "line": 3,
+      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
+      "code": "render(action => authorized_scope(authorized_scope(Exercise.all).friendly.find(params[:exercise_id]).actors).find(params[:id]), { :locals => ({ :brakemanunresolvedmodel => authorized_scope(authorized_scope(Exercise.all).friendly.find(params[:exercise_id]).actors).find(params[:id]) }) })",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "ActorsController",
+          "method": "edit",
+          "line": 30,
+          "file": "app/controllers/actors_controller.rb",
+          "rendered": {
+            "name": "actors/edit",
+            "file": "app/views/actors/edit.html.haml"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "actors/edit"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        22
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "f5ecaad807f241fa2622b5bd4a148848258611e653c3c4d5e657a184a1d0fbb4",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped model attribute",
+      "file": "app/views/credential_sets/_empty.html.haml",
+      "line": 3,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "::Haml::AttributeBuilder.build_class(true, \"fas fa-3x\".freeze, Credential.to_icon)",
+      "render_path": null,
+      "location": {
+        "type": "template",
+        "template": "credential_sets/_empty"
+      },
+      "user_input": "Credential.to_icon",
+      "confidence": "Weak",
+      "cwe_id": [
+        79
+      ],
+      "note": ""
     }
   ],
-  "updated": "2024-03-25 10:45:32 +0000",
-  "brakeman_version": "6.1.2"
+  "brakeman_version": "7.1.0"
 }
