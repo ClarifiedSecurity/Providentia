@@ -14,58 +14,34 @@
 
 [Providentia](https://providentia.sh) manages the inventory of your cyber exercise/lab/infrastructure environment: networks, hosts and more. The powerful JSON API can be used a single, centralized source of truth for rest of your toolset. Works best with [Catapult](https://catapult.sh).
 
-## Getting started
+## Quickstart
 
-While it is possible to run Providentia on a host directly, the recommended approach is to use Docker containers and bundled Makefile. The requirements for this are:
+To get Providentia up and running with decent defaults you could use [a quickstart shell script](quickstart.sh), which downloads the required Docker compose files, the initial Zitadel SSO configuration and generates minimum required configuration.
 
-- `make`
-- `python3`
-- `docker`
-- `docker compose` plugin (version > 2)
+Requirements:
 
-First steps:
+- `wget` or `curl` for downloading
+- [docker](https://docs.docker.com/engine/install/)
+- [docker compose](https://docs.docker.com/compose/install/) plugin (version > 2)
 
-> [!IMPORTANT]
-> In development mode, the user who is cloning the repository should also be the one building the image and running Providentia in order to avoid file permission errors. Do not run the following commands as root, unless you know exactly what you are doing.
-
-0. Clone the repository
-1. Configure by running `make config` (will be run automatically if makevars file is missing)
-
-   This will ask if you need to use sudo for launching docker, which in most cases is yes.
-
-2. Build the container images with `make build`
-3. Run the app with `make start`
-
-   The local directory will be mounted in the container in development mode.
-
-> [!NOTE]
-> Development mode only works on the machine it's launched on, it will not function over network!
-
-TL;DR:
-
-```sh
-git clone https://github.com/ClarifiedSecurity/Providentia.git
-cd Providentia
-make config # choose dev
-make build
-make start
+```bash
+curl https://raw.githubusercontent.com/ClarifiedSecurity/Providentia/refs/heads/main/quickstart.sh | sh
 ```
 
-After bootup, Providentia can be accessed at [http://providentia.localhost](http://providentia.localhost) and Zitadel admin UI will be running at [http://zitadel.localhost:8080](http://zitadel.localhost:8080).
+The last step of the script asks if you want to run Providentia locally or exposed over the network. If you are testing by yourself, local mode is easier and will expose the application at [https://providentia.localhost]. In network mode, you will be asked the domain suffix - if you pick "demo" here, the application will be accessible at [https://providentia.demo]. This configuration will be stored in `.env` file, which Docker Compose reads when starting the containers.
 
-### Components
+> [!NOTE]
+> If you are using networked mode, ensure that you have DNS records pointing to the machine or `/etc/hosts` for everyone involved contain the correct entries. Be warned! Changing the mode _will_ break the ZITADEL configuration.
 
-Providentia is a [Ruby on Rails](https://github.com/rails/rails) based web application, but contains multiple containers by default:
+After the setup is complete, you can start use regular docker compose commands to start or stop the ser vices.
 
-- [Zitadel](https://github.com/zitadel/zitadel) for authentication (SSO)
+To start after the script has completed:
 
-  Can be switched to any OpenID Connect provider
+```sh
+cd providentia && docker compose up
+```
 
-- [PostgreSQL](https://www.postgresql.org/)
-- [Rails](https://github.com/rails/rails) app
-- [Caddy](https://github.com/caddyserver/caddy) reverse proxy
-
-### Pre-generated data
+### Demo credentials
 
 **Zitadel**:
 
@@ -73,7 +49,7 @@ Providentia is a [Ruby on Rails](https://github.com/rails/rails) based web appli
 
 **Providentia**:
 
-On first development mode boot, a sample environment is created for you - "Test exercise". The setup mimics a typical cyber-defense actor pattern and creates users with varied permissions:
+On first boot, a sample environment is created for you - "Test exercise" along with users with varied permissions. The setup mimics a typical cyber-defense actor pattern and creates users with varied permissions:
 
 | Username              | Password   | Permissions                                                                                         |
 | --------------------- | ---------- | --------------------------------------------------------------------------------------------------- |
@@ -87,21 +63,48 @@ On first development mode boot, a sample environment is created for you - "Test 
 | providentia.personal2 | Password1! | Can login, cannot see any environments, can create personal environments.                           |
 | providentia.personal3 | Password1! | Can login, cannot see any environments, can create personal environments.                           |
 
-## Running in production
+## Deploying
 
 > [!CAUTION]
-> Default production configuration is insecure! Be warned!
+> The quickstart setup above set up is _not suitable_ for production use.
 
-The make based bootstrap can be used to start the application in production mode as well. It is primarily meant to be inspiration on how a production environment might look like - it is **not** meant to be used without altering it first.
+It is recommended to use the `providentia` Ansible role at [nova.core](https://github.com/novateams/nova.core) to deploy Providentia for production environments.
 
-The steps for setting up are similar to dev instructions above, except answer 'prod' when prompted for environment. Have a look at `docker/prod` directory on how the setup works and adapt it to your needs using configuration files:
+Providentia requires certain external resources to be functional:
 
-- web.env
-- db.env
-- docker-compose.yml
-- initdb.sql
+- OpenID Connect provider for authentication, for example [Zitadel](https://github.com/zitadel/zitadel) or [Keycloak](https://github.com/keycloak/keycloak)
+- PostgreSQL database - included in the Ansible role, but can be replaced with an external instance
+- A reverse proxy, [Caddy](https://github.com/caddyserver/caddy) used in examples
 
-A good example on how Providentia could be deployed in production via ansible can be seen at [nova.core role](https://github.com/novateams/nova.core/tree/main/nova/core/roles/providentia)
+## Development
+
+Additional requirements:
+
+- `make`
+- `python3`
+
+> [!IMPORTANT]
+> In development mode, the user who is cloning the repository should also be the one building the image and running Providentia in order to avoid file permission errors. Do not run the following commands as root, unless you know exactly what you are doing.
+
+First steps:
+
+1. Configure by running `make config` (will be run automatically if makevars file is missing)
+2. Build the container images with `make build`
+3. Run the app with `make start`
+
+   The local directory will be mounted in the container in development mode.
+
+TL;DR:
+
+```sh
+git clone https://github.com/ClarifiedSecurity/Providentia.git
+cd Providentia
+make config
+make build
+make start
+```
+
+After bootup, Providentia can be accessed at [http://providentia.localhost](http://providentia.localhost) and Zitadel admin UI will be running at [http://zitadel.localhost](http://zitadel.localhost). The [demo credentials](#demo-credentials) can be used to log in.
 
 ## Features
 
