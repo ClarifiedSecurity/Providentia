@@ -64,6 +64,6 @@ class OperatingSystemsController < ApplicationController
     end
 
     def populate_add_action
-      @add_action = OpenStruct.new(url: url_for([:new, :operating_system]))
+      @add_action = Struct.new(:url).new(url: url_for([:new, :operating_system]))
     end
 end
