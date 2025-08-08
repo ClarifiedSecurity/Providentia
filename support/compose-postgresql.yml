@@ -1,0 +1,36 @@
+---
+services:
+  postgresql:
+    image: "postgres:17-alpine"
+    environment:
+      PGUSER: ${POSTGRES_USER:-postgres}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres_password}
+    volumes:
+      - "postgresql_data:/var/lib/postgresql/data"
+    configs:
+      - source: initdb_providentia.sql
+        target: /docker-entrypoint-initdb.d/001-initdb.sql
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready",
+          "-q",
+          "-d",
+          "zitadel",
+          "-U",
+          "${POSTGRES_USER:-postgres}",
+        ]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+
+volumes:
+  postgresql_data:
+
+configs:
+  initdb_providentia.sql:
+    content: |
+      CREATE USER ${PROVIDENTIA_DB_USER:-providentia_user} WITH PASSWORD '${PROVIDENTIA_DB_PASS:-providentia_secret}';
+      CREATE DATABASE providentia_db WITH OWNER ${PROVIDENTIA_DB_USER:-providentia_user};
