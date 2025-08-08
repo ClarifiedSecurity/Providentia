@@ -13,7 +13,7 @@ OperatingSystem.where(name: 'macOS', cloud_id: 'macos').first_or_create!
 OperatingSystem.where(name: 'Windows', cloud_id: 'windows').first_or_create!
 OperatingSystem.where(name: 'Network devices', cloud_id: 'networkdevices').first_or_create!
 
-if Rails.env.development?
+if Rails.env.development? || Exercise.count.zero?
   ex = Exercise.where(name: 'Test Exercise', abbreviation: 'TE').first_or_create!
   ex.actors.reload
   # admins
