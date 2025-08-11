@@ -20,7 +20,7 @@
           - c.with_body do
             #address_preview= render 'address_preview', network: @network
 
-          = link_to 'Preview', 'javascript:;', class: 'form-submit text-sm h-8', data: { action: "click->modal#open" }
+          = link_to 'Preview', 'javascript:;', class: 'form-submit text-sm h-8', data: { action: "click->dialog#open" }
 
       #address_pools.divide-y-4.divide-double.divide-gray-200.dark:divide-gray-500
         = render @network.address_pools.order(:created_at)

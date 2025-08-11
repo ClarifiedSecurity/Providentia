@@ -32,7 +32,7 @@
                 = f.label :special_label, class: 'font-bold', for: "check_#{check.id}_special_label"
                 = f.text_field :special_label, class: 'form-input', id: "check_#{check.id}_special_label", disabled: !allowed_to?(:update?, check)
               .pt-9.ml-2
-                = link_to 'javascript:;', class: 'text-white bg-linear-to-r from-purple-500 to-pink-500 hover:bg-linear-to-l focus:ring-4 focus:outline-hidden focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm  text-center px-5 py-2.5', data: { action: "click->modal#open" } do
+                = link_to 'javascript:;', class: 'text-white bg-linear-to-r from-purple-500 to-pink-500 hover:bg-linear-to-l focus:ring-4 focus:outline-hidden focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm  text-center px-5 py-2.5', data: { action: "click->dialog#open" } do
                   Config map
                   %i.fas.fa-up-right-from-square
 

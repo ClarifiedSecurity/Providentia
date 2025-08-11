@@ -13,7 +13,7 @@
       - c.with_body do
         = turbo_frame_tag [@virtual_machine.id, 'addresses'], src: [:address_preview, @exercise, @virtual_machine], loading: "lazy"
 
-      = link_to 'javascript:;', class: 'form-submit text-sm bg-linear-to-r from-purple-500 to-pink-500 hover:bg-linear-to-l focus:ring-4 focus:outline-hidden focus:ring-purple-200 dark:focus:ring-purple-800', data: { action: "click->modal#open" } do
+      = link_to 'javascript:;', class: 'form-submit text-sm bg-linear-to-r from-purple-500 to-pink-500 hover:bg-linear-to-l focus:ring-4 focus:outline-hidden focus:ring-purple-200 dark:focus:ring-purple-800', data: { action: "click->dialog#open" } do
         Addresses preview
         %i.fas.fa-up-right-from-square
 

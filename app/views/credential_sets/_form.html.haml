@@ -25,7 +25,7 @@
             %div
               = f.label :network_id, class: 'block font-bold text-gray-700 dark:text-gray-200' do
                 = f.object.class.human_attribute_name(:network_id)
-                = link_to 'javascript:;', class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-200', data: { action: "click->modal#open" } do
+                = link_to 'javascript:;', class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-200', data: { action: "click->dialog#open" } do
                   %i.fas.fa-circle-question
               = f.collection_select :network_id, authorized_scope(@exercise.networks).order(:name), :id, :name, {include_blank: true}, data: { controller: 'select' }
 

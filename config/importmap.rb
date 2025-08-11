@@ -13,7 +13,8 @@ pin '@hotwired/stimulus', to: '@hotwired--stimulus.js' # @3.2.2
 pin '@hotwired/stimulus-loading', to: 'stimulus-loading.js'
 pin '@stimulus-components/clipboard', to: '@stimulus-components--clipboard.js' # @5.0.0
 pin '@stimulus-components/popover', to: '@stimulus-components--popover.js' # @7.0.0
-pin 'tailwindcss-stimulus-components' # @6.1.3
+pin '@stimulus-components/dropdown', to: '@stimulus-components--dropdown.js' # @3.0.0
+pin '@stimulus-components/dialog', to: '@stimulus-components--dialog.js' # @1.0.1
 pin 'stimulus-textarea-autogrow' # @4.1.0
 pin 'debounce' # @2.2.0
 pin 'throttleit' # @2.1.0
@@ -41,6 +42,5 @@ pin '@floating-ui/dom', to: '@floating-ui--dom.js' # @1.6.13
 pin '@floating-ui/core', to: '@floating-ui--core.js' # @1.6.9
 pin '@floating-ui/utils', to: '@floating-ui--utils.js' # @0.2.9
 pin '@floating-ui/utils/dom', to: '@floating-ui--utils--dom.js' # @0.2.9
-pin '@stimulus-components/dropdown', to: '@stimulus-components--dropdown.js' # @3.0.0
 pin 'stimulus-use' # @0.52.3
 pin 'crelt' # @1.0.6

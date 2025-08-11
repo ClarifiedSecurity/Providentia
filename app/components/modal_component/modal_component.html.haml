@@ -1,7 +1,5 @@
-.contents{data: {controller: 'modal'}}
-  = content
-
-  %dialog.font-raleway.h-max-screen.w-full.max-w-5xl.m-auto.relative.overflow-x-hidden.bg-transparent{data: {"modal-target" => 'dialog', 'action' => 'click->modal#backdropClose'}, class:'backdrop:bg-gray-900/80 dark:backdrop:bg-gray-900/80'}
+.contents{data: {controller: 'dialog', action: 'click->dialog#backdropClose'}}
+  %dialog.font-raleway.h-max-screen.w-full.max-w-5xl.m-auto.relative.overflow-x-hidden.bg-transparent{data: {"dialog-target" => 'dialog'}, class:'backdrop:bg-gray-900/80 dark:backdrop:bg-gray-900/80'}
     - if @only_body
       = body
     - else
@@ -11,8 +9,10 @@
         .flex.justify-between.items-start.p-4.rounded-t.border-b.dark:border-gray-600
           - if @header
             %h3.text-xl.font-semibold.text-gray-900.dark:text-white= @header
-          %button.text-gray-400.bg-transparent.hover:bg-gray-200.hover:text-gray-900.rounded-lg.text-sm.ml-auto.inline-flex.items-center.dark:hover:bg-gray-600.dark:hover:text-white{:class => "p-1.5", "data-action" => "click->modal#close", :type => "button"}
+          %button.text-gray-400.bg-transparent.hover:bg-gray-200.hover:text-gray-900.rounded-lg.text-sm.ml-auto.inline-flex.items-center.dark:hover:bg-gray-600.dark:hover:text-white{:class => "p-1.5", "data-action" => "click->dialog#close", :type => "button"}
             %svg.w-5.h-5{:fill => "currentColor", :viewbox => "0 0 20 20", :xmlns => "http://www.w3.org/2000/svg"}
               %path{"clip-rule" => "evenodd", :d => "M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z", "fill-rule" => "evenodd"}
         / Modal body
         .p-6.space-y-6{class: content_classes}= body
+
+  = content

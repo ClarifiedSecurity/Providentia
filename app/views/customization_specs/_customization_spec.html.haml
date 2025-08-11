@@ -71,7 +71,7 @@
                 prefix
             = form.label :tag_list, for: "customization_spec#{customization_spec.id}_tag_list", class: 'block font-bold text-gray-700 dark:text-gray-200' do
               = CustomizationSpec.human_attribute_name(:tag_list)
-              = link_to 'javascript:;', class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400', data: { action: "click->modal#open" } do
+              = link_to 'javascript:;', class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400', data: { action: "click->dialog#open" } do
                 %i.fas.fa-circle-question
 
           = form.text_field :tag_list, { value: customization_spec.tags.map(&:name).join(', '), id: "customization_spec#{customization_spec.id}_tag_list", data: { controller: 'select', create: true, select_options_value: ActsAsTaggableOn::Tag.for_tenant("exercise_#{@exercise.id}").uniq.pluck(:name) }, disabled: !allowed_to?(:update?, @virtual_machine) }
