@@ -4,8 +4,6 @@ class NetworksController < ApplicationController
   before_action :get_exercise
   before_action :get_network, only: %i[show edit update destroy]
 
-  include AddButton
-
   def index
     @actors = authorized_scope(@exercise.actors).arrange
     @networks =

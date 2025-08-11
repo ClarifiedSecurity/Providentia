@@ -22,6 +22,21 @@ en:
       virtual_machine:
         one: Host
         other: Inventory
+      network:
+        one: Network
+        other: Networks
+      service:
+        one: Service
+        other: Services
+      capability:
+        one: Capability
+        other: Capabilities
+      credential_set:
+        one: Credential set
+        other: Credential sets
+      operating_system:
+        one: Operating system
+        other: Operating systems
     errors:
       models:
         virtual_machine:

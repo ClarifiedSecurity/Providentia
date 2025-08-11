@@ -4,8 +4,6 @@ class CapabilitiesController < ApplicationController
   before_action :get_exercise
   before_action :get_capability, only: %i[show edit update destroy]
 
-  include AddButton
-
   def index
     @capabilities = authorized_scope(@exercise.capabilities).order(:name)
   end

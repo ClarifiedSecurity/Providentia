@@ -8,7 +8,6 @@ class VirtualMachinesController < ApplicationController
   before_action :preload_form_collections, only: %i[new create show destroy]
 
   include VmPage
-  include AddButton
 
   respond_to :turbo_stream
 
