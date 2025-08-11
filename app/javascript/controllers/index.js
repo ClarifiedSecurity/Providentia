@@ -9,7 +9,6 @@ import Dialog from "@stimulus-components/dialog";
 import TextareaAutogrow from "stimulus-textarea-autogrow";
 
 application.register("dropdown", Dropdown);
-application.register("modal", Modal);
 application.register("clipboard", Clipboard);
 application.register("dialog", Dialog);
 application.register("textarea-autogrow", TextareaAutogrow);
