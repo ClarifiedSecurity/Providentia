@@ -1,7 +1,7 @@
 #!/bin/sh
 # Download Providentia compose files from GitHub repository
 
-GITHUB_REPO="https://raw.githubusercontent.com/ClarifiedSecurity/Providentia/v25.4.0"
+GITHUB_REPO="https://raw.githubusercontent.com/ClarifiedSecurity/Providentia/new_prod_docker_testing"
 
 # Color codes (only if terminal supports it)
 if [ -t 1 ]; then
@@ -81,6 +81,7 @@ EOF
 
 # Main execution
 main() {
+    mkdir providentia && cd providentia
     print_msg "$BLUE" "Starting download of Providentia compose files..."
 
     # Check dependencies
@@ -111,7 +112,8 @@ main() {
         echo ""
         configure_env
         echo ""
-        print_success "Setup complete! Files and configuration are ready."
+        print_success "Setup complete! Files and configuration are ready in 'providentia/' directory."
+        print_success "Run 'cd providentia && docker compose up' to start the services."
     else
         print_warning "Some files failed to download. Check output above."
         exit 1

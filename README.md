@@ -21,17 +21,25 @@ To get Providentia up and running with decent defaults you could use [a quicksta
 Requirements:
 
 - `wget` or `curl` for downloading
-- `docker`
-- `docker compose` plugin (version > 2)
+- [docker](https://docs.docker.com/engine/install/)
+- [docker compose](https://docs.docker.com/compose/install/) plugin (version > 2)
 
 ```bash
-curl https://raw.githubusercontent.com/ClarifiedSecurity/Providentia/refs/heads/main/quickstart.sh | sh
+curl https://raw.githubusercontent.com/ClarifiedSecurity/Providentia/refs/heads/new_prod_docker_testing/quickstart.sh | sh
 ```
 
 The last step of the script asks if you want to run Providentia locally or exposed over the network. If you are testing by yourself, local mode is easier and will expose the application at [https://providentia.localhost]. In network mode, you will be asked the domain suffix - if you pick "demo" here, the application will be accessible at [https://providentia.demo]. This configuration will be stored in `.env` file, which Docker Compose reads when starting the containers.
 
 > [!NOTE]
 > If you are using networked mode, ensure that you have DNS records pointing to the machine or `/etc/hosts` for everyone involved contain the correct entries. Be warned! Changing the mode _will_ break the ZITADEL configuration.
+
+After the setup is complete, you can start use regular docker compose commands to start or stop the ser vices.
+
+To start after the script has completed:
+
+```sh
+cd providentia && docker compose up
+```
 
 ### Demo credentials
 
