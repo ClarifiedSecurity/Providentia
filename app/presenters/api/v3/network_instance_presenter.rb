@@ -6,6 +6,7 @@ module API
       def as_json
         {
           team_nr: team_number,
+          actor_nr: team_number,
           cloud_id: substitute(network.cloud_id),
           domains: [
             substitute(network.full_domain)
@@ -29,7 +30,8 @@ module API
             StringSubstituter.result_for(
               text,
               {
-                team_nr: team_number
+                team_nr: team_number,
+                actor_nr: team_number
               }
             )
           end

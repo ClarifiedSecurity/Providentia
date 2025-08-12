@@ -74,6 +74,7 @@ module API
             text,
             {
               team_nr: team_number,
+              actor_nr: team_number,
               seq: sequential_number
             }
           )
@@ -84,6 +85,8 @@ module API
           {
             team_nr: team_number,
             team_nr_str: team_number.to_s.rjust(2, '0'),
+            actor_nr: team_number,
+            actor_nr_str: team_number.to_s.rjust(2, '0'),
           }
         end
 
@@ -105,7 +108,7 @@ module API
         end
 
         def hostname_team_suffix
-          't{{ team_nr_str }}' if vm.numbered_actor
+          't{{ actor_nr_str }}' if vm.numbered_actor
         end
 
         def inventory_name
