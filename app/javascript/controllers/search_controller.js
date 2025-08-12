@@ -1,4 +1,4 @@
-import { Modal } from "tailwindcss-stimulus-components";
+import Dialog from "@stimulus-components/dialog";
 
 const clamp = (value, min, max) => {
   if (value < min) return min;
@@ -6,7 +6,7 @@ const clamp = (value, min, max) => {
   return value;
 };
 
-export default class extends Modal {
+export default class extends Dialog {
   static targets = ["dialog", "input", "form", "list"];
   static values = {
     open: { type: Boolean, default: false },
@@ -24,7 +24,7 @@ export default class extends Modal {
       function () {
         this.inputTarget.focus({ focusVisible: true });
       }.bind(this),
-      100,
+      100
     );
   }
 
@@ -47,7 +47,7 @@ export default class extends Modal {
     this.focusIndexValue = clamp(
       this.focusIndexValue - 1,
       0,
-      this.listTargets.length,
+      this.listTargets.length
     );
   }
 
@@ -56,7 +56,7 @@ export default class extends Modal {
     this.focusIndexValue = clamp(
       this.focusIndexValue + 1,
       0,
-      this.listTargets.length - 1,
+      this.listTargets.length - 1
     );
   }
 
