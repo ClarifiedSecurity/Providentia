@@ -9,7 +9,8 @@ class ExercisesController < ApplicationController
   end
 
   def create
-    @exercise = Exercise.new(exercise_params, services_read_only: false)
+    @exercise = Exercise.new(exercise_params)
+    @exercise.services_read_only = false
     authorize! @exercise
 
     if @exercise.save
