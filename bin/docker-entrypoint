@@ -3,8 +3,19 @@ set -ex
 
 # Enable jemalloc for reduced memory usage and latency.
 if [ -z "${LD_PRELOAD+x}" ]; then
-  LD_PRELOAD=$(find /usr/lib -name libjemalloc.so.2 -print -quit)
+  LD_PRELOAD=$(find /usr/local/lib -name libjemalloc.so.2 -print -quit)
   export LD_PRELOAD
+fi
+
+# find all env files in /env and source them
+if [ -d /srv/env ]; then
+  for env_file in /srv/env/*.env; do
+    if [ -f "$env_file" ]; then
+      echo "Sourcing environment file: $env_file"
+      # shellcheck disable=SC1090
+      set -a && source "$env_file" && set +a
+    fi
+  done
 fi
 
 # If running the rails server then create or migrate existing database
