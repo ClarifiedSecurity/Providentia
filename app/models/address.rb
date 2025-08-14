@@ -123,7 +123,7 @@ class Address < ApplicationRecord
   end
 
   def special_range
-    return false if ipv4?
+    return false if ipv4? || !ip_family_network
 
     if ip_family_network.link_local?
       :link_local
