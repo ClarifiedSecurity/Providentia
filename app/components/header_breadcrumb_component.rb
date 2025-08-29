@@ -56,6 +56,20 @@ class HeaderBreadcrumbComponent < ViewComponent::Base
       end
     end
 
+    def add_button
+      case [breadcrumb_item, breadcrumb_item.to_s]
+      in [Class, 'OperatingSystem']
+        if helpers.allowed_to?(:create?, breadcrumb_item)
+          url_for([:new, breadcrumb_item.model_name.singular.to_sym])
+        end
+      in [Class, *]
+        if helpers.allowed_to?(:create?, breadcrumb_item.new(exercise:))
+          url_for([:new, exercise, breadcrumb_item.model_name.singular.to_sym])
+        end
+      else
+      end
+    end
+
     def dropdown
       case [breadcrumb_item, breadcrumb_item.to_s]
       in [Exercise, *]
@@ -71,19 +85,13 @@ class HeaderBreadcrumbComponent < ViewComponent::Base
         Dropdown.new(
           recents: helpers.authorized_scope(breadcrumb_item.all).order(updated_at: :desc).limit(4).map do |item|
             DropdownItem.new(name: item.name, url: polymorphic_path([item]))
-          end,
-          add_action: if helpers.allowed_to?(:create?, breadcrumb_item)
-                        url_for([:new, breadcrumb_item.model_name.singular.to_sym])
-                      end
+          end
         )
       in [Class, *]
         Dropdown.new(
           recents: helpers.authorized_scope(breadcrumb_item.where(exercise:)).order(updated_at: :desc).limit(4).map do |item|
             DropdownItem.new(name: item.name, url: polymorphic_path([exercise, item]))
-          end,
-          add_action: if helpers.allowed_to?(:create?, breadcrumb_item.new(exercise:))
-                        url_for([:new, exercise, breadcrumb_item.model_name.singular.to_sym])
-                      end
+          end
         )
       else
       end
