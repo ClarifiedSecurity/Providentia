@@ -1,7 +1,7 @@
 #!/bin/sh
 # Download Providentia compose files from GitHub repository
 
-GITHUB_REPO="https://raw.githubusercontent.com/ClarifiedSecurity/Providentia/v25.4.0"
+GITHUB_REPO="https://raw.githubusercontent.com/ClarifiedSecurity/Providentia/v25.4.1"
 
 # Color codes (only if terminal supports it)
 if [ -t 1 ]; then
