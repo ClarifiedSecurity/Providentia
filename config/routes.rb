@@ -75,6 +75,7 @@ Rails.application.routes.draw do
         end
         resource :inventory, only: %i[show]
         resource :graph, only: %i[show]
+        resources :zones, only: %i[index]
         resources :customization_specs, path: 'hosts', only: %i[index show] do
           resources :instances, only: %i[update]
         end
