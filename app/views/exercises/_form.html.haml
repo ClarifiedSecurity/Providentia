@@ -7,7 +7,7 @@
   %fieldset{disabled: !allowed_to?(:update?, @exercise)}
     = render ColumnFormSectionComponent.new do |c|
       - c.with_description do
-        %h3.text-lg.leading-6.text-gray-900.dark:text-gray-50 Identity & Access
+        %h3.text-lg.leading-6.text-gray-900.dark:text-gray-50 Identity
         %p.mt-1.text-sm.text-gray-600.dark:text-gray-400
           Name and abbreviation for this environment
 
@@ -19,29 +19,13 @@
 
           = f.input :description, as: :text, input_html: { data: { controller: "textarea-autogrow" } }
 
+          - if @exercise.persisted? && allowed_to?(:update?, @exercise)
+            .col-span-3.sm:col-span-2
+              %label.flex.cursor-pointer.items-center.mt-3{class: 'mb-2.5'}
+                = f.check_box :services_read_only, class: 'sr-only peer', id: "#{dom_id(@exercise)}_services_read_only"
+                .relative.w-11.h-6.bg-gray-200.peer-focus:outline-hidden.peer-focus:ring-4.peer-focus:ring-blue-300.dark:peer-focus:ring-blue-800.rounded-full.peer.dark:bg-gray-700.peer-checked:after:translate-x-full.peer-checked:rtl:after:-translate-x-full.peer-checked:after:border-white.after:absolute.after:bg-white.after:border-gray-300.after:border.after:rounded-full.after:w-5.after:h-5.after:transition-all.dark:border-gray-600.peer-checked:bg-blue-600{class: "after:content-[''] after:top-[2px] after:start-[2px]"}
+                %span.ms-3.font-bold= Exercise.human_attribute_name(:services_read_only)
+
         - if allowed_to?(:update?, @exercise)
           .px-4.py-3.bg-slate-200.dark:bg-gray-500.text-right.sm:px-6
             = f.button :submit, 'Save', class: 'form-submit'
-
-    - if @exercise.persisted? && allowed_to?(:update?, @exercise)
-      .py-5
-        .border-t.border-gray-200.dark:border-gray-600
-
-      = render ColumnFormSectionComponent.new do |c|
-        - c.with_description do
-          %h3.text-lg.leading-6.text-gray-900.dark:text-gray-50 Feature toggles
-          %p.mt-1.text-sm.text-gray-600.dark:text-gray-400
-            Enable/disable specific functionality for this environment
-        - c.with_main do
-          .px-4.py-5.bg-white.dark:bg-gray-800.space-y-6.sm:p-6
-            .grid.grid-cols-3.gap-6
-              .col-span-3.sm:col-span-2= f.input :root_domain, hint: 'Will be used as default for all machines'
-              .col-span-3.sm:col-span-2
-                %label.flex.cursor-pointer.items-center.mt-3{class: 'mb-2.5'}
-                  = f.check_box :services_read_only, class: 'sr-only peer', id: "#{dom_id(@exercise)}_services_read_only"
-                  .relative.w-11.h-6.bg-gray-200.peer-focus:outline-hidden.peer-focus:ring-4.peer-focus:ring-blue-300.dark:peer-focus:ring-blue-800.rounded-full.peer.dark:bg-gray-700.peer-checked:after:translate-x-full.peer-checked:rtl:after:-translate-x-full.peer-checked:after:border-white.after:absolute.after:bg-white.after:border-gray-300.after:border.after:rounded-full.after:w-5.after:h-5.after:transition-all.dark:border-gray-600.peer-checked:bg-blue-600{class: "after:content-[''] after:top-[2px] after:start-[2px]"}
-                  %span.ms-3.font-bold= Exercise.human_attribute_name(:services_read_only)
-
-          - if allowed_to?(:update?, @exercise)
-            .px-4.py-3.bg-slate-200.dark:bg-gray-500.text-right.sm:px-6
-              = f.button :submit, 'Save', class: 'form-submit'

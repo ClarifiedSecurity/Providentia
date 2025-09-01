@@ -7,9 +7,7 @@ module API
         {
           team_nr: team_number,
           cloud_id: substitute(network.cloud_id),
-          domains: [
-            substitute(network.full_domain)
-          ].reject(&:blank?),
+          domains: network.domain_bindings.full_names.map { substitute(it) },
           address_pools: network.address_pools.map do |pool|
             {
               id: pool.slug,

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_17_085123) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_01_122846) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -183,6 +183,24 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_17_085123) do
   end
 
   create_table "data_migrations", primary_key: "version", id: :string, force: :cascade do |t|
+  end
+
+  create_table "domain_bindings", force: :cascade do |t|
+    t.bigint "network_id", null: false
+    t.bigint "domain_id", null: false
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["domain_id"], name: "index_domain_bindings_on_domain_id"
+    t.index ["network_id"], name: "index_domain_bindings_on_network_id"
+  end
+
+  create_table "domains", force: :cascade do |t|
+    t.bigint "exercise_id", null: false
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["exercise_id"], name: "index_domains_on_exercise_id"
   end
 
   create_table "exercises", force: :cascade do |t|
@@ -390,6 +408,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_17_085123) do
   add_foreign_key "credentials", "credential_sets"
   add_foreign_key "customization_specs", "users"
   add_foreign_key "customization_specs", "virtual_machines"
+  add_foreign_key "domain_bindings", "domains"
+  add_foreign_key "domain_bindings", "networks"
+  add_foreign_key "domains", "exercises"
   add_foreign_key "instance_metadata", "customization_specs"
   add_foreign_key "network_interfaces", "networks"
   add_foreign_key "network_interfaces", "virtual_machines"
