@@ -17,7 +17,7 @@
             .col-span-3.sm:col-span-2= f.input :name
             .col-span-1.sm:col-span-1= f.input :abbreviation
 
-          = f.input :description
+          = f.input :description, as: :text, input_html: { data: { controller: "textarea-autogrow" } }
 
         - if allowed_to?(:update?, @exercise)
           .px-4.py-3.bg-slate-200.dark:bg-gray-500.text-right.sm:px-6
