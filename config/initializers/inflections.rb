@@ -17,4 +17,5 @@ ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.acronym 'API'
   inflect.acronym 'IP'
   inflect.acronym 'FQDN'
+  inflect.acronym 'DNS'
 end

@@ -2,7 +2,7 @@
 
 class GenerateTags < Patterns::Calculation
   include ActionPolicy::Behaviour
-  authorize :user, through: :current_user
+  authorize :user, through: -> { Current.user }
 
   ApiTag = Data.define(:id, :name, :config_map, :priority) do
     def initialize(id:, name: nil, config_map: {}, priority:)
@@ -27,10 +27,6 @@ class GenerateTags < Patterns::Calculation
       @tag_sources = Set.new
       resolve_inputs
       tags_from_tag_sources
-    end
-
-    def current_user
-      Current.user
     end
 
     def resolve_inputs(item = subject)
