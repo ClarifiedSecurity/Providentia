@@ -14,6 +14,8 @@ class Network < ApplicationRecord
   has_many :address_pools, dependent: :destroy
   has_many :virtual_machines, through: :network_interfaces
   has_many :addresses, through: :network_interfaces
+  has_many :domain_bindings, dependent: :destroy
+  has_many :domains, through: :domain_bindings
 
   after_create :create_default_pools
   after_save :invalidate_vm_cache

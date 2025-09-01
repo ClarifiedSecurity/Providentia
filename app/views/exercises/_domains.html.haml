@@ -1,0 +1,31 @@
+.py-5
+  .border-t.border-gray-200.dark:border-gray-600
+
+= render ColumnFormSectionComponent.new(shadow: false) do |c|
+  - c.with_description do
+    %h3.text-lg.leading-6.text-gray-900.dark:text-gray-50 Domains
+    %p.mt-1.text-sm.text-gray-600.dark:text-gray-400
+      The list of domains, which can be used in this environment.
+
+    %p.mt-1.text-sm.text-gray-600.dark:text-gray-400
+      Subdomains can be created under any entry listed here.
+
+  - c.with_main do
+    = render SubResourceSectionComponent.new(header: 'Domains & DNS') do |section|
+      - section.with_button do
+        = link_to 'javascript:;', class: 'form-submit-add text-sm h-8'  do
+          %i.fas.fa-plus.self-center
+          Add domain
+
+      .bg-white.dark:bg-gray-800.space-y-6
+        .divide-y-4.divide-double.divide-gray-200.dark:divide-gray-500
+          - @exercise.domains.order(:name).each do |domain|
+            .px-4.py-5{class: 'text-sm/7'}
+              - domain.domain_bindings.order(name: :desc).includes(:network).merge(Network.order(:actor_id, :name)).group_by(&:full_name).each do |full_name, binds|
+                %h2.font-semibold{class: binds[0].name.blank? ? 'text-xl' : ''}
+                  = render LiquidTextComponent.new({text: full_name}, object: Network.new)
+                  networks:
+
+                - binds.each do |bind|
+                  = link_to [bind.network.exercise, bind.network], class: 'mr-1' do
+                    = render ActorChipComponent.new(actor: bind.network.actor, text: bind.network.name)

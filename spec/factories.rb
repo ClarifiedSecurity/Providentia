@@ -2,6 +2,17 @@
 
 # This will guess the User class
 FactoryBot.define do
+  factory :domainbinding do
+    network { nil }
+    domain { nil }
+    name { 'MyString' }
+  end
+
+  factory :domain do
+    exercise { nil }
+    name { 'MyString' }
+  end
+
   factory :role_binding do
     exercise { nil }
     actor { nil }
