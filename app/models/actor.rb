@@ -60,10 +60,10 @@ class Actor < ApplicationRecord
 end
 
 # For tailwind to discover all the classes
-# bg-slate-200 bg-slate-500 dark:bg-slate-700 dark:text-slate-300 dark:bg-slate-500 dark:text-slate-700 text-slate-600 text-slate-800
-# bg-amber-200 bg-amber-500 dark:bg-amber-700 dark:text-amber-300 dark:bg-amber-500 dark:text-amber-700 text-amber-600 text-amber-800
-# bg-emerald-200 bg-emerald-500 dark:bg-emerald-700 dark:text-emerald-300 dark:bg-emerald-500 dark:text-emerald-700 text-emerald-600 text-emerald-800
-# bg-rose-200 bg-rose-500 dark:bg-rose-700 dark:text-rose-300 dark:bg-rose-500 dark:text-rose-700 text-rose-600 text-rose-800
-# bg-sky-200 bg-sky-500 dark:bg-sky-700 dark:text-sky-300 dark:bg-sky-500 dark:text-sky-700 text-sky-600 text-sky-800
-# bg-orange-200 bg-orange-500 dark:bg-orange-700 dark:text-orange-300 dark:bg-orange-500 dark:text-orange-700 text-orange-600 text-orange-800
-# bg-violet-200 bg-violet-500 dark:bg-violet-700 dark:text-violet-300 dark:bg-violet-500 dark:text-violet-700 text-violet-600 text-violet-800
+# bg-slate-200 bg-slate-500 dark:bg-slate-700 dark:text-slate-300 dark:bg-slate-500 dark:hover:bg-slate-800 dark:text-slate-700 text-slate-600 text-slate-800 hover:bg-slate-300
+# bg-amber-200 bg-amber-500 dark:bg-amber-700 dark:text-amber-300 dark:bg-amber-500 dark:hover:bg-amber-800 dark:text-amber-700 text-amber-600 text-amber-800 hover:bg-amber-300
+# bg-emerald-200 bg-emerald-500 dark:bg-emerald-700 dark:text-emerald-300 dark:bg-emerald-500 dark:hover:bg-emerald-800 dark:text-emerald-700 text-emerald-600 text-emerald-800 hover:bg-emerald-300
+# bg-rose-200 bg-rose-500 dark:bg-rose-700 dark:text-rose-300 dark:bg-rose-500 dark:hover:bg-rose-800 dark:text-rose-700 text-rose-600 text-rose-800 hover:bg-rose-300
+# bg-sky-200 bg-sky-500 dark:bg-sky-700 dark:text-sky-300 dark:bg-sky-500 dark:hover:bg-sky-800 dark:text-sky-700 text-sky-600 text-sky-800 hover:bg-sky-300
+# bg-orange-200 bg-orange-500 dark:bg-orange-700 dark:text-orange-300 dark:bg-orange-500 dark:hover:bg-orange-800 dark:text-orange-700 text-orange-600 text-orange-800 hover:bg-orange-300
+# bg-violet-200 bg-violet-500 dark:bg-violet-700 dark:text-violet-300 dark:bg-violet-500 dark:hover:bg-violet-800 dark:text-violet-700 text-violet-600 text-violet-800 hover:bg-violet-300
