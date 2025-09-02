@@ -123,9 +123,9 @@ module ApplicationHelper
     color = (actor || Actor.new).ui_color
     case color
     when 'yellow'
-      "bg-#{color}-200 text-#{color}-800 dark:bg-#{color}-400 dark:text-#{color}-700"
+      "bg-#{color}-200 text-#{color}-800 hover:bg-#{color}-300 dark:bg-#{color}-400 dark:text-#{color}-700 dark:hover:bg-#{color}-800"
     else
-      "bg-#{color}-200 text-#{color}-800 dark:bg-#{color}-700 dark:text-#{color}-300"
+      "bg-#{color}-200 text-#{color}-800 hover:bg-#{color}-300 dark:bg-#{color}-700 dark:text-#{color}-300 dark:hover:bg-#{color}-800"
     end
   end
 
