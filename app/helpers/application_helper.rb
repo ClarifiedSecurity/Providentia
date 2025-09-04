@@ -128,19 +128,10 @@ module ApplicationHelper
       end
     end
 
-    def ar_class_to_link_text(klass)
-      i18n_plural = klass.model_name.human(count: 2)
-      if i18n_plural == klass.model_name.human
-        klass.model_name.human.pluralize
-      else
-        i18n_plural
-      end
-    end
-
     def select_contextual_menu_component
       case { controller_name:, action_name: }
-      in controller_name: 'exercises'
-        ContextualExerciseLinks::Component.new(exercise: @exercise)
+      # in controller_name: 'exercises'
+      #   ContextualExerciseLinks::Component.new(exercise: @exercise)
       in controller_name: 'virtual_machines', action_name: 'index'
         ContextualInventory::Component.new(exercise: @exercise, filter_actor: @filter_actor)
       else

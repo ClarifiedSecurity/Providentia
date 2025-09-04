@@ -2,22 +2,24 @@
 
 class ActorsController < ApplicationController
   before_action :get_exercise
-  before_action :get_actor, except: %i[create]
+  before_action :get_actor, except: %i[new create]
 
-  respond_to :turbo_stream
+  def new
+    @actor = @exercise.actors.build
+    authorize! @actor
+  end
 
   def create
-    @actor = @exercise.actors.build({
-      name: 'New actor',
-      abbreviation: 'na'
-    })
-    authorize! @actor
-
     if params[:actor_id] && parent = authorized_scope(@exercise.actors).find(params[:actor_id])
-      @actor.parent = parent
+      @actor = @exercise.actors.build(name: 'New sub-actor', abbreviation: 'new', parent:)
+    else
+      @actor = @exercise.actors.build(actor_params)
     end
 
+    authorize! @actor
     @actor.save
+
+    redirect_to [:edit, @exercise, @actor.root]
   end
 
   def show
@@ -36,7 +38,9 @@ class ActorsController < ApplicationController
 
   def destroy
     authorize! @actor
+    @actor.role_bindings.delete_all
     @actor.destroy
+    redirect_to @actor.parent ? [:edit, @exercise, @actor.root] : @exercise
   end
 
   private

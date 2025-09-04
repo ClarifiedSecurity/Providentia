@@ -6,43 +6,50 @@
         Name and other identity information for this actor
 
     - c.with_main do
-      = simple_form_for([@exercise, actor], html: { class: 'p-4 bg-white dark:bg-gray-800 space-y-3', autocomplete: "off", data: { controller: 'model', action: "change->model#update" } }) do |f|
+      = simple_form_for([@exercise, actor], html: { class: 'bg-white dark:bg-gray-800', autocomplete: "off", data: @actor.persisted? && { controller: 'model', action: "change->model#update" } }) do |f|
         = f.error_notification
         = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
 
-        .grid.grid-cols-5.gap-4
-          .col-span-2= f.input :name
-          .col-span-2= f.input :abbreviation
-          = f.input :default_visibility, collection: visibility_modes, include_blank: false, input_html: { data: { controller: 'select' } }
+        .p-4.space-y-3
+          .grid.grid-cols-5.gap-4
+            .col-span-2= f.input :name
+            .col-span-2= f.input :abbreviation
+            = f.input :default_visibility, collection: visibility_modes, include_blank: false, input_html: { data: { controller: 'select' } }
 
-        = f.input :description, input_html: { data: { controller: "textarea-autogrow" } }
-        .flex.gap-4
-          .flex-1= f.input :number, hint: 'How many cloned instances this actor has'
-          .shrink
-            = f.label :ui_color, class: 'block font-bold text-gray-700 dark:text-gray-200'
-            %ul.flex.gap-2.mt-1.py-1
-              - Actor::ALLOWED_COLORS.each do |color|
-                %li.shrink
-                  = f.radio_button :ui_color, color, class: 'sr-only peer', id: "#{dom_id(actor)}_ui_color_#{color}", checked: @actor.ui_color == color
-                  = f.label :ui_color, for: "#{dom_id(actor)}_ui_color_#{color}", class: "block rounded-full w-8 h-8 select-none cursor-pointer border border-white border-2 peer-checked:outline peer-checked:outline-3 peer-checked:outline-#{color}-500 bg-#{color}-500 dark:bg-#{color}-700" do
-                    &nbsp;
+          = f.input :description, input_html: { data: { controller: "textarea-autogrow" } }
+          .flex.gap-4
+            .flex-1= f.input :number, hint: 'How many cloned instances this actor has'
+            .shrink
+              = f.label :ui_color, class: 'block font-bold text-gray-700 dark:text-gray-200'
+              %ul.flex.gap-2.mt-1.py-1
+                - Actor::ALLOWED_COLORS.each do |color|
+                  %li.shrink
+                    = f.radio_button :ui_color, color, class: 'sr-only peer', id: "#{dom_id(actor)}_ui_color_#{color}", checked: @actor.ui_color == color
+                    = f.label :ui_color, for: "#{dom_id(actor)}_ui_color_#{color}", class: "block rounded-full w-8 h-8 select-none cursor-pointer border border-white border-2 peer-checked:outline peer-checked:outline-3 peer-checked:outline-#{color}-500 bg-#{color}-500 dark:bg-#{color}-700" do
+                      &nbsp;
 
-  = render ColumnFormSection::Component.new do |c|
-    - c.with_description do
-      %h3.text-lg.leading-6.text-gray-900.dark:text-gray-50 Sub-actors
-      %p.mt-1.text-gray-600.dark:text-gray-400
-        Actors can be organized in hiearchies. Descendant actors use the same numbering logic as their root
+        - if allowed_to?(:update?, @actor) && !@actor.persisted?
+          .px-4.py-3.bg-slate-200.dark:bg-gray-500.text-right.sm:px-6
+            = f.button :submit, 'Save', class: 'form-submit'
 
-    - c.with_main do
-      = render SubResourceSection::Component.new(header: 'Descendant actors') do |section|
-        - section.with_button do
-          = form_with(url: [@exercise, actor, :child], method: :post) do |_form|
-            %button.form-submit-add.text-sm.h-8{type: 'submit'}
-              %i.fas.fa-plus.self-center
-              Add sub-actor
 
-        #actors-table.divide-y-4.divide-double.divide-gray-200.dark:divide-gray-500
-          = render 'actors_table', actor:
+  - if actor.persisted?
+    = render ColumnFormSection::Component.new do |c|
+      - c.with_description do
+        %h3.text-lg.leading-6.text-gray-900.dark:text-gray-50 Sub-actors
+        %p.mt-1.text-gray-600.dark:text-gray-400
+          Actors can be organized in hiearchies. Descendant actors use the same numbering logic as their root
+
+      - c.with_main do
+        = render SubResourceSection::Component.new(header: 'Descendant actors') do |section|
+          - section.with_button do
+            = form_with(url: [@exercise, actor, :child], method: :post) do |_form|
+              %button.form-submit-add.text-sm.h-8{type: 'submit'}
+                %i.fas.fa-plus.self-center
+                Add sub-actor
+
+          #actors-table.divide-y-4.divide-double.divide-gray-200.dark:divide-gray-500
+            = render 'actors_table', actor:
 
   - if actor.number?
     = render ColumnFormSection::Component.new do |c|

@@ -12,4 +12,8 @@ class Domain < ApplicationRecord
       with: /\A(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)*(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)\.?\z/,
       message: 'must be a valid domain name'
     }
+
+  def self.to_icon
+    'fa-globe'
+  end
 end

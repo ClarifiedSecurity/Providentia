@@ -18,25 +18,28 @@ en:
 
   activerecord:
     models:
-      exercise: Environment
+      exercise: environment
+      domain:
+        one: domain
+        other: domains
       virtual_machine:
-        one: Host
-        other: Inventory
+        one: host
+        other: hosts
       network:
-        one: Network
-        other: Networks
+        one: network
+        other: networks
       service:
-        one: Service
-        other: Services
+        one: service
+        other: services
       capability:
-        one: Capability
-        other: Capabilities
+        one: capability
+        other: capabilities
       credential_set:
-        one: Credential set
-        other: Credential sets
+        one: credential set
+        other: credential sets
       operating_system:
-        one: Operating system
-        other: Operating systems
+        one: operating system
+        other: operating systems
     errors:
       models:
         virtual_machine:
@@ -51,7 +54,7 @@ en:
         dev_red_resource_name: SSO resource name for RT access
         local_admin_resource_name: SSO resource name for exercise administration
       virtual_machine:
-        cpu: vCPU count
+        cpu: CPU cores
         ram: RAM
         custom_instance_count: Cluster size
         numbered_by: Deploy strategy
@@ -67,7 +70,7 @@ en:
         source_gid: Source
         destination_gid: Destination
       operating_system:
-        cpu: vCPU count
+        cpu: CPU cores
         ram: RAM
       address_pool:
         mode: IP family
@@ -150,7 +153,7 @@ en:
 
         Intended for network designers and architects.
     environment_service_dev:
-      name: Services developer
+      name: Monitoring developer
       description: |
         Read and write access to all services
 

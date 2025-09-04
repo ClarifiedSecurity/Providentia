@@ -29,17 +29,29 @@ class Layout::Header::ActionBar::Component < ApplicationViewComponent
   end
 
   ENABLED_CLASSES = [
+    Exercise,
+    VirtualMachine,
+    Network,
+    Capability,
+    Service,
+    Actor
+  ].freeze
+
+  EDITABLE_CLASSES = [
+    Exercise,
+    Network,
+    Capability,
+    Service,
+    Actor
+  ].freeze
+
+  PREVIEWABLE_CLASSES = [
+    Exercise,
     VirtualMachine,
     Network,
     Capability,
     Service
-  ].freeze
-
-  EDITABLE_CLASSES = [
-    Network,
-    Capability,
-    Service
-  ].freeze
+  ]
 
 
   style do
@@ -85,6 +97,7 @@ class Layout::Header::ActionBar::Component < ApplicationViewComponent
     end
 
     def api_preview
+      return if !PREVIEWABLE_CLASSES.include?(@item.class)
       Action.new(
         text: 'API Preview', icon: 'fa-code', url: 'javascript:;',
         modal: Modal.new(title: 'API Preview', url: "/api_preview/#{exercise.to_param}/#{@item.class.model_name.singular_route_key}/#{@item.to_param}")
@@ -92,10 +105,10 @@ class Layout::Header::ActionBar::Component < ApplicationViewComponent
     end
 
     def delete
-      if helpers.allowed_to?(:destroy?, @item)
+      if helpers.allowed_to?(:destroy?, @item) && !@item.is_a?(Exercise)
         Action.new(
           text: 'Delete', icon: 'fa-times-circle',
-          url: url_for([exercise, @item]),
+          url: destroy_url,
           delete: @item.class.name.downcase
         )
       end
@@ -103,10 +116,21 @@ class Layout::Header::ActionBar::Component < ApplicationViewComponent
 
     def edit_url
       case @item
+      when Exercise
+        url_for([:edit, exercise])
       when VirtualMachine, Service
         url_for([exercise, @item])
       else
         url_for([:edit, exercise, @item])
+      end
+    end
+
+    def destroy_url
+      case @item
+      when Exercise
+        url_for(exercise)
+      else
+        url_for([exercise, @item])
       end
     end
 end

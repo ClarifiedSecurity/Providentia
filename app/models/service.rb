@@ -24,7 +24,7 @@ class Service < ApplicationRecord
   }
 
   def self.to_icon
-    'fa-flask'
+    'fa-eye'
   end
 
   def should_generate_new_friendly_id?

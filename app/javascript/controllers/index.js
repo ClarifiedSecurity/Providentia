@@ -6,11 +6,13 @@ eagerLoadControllersFrom("controllers", application);
 import Clipboard from "@stimulus-components/clipboard";
 import Dropdown from "@stimulus-components/dropdown";
 import Dialog from "@stimulus-components/dialog";
+import AnimatedNumber from "@stimulus-components/animated-number";
 import TextareaAutogrow from "stimulus-textarea-autogrow";
 import { RailsuiTabs } from "railsui-stimulus";
 
 application.register("dropdown", Dropdown);
 application.register("clipboard", Clipboard);
 application.register("dialog", Dialog);
+application.register("animated-number", AnimatedNumber);
 application.register("textarea-autogrow", TextareaAutogrow);
 application.register("railsui-tabs", RailsuiTabs);

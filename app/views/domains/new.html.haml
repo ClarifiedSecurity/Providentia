@@ -1,2 +1,19 @@
-= turbo_frame_tag :new_domain do
-  = render 'form', domain: @domain
+-# frozen_string_literal: true
+
+= simple_form_for([@domain.exercise, @domain], html: { autocomplete: "off" }) do |f|
+  = f.error_notification
+  = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
+
+  = render ColumnFormSection::Component.new do |c|
+    - c.with_description do
+      %h3.text-lg.leading-6.text-gray-900.dark:text-gray-50 Name
+      %p.mt-1.text-sm.text-gray-600.dark:text-gray-400
+        The root domain name suffix
+
+    - c.with_main do
+      .px-4.py-5.bg-white.dark:bg-gray-800.space-y-6.sm:p-6
+        = f.input :name
+
+      - if allowed_to?(:update?, @domain)
+        .px-4.py-3.bg-slate-200.dark:bg-gray-500.text-right.sm:px-6
+          = f.button :submit, 'Save', class: 'form-submit'

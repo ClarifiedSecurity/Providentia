@@ -12,11 +12,11 @@ Rails.application.routes.draw do
   resources :exercises, path: :environments, only: %i[new create show edit update] do
     resource :map, only: %i[show]
     resources :role_bindings, path: :permissions, only: %i[create update destroy]
-    resources :actors, only: %i[create show edit update destroy] do
+    resources :actors, only: %i[new create show edit update destroy] do
       resource :child, only: %i[create], controller: :actors
       resources :actor_number_configs, path: 'config'
     end
-    resources :domains, only: %i[new create show update destroy]
+    resources :domains, only: %i[index new create show update destroy]
     resources :zones, only: %i[index]
     resources :virtual_machines, except: %i[edit] do
       member do

@@ -1,0 +1,17 @@
+%section.rounded-lg.shadow.flex.flex-col.gap-1.p-4[actor]{class: style(:actor, color: actor.ui_color.to_sym, mode: :subtle)}
+  .flex.items-center
+    %h5.text-lg.font-bold.tracking-tight.grow
+      = link_to_if allowed_to?(:show?, actor), actor.name, [exercise, actor]
+    .scale-75
+      - if actor.number
+        %span.rounded-full.mx-2.py-1.px-2.bg-indigo-100.text-indigo-500.dark:bg-indigo-300.dark:text-indigo-700
+          = actor.number
+          clones
+      = render ActorChip::Component.new(actor:, text: actor.abbreviation)
+
+  = simple_format actor.description, class: 'font-normal text-sm grow'
+
+  - if tree.any?
+    %section.font-normal.text-sm
+      %h3.font-bold.text-center.mb-1 Sub-actors
+      = render ActorTree::Component.new(tree:)

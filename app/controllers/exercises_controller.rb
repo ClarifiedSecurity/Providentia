@@ -23,6 +23,7 @@ class ExercisesController < ApplicationController
 
   def show
     authorize! @exercise
+    render Page::Exercise::Component.new(@exercise), content_type: 'text/html'
   end
 
   def edit

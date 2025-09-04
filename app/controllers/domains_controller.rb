@@ -4,6 +4,9 @@ class DomainsController < ApplicationController
   before_action :get_exercise
   before_action :get_domain, only: %i[show update destroy]
 
+  def index
+  end
+
   def new
     @domain = @exercise.domains.build
     authorize! @domain
@@ -15,7 +18,7 @@ class DomainsController < ApplicationController
     @domain = @exercise.domains.build(domain_params)
     authorize! @domain
     if @domain.save
-      flash.now[:notice] = 'Domain was successfully created.'
+      redirect_to [@exercise, :domains], notice: 'Domain was successfully created.'
     else
       render :new, status: 400
     end

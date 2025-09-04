@@ -1,0 +1,69 @@
+%article.bg-white.dark:bg-gray-800.shadow.rounded-lg.my-6
+  %header.px-6.py-3.text-center
+    %row.flex.gap-1
+      .flex-1
+      .flex-2.flex.items-center.justify-center.gap-1
+        %h3.text-xl.font-semibold.leading-6.text-gray-900.dark:text-gray-300= exercise.name
+        %span.px-3.py-1.text-xs.text-indigo-800.uppercase.bg-indigo-200.rounded-full.dark:bg-indigo-300.dark:text-indigo-900= exercise.abbreviation
+      .flex-1.text-right
+        %span.rounded-full.bg-gray-200.dark:bg-slate-700.transition.opacity-40.hover:opacity-100.empty:hidden{class: 'p-1'}<
+          - RoleBinding.for_user(current_user).for_environment(exercise).each do |role_binding|
+            = render RoleIcon::Component.new(role_binding)
+
+    = simple_format exercise.description, class: 'font-lusitana text-lg mt-1 empty:hidden'
+
+  .border-t.border-gray-200.dark:border-gray-600.px-6.py-5.grid.grid-cols-2.lg:grid-cols-6.gap-4
+    - features.each do |feature|
+      %feature.rounded-xl.p-3.dark:bg-zinc-700{class: "bg-slate-200/70 col-span-#{feature.assets.size}"}
+        %h1.text-xl.tracking-wider.font-semibold.text-center
+          %i.fas{class: feature.assets.first.to_icon}
+          = feature.name
+
+        .flex.flex-row.gap-6.p-1.mt-4
+          - feature.assets.each do |asset|
+            = link_to [exercise, asset.name.underscore.pluralize.to_sym], class: 'flex-1 flex flex-col p-2 text-center rounded-xl shadow/20 bg-slate-300/60 hover:bg-slate-300 transition-colors' do
+              %number-counter.text-4xl.my-1{data: { controller: 'animated-number', animated_number: { start_value: 0, end_value: asset_count(asset), duration_value: 600} }}= asset_count(asset)
+              %span
+                = asset.model_name.human(count: asset_count(asset))
+
+  %section.border-t.border-gray-200.dark:border-gray-600.px-6.py-5
+    %h2.text-lg.font-bold.mb-3 Actors
+
+    #actors.grid.gap-6.grid-cols-2.lg:grid-cols-3
+      - actors.each do |actor, tree|
+        = render Page::Exercise::Actor::Component.new(actor, tree)
+
+      - if actors.empty?
+        .col-span-3
+          = render Emptylisting::Component.new(klass: Actor) do
+            - if allowed_to?(:create?, :actor)
+              = link_to "Create the first actor", [:new, @exercise, :actor], class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-200'
+              to get started
+
+  - cache(resource_cache_key) do
+    %section.border-t.border-gray-200.dark:border-gray-600.px-6.py-5
+      %h2.text-md.font-bold Total resources
+      .grid.grid-cols-5.gap-4
+        %div
+          %dt.text-sm.text-gray-500= OperatingSystem.human_attribute_name(:cpu)
+          %dd.mt-1.text-sm.text-gray-900.dark:text-white.mt-0= resource_usage.cpu
+
+        %div
+          %dt.text-sm.text-gray-500= OperatingSystem.human_attribute_name(:ram)
+          %dd.mt-1.text-sm.text-gray-900.dark:text-white.mt-0
+            %span{title: "#{resource_usage.ram} GB"}= number_to_human_size resource_usage.ram*1024*1024*1024
+
+        %div
+          %dt.text-sm.text-gray-500= OperatingSystem.human_attribute_name(:primary_disk_size)
+          %dd.mt-1.text-sm.text-gray-900.dark:text-white.mt-0
+            %span{title: "#{resource_usage.primary_disk_size} GB"}= number_to_human_size resource_usage.primary_disk_size*1024*1024*1024
+
+        %div
+          %dt.text-sm.text-gray-500 Host instances
+          %dd.mt-1.text-sm.text-gray-900.dark:text-white.mt-0
+            = authorized_scope(@exercise.virtual_machines).includes(:numbered_by).reduce(0) { |sum, vm| sum + vm.deployable_instances.size }
+
+        %div
+          %dt.text-sm.text-gray-500 Network instances
+          %dd.mt-1.text-sm.text-gray-900.dark:text-white.mt-0
+            = authorized_scope(@exercise.networks).reduce(0) { |sum, network| sum + NetworkInstances.result_for(network).size }

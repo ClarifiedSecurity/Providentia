@@ -23,14 +23,15 @@ class Layout::Header::Breadcrumb::Component < ApplicationViewComponent
     end
 
     def url
-      case breadcrumb_item
-      when :root
+      case [breadcrumb_item, breadcrumb_item.to_s]
+      in [:root, *]
         root_path
-      when Exercise
+      in [Exercise, *]
         exercise_path(breadcrumb_item)
-      when ActiveRecord::Base
+      in [ActiveRecord::Base, *]
         polymorphic_path([exercise, breadcrumb_item])
-      when Class
+      in [Class, 'Actor']
+      in [Class, *]
         polymorphic_path([exercise, breadcrumb_item.model_name.plural.to_sym])
       end
     end
@@ -52,7 +53,7 @@ class Layout::Header::Breadcrumb::Component < ApplicationViewComponent
       when Exercise
         breadcrumb_item.name
       when Class
-        breadcrumb_item.model_name.human(count: 2)
+        breadcrumb_item.model_name.human(count: 2).capitalize
       else
         breadcrumb_item.name
       end

@@ -13,6 +13,8 @@ class APIPreviewsController < ApplicationController
 
     def search_scope
       case params[:model]
+      when 'exercise'
+        authorized_scope(Exercise.all).friendly
       when 'virtual_machine'
         authorized_scope(@exercise.virtual_machines)
       when 'network'
@@ -32,6 +34,8 @@ class APIPreviewsController < ApplicationController
                         item.customization_specs.map do |spec|
                           API::V3::CustomizationSpecPresenter.new(spec)
                         end
+                      when 'exercise'
+                        [API::V3::ExercisePresenter.new(item)]
                       when 'network'
                         [API::V3::NetworkPresenter.new(item)]
                       when 'capability'
