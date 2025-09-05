@@ -14,6 +14,7 @@ Rails.application.routes.draw do
       resource :child, only: %i[create], controller: :actors
       resources :actor_number_configs, path: 'config'
     end
+    resources :domains, only: %i[new create show update destroy]
     resources :virtual_machines, except: %i[edit] do
       member do
         get 'address_preview'
@@ -25,6 +26,7 @@ Rails.application.routes.draw do
       end
     end
     resources :networks do
+      resources :domain_bindings
       resources :address_pools
     end
     resources :services, except: :edit do

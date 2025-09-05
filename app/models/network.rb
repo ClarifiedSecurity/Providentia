@@ -48,13 +48,6 @@ class Network < ApplicationRecord
     "zone_#{slug}".downcase.tr('-', '_')
   end
 
-  def full_domain
-    [
-      domain,
-      ignore_root_domain ? nil : exercise.root_domain
-    ].reject(&:blank?).join '.'
-  end
-
   def gateway_hosts
     VirtualMachine
       .distinct

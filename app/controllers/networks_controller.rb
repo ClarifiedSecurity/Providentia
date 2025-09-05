@@ -52,8 +52,7 @@ class NetworksController < ApplicationController
   private
     def network_params
       params.require(:network).permit(
-        :name, :actor_id, :cloud_id, :domain, :abbreviation, :description,
-        :visibility, :ignore_root_domain
+        :name, :actor_id, :cloud_id, :abbreviation, :description, :visibility
       )
     end
 

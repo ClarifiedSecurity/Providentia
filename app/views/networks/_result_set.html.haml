@@ -4,7 +4,7 @@
   = Network.human_attribute_name(:abbreviation)
 
 - c.with_column { 'Network' }
-- c.with_column { Network.human_attribute_name(:domain) }
+- c.with_column { Domain.model_name.human.pluralize }
 - c.with_column { Network.human_attribute_name(:description) }
 - c.with_column { '' }
 
@@ -33,12 +33,8 @@
                   %p= render LiquidPoolNetworkComponent.new(object: pool)
 
       %td.px-6.py-4.whitespace-nowrap
-        - if network.domain.present?
-          = render LiquidTextComponent.new({ text: network.domain }, object: network)
-          - unless network.ignore_root_domain
-            %span<>= ".#{network.exercise.root_domain}"
-        - else
-          %span.text-gray{title: 'Default from exercise'}= network.exercise.root_domain
+        - network.domain_bindings.full_names.each do
+          %p= render LiquidTextComponent.new({ text: it }, object: network)
       %td.px-6.py-4= network.description
       %td.px-6.py-4.whitespace-nowrap.text-right
         - if allowed_to?(:destroy?, network)

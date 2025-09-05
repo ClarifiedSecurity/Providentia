@@ -47,35 +47,3 @@
         .px-4.py-5.bg-white.dark:bg-gray-800.space-y-6.sm:p-6
           .grid.grid-cols-3.gap-6
             .col-span-2= f.input :cloud_id
-
-    .py-5
-      .border-t.border-gray-200.dark:border-gray-600
-
-    = render ColumnFormSectionComponent.new do |c|
-      - c.with_description do
-        %h3.text-lg.leading-6.text-gray-900.dark:text-gray-50 DNS
-        %p.mt-1.text-sm.text-gray-600.dark:text-gray-400
-          Nameserver related settings
-
-        %p.mt-1.text-sm.text-gray-600.dark:text-gray-400
-          = Network.human_attribute_name(:domain)
-          field accept
-          %char #
-          as substitution character, replaced by BT number
-
-
-      - c.with_main do
-        .px-4.py-5.bg-white.dark:bg-gray-800.space-y-6.sm:p-6
-          .grid.grid-cols-3.gap-6
-            .col-span-2
-              = f.label :domain
-              = render SplitInputComponent.new do |split|
-                - split.with_input(form_helper: f, field: :domain)
-                - if !@network.ignore_root_domain
-                  - split.with_right_cell do
-                    = ".#{f.object.exercise.root_domain}"
-
-          %label.flex.cursor-pointer.items-center.mt-3{class: 'mb-2.5'}
-            = f.check_box :ignore_root_domain, class: 'sr-only peer', id: "#{dom_id(@network)}_ignore_root_domain"
-            .relative.w-11.h-6.bg-gray-200.peer-focus:outline-hidden.peer-focus:ring-4.peer-focus:ring-blue-300.dark:peer-focus:ring-blue-800.rounded-full.peer.dark:bg-gray-700.peer-checked:after:translate-x-full.peer-checked:rtl:after:-translate-x-full.peer-checked:after:border-white.after:absolute.after:bg-white.after:border-gray-300.after:border.after:rounded-full.after:w-5.after:h-5.after:transition-all.dark:border-gray-600.peer-checked:bg-blue-600{class: "after:content-[''] after:top-[2px] after:start-[2px]"}
-            %span.ms-3.font-bold= Exercise.human_attribute_name(:ignore_root_domain)

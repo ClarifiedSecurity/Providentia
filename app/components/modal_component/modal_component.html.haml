@@ -1,5 +1,5 @@
 .contents{data: {controller: 'dialog', action: 'click->dialog#backdropClose'}}
-  %dialog.font-raleway.h-max-screen.w-full.max-w-5xl.m-auto.relative.overflow-x-hidden.bg-transparent{data: {"dialog-target" => 'dialog'}, class:'backdrop:bg-gray-900/80 dark:backdrop:bg-gray-900/80'}
+  %dialog.font-raleway.m-auto.relative.overflow-x-hidden.bg-transparent{data: {"dialog-target" => 'dialog'}, class: size_classes + ' backdrop:bg-gray-900/80 dark:backdrop:bg-gray-900/80'}
     - if @only_body
       = body
     - else

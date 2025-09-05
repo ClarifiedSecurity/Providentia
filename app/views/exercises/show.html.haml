@@ -16,8 +16,10 @@
           %dd.mt-1.text-sm.text-gray-900.dark:text-white.mt-0= @exercise.abbreviation
 
         .col-span-3
-          %dt.text-sm.text-gray-500.dark:text-gray-400= Exercise.human_attribute_name(:root_domain)
-          %dd.mt-1.text-sm.text-gray-900.dark:text-white.mt-0= @exercise.root_domain
+          %dt.text-sm.text-gray-500.dark:text-gray-400= Domain.model_name.human
+          %dd.mt-1.text-sm.text-gray-900.dark:text-white.mt-0
+            - @exercise.domains.each do |domain|
+              %p.my-1= domain.name
 
         .col-span-4
           %dt.text-sm.text-gray-500.dark:text-gray-400 Your permissions

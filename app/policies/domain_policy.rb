@@ -8,7 +8,7 @@ class DomainPolicy < ApplicationPolicy
   end
 
   def create?
-    false
+    has_env_role? %w(environment_net_dev)
   end
 
   def update?

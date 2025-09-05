@@ -1,0 +1,10 @@
+= form_with(model: domain, url: [@exercise, domain]) do |form|
+  .flex.gap-1
+    .grow
+      = form.label :name, class: 'block font-bold text-gray-700 dark:text-gray-200'
+      = form.text_field :name, class: 'form-input'
+
+      - if domain.errors[:name].any?
+        %span.text-red-600= domain.errors[:name].join(', ')
+
+    .pt-7= form.submit :save, class: 'form-submit mt-0.5'

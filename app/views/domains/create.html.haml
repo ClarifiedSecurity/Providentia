@@ -1,0 +1,11 @@
+-# reset the form on successful create
+= turbo_frame_tag :new_domain do
+  = render 'form', domain: @exercise.domains.build
+
+  -# awkward way to close the modal manually
+  %a.close_modal{"data-action" => "click->dialog#close"}
+  = javascript_tag defer: true, class: 'close_modal' do
+    document.querySelectorAll('.close_modal').forEach((e) => { e.click(); e.remove(); })
+
+  = turbo_stream.prepend "flashes", partial: "flashes"
+  = turbo_stream.append 'domain_list', partial: 'domains/card', locals: {domain: @domain}

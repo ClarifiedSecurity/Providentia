@@ -5,27 +5,22 @@
   - c.with_description do
     %h3.text-lg.leading-6.text-gray-900.dark:text-gray-50 Domains
     %p.mt-1.text-sm.text-gray-600.dark:text-gray-400
-      The list of domains, which can be used in this environment.
+      The list of domain names, which are used in this environment.
 
     %p.mt-1.text-sm.text-gray-600.dark:text-gray-400
-      Subdomains can be created under any entry listed here.
+      These are top level entries - subdomains are created under networks to create a hierarchy.
 
   - c.with_main do
-    = render SubResourceSectionComponent.new(header: 'Domains & DNS') do |section|
+    = render SubResourceSectionComponent.new(header: 'Domains') do |section|
       - section.with_button do
-        = link_to 'javascript:;', class: 'form-submit-add text-sm h-8'  do
-          %i.fas.fa-plus.self-center
-          Add domain
+        = render ModalComponent.new(header: "New domain", size: :small) do |c|
+          - c.with_body do
+            = turbo_frame_tag :new_domain, loading: 'lazy', src: new_exercise_domain_path(@exercise)
 
-      .bg-white.dark:bg-gray-800.space-y-6
-        .divide-y-4.divide-double.divide-gray-200.dark:divide-gray-500
-          - @exercise.domains.order(:name).each do |domain|
-            .px-4.py-5{class: 'text-sm/7'}
-              - domain.domain_bindings.order(name: :desc).includes(:network).merge(Network.order(:actor_id, :name)).group_by(&:full_name).each do |full_name, binds|
-                %h2.font-semibold{class: binds[0].name.blank? ? 'text-xl' : ''}
-                  = render LiquidTextComponent.new({text: full_name}, object: Network.new)
-                  networks:
+          = link_to 'javascript:;', class: 'form-submit-add text-sm h-8', data: { action: "click->dialog#open" }  do
+            %i.fas.fa-plus.self-center
+            Add domain
 
-                - binds.each do |bind|
-                  = link_to [bind.network.exercise, bind.network], class: 'mr-1' do
-                    = render ActorChipComponent.new(actor: bind.network.actor, text: bind.network.name)
+
+      #domain_list.bg-white.dark:bg-gray-800.grid.grid-cols-3.p-4.gap-2
+        = render collection: @exercise.domains.order(:name), partial: 'domains/card', as: :domain

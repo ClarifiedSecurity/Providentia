@@ -1,0 +1,17 @@
+= turbo_frame_tag dom_id(domain_binding), class: 'block' do
+  = form_with(model: domain_binding, url: [@exercise, @network, domain_binding], data: { controller: 'model', action: "change->model#update" }) do |form|
+    .flex.gap-2.px-4.py-3
+      %p.mt-9.text-center.flex-1
+        = render LiquidTextComponent.new({text: domain_binding.full_name}, object: @network)
+
+      %form-group.flex-1
+        = form.label :name, class: 'block font-bold text-gray-700 dark:text-gray-200'
+        = form.text_field :name, class: 'form-input mb-1'
+
+      %form-group.flex-1
+        = form.label :domain_id, class: 'block font-bold text-gray-700 dark:text-gray-200' do
+          Suffix domain
+        = form.collection_select :domain_id, authorized_scope(@exercise.domains), :id, :name, { include_blank: domain_binding.new_record? }, { data: { controller: 'select', create: true }}
+
+      = link_to 'javascript:;', data: { action: "model#delete" }, class: 'flex items-center' do
+        %i.fas.fa-times-circle.text-red-600
