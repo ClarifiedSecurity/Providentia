@@ -32,7 +32,7 @@
       .pt-16.pb-48
         = render select_contextual_menu_component if select_contextual_menu_component
         .static-width
-          = render 'flashes'
+          #flashes= render 'flashes'
           = render 'content'
 
       = render SearchComponent.new

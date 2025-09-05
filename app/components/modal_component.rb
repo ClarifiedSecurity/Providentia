@@ -3,23 +3,27 @@
 class ModalComponent < ViewComponent::Base
   renders_one :body
 
-  def initialize(header: nil, full_screen: false, only_body: false)
+  def initialize(header: nil, size: :large, only_body: false)
     @header = header
-    @full_screen = full_screen
+    @size = size
     @only_body = only_body
   end
 
   private
     def size_classes
-      if @full_screen
+      case @size
+      when :fullscreen
         'h-screen w-full'
-      else
+      when :small
+        'max-h-screen w-full max-w-lg'
+      else # including large
         'max-h-screen w-full max-w-5xl'
       end
     end
 
     def content_classes
-      if @full_screen
+      case @size
+      when :fullscreen
         'h-full grow'
       end
     end

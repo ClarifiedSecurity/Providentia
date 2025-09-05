@@ -57,9 +57,10 @@
 
       .px-6.py-5.grid.grid-cols-12.gap-4
         .col-span-4
-          %dt.text-sm.text-gray-500.dark:text-gray-400= Network.human_attribute_name(:domain)
+          %dt.text-sm.text-gray-500.dark:text-gray-400= Domain.model_name.human.pluralize
           %dd.mt-1.text-sm.text-gray-900.dark:text-white.mt-0
-            = render LiquidTextComponent.new({text: @network.full_domain}, object: @network)
+            - @network.domain_bindings.full_names.each do
+              .my-1= render LiquidTextComponent.new({text: it}, object: @network)
 
       .py-1
         .border-t.border-gray-200.dark:border-gray-600

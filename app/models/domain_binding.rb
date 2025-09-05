@@ -13,6 +13,6 @@ class DomainBinding < ApplicationRecord
   end
 
   def full_name
-    [name, domain.name].reject(&:blank?).join('.')
+    [name, domain&.name].reject(&:blank?).join('.')
   end
 end

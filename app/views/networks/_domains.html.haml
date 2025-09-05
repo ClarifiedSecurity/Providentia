@@ -1,0 +1,31 @@
+.py-5
+  .border-t.border-gray-200.dark:border-gray-600
+
+= render ColumnFormSectionComponent.new do |c|
+  - c.with_description do
+    %h3.text-lg.leading-6.text-gray-900.dark:text-gray-50 DNS
+    %p.mt-1.text-sm.text-gray-600.dark:text-gray-400
+      Each network can be associated with one or more domains for name resolution.
+
+    %p.mt-1.text-sm.text-gray-600.dark:text-gray-400
+      The suffix of the full domain name is chosen from the list of domains defined in the exercise. The name of the domain is inserted before the suffix and is used to generate the full domain name for the network.
+
+    %p.mt-1.text-sm.text-gray-600.dark:text-gray-400
+      You can use
+      %em team_nr
+      and
+      %em team_nr_str
+      variables in the
+      = DomainBinding.human_attribute_name(:name)
+      field to generate dynamic domain names based on the actor numbering.
+
+  - c.with_main do
+    = render SubResourceSectionComponent.new(header: 'Domains') do |section|
+      - section.with_button do
+        = form_with(url: [@network.exercise, @network, :domain_bindings]) do |_form|
+          %button.form-submit-add.text-sm.h-8{type: 'submit'}
+            %i.fas.fa-plus.self-center
+            Add domain
+
+      #domain_bindings.divide-y-4.divide-double.divide-gray-200.dark:divide-gray-500
+        = render @network.domain_bindings

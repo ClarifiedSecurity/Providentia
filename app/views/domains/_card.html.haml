@@ -1,0 +1,11 @@
+= render ModalComponent.new(header: "Domain #{domain.name}", size: :small) do |c|
+  - c.with_body do
+    = turbo_frame_tag dom_id(domain, :show), loading: 'lazy', src: [@exercise, domain]
+
+  .group.relative.flex.items-center.rounded-lg.bg-stone-100.hover:bg-stone-200.dark:bg-zinc-700.dark:hover:bg-zinc-600
+    = link_to 'javascript:;', class: 'grow text-center p-4 text-xl font-bold tracking-tight text-gray-800 hover:text-indigo-900 dark:text-white dark:hover:text-indigo-300', data: { action: "click->dialog#open" } do
+      = domain.name
+
+    - if allowed_to?(:destroy?, domain)
+      = link_to [domain.exercise, domain], class: 'absolute right-0 w-8 h-8 p-1 opacity-0 group-hover:opacity-100 transition-opacity', data: { turbo_method: 'delete', turbo_confirm: 'Are you sure?' } do
+        %i.fas.fa-times-circle.text-red-600

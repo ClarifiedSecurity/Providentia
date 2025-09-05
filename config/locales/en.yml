@@ -81,6 +81,8 @@ en:
       actor:
         number: Clones
         ui_color: Colour
+      domain:
+        name: Domain name
 
   pool_scopes:
     default: Default
