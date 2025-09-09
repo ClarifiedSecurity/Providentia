@@ -71,29 +71,30 @@ class HeaderBreadcrumbComponent < ViewComponent::Base
     end
 
     def dropdown
-      case [breadcrumb_item, breadcrumb_item.to_s]
-      in [Exercise, *]
-        Dropdown.new(
-          recents: helpers.authorized_scope(Exercise.all).order(updated_at: :desc).limit(4).map do |exercise|
-            DropdownItem.new(name: exercise.name, url: exercise_path(exercise))
-          end,
-          add_action: if helpers.allowed_to?(:create?, :exercise)
-                        url_for([:new, :exercise])
+      return @dropdown if defined?(@dropdown)
+      @dropdown = case [breadcrumb_item, breadcrumb_item.to_s]
+                  in [Exercise, *]
+                    Dropdown.new(
+                      recents: helpers.authorized_scope(Exercise.all).order(updated_at: :desc).limit(4).map do |exercise|
+                        DropdownItem.new(name: exercise.name, url: exercise_path(exercise))
+                      end,
+                      add_action: if helpers.allowed_to?(:create?, :exercise)
+                                    url_for([:new, :exercise])
+                                  end
+                    )
+                  in [Class, 'OperatingSystem']
+                    Dropdown.new(
+                      recents: helpers.authorized_scope(breadcrumb_item.all).order(updated_at: :desc).limit(4).map do |item|
+                        DropdownItem.new(name: item.name, url: polymorphic_path([item]))
                       end
-        )
-      in [Class, 'OperatingSystem']
-        Dropdown.new(
-          recents: helpers.authorized_scope(breadcrumb_item.all).order(updated_at: :desc).limit(4).map do |item|
-            DropdownItem.new(name: item.name, url: polymorphic_path([item]))
-          end
-        )
-      in [Class, *]
-        Dropdown.new(
-          recents: helpers.authorized_scope(breadcrumb_item.where(exercise:)).order(updated_at: :desc).limit(4).map do |item|
-            DropdownItem.new(name: item.name, url: polymorphic_path([exercise, item]))
-          end
-        )
-      else
+                    )
+                  in [Class, *]
+                    Dropdown.new(
+                      recents: helpers.authorized_scope(breadcrumb_item.where(exercise:)).order(updated_at: :desc).limit(4).map do |item|
+                        DropdownItem.new(name: item.name, url: polymorphic_path([exercise, item]))
+                      end
+                    )
+                  else
       end
     end
 
