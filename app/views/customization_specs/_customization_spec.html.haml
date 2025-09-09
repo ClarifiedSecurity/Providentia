@@ -74,7 +74,8 @@
               = link_to 'javascript:;', class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400', data: { action: "click->dialog#open" } do
                 %i.fas.fa-circle-question
 
-          = form.text_field :tag_list, { value: customization_spec.tags.map(&:name).join(', '), id: "customization_spec#{customization_spec.id}_tag_list", data: { controller: 'select', create: true, select_options_value: ActsAsTaggableOn::Tag.for_tenant("exercise_#{@exercise.id}").uniq.pluck(:name) }, disabled: !allowed_to?(:update?, @virtual_machine) }
+          - tags = customization_spec.taggings.includes(:tag).order(:created_at).map { it.tag.name }.join(', ')
+          = form.text_field :tag_list, { value: tags, id: "customization_spec#{customization_spec.id}_tag_list", data: { controller: 'select', create: true, select_options_value: ActsAsTaggableOn::Tag.for_tenant("exercise_#{@exercise.id}").uniq.pluck(:name) }, disabled: !allowed_to?(:update?, @virtual_machine) }
 
       - if @services[customization_spec.id].any?
         .mt-2

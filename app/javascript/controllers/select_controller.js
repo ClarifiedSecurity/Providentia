@@ -21,6 +21,9 @@ export default class extends Controller {
           createOnBlur: true,
           create: true,
           searchField: ["text", "terms"],
+          onItemAdd: function () {
+            this.control_input.value = "";
+          },
         };
       } else {
         const hasEmptyOption =
