@@ -10,7 +10,7 @@ services:
     extends:
       file: support/compose-web.yml
       service: web
-
+    restart: !override no
     build:
       dockerfile: Dockerfile
       target: development
@@ -33,6 +33,7 @@ services:
       file: support/compose-caddy.yml
       service: caddy
 
+    restart: !override no
     ports: !override
       - "80:80"
     labels: !override
