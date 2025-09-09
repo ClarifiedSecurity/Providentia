@@ -31,15 +31,15 @@ class OperatingSystem < ApplicationRecord
   end
 
   def applied_cpu
-    self.cpu || parent&.applied_cpu
+    applied_hw[:cpu]
   end
 
   def applied_ram
-    self.ram || parent&.applied_ram
+    applied_hw[:ram]
   end
 
   def applied_primary_disk_size
-    self.primary_disk_size || parent&.applied_primary_disk_size
+    applied_hw[:primary_disk_size]
   end
 
   def to_icon
@@ -70,6 +70,16 @@ class OperatingSystem < ApplicationRecord
   end
 
   private
+    def applied_hw
+      @applied_hw ||= Rails.cache.fetch([self.class.where(id: path_ids).cache_key_with_version, 'applied_hw']) do
+        {
+          cpu: self.cpu || parent&.applied_cpu,
+          ram: self.ram || parent&.applied_ram,
+          primary_disk_size: self.primary_disk_size || parent&.applied_primary_disk_size
+        }
+      end
+    end
+
     def ensure_cloud_id
       self.cloud_id ||= self.friendly_id
     end

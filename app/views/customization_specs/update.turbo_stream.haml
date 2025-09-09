@@ -1,12 +1,12 @@
 - if @customization_spec.mode_host?
   = turbo_stream.update "connection_info" do
     = render "virtual_machines/connection_info", vm: @customization_spec.virtual_machine
-  = turbo_stream.update dom_id(@customization_spec.virtual_machine, :address_preview) do
-    = render 'virtual_machines/address_preview'
   - @customization_spec.virtual_machine.customization_specs.reload
   - @customization_spec.virtual_machine.customization_specs.each do |spec|
     = turbo_stream.replace dom_id(spec) do
       = render spec
+
+  = turbo_stream_action_tag "reload", target: "vm_#{@virtual_machine.id}_addresses"
 
 - else
   = turbo_stream.replace dom_id(@customization_spec) do

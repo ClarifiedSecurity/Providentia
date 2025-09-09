@@ -25,7 +25,8 @@ class NetworkInterfaceFormComponent < ViewComponent::Base
     def addresses
       network_interface.addresses
         .order(:created_at)
-        .includes(:network, :address_pool, :virtual_machine)
+        .preload(virtual_machine: [:numbered_by])
+        .includes(:network, :address_pool)
     end
 
     def team_classes

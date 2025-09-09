@@ -24,7 +24,8 @@ class Address < ApplicationRecord
   }, prefix: :mode, default: 'ipv4_static'
 
   scope :all_ip_objects, -> {
-    includes(:virtual_machine, :network)
+    preload(virtual_machine: [:numbered_by])
+      .includes(:network)
       .flat_map(&:all_ip_objects)
       .compact
   }

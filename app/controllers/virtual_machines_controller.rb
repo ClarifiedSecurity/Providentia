@@ -90,7 +90,8 @@ class VirtualMachinesController < ApplicationController
             :actor,
             :operating_system,
             :numbered_by,
-            :customization_specs,
+            :connection_nic,
+            customization_specs: [:exercise],
             networks: [:exercise],
             network_interfaces: [{ network: [:actor] }]
           )
