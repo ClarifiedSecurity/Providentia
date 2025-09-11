@@ -11,13 +11,14 @@ Rails.application.configure do
   config.content_security_policy do |policy|
     policy.default_src :none
     policy.base_uri    :none
-    policy.font_src    :self
+    policy.frame_ancestors :none
+    policy.font_src :self
     policy.font_src(*policy.font_src) if Rails.env.development?
     policy.style_src :self, :unsafe_inline # needed for codemirror
     policy.style_src(*policy.style_src) if Rails.env.development?
 
     policy.img_src     :self, :https, :data
-    policy.script_src  :self
+    policy.script_src  :self, :strict_dynamic
     policy.script_src(*policy.script_src, :unsafe_eval) if Rails.env.development?
 
     # You may need to enable this in production as well depending on your setup.

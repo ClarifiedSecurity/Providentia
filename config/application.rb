@@ -37,8 +37,8 @@ module Providentia
     config.oidc_extra_scopes = ENV.fetch('OIDC_EXTRA_SCOPES', '').split(',').map(&:to_sym)
     config.oidc_authorization_roles_claim = ENV.fetch('OIDC_AUTHORIZATION_ROLES_CLAIM', '').split('.')
 
-    # add some security headers
     config.action_dispatch.default_headers.merge!(
+      'X-Frame-Options' => 'DENY',
       'Cross-Origin-Embedder-Policy-Report-Only' => 'require-corp',
       'Cross-Origin-Opener-Policy' => 'same-origin'
     )
