@@ -11,7 +11,7 @@ class LiquidTooltipSnippetComponent < ViewComponent::Base
   def call
     LiquidReplacer.new(template_text).iterate do |variable_node|
       content_tag(
-        :div,
+        :span,
         content_tag(
           :strong,
           "[ #{variable_node.name.name} ]",

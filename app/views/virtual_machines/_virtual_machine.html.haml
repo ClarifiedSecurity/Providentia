@@ -1,0 +1,60 @@
+- cache([virtual_machine.cache_key_with_version, 'search', allowed_to?(:destroy?, virtual_machine), allowed_to?(:read_tags?, virtual_machine.host_spec)]) do
+  %host.group.py-2.rounded-3xl.bg-gray-200.dark:bg-gray-700.hover:bg-gray-300.hover:dark:bg-gray-800.transition-colors{id: dom_id(virtual_machine)}
+    %actor<>= render ActorAvatarComponent.new(actor: virtual_machine.actor)
+    %name.flex.items-center
+      = link_to virtual_machine.name, [virtual_machine.exercise, virtual_machine], class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-200 grow', data: { turbo_frame: '_top'}
+      - if virtual_machine.custom_instance_count.to_i > 1
+        %span.rounded-full.mx-1.py-1.px-2.bg-green-100.text-green-500.whitespace-nowrap
+          = virtual_machine.custom_instance_count
+          instances
+
+    %fqdn= render LiquidFQDNComponent.new({ vm: virtual_machine }, object: virtual_machine.host_spec)
+    %connection-address.flex.items-center.gap-1{data: { controller: 'clipboard', clipboard_success_content_value: '<i>✓</i>'}}
+      - if virtual_machine.connection_nic
+        %span= render(LiquidAddressComponent.new({ actor: virtual_machine.numbered_actor }, object: virtual_machine.connection_address))
+        - if virtual_machine.connection_address.fixed?
+          %span.hidden{data: {clipboard_target: 'source'}}<= virtual_machine.connection_address.ip_object.to_s
+          %button.p-1.h-5.w-5.inline-flex.text-xs.bg-lime-700.text-white.rounded.items-center.justify-center{type: "button", data: {clipboard_target: 'button', action: "clipboard#copy"}}
+            %i.fas.fa-clipboard
+
+    %addresses
+      - if virtual_machine.connection_nic
+        = render ModalComponent.new(only_body: true) do |c|
+          - c.with_body do
+            = turbo_frame_tag dom_id(virtual_machine, :addresses), src: [:address_preview, @exercise, virtual_machine], loading: "lazy"
+
+          = link_to 'javascript:;', class: 'text-white bg-linear-to-r from-purple-500 to-pink-500 hover:bg-linear-to-l focus:ring-4 focus:outline-hidden focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-xs text-center px-2 py-1 whitespace-nowrap', data: { action: "click->dialog#open" } do
+            All addresses
+            %i.fas.fa-up-right-from-square
+
+
+    %info.flex.items-center.justify-center
+      .inline-flex.-space-x-0.divide-x.divide-zinc-400.overflow-hidden.rounded-lg.border.border-zinc-400.shadow-sm.dark:shadow-slate-400.empty:hidden<
+        - if virtual_machine.description.present?
+          %span.inline-flex.items-center.px-3.py-2.text-center.text-sm.font-medium.shadow-sm.font-medium.text-slate-700.bg-transparent.hover:bg-slate-700.hover:text-white.focus:z-10.focus:ring-2.focus:ring-gray-500.focus:bg-gray-900.focus:text-white.dark:border-white.dark:text-white.dark:hover:text-white.dark:hover:bg-gray-700.dark:focus:bg-gray-700{data: {controller: 'tooltip', tooltip: virtual_machine.description, action: "mouseenter->tooltip#show mouseleave->tooltip#hide"}}
+            %i.fas.fa-fw.fa-file-lines
+        - if virtual_machine.customization_specs.flat_map(&:capabilities).any?
+          %span.inline-flex.items-center.px-3.py-2.text-center.text-sm.font-medium.shadow-sm.font-medium.text-slate-700.bg-transparent.hover:bg-slate-700.hover:text-white.focus:z-10.focus:ring-2.focus:ring-gray-500.focus:bg-gray-900.focus:text-white.dark:border-white.dark:text-white.dark:hover:text-white.dark:hover:bg-gray-700.dark:focus:bg-gray-700{data: {controller: 'tooltip', tooltip: virtual_machine.customization_specs.flat_map(&:capabilities).flat_map(&:name).join(', '), action: "mouseenter->tooltip#show mouseleave->tooltip#hide"}}
+            %i.fas.fa-fw{class: Capability.to_icon}
+        - if virtual_machine.host_spec.user
+          %span.inline-flex.items-center.px-3.py-2.text-center.text-sm.font-medium.shadow-sm.font-medium.text-slate-700.bg-transparent.hover:bg-slate-700.hover:text-white.focus:z-10.focus:ring-2.focus:ring-gray-500.focus:bg-gray-900.focus:text-white.dark:border-white.dark:text-white.dark:hover:text-white.dark:hover:bg-gray-700.dark:focus:bg-gray-700{data: {controller: 'tooltip', tooltip: virtual_machine.host_spec.user.name, action: "mouseenter->tooltip#show mouseleave->tooltip#hide" }}
+            %i.fas.fa-fw.fa-user-tag
+        - if virtual_machine.operating_system
+          %span.inline-flex.items-center.px-3.py-2.text-center.text-sm.font-medium.shadow-sm.font-medium.text-slate-700.bg-transparent.hover:bg-slate-700.hover:text-white.focus:z-10.focus:ring-2.focus:ring-gray-500.focus:bg-gray-900.focus:text-white.dark:border-white.dark:text-white.dark:hover:text-white.dark:hover:bg-gray-700.dark:focus:bg-gray-700{data: {controller: 'tooltip', tooltip: virtual_machine.operating_system.name, action: "mouseenter->tooltip#show mouseleave->tooltip#hide"}}
+            %i.fas.fa-fw{class: virtual_machine.operating_system.to_icon}
+
+    - if allowed_to?(:destroy?, virtual_machine)
+      %delete
+        = link_to [virtual_machine.exercise, virtual_machine], data: { turbo_method: 'delete', turbo_confirm: 'Are you sure?' }, class: 'opacity-0 group-hover:opacity-100 transition-opacity' do
+          %i.fas.fa-times-circle.text-red-600
+
+
+    %secondrow.flex.flex-row.gap-x-8.items-center
+      - if virtual_machine.customization_specs.size > 1
+        %specs
+          .w-full.text-xs Customization specs
+          = render ChipComponent.with_collection(virtual_machine.customization_specs.mode_container.map(&:name), icon: 'book')
+      - if allowed_to?(:read_tags?, virtual_machine.host_spec) && virtual_machine.customization_specs.flat_map(&:tags).size.positive?
+        %tags
+          .w-full.text-xs Tag list
+          = render ChipComponent.with_collection(virtual_machine.customization_specs.flat_map(&:tags).map(&:name).uniq, flavor: 'cyan', icon: 'tags')

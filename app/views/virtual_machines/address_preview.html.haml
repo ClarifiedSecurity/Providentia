@@ -1,2 +1,2 @@
-= turbo_frame_tag ['vm', @virtual_machine.id, 'addresses'] do
+= turbo_frame_tag dom_id(@virtual_machine, :addresses) do
   %div{id: dom_id(@virtual_machine, :address_preview)}= render 'address_preview'
