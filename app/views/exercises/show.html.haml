@@ -55,8 +55,8 @@
             %div
               %dt.text-sm.text-gray-500 Virtual machine instances
               %dd.mt-1.text-sm.text-gray-900.dark:text-white.mt-0
-                - cache [authorized_scope(@exercise.virtual_machines), 'county'] do
-                  = authorized_scope(@exercise.virtual_machines).reduce(0) { |sum, vm| sum + vm.deployable_instances.size }
+                - cache [authorized_scope(@exercise.virtual_machines).cache_key_with_version, 'count'] do
+                  = authorized_scope(@exercise.virtual_machines).includes(:numbered_by).reduce(0) { |sum, vm| sum + vm.deployable_instances.size }
 
             %div
               %dt.text-sm.text-gray-500 Networks
