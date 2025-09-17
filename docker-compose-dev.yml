@@ -17,6 +17,7 @@ services:
       args:
         CONTAINER_USER_ID:
         CONTAINER_GROUP_ID:
+    image: !reset
     volumes:
       - /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
       - ./:/srv/app
