@@ -1,18 +1,25 @@
-= simple_form_for([@exercise, @virtual_machine], html: { autocomplete: "off" }) do |f|
-  = f.error_notification
-  = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
+= render ColumnFormSectionComponent.new do |c|
+  - c.with_description do
+    %h3.text-lg.leading-6.text-gray-900.dark:text-gray-50 Basic information
+    %p.mt-1.text-gray-600.dark:text-gray-400
+      Basic information for new host
 
-  = render ColumnFormSectionComponent.new do |c|
-    - c.with_description do
-      %h3.text-lg.leading-6.text-gray-900.dark:text-gray-50 Basic information
-      %p.mt-1.text-gray-600.dark:text-gray-400
-        Basic information for new virtual machine
+  - c.with_main do
+    = form_with(model: @exercise.virtual_machines.build, url: [@exercise, @virtual_machine], html: { autocomplete: :off }) do |form|
+      %fieldset.px-4.py-5.bg-white.dark:bg-gray-800.space-y-6.sm:p-6.grid.grid-cols-2.gap-6
+        %p
+          = form.label :name, class: 'block font-bold text-gray-700 dark:text-gray-200'
+          = form.text_field :name, class: 'form-input mb-1'
 
-    - c.with_main do
-      .px-4.py-5.bg-white.dark:bg-gray-800.space-y-6.sm:p-6
-        .grid.grid-cols-2.gap-6
-          = f.input :name
-          = f.association :actor, collection: sorted_tree_options(authorized_scope(@exercise.actors, as: :vm_dev)), input_html: { data: { controller: 'select' } }
+          - if @virtual_machine.errors[:name]
+            %span.text-red-600= @virtual_machine.errors[:name].to_sentence
+
+        %p
+          = form.label :actor_id, class: 'block font-bold text-gray-700 dark:text-gray-200'
+          = form.collection_select :actor_id, sorted_tree_options(authorized_scope(@exercise.actors, as: :vm_dev)), :last, :first, { include_blank: true }, { class: 'form-input mt-1', data: { controller: 'select'} }
+
+          - if @virtual_machine.errors[:actor]
+            %span.text-red-600= @virtual_machine.errors[:actor].to_sentence
 
       .px-4.py-3.bg-slate-200.dark:bg-gray-500.text-right.sm:px-6
-        = f.button :submit, 'Save', class: 'form-submit'
+        = form.submit 'Save', class: 'form-submit'
