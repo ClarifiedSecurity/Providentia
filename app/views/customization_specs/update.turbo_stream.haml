@@ -8,6 +8,9 @@
 
   = turbo_stream_action_tag "reload", target: "vm_#{@virtual_machine.id}_addresses"
 
+  = turbo_stream.update dom_id(@customization_spec.virtual_machine, :address_preview) do
+    = render 'virtual_machines/address_preview'
+
 - else
   = turbo_stream.replace dom_id(@customization_spec) do
     = render @customization_spec
