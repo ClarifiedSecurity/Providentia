@@ -1,7 +1,7 @@
 en:
   errors:
     messages:
-      label_begins_or_ends_with_hyphen: label begins or ends with a hyphen
+      label_begins_or_ends_with_hyphen: begins or ends with a hyphen
       missing_in_path: is missing for this record or its parent(s)
       hostname_conflict: is conflicting with another DNS name
       not_allowed_hostname: is not allowed as hostname
@@ -42,7 +42,7 @@ en:
         virtual_machine:
           attributes:
             name:
-              invalid: is invalid (must not contain _)
+              invalid: is invalid (must only contain letters, numbers or -)
             numbered_by:
               incoherent_numbering: would result in numbering incoherence
     attributes:
