@@ -8,7 +8,7 @@
       %connection-address
         %i.fas.fa-satellite-dish
         Connection address
-    = render @virtual_machines, partial: 'skeleton'
+    = render partial: 'virtual_machine', collection: @virtual_machines, as: :virtual_machine, cached: ->(vm) { [vm.cache_key_with_version, 'search', allowed_to?(:destroy?, vm), allowed_to?(:read_tags?, vm.host_spec)] }
 
 - else
   = render 'shared/empty', klass: VirtualMachine

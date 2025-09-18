@@ -5,6 +5,8 @@ class NetworkInterfaceFormComponent < ViewComponent::Base
 
   attr_reader :network_interface, :disabled
 
+  delegate :allowed_to?, to: :helpers
+
   def initialize(network_interface:, disabled: false)
     @network_interface = network_interface
     @disabled = disabled

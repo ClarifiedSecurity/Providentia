@@ -38,7 +38,7 @@
 
     .border.border-gray-200.dark:border-gray-500{data: { controller: 'model' }}
       .bg-white.dark:bg-gray-600.divide-y-4.divide-double.divide-gray-200.dark:divide-gray-800{id: "#{dom_id(network_interface)}_addresses"}
-        = render addresses, network_interface: network_interface, disabled:
+        = render collection: addresses, partial: 'addresses/address', as: :address, cached: ->(address) { ['form', disabled, address.cache_key_with_version, address.network.cache_key_with_version, allowed_to?(:read, address.network), allowed_to?(:destroy, address)] }, locals: { network_interface:, disabled: }
 
   - else
     .p-10.text-center.opacity-80
