@@ -28,6 +28,8 @@ class HeaderBreadcrumbComponent < ViewComponent::Base
         root_path
       when Exercise
         exercise_path(breadcrumb_item)
+      when ActiveRecord::Base
+        polymorphic_path([exercise, breadcrumb_item])
       when Class
         polymorphic_path([exercise, breadcrumb_item.model_name.plural.to_sym])
       end
