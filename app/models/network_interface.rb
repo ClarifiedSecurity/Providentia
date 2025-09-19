@@ -10,6 +10,7 @@ class NetworkInterface < ApplicationRecord
   belongs_to :virtual_machine, touch: true
   belongs_to :network, touch: true
   has_many :addresses, dependent: :destroy
+  has_many :domain_bindings, through: :addresses
 
   delegate :exercise, to: :virtual_machine, allow_nil: true
 

@@ -6,10 +6,10 @@ class AddressForm < Patterns::Form
   attribute :mode, Symbol
   attribute :ip_family, Symbol
   attribute :address_pool_id, Integer
+  attribute :domain_binding_id, Integer
   attribute :offset, String
   attribute :offset_address, String, default: ->(form, attribute) { form.send(:resource).ip_object.to_s if form.offset }
   attribute :ipv6_address_input, String, default: ->(form, attribute) { Ipv6Offset.load(form.send(:resource).offset) }
-  attribute :dns_enabled, Boolean
   attribute :connection, Boolean
   attribute :randomize_address, Boolean
   attribute :clear_address, Boolean
@@ -75,7 +75,7 @@ class AddressForm < Patterns::Form
       end
       # set default mode on ip family change
       self.mode = available_modes.dig(0, 1).to_sym if ip_family != resource.ip_family
-      resource.update(attributes.slice(:address_pool_id, :offset, :mode, :dns_enabled, :connection))
+      resource.update(attributes.slice(:address_pool_id, :domain_binding_id, :offset, :mode, :connection))
       if resource.errors.of_kind? :offset, :overlap
         errors.add(:offset_address, :overlap)
       end

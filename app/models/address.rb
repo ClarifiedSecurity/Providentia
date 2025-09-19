@@ -5,6 +5,7 @@ class Address < ApplicationRecord
 
   belongs_to :network_interface, touch: true
   belongs_to :address_pool, touch: true, optional: true
+  belongs_to :domain_binding, optional: true
   has_one :virtual_machine, through: :network_interface
   has_one :network, through: :network_interface
   has_one :actor, through: :network
@@ -170,7 +171,7 @@ class Address < ApplicationRecord
       return unless mode_changed?
       self.address_pool = nil
       self.connection = false
-      self.dns_enabled = false if fixed?
+      self.domain_binding = nil if fixed?
       true
     end
 
@@ -180,8 +181,7 @@ class Address < ApplicationRecord
     end
 
     def populate_first_pool_if_empty
-      return unless mode_ipv4_static? || mode_ipv4_vip? || mode_ipv6_static? || mode_ipv6_vip?
-      return if address_pool
+      return if !fixed? || address_pool
 
       if ipv4?
         self.address_pool = network.address_pools.ip_v4.first

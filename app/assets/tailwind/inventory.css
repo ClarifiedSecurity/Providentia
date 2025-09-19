@@ -1,0 +1,56 @@
+#vm-grid {
+  @apply grid gap-3 px-3 pb-3 rounded-xl;
+
+  grid-template-columns:
+    calc(var(--spacing) * 12)
+    3fr
+    minmax(0, 4fr)
+    auto
+    min-content
+    min-content
+    calc(var(--spacing) * 9);
+
+  header,
+  host {
+    @apply grid col-span-full grid-cols-subgrid gap-y-1 items-center justify-center;
+    grid-template-areas: "actor name fqdn connection addresses info delete";
+
+    &:has(secondrow) {
+      grid-template-areas: "actor name fqdn connection addresses info delete" "secondrow secondrow secondrow secondrow secondrow secondrow delete";
+    }
+  }
+
+  actor {
+    @apply pl-4;
+    grid-area: actor;
+  }
+
+  name {
+    grid-area: name;
+  }
+
+  connection-address {
+    grid-area: connection;
+  }
+
+  addresses {
+    grid-area: addresses;
+  }
+
+  fqdn {
+    grid-area: fqdn;
+  }
+
+  info {
+    grid-area: info;
+  }
+
+  delete {
+    grid-area: delete;
+  }
+
+  secondrow {
+    @apply px-4;
+    grid-area: secondrow;
+  }
+}

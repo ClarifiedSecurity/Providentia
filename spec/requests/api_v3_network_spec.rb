@@ -26,7 +26,7 @@ RSpec.describe 'API v3 networks', type: :request do
           instances: [{
             team_nr: nil,
             cloud_id: '',
-            domains: [],
+            domains: net.domain_bindings.full_names,
             address_pools: [
               { id: 'default-ipv4', ip_family: 'v4', network_address: '', gateway: nil },
               { id: 'default-ipv6', ip_family: 'v6', network_address: '', gateway: nil }
@@ -54,7 +54,7 @@ RSpec.describe 'API v3 networks', type: :request do
           instances: [{
             team_nr: 1,
             cloud_id: 'hello1',
-            domains: [],
+            domains: networks.first.domain_bindings.full_names,
             address_pools: [
               { id: 'default-ipv4', ip_family: 'v4', network_address: '', gateway: nil },
               { id: 'default-ipv6', ip_family: 'v6', network_address: '', gateway: nil }
@@ -63,7 +63,7 @@ RSpec.describe 'API v3 networks', type: :request do
           }, {
             team_nr: 2,
             cloud_id: 'hello2',
-            domains: [],
+            domains: networks.first.domain_bindings.full_names,
             address_pools: [
               { id: 'default-ipv4', ip_family: 'v4', network_address: '', gateway: nil },
               { id: 'default-ipv6', ip_family: 'v6', network_address: '', gateway: nil }
@@ -72,7 +72,7 @@ RSpec.describe 'API v3 networks', type: :request do
           }, {
             team_nr: 3,
             cloud_id: 'hello3',
-            domains: [],
+            domains: networks.first.domain_bindings.full_names,
             address_pools: [
               { id: 'default-ipv4', ip_family: 'v4', network_address: '', gateway: nil },
               { id: 'default-ipv6', ip_family: 'v6', network_address: '', gateway: nil }

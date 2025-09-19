@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_01_122846) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_22_115849) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -69,7 +69,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_01_122846) do
     t.datetime "updated_at", null: false
     t.bigint "address_pool_id"
     t.boolean "connection", default: false, null: false
+    t.bigint "domain_binding_id"
     t.index ["address_pool_id"], name: "index_addresses_on_address_pool_id"
+    t.index ["domain_binding_id"], name: "index_addresses_on_domain_binding_id"
     t.index ["network_interface_id"], name: "index_addresses_on_network_interface_id"
   end
 
@@ -396,6 +398,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_01_122846) do
   add_foreign_key "actors", "exercises"
   add_foreign_key "address_pools", "networks"
   add_foreign_key "addresses", "address_pools"
+  add_foreign_key "addresses", "domain_bindings"
   add_foreign_key "addresses", "network_interfaces"
   add_foreign_key "api_tokens", "users"
   add_foreign_key "capabilities", "actors"

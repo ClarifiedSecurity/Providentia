@@ -216,7 +216,7 @@ RSpec.describe GenerateTags do
       let(:input) { create(:network) }
       let(:expected_id) { input.api_short_name }
       let(:expected_name) { input.name }
-      let(:expected_config_map) { { domain: input.full_domain } }
+      let(:expected_config_map) { {} }
       let(:expected_priority) { 80 }
 
       it { is_expected.to eq([expected_tag]) }

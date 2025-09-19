@@ -1,0 +1,34 @@
+address-grid {
+  @apply grid gap-2;
+
+  grid-template-areas: "family address-mode pool-and-address dns connection delete";
+  grid-template-columns: 1fr 1fr 3fr 2fr max-content 0fr;
+
+  ip-family {
+    grid-area: family;
+  }
+
+  addressing {
+    @apply flex gap-2 items-center;
+
+    grid-area: pool-and-address;
+  }
+
+  dns {
+    grid-area: dns;
+  }
+
+  connection {
+    grid-area: connection;
+  }
+
+  ip-family,
+  address-mode,
+  connection {
+    @apply flex flex-col gap-1 justify-center;
+  }
+
+  delete {
+    grid-area: delete;
+  }
+}

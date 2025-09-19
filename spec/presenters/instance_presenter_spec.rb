@@ -22,7 +22,7 @@ RSpec.describe API::V3::InstancePresenter do
     let(:opts) { { include_metadata: true } }
 
     it 'should include metadata' do
-      expect(subject).to receive(:inventory_name).at_least(:once).and_return 'doesnotmatter'
+      expect(subject).to receive(:id).at_least(:once).and_return 'doesnotmatter'
       expect(subject.as_json[:metadata]).to eq({
         'my' => 'stuff'
       })
