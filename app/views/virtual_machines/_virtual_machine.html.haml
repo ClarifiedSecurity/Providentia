@@ -7,7 +7,7 @@
         = virtual_machine.custom_instance_count
         instances
 
-  %fqdn= render LiquidFQDNComponent.new({ vm: virtual_machine }, object: virtual_machine.host_spec)
+  %fqdn= render LiquidFQDNComponent.new(object: virtual_machine.host_spec)
   %connection-address.flex.items-center.gap-1{data: { controller: 'clipboard', clipboard_success_content_value: '<i>✓</i>'}}
     - if virtual_machine.connection_nic
       %span= render(LiquidAddressComponent.new({ actor: virtual_machine.numbered_actor }, object: virtual_machine.connection_address))

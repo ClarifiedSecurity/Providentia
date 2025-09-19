@@ -2,15 +2,17 @@
 
 # This will guess the User class
 FactoryBot.define do
-  factory :domainbinding do
-    network { nil }
-    domain { nil }
-    name { 'MyString' }
+  factory :domain_binding do
+    name { Faker::Internet.domain_word }
+
+    network
+    domain
   end
 
   factory :domain do
-    exercise { nil }
-    name { 'MyString' }
+    name { Faker::Internet.domain_name }
+
+    exercise
   end
 
   factory :role_binding do
@@ -60,8 +62,6 @@ FactoryBot.define do
   factory :exercise do
     name { 'Crocked Fields' }
     abbreviation { Faker::Alphanumeric.alpha(number: 5) }
-    dev_resource_name { "#{abbreviation.upcase}_GT" }
-    dev_red_resource_name { "#{abbreviation.upcase}_RT" }
     actors { build_list(:actor, 2, exercise: instance) }
   end
 
@@ -100,6 +100,7 @@ FactoryBot.define do
     name { Faker::Internet.domain_name }
     abbreviation { Faker::Alphanumeric.alpha(number: 5) }
     actor { exercise.actors.sample }
+    domain_bindings { [build(:domain_binding, network: instance)] }
     exercise
   end
 

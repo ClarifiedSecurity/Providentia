@@ -9,7 +9,7 @@
       = render spec
 
 - else
-  = turbo_stream.update dom_id(@address) do
+  = turbo_stream.replace dom_id(@address) do
     = render @address, disabled: false
 
 = turbo_stream.update "connection_info" do

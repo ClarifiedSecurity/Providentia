@@ -43,7 +43,8 @@ class Domains < ActiveRecord::Migration[8.0]
 
       networks_by_upper_domain.each do |upper_domain, networks|
         if upper_domain.match?(/}}/)
-          _, _, upper_domain = upper_domain.rpartition(/}}\.?/)
+          _, _, upper_domain = upper_domain.rpartition(/}}?/)
+          upper_domain.gsub!(/^\W*/, '') # remove all non-character trash at the beginning
         end
 
         domain = find_or_create_domain(exercise, upper_domain)
@@ -121,14 +122,14 @@ class Domains < ActiveRecord::Migration[8.0]
     end
 
     def find_or_create_domain(exercise, name)
-      exercise.domains.where(name: name&.strip).first_or_create!
+      exercise.domains.where(name: name&.strip&.downcase).first_or_create!
     rescue ActiveRecord::RecordInvalid => e
       puts "Error creating domain '#{name}': #{e.message}"
       raise
     end
 
     def create_domain_binding(network, domain, name)
-      network.domain_bindings.where(domain: domain, name: name&.strip).first_or_create!
+      network.domain_bindings.where(domain: domain, name: name&.strip&.downcase).first_or_create!
     rescue ActiveRecord::RecordInvalid => e
       puts "Error creating domain binding for network '#{network.name}': #{e.message}"
       raise

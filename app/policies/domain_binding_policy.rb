@@ -23,7 +23,12 @@ class DomainBindingPolicy < ApplicationPolicy
     next relation if user.super_admin?
     relation
       .distinct
-      .joins(:exercise)
+      .joins(network: [:exercise])
       .merge(Exercise.for_user(user))
   end
+
+  private
+    def exercise
+      record.network.exercise
+    end
 end

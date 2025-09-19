@@ -96,7 +96,7 @@ class GenerateTags < Patterns::Calculation
             priority: 32 + item.actor.depth * 3
           )
         when Network
-          ApiTag.new(id: item.api_short_name, name: item.name, priority: 80, config_map: { domain: item.full_domain })
+          ApiTag.new(id: item.api_short_name, name: item.name, priority: 80, config_map: {})
         when MultiContainer
           ApiTag.new(id: item.spec.slug.tr('-', '_'), name: "All instances of #{item.spec.slug}", priority: 90)
         when CustomizationContainer

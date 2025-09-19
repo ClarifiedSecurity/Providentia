@@ -1,20 +1,12 @@
 # frozen_string_literal: true
 
 class HostnameGenerator < Patterns::Calculation
+  Names = Data.define(:hostname, :domain, :fqdn)
+
   private
     def result
       subject.virtual_machine = virtual_machine
-      hostname_sequence_suffix = '{{ seq }}' if virtual_machine.clustered?
-      hostname_team_suffix = '{{ team_nr_str }}' if virtual_machine.numbered_actor && (!nic || !nic.network&.numbered?)
-
-      sequences = [
-        hostname_sequence_suffix,
-        hostname_team_suffix
-      ].compact
-      hostname = "#{subject.hostname}#{sequences.join('-')}"
-      domain = nic&.network&.full_domain.to_s.gsub(/#+/, '{{ team_nr_str }}')
-
-      Struct.new(:hostname, :domain, :fqdn).new(
+      Names.new(
         hostname:,
         domain:,
         fqdn: [hostname, domain].reject(&:blank?).join('.')
@@ -25,7 +17,26 @@ class HostnameGenerator < Patterns::Calculation
       options[:vm] || subject.virtual_machine
     end
 
-    def nic
-      options[:nic] || virtual_machine.connection_nic
+    def address
+      options[:address] || virtual_machine.connection_address
+    end
+
+    def domain
+      address&.domain_binding&.full_name || options[:fallback_domain]
+    end
+
+    def hostname
+      [subject.hostname, suffixes].flatten.compact.join
+    end
+
+    def suffixes
+      [].tap do |parts|
+        parts << '{{ seq }}' if virtual_machine.clustered?
+        parts << '{{ team_nr_str }}' if team_suffix?
+      end.join('-')
+    end
+
+    def team_suffix?
+      virtual_machine.numbered_actor && (!address || !address.network&.numbered?)
     end
 end

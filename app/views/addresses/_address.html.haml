@@ -1,12 +1,13 @@
-%article[address]
+%article.p-2[address]
   = form_with(model: @address_form || AddressForm.new(address), url: [address.exercise, address.virtual_machine, address.network_interface, address], class: 'hidden', id: dom_id(address, :secondary)) do
     &nbsp;
-  = form_with(model: @address_form || AddressForm.new(address), url: [address.exercise, address.virtual_machine, address.network_interface, address], class: 'p-3 group', data: { action: "change->model#update"}) do |form|
+  = form_with(model: @address_form || AddressForm.new(address), url: [address.exercise, address.virtual_machine, address.network_interface, address], class: 'group', data: { action: "change->model#update"}) do |form|
     %fieldset{disabled:}
-      .flex.gap-3.items-center
-        %div
+      %address-grid
+        %ip-family
           = form.label :ip_family, class: 'block font-bold text-gray-700 dark:text-gray-200'
-          %ul.grid.grid-flow-col.shadow.mt-1.border.border-gray-300.rounded-md.dark:bg-gray-500.dark:border-black
+
+          %ul.grid.grid-flow-col.shadow.border.border-gray-300.rounded-md.dark:bg-gray-500.dark:border-black
             %li
               = form.radio_button :ip_family, :ipv4, class: 'hidden peer', id: "#{dom_id(address)}_ip_family_ipv4"
               = form.label :ip_family, for: "#{dom_id(address)}_ip_family_ipv4", class: 'block select-none cursor-pointer rounded-sm p-2 peer-checked:bg-blue-500 dark:peer-checked:bg-blue-600 peer-checked:text-white text-center' do
@@ -16,83 +17,78 @@
               = form.label :ip_family, for: "#{dom_id(address)}_ip_family_ipv6", class: 'block select-none cursor-pointer rounded-sm p-2 peer-checked:bg-blue-500 dark:peer-checked:bg-blue-600 peer-checked:text-white text-center' do
                 IPv6
 
-        .w-60
+        %address-mode
           = form.label :mode, class: 'block font-bold text-gray-700 dark:text-gray-200', for: "#{dom_id(address)}_mode" do
             = Address.human_attribute_name(:mode)
-          = form.select :mode, form.object.available_modes, { include_blank: false }, { id: "#{dom_id(address)}_mode", disabled: ,data: { controller: 'select' } }
 
-        - cache([address.cache_key_with_version]) do
-          - if address.needs_pool? && address.network.address_pools.for_address(address).size > 1
-            %div
-              = form.label :address_pool_id, class: 'block font-bold text-gray-700 dark:text-gray-200'
-              = form.collection_select :address_pool_id, address.network.address_pools.for_address(address), :id, :name, { include_blank: address.address_pool.nil? }, { data: { controller: 'select' }, disabled: disabled || (address.address_pool && address.network.address_pools.for_address(address).size == 1) }
+          %ul.grid.grid-flow-col.shadow.border.border-gray-300.rounded-md.dark:bg-gray-500.dark:border-black
+            - form.object.available_modes.each do |mode_label, mode_value|
+              %li
+                = form.radio_button :mode, mode_value, class: 'hidden peer', id: "#{dom_id(address)}_mode_#{mode_value}"
+                = form.label :mode, mode_label, for: "#{dom_id(address)}_mode_#{mode_value}", class: 'block select-none cursor-pointer rounded-sm p-2 peer-checked:bg-blue-500 dark:peer-checked:bg-blue-600 peer-checked:text-white text-center'
 
-        .grow{data: {controller: 'tooltip', tooltip: 'Clear address'}}
-          .flex
-            = form.label :offset, class: 'block font-bold text-gray-700 dark:text-gray-200', for: "#{dom_id(address)}_offset" do
-              = Address.human_attribute_name(:offset)
-            .grow.mx-2= render AddressSpecialChipComponent.new(address: address)
-            - if address.fixed? && address.address_pool.ip_network && allowed_to?(:update?, address)
-              %button.text-white.bg-linear-to-r.from-cyan-500.to-blue-500.hover:bg-linear-to-bl.focus:ring-4.focus:outline-hidden.focus:ring-cyan-300.dark:focus:ring-cyan-800.font-medium.rounded-lg.text-sm.px-2.text-center{class: "py-0", type: "submit", name: "address[randomize_address]", form: dom_id(address, :secondary)}
-                %i.fas.fa-dice
-                Randomize
 
-          - case address.mode
-          - when "ipv4_static"
-            - if address.address_pool.present? && address.address_pool.ip_network
-              .mt-1= render IPPickerComponent.new(form: form, field: :offset, hosts: :available_for_object, label: false)
-            - else
-              .mt-1.opacity-50 Network range not configured!
 
-          - when "ipv4_vip"
-            - if address.address_pool.present? && address.address_pool.ip_network
-              .mt-1= render IPPickerComponent.new(form: form, field: :offset, hosts: :all, label: false)
-            - else
-              .mt-1.opacity-50 Network range not configured!
+        %addressing
+          %address-pool.empty:hidden.w-52<>
+            - cache([address.cache_key_with_version]) do
+              - if address.needs_pool? && address.network.address_pools.for_address(address).size > 1
+                = form.label :address_pool_id, class: 'block font-bold text-gray-700 dark:text-gray-200'
+                = form.collection_select :address_pool_id, address.network.address_pools.for_address(address), :id, :name, { include_blank: address.address_pool.nil? }, { data: { controller: 'select' }, disabled: disabled || (address.address_pool && address.network.address_pools.for_address(address).size == 1) }
 
-          - when "ipv6_static", "ipv6_vip"
-            - if address.address_pool&.ip_network.present?
-              = render SplitInputComponent.new do |split|
-                - split.with_left_cell do
-                  = render LiquidAddressNetworkSansPrefixComponent.new(object: address)
-                - split.with_input(form_helper: form, field: :ipv6_address_input, placeholder: (!address.offset && 'Address not set').presence )
-                - split.with_right_cell do
-                  = "/#{address.ip_family_network&.prefix}"
+          %ip.flex.flex-col.gap-1.grow
+            .flex
+              = form.label :offset, class: 'block font-bold text-gray-700 dark:text-gray-200', for: "#{dom_id(address)}_offset" do
+                = Address.human_attribute_name(:offset)
+              .grow.mx-2= render AddressSpecialChipComponent.new(address: address)
+              - if address.fixed? && address.address_pool.ip_network && allowed_to?(:update?, address)
+                %button.text-white.bg-linear-to-r.from-cyan-500.to-blue-500.hover:bg-linear-to-bl.focus:ring-4.focus:outline-hidden.focus:ring-cyan-300.dark:focus:ring-cyan-800.font-medium.rounded-lg.text-xs.px-2.text-center{class: "py-0", type: "submit", name: "address[randomize_address]", form: dom_id(address, :secondary)}
+                  %i.fas.fa-dice
+                  Randomize
 
-                - if address.offset && allowed_to?(:update?, address)
-                  - split.with_right_cell do
-                    %button.bg-orange-400.inset-0.absolute{type: "submit", name: "address[clear_address]", form: dom_id(address, :secondary)}
-                      %i.fas.fa-times{ data: { action: "mouseenter->tooltip#show mouseleave->tooltip#hide" }}
 
-              - if address.errors[:ipv6_address_input].any? || address.errors[:offset].any?
-                .w-full
-                  %span.text-red-600= address.errors.to_hash.values_at(:ipv6_address_input, :offset).join ', '
+            .flex.items-center{controller: 'tooltip', tooltip: 'Clear address'}
+              - if address.fixed?
+                - if address.address_pool.present? && address.address_pool.ip_network
+                  - if address.ipv4?
+                    = render IPPickerComponent.new(form: form, field: :offset, hosts: address.mode_ipv4_vip? ? :all : :available_for_object, label: false)
+                  - else
+                    - if address.address_pool&.ip_network.present?
+                      = render SplitInputComponent.new do |split|
+                        - split.with_left_cell do
+                          = render LiquidAddressNetworkSansPrefixComponent.new(object: address)
+                        - split.with_input(form_helper: form, field: :ipv6_address_input, placeholder: (!address.offset && 'Address not set').presence )
+                        - split.with_right_cell do
+                          = "/#{address.ip_family_network&.prefix}"
 
-            - else
-              .mt-1.opacity-50 Network range not configured!
-          - else
-            .opacity-60.leading-10 Automatically configured
+                        - if address.offset && allowed_to?(:update?, address)
+                          - split.with_right_cell do
+                            %button.bg-orange-400.rounded-r-md.inset-0.absolute{type: "submit", name: "address[clear_address]", form: dom_id(address, :secondary)}
+                              %i.fas.fa-times{ data: { action: "mouseenter->tooltip#show mouseleave->tooltip#hide" }}
+                      - if address.errors[:ipv6_address_input].any? || address.errors[:offset].any?
+                        .w-full
+                          %span.text-red-600= address.errors.to_hash.values_at(:ipv6_address_input, :offset).join ', '
 
-        %div
-          = form.label :dns_enabled, class: 'block font-bold text-gray-700 dark:text-gray-200' do
-            %span.fa-layers.fa-fw.text-sm
-              %i.fas.fa-database
-              - unless address.dns_enabled?
-                %i.fas.fa-slash.fa-rotate-90.font-bold
-            = Address.human_attribute_name(:dns_enabled)
-          %label.flex.items-center.cursor-pointer.justify-center.mt-3{class: 'mb-2.5'}
-            = form.check_box :dns_enabled, class: 'sr-only peer', disabled:, id: "#{dom_id(address)}_dns_enabled"
-            .relative.w-11.h-6.bg-gray-200.peer-focus:outline-hidden.peer-focus:ring-4.peer-focus:ring-blue-300.dark:peer-focus:ring-blue-800.rounded-full.peer.dark:bg-gray-700.peer-checked:after:translate-x-full.peer-checked:rtl:after:-translate-x-full.peer-checked:after:border-white.after:absolute.after:bg-white.after:border-gray-300.after:border.after:rounded-full.after:w-5.after:h-5.after:transition-all.dark:border-gray-600.peer-checked:bg-blue-600{class: "after:content-[''] after:top-[2px] after:start-[2px]"}
+                - else
+                  %span.opacity-50 Network range not configured!
+              - else
+                %span.opacity-50 Automatically configured
 
-        %div
+        %dns
+          = form.label :domain_binding_id, class: 'block font-bold text-gray-700 dark:text-gray-200', for: "#{dom_id(address)}_dns" do
+            DNS
+          = form.collection_select :domain_binding_id, bindings_to_options(authorized_scope(address.network.domain_bindings)), :first, :last, { include_blank: "Don't publish", selected: address.domain_binding_id }, { data: { controller: 'select' }, disabled:, id: "#{dom_id(address)}_dns" }
+
+        %connection
           = form.label :connection, class: 'block font-bold text-gray-700 dark:text-gray-200' do
             %i.fas.fa-satellite-dish.text-sm
             = Address.human_attribute_name(:connection)
-          %label.flex.items-center.cursor-pointer.justify-center.mt-3{class: 'mb-2.5'}
+
+          %label.grow.flex.items-center.cursor-pointer.justify-center
             = form.check_box :connection, class: 'sr-only peer', disabled:, id: "#{dom_id(address)}_connection"
             .relative.w-11.h-6.bg-gray-200.peer-focus:outline-hidden.peer-focus:ring-4.peer-focus:ring-blue-300.dark:peer-focus:ring-blue-800.rounded-full.peer.dark:bg-gray-700.peer-checked:after:translate-x-full.peer-checked:rtl:after:-translate-x-full.peer-checked:after:border-white.after:absolute.after:bg-white.after:border-gray-300.after:border.after:rounded-full.after:w-5.after:h-5.after:transition-all.dark:border-gray-600.peer-checked:bg-blue-600{class: "after:content-[''] after:top-[2px] after:start-[2px]"}
 
         - if allowed_to?(:destroy?, address)
-          .opacity-0.group-hover:opacity-100.transition-opacity
+          %delete.self-center.opacity-0.group-hover:opacity-100.transition-opacity
             = link_to 'javascript:;', data: { action: "model#delete", turbo_confirm: 'Are you sure?' } do
               %i.fas.fa-times-circle.text-red-500

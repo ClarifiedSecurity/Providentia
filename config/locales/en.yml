@@ -62,7 +62,6 @@ en:
       address:
         mode: Assignment type
         offset: Address
-        dns_enabled: Publish to DNS
       check:
         source_gid: Source
         destination_gid: Destination
@@ -98,13 +97,13 @@ en:
     actor_only: Actor only
 
   address_modes:
-    ipv4_static: IPv4 static
-    ipv4_dhcp: IPv4 DHCP
-    ipv6_static: IPv6 static
-    ipv6_slaac: IPv6 SLAAC
-    ipv6_dhcp: IPv6 DHCPv6
-    ipv4_vip: IPv4 virtual
-    ipv6_vip: IPv6 virtual
+    ipv4_static: static
+    ipv4_dhcp: DHCP
+    ipv6_static: static
+    ipv6_slaac: SLAAC
+    ipv6_dhcp: DHCPv6
+    ipv4_vip: virtual
+    ipv6_vip: virtual
 
   protocols:
     icmp: ICMP(6)

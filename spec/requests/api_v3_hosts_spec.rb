@@ -13,7 +13,7 @@ RSpec.describe 'API v3 hosts', type: :request do
   context 'metadata update' do
     let!(:virtual_machine) { create(:virtual_machine, exercise:, actor: exercise.actors.sample) }
     let(:presenter) { API::V3::InstancePresenter.new(virtual_machine.host_spec) }
-    let(:instance_id) { presenter.send(:inventory_name) }
+    let(:instance_id) { presenter.send(:id) }
     let(:headers) {
       {
         'Accept' => 'application/json',

@@ -6,6 +6,8 @@ module API
       attr_reader :spec, :sequential_number, :team_number, :options
       delegate :operating_system, to: :vm
 
+      AddressWithGenerator = Data.define(:address, :generator, :connection?)
+
       def initialize(spec, sequential_number = nil, team_number = nil, **opts)
         @spec = spec
         @sequential_number = sequential_number
@@ -15,29 +17,41 @@ module API
 
       def as_json
         return if skip_by_numbering
+
         {
-          id: inventory_name,
+          id:,
           parent_id:,
           vm_name:,
-          team_unique_id: name,
-          hostname:,
-          domain: substitute(connection_namespec.domain.to_s),
-          fqdn: substitute(connection_namespec.fqdn.to_s),
-          connection_address: connection_address&.ip_object(
-            sequence_number: sequential_number,
-            sequence_total: vm.custom_instance_count,
-            actor_number: team_number
-          )&.to_s,
+          team_unique_id:,
+          hostname: substitute(primary_generator.generator.hostname.to_s),
+          domain: substitute(primary_generator.generator.domain.to_s),
+          fqdn: substitute(primary_generator.generator.fqdn.to_s),
+          connection_address:,
           interfaces:,
           checks:,
           tags:,
           config_map: {}
-        }.merge(team_numbers).merge(sequence_info).merge(metadata)
+        }.merge(team_numbers)
+         .merge(sequence_info)
+         .merge(metadata)
       end
 
       private
+        # --- VM and Spec Accessors ---
+
         def vm
           spec.virtual_machine
+        end
+
+        def host_spec
+          # Set manually to avoid extra DB call
+          vm.host_spec.tap { |hs| hs.virtual_machine = vm }
+        end
+
+        # --- ID and Hostname Generation ---
+
+        def id
+          substitute([spec.slug, hostname_sequence_suffix, hostname_team_suffix].compact.join('_'))
         end
 
         def parent_id
@@ -47,11 +61,58 @@ module API
             [
               host_spec.slug,
               hostname_sequence_suffix,
-              (vm.clustered? && !spec.cluster_mode? ? '01' : nil), # so that parent_id matches to correct machine, first in cluster
+              clustered_parent_suffix,
               hostname_team_suffix
             ].compact.join('_')
           )
         end
+
+        def team_unique_id
+          substitute([spec.slug, hostname_sequence_suffix].compact.join('_'))
+        end
+
+        def vm_name
+          gen = HostnameGenerator.result_for(host_spec, address: primary_generator&.address)
+          substitute("#{vm.exercise.abbreviation}_#{gen.fqdn}").downcase
+        end
+
+        def hostname_sequence_suffix
+          '{{ seq }}' if vm.clustered? && spec.cluster_mode?
+        end
+
+        def hostname_team_suffix
+          't{{ team_nr_str }}' if vm.numbered_actor
+        end
+
+        def clustered_parent_suffix
+          (vm.clustered? && !spec.cluster_mode?) ? '01' : nil
+        end
+
+        # --- Team and Sequence Info ---
+
+        def team_numbers
+          return {} unless team_number
+          {
+            team_nr: team_number,
+            team_nr_str: team_number.to_s.rjust(2, '0'),
+          }
+        end
+
+        def sequence_info
+          return {} unless vm.clustered? && spec.cluster_mode?
+          { sequence_index: sequential_number }
+        end
+
+        # --- Metadata ---
+
+        def metadata
+          return {} unless options[:include_metadata]
+          {
+            metadata: spec.instance_metadata.select(:metadata).find_by(instance: id)&.metadata
+          }
+        end
+
+        # --- Numbering Logic ---
 
         def skip_by_numbering
           team_number && vm.numbered_actor && !enabled_numbered_actors.include?(team_number)
@@ -65,9 +126,7 @@ module API
           end
         end
 
-        def connection_namespec
-          @connection_namespec ||= HostnameGenerator.result_for(spec, nic: connection_nic)
-        end
+        # --- Substitution Helper ---
 
         def substitute(text)
           StringSubstituter.result_for(
@@ -79,127 +138,94 @@ module API
           )
         end
 
-        def team_numbers
-          return {} unless team_number
-          {
-            team_nr: team_number,
-            team_nr_str: team_number.to_s.rjust(2, '0'),
-          }
+        # --- Connection Address ---
+
+        def connection_address
+          primary_generator.address&.ip_object(
+            sequence_number: sequential_number,
+            sequence_total: vm.custom_instance_count,
+            actor_number: team_number
+          )&.to_s
         end
 
-        def metadata
-          return {} unless options[:include_metadata]
-          {
-            metadata: spec.instance_metadata.select(:metadata).find_by(instance: inventory_name)&.metadata
-          }
-        end
-
-        def sequence_info
-          return {} unless vm.clustered? && spec.cluster_mode?
-
-          { sequence_index: sequential_number }
-        end
-
-        def hostname_sequence_suffix
-          '{{ seq }}' if vm.clustered? && spec.cluster_mode?
-        end
-
-        def hostname_team_suffix
-          't{{ team_nr_str }}' if vm.numbered_actor
-        end
-
-        def inventory_name
-          substitute(
-            [
-              spec.slug,
-              hostname_sequence_suffix,
-              hostname_team_suffix
-            ].compact.join('_')
-          )
-        end
-
-        def name
-          substitute(
-            [
-              spec.slug,
-              hostname_sequence_suffix
-            ].compact.join('_')
-          )
-        end
-
-        def vm_name
-          spec = HostnameGenerator.result_for(host_spec, nic: connection_nic)
-          substitute("#{vm.exercise.abbreviation}_#{spec.fqdn}").downcase
-        end
-
-        def host_spec
-          vm.host_spec.tap { |spec| spec.virtual_machine = vm } # set manually to avoid extra db call
-        end
-
-        def hostname
-          substitute(
-            HostnameGenerator.result_for(
-              spec,
-              nic: network_interfaces.find { |nic| !nic.network.numbered? } ||
-                network_interfaces.first ||
-                vm.dup.network_interfaces.build
-            ).hostname
-          )
-        end
+        # --- Network Interfaces and Addresses ---
 
         def network_interfaces
           Current.interfaces_cache ||= {}
           Current.interfaces_cache[vm.id]
         end
 
-        def connection_nic
-          network_interfaces.detect(&:connection?)
-        end
-
         def interfaces
           network_interfaces.map do |nic|
-            namespec = HostnameGenerator.result_for(spec, nic:)
+            namespec = HostnameGenerator.result_for(spec, fallback_domain: nic.network.domain_bindings&.first&.full_name)
             {
               network_id: nic.network.slug,
               cloud_id: substitute(nic.network.cloud_id.to_s),
-              domain: substitute(nic.network.full_domain),
+              domain: substitute(namespec.domain),
               fqdn: substitute(namespec.fqdn),
               egress: nic.egress?,
-              connection: nic.addresses.any?(&:connection),
-              addresses: addresses
-                .select { _1.network_interface == nic }
-                .map do |address|
-                  {
-                    pool_id: address.address_pool&.slug,
-                    mode: address.mode,
-                    connection: address.connection?,
-                    address: nil,
-                    dns_enabled: nil,
-                    gateway: nil
-                  }.tap do |hash|
-                    if address.fixed?
-                      hash[:address] = address.ip_object(
-                        sequence_number: sequential_number,
-                        sequence_total: vm.custom_instance_count,
-                        actor_number: team_number
-                      ).to_string
-                      hash[:dns_enabled] = address.dns_enabled
-                    end
-                    if nic.egress? && (address.mode_ipv4_static? || address.mode_ipv6_static?)
-                      hash[:gateway] = address.address_pool.gateway_ip(team_number)&.to_s
-                    end
-                  end
-                end
+              connection: addresses_by_nic[nic].any?(&:connection?),
+              addresses: addresses_by_nic[nic].map { |awg| address_json(awg, nic) }
             }
           end
         end
 
-        def addresses
-          @addresses ||= vm
+        def address_json(address_with_generator, nic)
+          address, _, connection = address_with_generator.address, address_with_generator.generator, address_with_generator.connection?
+          {
+            connection: connection,
+            pool_id: address.address_pool&.slug,
+            mode: address.mode,
+            dns_enabled: address.domain_binding.present?,
+            address: static_address(address),
+            gateway: gateway_address(address, nic)
+          }
+        end
+
+        def static_address(address)
+          return unless address.fixed?
+          address.ip_object(
+            sequence_number: sequential_number,
+            sequence_total: vm.custom_instance_count,
+            actor_number: team_number
+          ).to_string
+        end
+
+        def gateway_address(address, nic)
+          return unless nic.egress? && (address.mode_ipv4_static? || address.mode_ipv6_static?)
+          address.address_pool.gateway_ip(team_number)&.to_s
+        end
+
+        def addresses_with_generator
+          @addresses_with_generator ||= vm
             .addresses
             .order(:created_at)
-            .select { !_1.fixed? || _1.offset.present? }
+            .filter_map do |addr|
+              if !addr.fixed? || addr.offset.present?
+                AddressWithGenerator.new(
+                  addr,
+                  HostnameGenerator.result_for(spec, address: addr, fallback_domain: addr.network.domain_bindings&.first&.full_name),
+                  addr.connection?
+                )
+              end
+            end
         end
+
+        def addresses_by_nic
+          @addresses_by_nic ||= Hash.new([]).merge(
+            addresses_with_generator.group_by { |awg| awg.address.network_interface }
+          )
+        end
+
+        def primary_generator
+          addresses_with_generator.detect(&:connection?) || fallback_generator
+        end
+
+        def fallback_generator
+          AddressWithGenerator.new(nil, HostnameGenerator.result_for(spec), false)
+        end
+
+        # --- Checks and Tags ---
 
         def checks
           Current.services_cache ||= {}
@@ -211,18 +237,14 @@ module API
           Current.services_cache[spec.id].map do |check_name|
             {
               id: check_name,
-              budget_id: "#{name}_#{check_name}",
-              exercise_unique_id: "#{inventory_name}_#{check_name}"
+              budget_id: "#{team_unique_id}_#{check_name}",
+              exercise_unique_id: "#{id}_#{check_name}"
             }
           end
         end
 
         def tags
           GenerateTags.result_for(self).map(&:id)
-        end
-
-        def connection_address
-          addresses.detect(&:connection?)
         end
     end
   end
