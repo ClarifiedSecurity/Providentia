@@ -28,7 +28,7 @@ development:
 # only specify one for test
 test:
   primary:
-    url: "postgres://providentia:secret@postgresql/providentia_test?pool=5"
+    url: "postgres://postgres:postgres_password@postgresql/providentia_test_db?pool=5"
 
 production:
   primary:
