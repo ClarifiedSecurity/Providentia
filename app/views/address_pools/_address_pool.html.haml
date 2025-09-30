@@ -51,13 +51,14 @@
         - else
           .flex-1{data: {controller: 'tooltip', tooltip: 'Clear gateway'}}
             = form.label :gateway, class: 'block font-bold text-gray-700 dark:text-gray-200'
-            = render SplitInputComponent.new do |split|
-              - split.with_left_cell do
-                = render LiquidNetworkAddressComponent.new(object: address_pool)
-              - split.with_input(form_helper: form, field: :gateway6, placeholder: (!address_pool.gateway && 'Gateway not set').presence)
-              - split.with_right_cell do
-                = "/#{address_pool.ip_network.prefix}"
-              - if address_pool.gateway
+            .mt-1
+              = render SplitInputComponent.new do |split|
+                - split.with_left_cell do
+                  = render LiquidNetworkAddressComponent.new(object: address_pool)
+                - split.with_input(form_helper: form, field: :gateway6, placeholder: (!address_pool.gateway && 'Gateway not set').presence)
                 - split.with_right_cell do
-                  %button.bg-orange-400.inset-0.absolute{type: "submit", name: "address_pool[clear_gateway]", form: dom_id(address_pool, :secondary)}
-                    %i.fas.fa-times{ data: { action: "mouseenter->tooltip#show mouseleave->tooltip#hide" }}
+                  = "/#{address_pool.ip_network.prefix}"
+                - if address_pool.gateway
+                  - split.with_right_cell do
+                    %button.bg-orange-400.inset-0.absolute{type: "submit", name: "address_pool[clear_gateway]", form: dom_id(address_pool, :secondary)}
+                      %i.fas.fa-times{ data: { action: "mouseenter->tooltip#show mouseleave->tooltip#hide" }}

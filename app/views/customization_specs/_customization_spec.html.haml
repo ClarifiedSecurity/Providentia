@@ -38,10 +38,11 @@
           = form.label :dns_name, for: "customization_spec#{customization_spec.id}_dns_name", class: 'block font-bold text-gray-700 dark:text-gray-200'
 
           - if customization_spec.virtual_machine.connection_nic
-            = render SplitInputComponent.new do |split|
-              - split.with_input(form_helper: form, field: :dns_name, placeholder: customization_spec.default_dns_name, id: "customization_spec#{customization_spec.id}_dns_name")
-              - split.with_right_cell do
-                = ".#{render LiquidDomainComponent.new(object: customization_spec.virtual_machine)}"
+            .mt-1
+              = render SplitInputComponent.new do |split|
+                - split.with_input(form_helper: form, field: :dns_name, placeholder: customization_spec.default_dns_name, id: "customization_spec#{customization_spec.id}_dns_name")
+                - split.with_right_cell do
+                  = ".#{render LiquidDomainComponent.new(object: customization_spec.virtual_machine)}"
           - else
             = form.text_field :dns_name, placeholder: customization_spec.virtual_machine.name, class: 'form-input'
 
