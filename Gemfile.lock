@@ -176,7 +176,7 @@ GEM
       temple (>= 0.8.2)
       thor
       tilt
-    haml-rails (2.1.0)
+    haml-rails (3.0.0)
       actionpack (>= 5.1)
       activesupport (>= 5.1)
       haml (>= 4.0.6)
@@ -266,9 +266,9 @@ GEM
       activerecord (>= 4.0.0)
       activesupport (>= 4.0.0)
     nio4r (2.7.4)
-    nokogiri (1.18.9-x86_64-linux-gnu)
+    nokogiri (1.18.10-x86_64-linux-gnu)
       racc (~> 1.4)
-    nokogiri (1.18.9-x86_64-linux-musl)
+    nokogiri (1.18.10-x86_64-linux-musl)
       racc (~> 1.4)
     oj (3.16.11)
       bigdecimal (>= 3.0)
@@ -589,7 +589,7 @@ DEPENDENCIES
   faker (~> 3.4)
   flamegraph
   friendly_id (~> 5.5.0)
-  haml-rails (~> 2.0)
+  haml-rails (~> 3.0)
   http (~> 5.0)
   importmap-rails (~> 2.1)
   ipaddress!

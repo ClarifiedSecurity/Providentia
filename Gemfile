@@ -20,7 +20,7 @@ gem 'solid_cache'
 gem 'jwt'
 
 # frontend
-gem 'haml-rails', '~> 2.0'
+gem 'haml-rails', '~> 3.0'
 gem 'turbo-rails', '~> 2.0'
 gem 'importmap-rails', '~> 2.1'
 gem 'stimulus-rails'
