@@ -15,20 +15,22 @@
         = f.input :cpu
         %div
           = f.label :ram
-          = render SplitInputComponent.new do |split|
-            - split.with_input(form_helper: f, field: :ram, method: :number_field)
-            - split.with_right_cell do
-              GB
+          .mt-1
+            = render SplitInputComponent.new do |split|
+              - split.with_input(form_helper: f, field: :ram, method: :number_field)
+              - split.with_right_cell do
+                GB
 
           - if @operating_system.errors[:ram].any?
             %span.text-red-600= @operating_system.errors[:ram].join ', '
 
         %div
           = f.label :primary_disk_size
-          = render SplitInputComponent.new do |split|
-            - split.with_input(form_helper: f, field: :primary_disk_size, method: :number_field)
-            - split.with_right_cell do
-              GB
+          .mt-1
+            = render SplitInputComponent.new do |split|
+              - split.with_input(form_helper: f, field: :primary_disk_size, method: :number_field)
+              - split.with_right_cell do
+                GB
 
           - if @operating_system.errors[:primary_disk_size].any?
             %span.text-red-600= @operating_system.errors[:primary_disk_size].join ', '

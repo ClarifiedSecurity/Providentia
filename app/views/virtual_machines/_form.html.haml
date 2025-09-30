@@ -52,17 +52,19 @@
               = f.input :cpu, placeholder: @virtual_machine.operating_system&.applied_cpu.to_s
               %div
                 = f.label :ram
-                = render SplitInputComponent.new do |split|
-                  - split.with_input(form_helper: f, field: :ram, method: :number_field, placeholder: @virtual_machine.operating_system&.applied_ram.to_s, disabled: !allowed_to?(:update?, @virtual_machine))
-                  - split.with_right_cell do
-                    GB
+                .mt-1
+                  = render SplitInputComponent.new do |split|
+                    - split.with_input(form_helper: f, field: :ram, method: :number_field, placeholder: @virtual_machine.operating_system&.applied_ram.to_s, disabled: !allowed_to?(:update?, @virtual_machine))
+                    - split.with_right_cell do
+                      GB
 
               %div
                 = f.label :primary_disk_size
-                = render SplitInputComponent.new do |split|
-                  - split.with_input(form_helper: f, field: :primary_disk_size, method: :number_field, placeholder: @virtual_machine.operating_system&.applied_primary_disk_size.to_s, disabled: !allowed_to?(:update?, @virtual_machine))
-                  - split.with_right_cell do
-                    GB
+                .mt-1
+                  = render SplitInputComponent.new do |split|
+                    - split.with_input(form_helper: f, field: :primary_disk_size, method: :number_field, placeholder: @virtual_machine.operating_system&.applied_primary_disk_size.to_s, disabled: !allowed_to?(:update?, @virtual_machine))
+                    - split.with_right_cell do
+                      GB
 
       .py-5
         .border-t.border-gray-200.dark:border-gray-600
