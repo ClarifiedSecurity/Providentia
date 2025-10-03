@@ -99,7 +99,7 @@ RUN SECRET_KEY_BASE_DUMMY=1 bundle exec rails assets:precompile
 ## PRODUCTION IMAGE
 FROM base AS production
 ENV RAILS_ENV=production \
-  BUNDLE_WITHOUT="development" \
+  BUNDLE_WITHOUT="development:test" \
   RAILS_SERVE_STATIC_FILES=true \
   RUBY_GC_HEAP_INIT_SLOTS=2000000 \
   RUBY_HEAP_FREE_MIN=20000 \
