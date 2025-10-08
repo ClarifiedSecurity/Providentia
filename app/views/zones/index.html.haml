@@ -1,0 +1,21 @@
+%h1.text-2xl.font-bold.py-3.pb-4 DNS zones
+
+- @records.group_by(&:class).each do |type, records|
+  %details{open: type == SpecDNSRecords::ForwardRecord}
+    %summary.cursor-pointer= type.human.pluralize
+    .grid.grid-cols-4.gap-2
+      - records.group_by(&:zone).sort.each do |zone, records|
+        %zone.flex.flex-col.items-center.justify-center.p-3.rounded-lg.bg-stone-200.hover:bg-stone-300.dark:bg-zinc-700.dark:hover:bg-zinc-600
+          = render ModalComponent.new(header: "#{zone} records") do |c|
+            - c.with_body do
+              %ul.columns-3.gap-4
+                - records.each do |record|
+                  %li.flex.justify-center.items-center.even:bg-gray-300.dark:even:bg-gray-500
+                    %record-type.basis-2xs.text-center.text-xs= record.record[:type]
+                    %record-name.basis-md.grow.text-sm= record.record[:name]
+                    %record-value.basis-md.text-xs= record.record[:data]
+
+            = link_to zone, 'javascript:;', class: 'font-bold', data: { action: "click->dialog#open" }
+            %span
+              = records.size
+              records

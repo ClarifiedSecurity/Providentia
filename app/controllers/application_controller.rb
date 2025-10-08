@@ -2,7 +2,7 @@
 
 class ApplicationController < ActionController::Base
   before_action :set_sentry_context, :authenticate_user!,
-    :set_paper_trail_whodunnit
+    :set_paper_trail_whodunnit, :set_current_user
   before_action :load_exercises, if: :current_user
 
   rescue_from ActionPolicy::Unauthorized, with: :user_not_authorized
@@ -25,5 +25,9 @@ class ApplicationController < ActionController::Base
     def user_not_authorized
       flash[:error] = 'You are not authorized to perform this action.'
       redirect_back fallback_location: root_path
+    end
+
+    def set_current_user
+      Current.user = current_user
     end
 end
