@@ -1,8 +1,16 @@
 # frozen_string_literal: true
 
 class SpecDNSRecords < Patterns::Calculation
-  ForwardRecord = Data.define(:zone, :network, :record)
-  ReverseRecord = Data.define(:zone, :network, :record)
+  ForwardRecord = Data.define(:zone, :network, :record) do
+    def self.human
+      'Forward record'
+    end
+  end
+  ReverseRecord = Data.define(:zone, :network, :record) do
+    def self.human
+      'Reverse record'
+    end
+  end
 
   private
     def result

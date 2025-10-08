@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       resources :actor_number_configs, path: 'config'
     end
     resources :domains, only: %i[new create show update destroy]
+    resources :zones, only: %i[index]
     resources :virtual_machines, except: %i[edit] do
       member do
         get 'address_preview'
