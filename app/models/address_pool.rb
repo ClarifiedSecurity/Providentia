@@ -146,7 +146,8 @@ class AddressPool < ApplicationRecord
     end
 
     def parsed_network_address_valid?
-      ip_network.present?
+      number = network.actor.root&.number
+      ip_network(number).present?
     rescue Liquid::SyntaxError => e
       errors.add(:network_address, "Invalid template syntax: #{e.message}")
     rescue ArgumentError => e
