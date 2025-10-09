@@ -62,7 +62,7 @@ group :development, :test do
   gem 'bundler-audit', '~> 0.9.2'
   gem 'brakeman'
   gem 'rubocop-rails_config'
-  gem 'byebug', platforms: %i[mri mingw x64_mingw]
+  gem 'byebug', platforms: %i[mri windows]
   gem 'rspec-rails'
   gem 'factory_bot_rails'
   gem 'rails-pg-extras'
