@@ -34,7 +34,7 @@ class AddressPreviewPresenter < Struct.new(:spec, :sequential_number, :team_numb
         text,
         {
           seq: sequential_number,
-          team_nr: team_number
+          actor_nr: team_number
         }
       )
     end

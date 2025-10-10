@@ -2,10 +2,11 @@
 
 module API
   module V3
-    class NetworkInstancePresenter < Struct.new(:network, :team_number)
+    class NetworkInstancePresenter < Struct.new(:network, :actor_number)
       def as_json
         {
-          team_nr: team_number,
+          team_nr: actor_number,
+          actor_nr: actor_number,
           cloud_id: substitute(network.cloud_id),
           domains: network.domain_bindings.full_names.map { substitute(it) },
           address_pools: network.address_pools.map do |pool|
@@ -13,7 +14,7 @@ module API
               id: pool.slug,
               ip_family: pool.ip_family,
               network_address: substitute(pool.network_address),
-              gateway: pool.gateway_address_object&.ip_object(actor_number: team_number)&.to_s
+              gateway: pool.gateway_address_object&.ip_object(actor_number:)&.to_s
             }
           end,
           config_map: network.config_map&.deep_transform_values do |value|
@@ -24,12 +25,7 @@ module API
 
         private
           def substitute(text)
-            StringSubstituter.result_for(
-              text,
-              {
-                team_nr: team_number
-              }
-            )
+            StringSubstituter.result_for(text, { actor_nr: actor_number })
           end
     end
   end
