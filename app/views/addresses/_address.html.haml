@@ -41,7 +41,7 @@
               = form.label :offset, class: 'block font-bold text-gray-700 dark:text-gray-200', for: "#{dom_id(address)}_offset" do
                 = Address.human_attribute_name(:offset)
               .grow.mx-2= render AddressSpecialChipComponent.new(address: address)
-              - if address.fixed? && address.address_pool.ip_network && allowed_to?(:update?, address)
+              - if address.fixed? && address.address_pool&.ip_network && allowed_to?(:update?, address)
                 %button.text-white.bg-linear-to-r.from-cyan-500.to-blue-500.hover:bg-linear-to-bl.focus:ring-4.focus:outline-hidden.focus:ring-cyan-300.dark:focus:ring-cyan-800.font-medium.rounded-lg.text-xs.px-2.text-center{class: "py-0", type: "submit", name: "address[randomize_address]", form: dom_id(address, :secondary)}
                   %i.fas.fa-dice
                   Randomize
@@ -53,21 +53,20 @@
                   - if address.ipv4?
                     = render IPPickerComponent.new(form: form, field: :offset, hosts: address.mode_ipv4_vip? ? :all : :available_for_object, label: false)
                   - else
-                    - if address.address_pool&.ip_network.present?
-                      = render SplitInputComponent.new do |split|
-                        - split.with_left_cell do
-                          = render LiquidAddressNetworkSansPrefixComponent.new(object: address)
-                        - split.with_input(form_helper: form, field: :ipv6_address_input, placeholder: (!address.offset && 'Address not set').presence )
-                        - split.with_right_cell do
-                          = "/#{address.ip_family_network&.prefix}"
+                    = render SplitInputComponent.new do |split|
+                      - split.with_left_cell do
+                        = render LiquidAddressNetworkSansPrefixComponent.new(object: address)
+                      - split.with_input(form_helper: form, field: :ipv6_address_input, placeholder: (!address.offset && 'Address not set').presence )
+                      - split.with_right_cell do
+                        = "/#{address.ip_family_network&.prefix}"
 
-                        - if address.offset && allowed_to?(:update?, address)
-                          - split.with_right_cell do
-                            %button.bg-orange-400.rounded-r-md.inset-0.absolute{type: "submit", name: "address[clear_address]", form: dom_id(address, :secondary)}
-                              %i.fas.fa-times{ data: { action: "mouseenter->tooltip#show mouseleave->tooltip#hide" }}
-                      - if address.errors[:ipv6_address_input].any? || address.errors[:offset].any?
-                        .w-full
-                          %span.text-red-600= address.errors.to_hash.values_at(:ipv6_address_input, :offset).join ', '
+                      - if address.offset && allowed_to?(:update?, address)
+                        - split.with_right_cell do
+                          %button.bg-orange-400.rounded-r-md.inset-0.absolute{type: "submit", name: "address[clear_address]", form: dom_id(address, :secondary)}
+                            %i.fas.fa-times{ data: { action: "mouseenter->tooltip#show mouseleave->tooltip#hide" }}
+                    - if address.errors[:ipv6_address_input].any? || address.errors[:offset].any?
+                      .w-full
+                        %span.text-red-600= address.errors.to_hash.values_at(:ipv6_address_input, :offset).join ', '
 
                 - else
                   %span.opacity-50 Network range not configured!
