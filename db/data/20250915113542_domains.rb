@@ -13,7 +13,6 @@ class Domains < ActiveRecord::Migration[8.0]
   end
 
   private
-
     def process_exercise(exercise)
       log "Processing #{exercise.name}"
 
