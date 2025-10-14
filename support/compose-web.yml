@@ -6,7 +6,7 @@ services:
         condition: service_healthy
       zitadel-configurator:
         condition: service_completed_successfully
-    image: ghcr.io/clarifiedsecurity/providentia:25.6.0
+    image: ghcr.io/clarifiedsecurity/providentia:25.6.1
     restart: unless-stopped
     environment:
       RAILS_ENV: ${RAILS_ENV:-production}
