@@ -77,6 +77,7 @@ class NetworksController < ApplicationController
       if @network.update network_params
         redirect_to [:edit, @network.exercise, @network], notice: 'Network was successfully updated.'
       else
+        @form = ConfigMapForm.new(@network)
         render :edit, status: 400
       end
     end
