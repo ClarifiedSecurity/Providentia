@@ -36,6 +36,18 @@ class NetworkInterface < ApplicationRecord
     addresses.any?(&:connection?)
   end
 
+  def nic_name
+    Rails.cache.fetch([self.virtual_machine.network_interfaces.cache_key_with_version, network.cache_key_with_version, self.cache_key_with_version, 'nic_name']) do
+      same_network_ids = self.virtual_machine.network_interfaces.where(network_id: self.network_id).pluck(:id)
+      index = same_network_ids.index(self.id)
+      if same_network_ids.size == 1 || index == 0
+        network.abbreviation
+      else
+        "#{network.abbreviation}#{index + 1}"
+      end
+    end
+  end
+
   private
     def network_in_exercise
       return unless network

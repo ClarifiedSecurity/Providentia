@@ -8,17 +8,21 @@
             = form.select :network_id, network_options_for_select, { include_blank: !network_interface.persisted? }, { id: "#{dom_id(network_interface)}_network", disabled: !helpers.allowed_to?(:update?, network_interface.virtual_machine), data: { controller: 'select' }}
 
         - if network_interface.persisted?
-          .pt-7.flex.items-center.gap-2
+          .shrink.mt-1.flex.flex-col.gap-2.items-center{data: { controller: 'clipboard', clipboard_success_content_value: '<i>✓</i>'}}
+            %label.block.font-bold.text-gray-700.dark:text-gray-200= NetworkInterface.human_attribute_name(:nic_name)
+            %span
+              %span{data: {clipboard_target: 'source'}}<= network_interface.nic_name
+              %button.p-1.h-5.w-5.inline-flex.text-xs.bg-lime-700.text-white.rounded.items-center.justify-center{type: "button", data: {clipboard_target: 'button', action: "clipboard#copy"}}
+                %i.fas.fa-clipboard
+
+          .shrink.mt-1.flex.flex-col.gap-2.items-center
             = form.label :egress, class: 'font-bold text-gray-700 dark:text-gray-200' do
               %i.fas.fa-cloud-upload-alt.text-sm
               = NetworkInterface.human_attribute_name(:egress)
+
             %label.inline-flex.items-center.cursor-pointer
               = form.check_box :egress, class: 'sr-only peer', disabled:, id: "#{dom_id(network_interface)}_egress"
               .relative.w-11.h-6.bg-gray-200.peer-focus:outline-hidden.peer-focus:ring-4.peer-focus:ring-blue-300.dark:peer-focus:ring-blue-800.rounded-full.peer.dark:bg-gray-700.peer-checked:after:translate-x-full.peer-checked:rtl:after:-translate-x-full.peer-checked:after:border-white.after:absolute.after:bg-white.after:border-gray-300.after:border.after:rounded-full.after:w-5.after:h-5.after:transition-all.dark:border-gray-600.peer-checked:bg-blue-600{class: "after:content-[''] after:top-[2px] after:start-[2px]"}
-            - if addresses.any?(:connection?)
-              %span.block.font-bold.text-gray-700.dark:text-gray-200.pl-6
-                %i.fas.fa-satellite-dish.text-sm
-                Connection interface
 
     - if network_interface.persisted?
       = form_with(url: [network_interface.exercise, network_interface.virtual_machine, network_interface], method: :delete, class: 'opacity-0 group-hover:opacity-100 transition-opacity absolute top-0 right-0 h-6 w-6 text-right', data: { turbo_confirm: 'Are you sure?' }) do |form|

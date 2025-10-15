@@ -59,6 +59,7 @@ en:
         cloud_id: ID in cloud
       network_interface:
         fqdn: FQDN
+        nic_name: Unique NIC name
       address:
         mode: Assignment type
         offset: Address

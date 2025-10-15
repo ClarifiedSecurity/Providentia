@@ -162,6 +162,7 @@ module API
             namespec = HostnameGenerator.result_for(spec, fallback_domain: nic.network.domain_bindings&.first&.full_name)
             {
               network_id: nic.network.slug,
+              nic_name: nic.nic_name,
               cloud_id: substitute(nic.network.cloud_id.to_s),
               domain: substitute(namespec.domain),
               fqdn: substitute(namespec.fqdn),

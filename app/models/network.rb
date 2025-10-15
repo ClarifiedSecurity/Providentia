@@ -22,7 +22,7 @@ class Network < ApplicationRecord
   after_touch :invalidate_vm_cache
 
   validates :name, :abbreviation, presence: true
-  validates :abbreviation, uniqueness: { scope: :exercise }, format: { with: /\A[A-Za-z0-9_]+\z/ }, length: { maximum: 13 }
+  validates :abbreviation, uniqueness: { scope: :exercise }, format: { with: /\A[a-z0-9_]+\z/, message: "can only contain lowercase letters, numbers, and underscores" }, length: { maximum: 13 }
 
   scope :search, ->(query) {
     columns = %w{
