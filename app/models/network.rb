@@ -3,7 +3,7 @@
 class Network < ApplicationRecord
   include VisibilityFromActor
   extend FriendlyId
-  friendly_id :slug_candidates, use: [:slugged, :scoped], scope: :exercise
+  friendly_id :abbreviation, use: [:slugged, :scoped], scope: :exercise
   has_paper_trail
 
   enum :visibility, { public: 1, actor_only: 2 }, prefix: :visibility
@@ -22,6 +22,7 @@ class Network < ApplicationRecord
   after_touch :invalidate_vm_cache
 
   validates :name, :abbreviation, presence: true
+  validates :abbreviation, uniqueness: { scope: :exercise }, format: { with: /\A[A-Za-z0-9_]+\z/ }, length: { maximum: 13 }
 
   scope :search, ->(query) {
     columns = %w{
@@ -61,13 +62,6 @@ class Network < ApplicationRecord
 
   def numbered?
     cloud_id =~ /#|team_nr|actor_nr/ || address_pools.any?(&:numbered?)
-  end
-
-  def slug_candidates
-    [
-      :abbreviation,
-      [:abbreviation, :cloud_id]
-    ]
   end
 
   def should_generate_new_friendly_id?
