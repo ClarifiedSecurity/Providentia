@@ -29,6 +29,7 @@ class AddressPool < ApplicationRecord
   }
 
   before_validation :set_default_ipv6_gw_offset, :set_mgmt_default_name
+  before_save :normalize_network_address
   before_update :clear_dangling_addresses, :clear_address_range
   after_validation :revert_invalid_network_values
 
@@ -145,6 +146,11 @@ class AddressPool < ApplicationRecord
       end
     end
 
+    def normalize_network_address
+      return if network_address.blank?
+      self.network_address = NetworkAddressNormalizer.result_for(self)
+    end
+
     def network_address_correctness?
       return if network_address.blank?
       numbers = network.actor.root&.all_numbers || [nil]
@@ -165,6 +171,7 @@ class AddressPool < ApplicationRecord
         errors.add(:network_address, e.message.downcase)
       end
     end
+
 
     def revert_invalid_network_values
       self.gateway = gateway_was if errors[:gateway].any?
