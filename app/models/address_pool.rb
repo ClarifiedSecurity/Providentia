@@ -22,7 +22,7 @@ class AddressPool < ApplicationRecord
     allow_nil: true
   }, if: :ip_v6?
 
-  validate :parsed_network_address_valid?
+  validate :network_address_correctness?
 
   scope :for_address, ->(address) {
     where(ip_family: address.ipv4? ? :v4 : :v6)
@@ -145,9 +145,16 @@ class AddressPool < ApplicationRecord
       end
     end
 
-    def parsed_network_address_valid?
-      number = network.actor.root&.number
-      ip_network(number).present?
+    def network_address_correctness?
+      return if network_address.blank?
+      numbers = network.actor.root&.all_numbers || [nil]
+
+      if numbered?
+        network_addresses = numbers.map { ip_network(it).to_s }
+        if network_addresses.uniq.length != numbers.length
+          errors.add(:network_address, 'would result in network addresses for different actor numbers having the same templated value')
+        end
+      end
     rescue Liquid::SyntaxError => e
       errors.add(:network_address, "Invalid template syntax: #{e.message}")
     rescue ArgumentError => e
