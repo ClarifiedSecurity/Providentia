@@ -1,30 +1,13 @@
-- if address_pool.ip_network.prefix >= 22
-  - if @form.is_a?(SimpleForm::FormBuilder)
-    = @form.input @field, collection: collection, include_blank: '(None)', input_html: { id: "#{dom_id(real_form_object)}_#{@field}", disabled:, data: { controller: 'select' }}
-  - else
-    - if label
-      = @form.label @field, class: 'block font-bold text-gray-700 dark:text-gray-200', for: "#{dom_id(real_form_object)}_#{@field}"
-    = @form.select @field, collection, { include_blank: '(None)' }, { id: "#{dom_id(real_form_object)}_#{@field}", disabled:, data: { controller: 'select' }}
+- if label
+  = @form.label field_name, real_form_object.class.human_attribute_name(@field), disabled:, class: 'block font-bold text-gray-700 dark:text-gray-200', for: field_id
 
-  - if @form.object.errors["#{@field}_address"].any? || @form.object.errors[@field].any?
-    %span.text-red-600= (@form.object.errors["#{@field}_address"] + @form.object.errors[@field]).join ', '
-
-- elsif label
-  = @form.label "#{@field}_address", real_form_object.class.human_attribute_name(@field), class: 'font-bold text-gray-700 dark:text-gray-200'
-
+- if renders_as_select?
+  = @form.select field_name, collection, { include_blank: '(None)' }, { id: field_id, disabled:, data: { controller: 'select' }}
+- else
   = render SplitInputComponent.new do |split|
-    - split.with_input(form_helper: @form, field: "#{@field}_address")
+    - split.with_input(form_helper: @form, field: field_name)
     - split.with_right_cell do
       = "/#{address_pool.ip_network.prefix}"
 
-  - if @form.object.errors["#{@field}_address"].any? || @form.object.errors[@field].any?
-    %span.text-red-600= (@form.object.errors["#{@field}_address"] + @form.object.errors[@field]).join ', '
-
-- else
-  .flex.rounded-md.shadow-sm
-    = @form.text_field "#{@field}_address", class: 'focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-l-md border-gray-300 dark:bg-gray-500 dark:border-black dark:placeholder:text-gray-400 disabled:cursor-not-allowed disabled:opacity-75', placeholder: address_pool.ip_network.to_s
-    %span.inline-flex.items-center.px-3.rounded-r-md.border.border-l-0.border-gray-300.bg-gray-50.text-gray-500.dark:bg-gray-600.dark:text-current.dark:border-black.text-sm<
-      = "/#{address_pool.ip_network.prefix}"
-
-  - if @form.object.errors["#{@field}_address"].any? || @form.object.errors[@field].any?
-    %span.text-red-600= (@form.object.errors["#{@field}_address"] + @form.object.errors[@field]).join ', '
+- if @form.object.errors["#{@field}_address"].any? || @form.object.errors[@field].any?
+  %span.text-red-600= (@form.object.errors["#{@field}_address"] + @form.object.errors[@field]).join ', '

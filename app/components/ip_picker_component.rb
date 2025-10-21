@@ -15,13 +15,27 @@ class IPPickerComponent < ViewComponent::Base
   end
 
   private
+    def renders_as_select?
+      address_pool.ip_network.prefix >= 22
+    end
+
+    def field_name
+      if renders_as_select?
+        @field.to_s
+      else
+        "#{@field}_address"
+      end
+    end
+
+    def field_id
+      "#{dom_id(real_form_object)}_#{field_name}"
+    end
+
     def collection
       address_ip_objects.map do |ip_object|
         address = address_for_ip_object(ip_object)
         [
-          AddressValues.result_for(address) || liquid_template_shortening(
-            UnsubstitutedAddress.result_for(ip_object, address_pool:)
-          ),
+          AddressValues.result_for(address) || unsubstituted_address_text(ip_object),
           ip_object.u32 - address_pool.ip_network.network_u32 - 1
         ]
       end.sort_by(&:last).uniq
@@ -30,7 +44,7 @@ class IPPickerComponent < ViewComponent::Base
     def address_ip_objects
       case @hosts
       when :available_for_object # for specific network interface
-        AvailableIPBlock.result_for(address)
+        AvailableIPBlock.result_for(real_form_object)
       when :all
         address_pool.ip_network.hosts
       end
@@ -45,54 +59,32 @@ class IPPickerComponent < ViewComponent::Base
       end
     end
 
-    def network
-      address_pool.network
-    end
-
     def real_form_object
-      case @form.object
-      when Address, AddressPool
-        @form.object
-      when AddressPoolForm, AddressForm
-        @form.object.send(:resource)
-      end
-    end
-
-    def address
-      case real_form_object
-      when Address
-        real_form_object
-      end
-    end
-
-    def vm
-      address.virtual_machine
-    end
-
-    def nic
-      address.network_interface
-    end
-
-    def exercise
-      address_pool.exercise
-    end
-
-    def liquid_template_shortening(text)
-      LiquidReplacer.new(text).iterate do |variable_node|
-        "[ #{variable_node.name.name} ]"
-      end
+      @form.object.send(:resource)
     end
 
     def address_for_ip_object(ip_object)
-      address_pool.addresses.build(network:, offset: ip_object.to_u32 - ip_object.network.to_u32 - 1)
+      address_pool.addresses.build(network: address_pool.network, offset: ip_object.to_u32 - ip_object.network.to_u32 - 1)
     end
 
     def disabled
-      case @form.object
-      when Address
-        !helpers.allowed_to?(:update?, vm)
-      else
-        false
+      !helpers.allowed_to?(:update?, real_form_object)
+    end
+
+    def unsubstituted_address_text(ip_object)
+      result = address_pool.network_address.split('/').first.split('.')
+      network_address = address_pool.ip_network
+      ip_object.octets.each_with_index do |octet, idx|
+        if result[idx].match?(/{{|}}|#+/)
+          diff = ip_object.octets[idx] - network_address.octets[idx]
+          suffix = diff.positive? ? " + #{diff}" : ''
+          result[idx] = LiquidReplacer.new(result[idx]).iterate do |variable_node|
+            "[ #{variable_node.name.name}#{suffix} ]"
+          end
+        else
+          result[idx] = octet.to_s
+        end
       end
+      result.join('.')
     end
 end
