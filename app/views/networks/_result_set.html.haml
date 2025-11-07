@@ -41,11 +41,11 @@
           = link_to [network.exercise, network], data: { turbo_method: 'delete', turbo_confirm: 'Are you sure?' } do
             %i.fas.fa-times-circle.text-red-600
 
-- if sub.any? && (@networks.keys & sub.keys).any?
+- if sub.any?
   - c.with_table_row do
     %td.p-4.opacity-90{colspan: 100}
       - sub.each do |actor, sub|
-        - if @networks[actor]
+        - if (@networks.keys & flat_hash(Hash[actor, sub])).any?
           %section.text-xl.font-bold.text-center.pb-2= actor.name
           = render TableComponent.new do |c|
             = render 'result_set', actor:, c:, sub:

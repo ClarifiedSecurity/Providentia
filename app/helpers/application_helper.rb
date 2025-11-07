@@ -152,6 +152,12 @@ module ApplicationHelper
     process_scope(scope, match_condition.matcher_type)
   end
 
+  def flat_hash(h)
+    return [h] unless h.kind_of?(Hash)
+
+    h.flat_map { |k, v| [k, flat_hash(v)] }.flatten
+  end
+
   private
     def process_scope(scope, matcher_type)
       case matcher_type
