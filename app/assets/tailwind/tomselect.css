@@ -274,7 +274,7 @@
 }
 
 .ts-dropdown {
-  @apply absolute z-10 border border-gray-300 dark:border-black rounded-b-lg mt-px -mx-px bg-white dark:bg-gray-500 top-full;
+  @apply absolute z-30 border border-gray-300 dark:border-black rounded-b-lg mt-px -mx-px bg-white dark:bg-gray-500 top-full;
   left: 0;
   right: 0;
   border-top: 0 none;
