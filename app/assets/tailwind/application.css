@@ -95,7 +95,7 @@
   }
 
   .floating {
-    @apply w-max top-0 left-0 bg-stone-900/70 absolute p-1 rounded;
+    @apply w-max top-0 left-0 bg-stone-900/70 text-white absolute p-1 rounded;
   }
 
   button {
