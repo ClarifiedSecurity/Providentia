@@ -28,7 +28,7 @@
         %div
           %dt.text-sm.text-gray-500.dark:text-gray-400= Actor.human_attribute_name(:ui_color)
           %dd.mt-1.text-sm.text-gray-900.dark:text-white.mt-0
-            = render ActorChipComponent.new(actor: @actor, text: @actor.ui_color)
+            = render ActorChip::Component.new(actor: @actor, text: @actor.ui_color)
 
       .py-1
         .border-t.border-gray-200.dark:border-gray-600

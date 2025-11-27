@@ -1,6 +1,6 @@
 .flex.w-full.items-center.gap-x-2.py-3.pb-6
   %h1.text-2xl.font-bold Checks
-  = render ModalComponent.new(header: "Checks") do |c|
+  = render Modal::Component.new(header: "Checks") do |c|
     - c.with_body do
       %p The check can originate from a customization spec or a network.
       %p

@@ -1,6 +1,6 @@
 - net_scope = authorized_scope(@exercise.networks).where(id: @virtual_machine.network_ids)
 - cache([@virtual_machine.cache_key_with_version, 'address_preview', net_scope.cache_key_with_version]) do
-  = render TableComponent.new do |c|
+  = render Table::Component.new do |c|
     - @virtual_machine.host_spec.deployable_instances(AddressPreviewPresenter).group_by(&:team_number).each do |actor_nr, instances|
       - c.with_table_row do
         %td.text-center.font-lg.font-bold.py-2{colspan: 100, class: actor_color_classes(actor_nr ? @virtual_machine.numbered_actor : @virtual_machine.actor)}

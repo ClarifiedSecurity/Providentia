@@ -8,7 +8,7 @@
           %span.rounded-full.mx-2.py-1.px-2.bg-indigo-100.text-indigo-500.dark:bg-indigo-300.dark:text-indigo-700
             = actor.number
             clones
-        = render ActorChipComponent.new(actor:, text: actor.abbreviation)
+        = render ActorChip::Component.new(actor:, text: actor.abbreviation)
         - if allowed_to?(:destroy?, actor)
           = form_with(model: actor, url: [@exercise, actor], method: :delete, class: 'inline ml-2') do
             %button{data: { turbo_confirm: 'Are you sure?' }}
@@ -19,4 +19,4 @@
   - if tree.any?
     %section.p-6.pt-3.font-normal.text-gray-700.dark:text-gray-400
       %h3.font-bold.text-center.mb-2 Sub-actors
-      = render ActorTreeComponent.new(tree:)
+      = render ActorTree::Component.new(tree:)

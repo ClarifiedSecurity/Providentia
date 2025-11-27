@@ -4,7 +4,7 @@
     = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
 
     %fieldset{disabled: !allowed_to?(:update?, @virtual_machine)}
-      = render ColumnFormSectionComponent.new do |c|
+      = render ColumnFormSection::Component.new do |c|
         - c.with_description do
           %h3.text-lg.leading-6.text-gray-900.dark:text-gray-50 Metadata & identity
           %p.mt-1.text-gray-600.dark:text-gray-400
@@ -39,7 +39,7 @@
       .py-5
         .border-t.border-gray-200.dark:border-gray-600
 
-      = render ColumnFormSectionComponent.new do |c|
+      = render ColumnFormSection::Component.new do |c|
         - c.with_description do
           %h3.text-lg.leading-6.text-gray-900.dark:text-gray-50 Hardware
           %p.mt-1.text-gray-600.dark:text-gray-400 Resources for this VM
@@ -53,7 +53,7 @@
               %div
                 = f.label :ram
                 .mt-1
-                  = render SplitInputComponent.new do |split|
+                  = render SplitInput::Component.new do |split|
                     - split.with_input(form_helper: f, field: :ram, method: :number_field, placeholder: @virtual_machine.operating_system&.applied_ram.to_s, disabled: !allowed_to?(:update?, @virtual_machine))
                     - split.with_right_cell do
                       GB
@@ -61,7 +61,7 @@
               %div
                 = f.label :primary_disk_size
                 .mt-1
-                  = render SplitInputComponent.new do |split|
+                  = render SplitInput::Component.new do |split|
                     - split.with_input(form_helper: f, field: :primary_disk_size, method: :number_field, placeholder: @virtual_machine.operating_system&.applied_primary_disk_size.to_s, disabled: !allowed_to?(:update?, @virtual_machine))
                     - split.with_right_cell do
                       GB
@@ -69,7 +69,7 @@
       .py-5
         .border-t.border-gray-200.dark:border-gray-600
 
-      = render ColumnFormSectionComponent.new do |c|
+      = render ColumnFormSection::Component.new do |c|
         - c.with_description do
           %h3.text-lg.leading-6.text-gray-900.dark:text-gray-50 Deployment
           %p.mt-1.text-gray-600.dark:text-gray-400
@@ -84,14 +84,14 @@
   .py-5
     .border-t.border-gray-200.dark:border-gray-600
 
-  = render ColumnFormSectionComponent.new do |c|
+  = render ColumnFormSection::Component.new do |c|
     - c.with_description do
       %h3.text-lg.font-medium.leading-6.text-gray-900.dark:text-gray-50 Customization
       %p.mt-1.text-gray-600.dark:text-gray-400
         Defines how instances of this host are customized from the initial OS template.
 
     - c.with_main do
-      = render SubResourceSectionComponent.new(header: 'Customization specs') do |section|
+      = render SubResourceSection::Component.new(header: 'Customization specs') do |section|
         - if allowed_to?(:update?, @virtual_machine)
           - section.with_button do
             = form_with(url: [@virtual_machine.exercise, @virtual_machine, :customization_specs]) do |_form|

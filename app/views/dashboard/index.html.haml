@@ -8,7 +8,7 @@
     - @latest_stuff.each do |host|
       %article.col-span-4.bg-white.rounded-md.shadow-md.dark:bg-gray-800.p-4.flex.flex-col.items-center.justify-center
         = link_to [host.exercise, host], class: 'text-lg font-bold' do
-          = render ActorAvatarComponent.new(actor: host.actor)
+          = render ActorAvatar::Component.new(actor: host.actor)
           - if host.name.size > 20
             = host.name.truncate(17)
           - else

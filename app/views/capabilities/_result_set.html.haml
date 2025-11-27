@@ -1,11 +1,11 @@
 - if actors
   .py-4.text-center.text-xl.font-semibold
     - actors.each do |actor|
-      %span.mx-1= render ActorChipComponent.new(actor:)
+      %span.mx-1= render ActorChip::Component.new(actor:)
   .pb-5
     .border-t.border-gray-200.dark:border-gray-600
 
-= render TableComponent.new do |c|
+= render Table::Component.new do |c|
   - c.with_column { Capability.human_attribute_name(:name) }
   - c.with_column { Capability.human_attribute_name(:description) }
   - c.with_column { CustomizationSpec.model_name.human.pluralize }

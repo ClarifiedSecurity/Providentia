@@ -29,7 +29,7 @@
       .px-6.py-5
         %h3
           %span.text-lg Addressing
-          = render ModalComponent.new(only_body: true) do |c|
+          = render Modal::Component.new(only_body: true) do |c|
             - c.with_body do
               = render 'address_preview', network: @network
             = link_to 'Preview', 'javascript:;', class: 'text-xs text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-200', data: { action: "dialog#open" }
@@ -49,8 +49,8 @@
               - pools.each do |pool|
                 %dd.mt-1.text-sm.text-gray-900.dark:text-white.mt-0
                   .grid.grid-cols-4.gap-6
-                    .col-span-2= render LiquidPoolNetworkComponent.new(object: pool)
-                    .col-span-2= render LiquidAddressComponent.new(object: pool.gateway_address_object) if pool.gateway
+                    .col-span-2= render Tooltip::AddressPool::Component.new(pool)
+                    .col-span-2= render Tooltip::Address::Component.new(pool.gateway_address_object) if pool.gateway
 
       .py-1
         .border-t.border-gray-200.dark:border-gray-600
@@ -60,7 +60,7 @@
           %dt.text-sm.text-gray-500.dark:text-gray-400= Domain.model_name.human.pluralize
           %dd.mt-1.text-sm.text-gray-900.dark:text-white.mt-0
             - @network.domain_bindings.full_names.each do
-              .my-1= render LiquidTextComponent.new({text: it}, object: @network)
+              .my-1= render Tooltip::Text::Component.new(@network, text: it)
 
       .py-1
         .border-t.border-gray-200.dark:border-gray-600
@@ -68,6 +68,6 @@
       .px-6.py-5
         %dt.text-sm.text-gray-500.dark:text-gray-400= Network.human_attribute_name(:cloud_id)
         %dd.mt-1.text-sm.text-gray-900.dark:text-white.mt-0.col-span-2
-          = render LiquidTextComponent.new({text: @network.cloud_id}, object: @network)
+          = render Tooltip::Text::Component.new(@network, text: @network.cloud_id)
 
 = render 'used_addresses'

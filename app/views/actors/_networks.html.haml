@@ -1,6 +1,6 @@
 %h1.text-2xl.font-bold.py-3.pb-6 Networks
 
-= render TableComponent.new do |c|
+= render Table::Component.new do |c|
   - c.with_column { Network.model_name.human }
   - c.with_column { Network.human_attribute_name(:description) }
 

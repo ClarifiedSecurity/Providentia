@@ -7,5 +7,7 @@
   = javascript_tag defer: true, class: 'close_modal' do
     document.querySelectorAll('.close_modal').forEach((e) => { e.click(); e.remove(); })
 
-  = turbo_stream.prepend "flashes", partial: "flashes"
+  = turbo_stream.prepend "flashes" do
+    = render Flash::Component.with_collection(flash.to_a)
+
   = turbo_stream.append 'domain_list', partial: 'domains/card', locals: {domain: @domain}

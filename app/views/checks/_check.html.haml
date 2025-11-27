@@ -1,11 +1,11 @@
-= render ModalComponent.new(header: "Configuration map") do |c|
+= render Modal::Component.new(header: "Configuration map") do |c|
   - c.with_body do
     = form_with(model: ConfigMapForm.new(check), url: [@exercise, @service, check], id: 'config_map_form') do |form|
       = form.text_area :config_map_as_yaml, data: {controller: 'editor'}, readonly: !allowed_to?(:update?, check)
 
   = form_with(model: check, url: [@exercise, @service, check], class: 'py-4 relative', id: dom_id(check), data: { controller: 'model', action: "change->model#update"}) do |f|
     .flex.flex-row.divide-x.divide-dashed.text-center
-      = render CheckSourceComponent.new(check:, f:, disabled: !allowed_to?(:update?, check))
+      = render CheckSource::Component.new(check:, f:, disabled: !allowed_to?(:update?, check))
 
       .px-4.text-left{class: 'flex-3'}
         .flex.items-center
@@ -50,7 +50,7 @@
                 = f.label :port, class: 'font-bold', for: "check_#{check.id}_port"
                 = f.text_field :port, class: 'form-input', id: "check_#{check.id}_port", disabled: !allowed_to?(:update?, check)
 
-      = render CheckDestinationComponent.new(check:, f:, disabled: !allowed_to?(:update?, check))
+      = render CheckDestination::Component.new(check:, f:, disabled: !allowed_to?(:update?, check))
 
     - if allowed_to?(:destroy?, check)
       .absolute.top-2.right-4

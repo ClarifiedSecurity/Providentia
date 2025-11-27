@@ -1,6 +1,6 @@
 %h1.text-2xl.font-bold.py-3.pb-6 Attached network interfaces
 
-= render TableComponent.new do |c|
+= render Table::Component.new do |c|
   - c.with_column { VirtualMachine.model_name.human }
   - c.with_column { 'IPv4 address' }
   - c.with_column { 'IPv6 address' }
@@ -14,12 +14,12 @@
           - address_list&.each do |address|
             .block
               - if address.offset
-                = render LiquidAddressComponent.new(object: address)
-                = render AddressSpecialChipComponent.new(address: address)
+                = render Tooltip::Address::Component.new(address)
+                = render AddressSpecialChip::Component.new(address: address)
                 - if address.vip?
                   %span.text-xs.rounded-full.mx-1.py-1.px-2.bg-cyan-100.text-cyan-500 Virtual IP
                 - else
-                  = render SegmentDeployCountChipComponent.new(vm: vm, network: @network)
+                  = render SegmentDeployCountChip::Component.new(vm: vm, network: @network)
               - elsif !address.fixed?
                 %em Dynamic addressing
               - else

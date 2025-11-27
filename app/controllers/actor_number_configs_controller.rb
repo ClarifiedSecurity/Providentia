@@ -53,7 +53,7 @@ class ActorNumberConfigsController < ApplicationController
       else
         render turbo_stream: turbo_stream.append(
           helpers.dom_id(@config, 'config_map_form'),
-          FormErrorBoxComponent.new(@form, id: 'config_map_errors').render_in(view_context)
+          FormErrorBox::Component.new(@form, id: 'config_map_errors').render_in(view_context)
         )
       end
     end

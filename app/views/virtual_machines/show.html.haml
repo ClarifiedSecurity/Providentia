@@ -1,7 +1,7 @@
 - title @virtual_machine.name
 = render 'form'
 
-= render SubResourceSectionComponent.new(header: 'Network interfaces & addressing') do |section|
+= render SubResourceSection::Component.new(header: 'Network interfaces & addressing') do |section|
   - if allowed_to?(:create?, Address.new(virtual_machine: @virtual_machine))
     - section.with_button do
       = link_to [:new, @virtual_machine.exercise, @virtual_machine, :network_interface], data: {turbo_stream: true}, class: 'form-submit-add' do
@@ -9,7 +9,7 @@
         Add interface
 
   - section.with_button do
-    = render ModalComponent.new(only_body: true) do |c|
+    = render Modal::Component.new(only_body: true) do |c|
       - c.with_body do
         = turbo_frame_tag dom_id(@virtual_machine, :addresses), src: [:address_preview, @exercise, @virtual_machine], loading: "lazy"
 
@@ -20,7 +20,7 @@
   #connection_info.p-4.empty:hidden= render "connection_info", vm: @virtual_machine
 
   %ol#network_interfaces.list-decimal.px-10.divide-y.divide-double.divide-gray-200.dark:divide-gray-500.marker:font-bold.marker:text-2xl
-    = render(NetworkInterfaceFormComponent.with_collection(@virtual_machine.network_interfaces, disabled: !allowed_to?(:update?, @virtual_machine)))
+    = render(NetworkInterfaceForm::Component.with_collection(@virtual_machine.network_interfaces, disabled: !allowed_to?(:update?, @virtual_machine)))
 
     - if @virtual_machine.network_interfaces.empty?
       = render 'shared/empty', klass: NetworkInterface

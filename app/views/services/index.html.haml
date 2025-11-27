@@ -1,5 +1,5 @@
 - if @services.any?
-  = render TableComponent.new do |c|
+  = render Table::Component.new do |c|
     - c.with_column { Service.human_attribute_name(:name) }
     - c.with_column { ServiceSubject.model_name.human.pluralize }
     - c.with_column { Check.model_name.human.pluralize }
@@ -17,7 +17,7 @@
               \…
         %td.px-6.py-4.space-y-2
           - service.checks.group_by(&:direction).each do |direction, checks|
-            = render CheckListComponent.new(direction:, checks:)
+            = render CheckList::Component.new(direction:, checks:)
 
         %td.px-6.py-4.text-right
           - if allowed_to?(:destroy?, service)

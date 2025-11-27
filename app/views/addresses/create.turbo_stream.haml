@@ -1,7 +1,7 @@
 - if @address.saved_change_to_connection?
   = @address.virtual_machine.network_interfaces.each do |nic|
     = turbo_stream.replace dom_id(nic) do
-      = render NetworkInterfaceFormComponent.new(network_interface: nic)
+      = render NetworkInterfaceForm::Component.new(network_interface: nic)
 
   - @address.virtual_machine.customization_specs.each do |spec|
     = turbo_stream.replace dom_id(spec) do

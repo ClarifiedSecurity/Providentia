@@ -1,7 +1,7 @@
 .py-5
   .border-t.border-gray-200.dark:border-gray-600
 
-= render ColumnFormSectionComponent.new do |c|
+= render ColumnFormSection::Component.new do |c|
   - c.with_description do
     %h3.text-lg.leading-6.text-gray-900.dark:text-gray-50 DNS
     %p.mt-1.text-sm.text-gray-600.dark:text-gray-400
@@ -20,7 +20,7 @@
       field to generate dynamic domain names based on the actor numbering.
 
   - c.with_main do
-    = render SubResourceSectionComponent.new(header: 'Domains') do |section|
+    = render SubResourceSection::Component.new(header: 'Domains') do |section|
       - section.with_button do
         = form_with(url: [@network.exercise, @network, :domain_bindings]) do |_form|
           %button.form-submit-add.text-sm.h-8{type: 'submit'}

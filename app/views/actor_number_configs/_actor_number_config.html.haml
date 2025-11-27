@@ -1,5 +1,5 @@
 .px-4.py-5.sm:p-6[actor_number_config]
-  = render ModalComponent.new(header: "Configuration map") do |c|
+  = render Modal::Component.new(header: "Configuration map") do |c|
     - c.with_body do
       = form_with(model: ConfigMapForm.new(actor_number_config), url: [@exercise, actor_number_config.actor, actor_number_config], id: dom_id(actor_number_config, 'config_map_form'), data: { controller: 'model', action: "change->model#update"}) do |form|
         = form.text_area :config_map_as_yaml, data: {controller: 'editor'}

@@ -1,7 +1,7 @@
 .py-5
   .border-t.border-gray-200.dark:border-gray-600
 
-= render ColumnFormSectionComponent.new(shadow: false) do |c|
+= render ColumnFormSection::Component.new(shadow: false) do |c|
   - c.with_description do
     %h3.text-lg.leading-6.text-gray-900.dark:text-gray-50 Domains
     %p.mt-1.text-sm.text-gray-600.dark:text-gray-400
@@ -11,9 +11,9 @@
       These are top level entries - subdomains are created under networks to create a hierarchy.
 
   - c.with_main do
-    = render SubResourceSectionComponent.new(header: 'Domains') do |section|
+    = render SubResourceSection::Component.new(header: 'Domains') do |section|
       - section.with_button do
-        = render ModalComponent.new(header: "New domain", size: :small) do |c|
+        = render Modal::Component.new(header: "New domain", size: :small) do |c|
           - c.with_body do
             = turbo_frame_tag :new_domain, loading: 'lazy', src: new_exercise_domain_path(@exercise)
 

@@ -1,6 +1,6 @@
 = turbo_stream.remove_all ".#{dom_id(NetworkInterface, :empty)}"
 = turbo_stream.append "network_interfaces" do
-  = render NetworkInterfaceFormComponent.new(network_interface: @network_interface)
+  = render NetworkInterfaceForm::Component.new(network_interface: @network_interface)
 
   :javascript
     setTimeout(function() { document.getElementById("#{dom_id(@network_interface)}").scrollIntoView(); }, 0)

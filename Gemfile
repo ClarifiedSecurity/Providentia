@@ -18,6 +18,7 @@ gem 'solid_cable'
 gem 'solid_queue'
 gem 'solid_cache'
 gem 'jwt'
+gem 'dry-initializer', '~> 3.2'
 
 # frontend
 gem 'haml-rails', '~> 3.0'
@@ -26,6 +27,7 @@ gem 'importmap-rails', '~> 2.1'
 gem 'stimulus-rails'
 gem 'tailwindcss-rails'
 gem 'view_component'
+gem 'view_component-contrib'
 
 # functionality
 gem 'stringex', '~> 2.8', require: 'stringex_lite'

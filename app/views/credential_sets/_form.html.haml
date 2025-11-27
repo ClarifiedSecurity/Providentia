@@ -5,7 +5,7 @@
   = f.error_notification
   = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
 
-  = render ColumnFormSectionComponent.new do |c|
+  = render ColumnFormSection::Component.new do |c|
     - c.with_description do
       %h3.text-lg.leading-6.text-gray-900.dark:text-gray-50 Identity
       %p.mt-1.text-sm.text-gray-600.dark:text-gray-400
@@ -18,7 +18,7 @@
         .px-5.py-3= f.input :description
         .border-t.border-gray-200.dark:border-gray-600
         .px-5.py-3
-          = render ModalComponent.new(header: 'Network for credentials') do |c|
+          = render Modal::Component.new(header: 'Network for credentials') do |c|
             - c.with_body do
               %p The network will be used to generate the e-mail addresses for each credential.
               %p The first portion of domain will be used as the name of AD domain - this can be overridden, if this does not match the actual configuration.
@@ -38,7 +38,7 @@
               %div
                 %dt.text-sm.text-gray-500.dark:text-gray-400 Credential e-mail format
                 %dd.mt-1.text-sm.text-gray-900.dark:text-white.mt-0
-                  = render LiquidTextComponent.new({ text: @credential_set.network.full_domain }, object: @credential_set.network)
+                  = render Tooltip::Text::Component.new({ text: @credential_set.network.full_domain }, object: @credential_set.network)
 
 
 

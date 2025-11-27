@@ -8,7 +8,7 @@
 
 - @network_interface.virtual_machine.network_interfaces.each do |nic|
   = turbo_stream.replace dom_id(nic) do
-    = render NetworkInterfaceFormComponent.new(network_interface: nic)
+    = render NetworkInterfaceForm::Component.new(network_interface: nic)
 
 = simple_form_for([@exercise, @virtual_machine]) do |f|
   = turbo_stream.update "deployment_section" do

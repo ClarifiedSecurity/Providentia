@@ -6,7 +6,7 @@
     Add new
 
 - if @api_tokens.any?
-  = render TableComponent.new do |c|
+  = render Table::Component.new do |c|
     - c.with_column { APIToken.human_attribute_name(:name) }
     - c.with_column { APIToken.human_attribute_name(:token) }
     - c.with_column { '' }

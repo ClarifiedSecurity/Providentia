@@ -20,7 +20,7 @@
       %td.px-6.py-4.whitespace-nowrap
         .text-sm.light:text-gray-900
           - if network.cloud_id
-            = render LiquidTextComponent.new({ text: network.cloud_id }, object: network)
+            = render Tooltip::Text::Component.new(network, text: network.cloud_id)
           - else
             %em (None)
         .text-sm.text-gray-500.dark:text-gray-400.gap-x-6.flex
@@ -30,11 +30,11 @@
             - if pools.map(&:network_address).any?
               %div
                 - pools.each do |pool|
-                  %p= render LiquidPoolNetworkComponent.new(object: pool)
+                  %p= render Tooltip::AddressPool::Component.new(pool)
 
       %td.px-6.py-4.whitespace-nowrap
         - network.domain_bindings.full_names.each do
-          %p= render LiquidTextComponent.new({ text: it }, object: network)
+          %p= render Tooltip::Text::Component.new(network, text: it)
       %td.px-6.py-4= network.description
       %td.px-6.py-4.whitespace-nowrap.text-right
         - if allowed_to?(:destroy?, network)
@@ -47,5 +47,5 @@
       - sub.each do |actor, sub|
         - if (@networks.keys & flat_hash(Hash[actor, sub])).any?
           %section.text-xl.font-bold.text-center.pb-2= actor.name
-          = render TableComponent.new do |c|
+          = render Table::Component.new do |c|
             = render 'result_set', actor:, c:, sub:

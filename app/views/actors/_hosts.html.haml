@@ -1,6 +1,6 @@
 %h1.text-2xl.font-bold.py-3.pb-6 Inventory
 
-= render TableComponent.new do |c|
+= render Table::Component.new do |c|
   - c.with_column { VirtualMachine.model_name.human }
   - c.with_column { VirtualMachine.human_attribute_name(:description) }
 

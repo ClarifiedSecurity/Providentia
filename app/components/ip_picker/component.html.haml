@@ -1,0 +1,13 @@
+- if label
+  = @form.label field_name, real_form_object.class.human_attribute_name(@field), disabled:, class: 'block font-bold text-gray-700 dark:text-gray-200', for: field_id
+
+- if renders_as_select?
+  = @form.select field_name, collection, { include_blank: '(None)' }, { id: field_id, disabled:, data: { controller: 'select' }}
+- else
+  = render SplitInput::Component.new do |split|
+    - split.with_input(form_helper: @form, field: field_name)
+    - split.with_right_cell do
+      = "/#{address_pool.ip_network.prefix}"
+
+- if @form.object.errors["#{@field}_address"].any? || @form.object.errors[@field].any?
+  %span.text-red-600= (@form.object.errors["#{@field}_address"] + @form.object.errors[@field]).join ', '

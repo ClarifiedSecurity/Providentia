@@ -1,5 +1,5 @@
 - if @operating_systems.any?
-  = render TableComponent.new do |c|
+  = render Table::Component.new do |c|
     - c.with_column { OperatingSystem.human_attribute_name(:name) }
     - c.with_column { OperatingSystem.human_attribute_name(:cpu) }
     - c.with_column { OperatingSystem.human_attribute_name(:ram) + ' (GB)' }

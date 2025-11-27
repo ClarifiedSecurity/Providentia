@@ -42,19 +42,19 @@
 
       - if address_pool.persisted? && address_pool.network_address
         - if address_pool.ip_v4?
-          .grow= render IPPickerComponent.new(form: form, field: :gateway, label: true)
+          .grow= render IPPicker::Component.new(form: form, field: :gateway, label: true)
           - unless address_pool.last_octet_is_dynamic?
             .h-0.basis-full
-            .grow= render IPPickerComponent.new(form: form, field: :range_start, label: true)
-            .grow= render IPPickerComponent.new(form: form, field: :range_end, label: true)
+            .grow= render IPPicker::Component.new(form: form, field: :range_start, label: true)
+            .grow= render IPPicker::Component.new(form: form, field: :range_end, label: true)
 
         - else
           .flex-1{data: {controller: 'tooltip', tooltip: 'Clear gateway'}}
             = form.label :gateway, class: 'block font-bold text-gray-700 dark:text-gray-200'
             .mt-1
-              = render SplitInputComponent.new do |split|
+              = render SplitInput::Component.new do |split|
                 - split.with_left_cell do
-                  = render LiquidNetworkAddressComponent.new(object: address_pool)
+                  = render Tooltip::AddressPool::Component.new(address_pool, skip_prefix: true)
                 - split.with_input(form_helper: form, field: :gateway6, placeholder: (!address_pool.gateway && 'Gateway not set').presence)
                 - split.with_right_cell do
                   = "/#{address_pool.ip_network.prefix}"

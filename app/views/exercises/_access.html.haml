@@ -1,7 +1,7 @@
 .py-5
   .border-t.border-gray-200.dark:border-gray-600
 
-= render ColumnFormSectionComponent.new(shadow: false) do |c|
+= render ColumnFormSection::Component.new(shadow: false) do |c|
   - c.with_description do
     %h3.text-lg.leading-6.text-gray-900.dark:text-gray-50 Roles
     %p.mt-1.text-sm.text-gray-600.dark:text-gray-400
@@ -18,9 +18,9 @@
       Each user can belong to multiple roles through multiple resources or individual access.
 
   - c.with_main do
-    = render SubResourceSectionComponent.new(header: 'Roles & access') do |section|
+    = render SubResourceSection::Component.new(header: 'Roles & access') do |section|
       - section.with_button do
-        = render ModalComponent.new(header: "New access") do |c|
+        = render Modal::Component.new(header: "New access") do |c|
           - c.with_body do
             = render 'new_access_form'
 

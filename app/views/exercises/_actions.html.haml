@@ -1,7 +1,7 @@
 .py-5
   .border-t.border-gray-200.dark:border-gray-600
 
-= render ColumnFormSectionComponent.new(shadow: false) do |c|
+= render ColumnFormSection::Component.new(shadow: false) do |c|
   - c.with_description do
     %h3.text-lg.leading-6.text-gray-900.dark:text-gray-50 Archival & Cloning
     %p.mt-1.text-sm.text-gray-600.dark:text-gray-400

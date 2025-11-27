@@ -1,5 +1,5 @@
 - cache([network.cache_key_with_version, 'address_preview']) do
-  = render TableComponent.new do |c|
+  = render Table::Component.new do |c|
     - c.with_column { Actor.model_name.human }
     - c.with_column { 'IPv4' }
     - c.with_column { 'IPv6' }

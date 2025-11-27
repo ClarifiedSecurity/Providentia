@@ -1,8 +1,9 @@
-.flex.flex-col.h-screen.items-center.justify-center
-  .static-width.py-8.w-full= render 'flashes'
-  .flex.flex-col.overflow-hidden.rounded-lg.shadow-xl.bg-white.dark:bg-gray-800
-    = image_tag 'providentia.jpg', class: 'w-full', alt: 'Providentia'
+%body.w-full.font-raleway.antialiased.bg-gray-100.text-gray-600.dark:bg-gray-900.dark:text-gray-200
+  .flex.flex-col.h-screen.items-center.justify-center
+    %aside.static-width.py-8.w-full= render Flash::Component.with_collection(flash.to_a)
+    .flex.flex-col.overflow-hidden.rounded-lg.shadow-xl.bg-white.dark:bg-gray-800
+      = image_tag 'providentia.jpg', class: 'w-full', alt: 'Providentia'
 
-    .text-center.p-4
-      = button_to user_sso_omniauth_authorize_path, class: 'inline-block p-3 text-gray-600 rounded-lg shadow-md dark:bg-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600', data: { turbo: false } do
-        %span.px-4.py-3.font-bold.text-center Sign in using SSO
+      .text-center.p-4
+        = button_to user_sso_omniauth_authorize_path, class: 'inline-block p-3 text-gray-600 rounded-lg shadow-md dark:bg-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600', data: { turbo: false } do
+          %span.px-4.py-3.font-bold.text-center Sign in using SSO

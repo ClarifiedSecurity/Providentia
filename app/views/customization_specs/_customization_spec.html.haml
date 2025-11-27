@@ -39,10 +39,10 @@
 
           - if customization_spec.virtual_machine.connection_nic
             .mt-1
-              = render SplitInputComponent.new do |split|
+              = render SplitInput::Component.new do |split|
                 - split.with_input(form_helper: form, field: :dns_name, placeholder: customization_spec.default_dns_name, id: "customization_spec#{customization_spec.id}_dns_name")
                 - split.with_right_cell do
-                  = ".#{render LiquidDomainComponent.new(object: customization_spec.virtual_machine)}"
+                  = ".#{render Tooltip::Domain::Component.new(customization_spec.virtual_machine)}"
           - else
             = form.text_field :dns_name, placeholder: customization_spec.virtual_machine.name, class: 'form-input'
 
@@ -64,7 +64,7 @@
 
       - if allowed_to?(:read_tags?, customization_spec)
         .mt-2
-          = render ModalComponent.new(header: "Checks") do |c|
+          = render Modal::Component.new(header: "Checks") do |c|
             - c.with_body do
               %p
                 The tags will be added to the API with

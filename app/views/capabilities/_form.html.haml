@@ -5,7 +5,7 @@
   = f.error_notification
   = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
 
-  = render ColumnFormSectionComponent.new do |c|
+  = render ColumnFormSection::Component.new do |c|
     - c.with_description do
       %h3.text-lg.leading-6.text-gray-900.dark:text-gray-50 Identity
       %p.mt-1.text-sm.text-gray-600.dark:text-gray-400

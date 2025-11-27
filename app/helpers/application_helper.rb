@@ -1,27 +1,12 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
-  FLASH_CLASSES = {
-    notice: 'bg-green-400 border-l-4 border-green-700 text-white',
-    error:  'bg-red-400 border-l-4 border-red-700 text-black',
-    alert:  'bg-red-400 border-l-4 border-red-700 text-black'
-  }.freeze
-
   def session_path(scope)
     new_user_session_path
   end
 
   def title(page_title)
     provide(:title) { page_title }
-  end
-
-  def add_button_text
-    case controller_name
-    when 'dashboard'
-      'Add environment'
-    else
-      "Add #{controller_name.classify.constantize.model_name.human}"
-    end
   end
 
   def link_for_model(model)
@@ -41,10 +26,6 @@ module ApplicationHelper
     else
       [model.exercise, model]
     end
-  end
-
-  def tailwind_classes_for(flash_type)
-    FLASH_CLASSES.stringify_keys[flash_type.to_s] || flash_type.to_s
   end
 
   def pool_ip_families
@@ -90,33 +71,10 @@ module ApplicationHelper
     end
   end
 
-  def nic_tooltip(nic)
-    [
-      nic.network.name,
-      ('egress' if nic.egress?),
-      ('connection' if nic.connection?)
-    ].compact.join(', ')
-  end
-
   def sorted_tree_options(scope = authorized_scope(OperatingSystem.all))
     OrderedTree
       .result_for(scope)
       .map { |i| ["#{'-' * i.depth} #{i.name}", i.id] }
-  end
-
-  def nav_cache_key
-    [
-      @exercise.cache_key_with_version,
-      'nav',
-      authorized_scope(@exercise.virtual_machines).cache_key_with_version,
-      authorized_scope(@exercise.networks).cache_key_with_version,
-      authorized_scope(@exercise.services).cache_key_with_version,
-      authorized_scope(@exercise.capabilities).cache_key_with_version
-    ]
-  end
-
-  def providentia_version_string
-    Rails.configuration.x.providentia_version
   end
 
   def actor_color_classes(actor)
@@ -180,9 +138,9 @@ module ApplicationHelper
     def select_contextual_menu_component
       case { controller_name:, action_name: }
       in controller_name: 'exercises'
-        ContextualExerciseLinksComponent.new(exercise: @exercise)
+        ContextualExerciseLinks::Component.new(exercise: @exercise)
       in controller_name: 'virtual_machines', action_name: 'index'
-        ContextualInventoryComponent.new(exercise: @exercise, filter_actor: @filter_actor)
+        ContextualInventory::Component.new(exercise: @exercise, filter_actor: @filter_actor)
       else
       end
     end

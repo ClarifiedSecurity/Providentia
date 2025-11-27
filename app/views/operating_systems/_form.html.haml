@@ -16,7 +16,7 @@
         %div
           = f.label :ram
           .mt-1
-            = render SplitInputComponent.new do |split|
+            = render SplitInput::Component.new do |split|
               - split.with_input(form_helper: f, field: :ram, method: :number_field)
               - split.with_right_cell do
                 GB
@@ -27,7 +27,7 @@
         %div
           = f.label :primary_disk_size
           .mt-1
-            = render SplitInputComponent.new do |split|
+            = render SplitInput::Component.new do |split|
               - split.with_input(form_helper: f, field: :primary_disk_size, method: :number_field)
               - split.with_right_cell do
                 GB

@@ -26,16 +26,15 @@
     %link{rel: "icon", type: "image/png", sizes: "16x16", href: "/favicon-16x16.png"}
     %link{rel: "manifest", href: "/site.webmanifest"}
 
-  %body#body.w-full.font-raleway.antialiased.bg-gray-100.text-gray-600.dark:bg-gray-900.dark:text-gray-200{data: {controller: "search"}}
-    - if user_signed_in?
-      = render 'header'
-      .pt-16.pb-48
-        = render select_contextual_menu_component if select_contextual_menu_component
-        .static-width
-          #flashes= render 'flashes'
-          = render 'content'
+  - if user_signed_in?
+    %body.w-full.font-raleway.antialiased.bg-gray-100.text-gray-600.dark:bg-gray-900.dark:text-gray-200.pt-16.pb-48{data: {controller: "search"}}
+      = render Layout::Header::Component.new
+      = render select_contextual_menu_component if select_contextual_menu_component
+      %main.static-width
+        %aside#flashes= render Flash::Component.with_collection(flash.to_a)
+        = yield
 
-      = render SearchComponent.new
-      = render 'footer'
-    - else
-      = render 'not_signed_in'
+      = render Search::Component.new
+      = render Layout::Footer::Component.new
+  - else
+    = render 'not_signed_in'

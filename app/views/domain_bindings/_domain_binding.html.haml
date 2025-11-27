@@ -2,7 +2,7 @@
   = form_with(model: domain_binding, url: [@exercise, @network, domain_binding], data: { controller: 'model', action: "change->model#update" }) do |form|
     .flex.gap-2.px-4.py-3
       %p.mt-9.text-center.flex-1
-        = render LiquidTextComponent.new({text: domain_binding.full_name}, object: @network)
+        = render Tooltip::Text::Component.new(@network, text: domain_binding.full_name)
 
       %form-group.flex-1
         = form.label :name, class: 'block font-bold text-gray-700 dark:text-gray-200'

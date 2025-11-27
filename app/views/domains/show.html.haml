@@ -6,9 +6,9 @@
 
     .grid.grid-flow-row.auto-cols-max.gap-x-2{class: "[grid-template-areas:'a_a']"}
       - @domain.domain_bindings.subdomain_ordering.includes(:network).merge(Network.order(:actor_id, :name)).group_by(&:full_name).each do |full_name, binds|
-        .text-right{class: 'p-0.5'}= render LiquidTextComponent.new({text: full_name}, object: Network.new)
+        .text-right{class: 'p-0.5'}= render Tooltip::Text::Component.new(Network.new, text: full_name)
         %div
-          = render ModalComponent.new(header: "Networks in #{full_name}", size: :small) do |c|
+          = render Modal::Component.new(header: "Networks in #{full_name}", size: :small) do |c|
             - c.with_body do
               %section.space-y-2
                 - binds.group_by { it.network.actor }.each do |actor, actor_binds|
@@ -16,7 +16,7 @@
                   .flex.gap-1.gap-y-3.flex-wrap.mb-6
                     - actor_binds.each do |bind|
                       = link_to [bind.network.exercise, bind.network], class: 'mr-1', data: { turbo_frame: '_top'} do
-                        = render ActorChipComponent.new(actor: bind.network.actor, text: bind.network.name)
+                        = render ActorChip::Component.new(actor: bind.network.actor, text: bind.network.name)
 
             = link_to 'javascript:;', class: 'text-white bg-linear-to-r from-purple-500 to-pink-500 hover:bg-linear-to-l focus:ring-4 focus:outline-hidden focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-xs text-center px-2 py-0.5', data: { action: "click->dialog#open" } do
               = pluralize(binds.size, Network.model_name.human)

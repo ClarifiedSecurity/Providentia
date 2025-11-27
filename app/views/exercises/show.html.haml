@@ -30,7 +30,7 @@
                   = I18n.t("roles.#{role_binding.role}.name")
                   - if role_binding.actor
                     on
-                    = render ActorChipComponent.new(actor: role_binding.actor)
+                    = render ActorChip::Component.new(actor: role_binding.actor)
 
       .px-6.py-5
         %dt.text-sm.text-gray-500.dark:text-gray-400= Exercise.human_attribute_name(:description)
@@ -43,7 +43,7 @@
         .col-span-5
           %div
             %span.font-bold Inventory
-            -# = render ModalComponent.new(header: "Network map", full_screen: true) do |c|
+            -# = render Modal::Component.new(header: "Network map", full_screen: true) do |c|
             -#   - c.with_body do
             -#     = turbo_frame_tag :exercise_map, loading: 'lazy', src: exercise_map_path(@exercise) do
             -#       Loading...

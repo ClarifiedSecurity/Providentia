@@ -6,7 +6,7 @@
     .grid.grid-cols-4.gap-2
       - records.group_by(&:zone).sort.each do |zone, records|
         %zone.flex.flex-col.items-center.justify-center.p-3.rounded-lg.bg-stone-200.hover:bg-stone-300.dark:bg-zinc-700.dark:hover:bg-zinc-600
-          = render ModalComponent.new(header: "#{zone} records") do |c|
+          = render Modal::Component.new(header: "#{zone} records") do |c|
             - c.with_body do
               %ul.columns-3.gap-4
                 - records.each do |record|

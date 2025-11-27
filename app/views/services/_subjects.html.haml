@@ -1,4 +1,4 @@
-= render SubResourceSectionComponent.new(header: 'Service subjects') do |section|
+= render SubResourceSection::Component.new(header: 'Service subjects') do |section|
   - if allowed_to?(:create?, ServiceSubject.new(service: @service))
     - section.with_button do
       = form_with(url: [@service.exercise, @service, :service_subjects]) do |_form|

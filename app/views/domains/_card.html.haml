@@ -1,4 +1,4 @@
-= render ModalComponent.new(header: "Domain #{domain.name}", size: :small) do |c|
+= render Modal::Component.new(header: "Domain #{domain.name}", size: :small) do |c|
   - c.with_body do
     = turbo_frame_tag dom_id(domain, :show), loading: 'lazy', src: [@exercise, domain]
 

@@ -1,5 +1,5 @@
 %article[actor]
-  = render ColumnFormSectionComponent.new do |c|
+  = render ColumnFormSection::Component.new do |c|
     - c.with_description do
       %h3.text-lg.leading-6.text-gray-900.dark:text-gray-50 Identity
       %p.mt-1.text-gray-600.dark:text-gray-400
@@ -27,14 +27,14 @@
                   = f.label :ui_color, for: "#{dom_id(actor)}_ui_color_#{color}", class: "block rounded-full w-8 h-8 select-none cursor-pointer border border-white border-2 peer-checked:outline peer-checked:outline-3 peer-checked:outline-#{color}-500 bg-#{color}-500 dark:bg-#{color}-700" do
                     &nbsp;
 
-  = render ColumnFormSectionComponent.new do |c|
+  = render ColumnFormSection::Component.new do |c|
     - c.with_description do
       %h3.text-lg.leading-6.text-gray-900.dark:text-gray-50 Sub-actors
       %p.mt-1.text-gray-600.dark:text-gray-400
         Actors can be organized in hiearchies. Descendant actors use the same numbering logic as their root
 
     - c.with_main do
-      = render SubResourceSectionComponent.new(header: 'Descendant actors') do |section|
+      = render SubResourceSection::Component.new(header: 'Descendant actors') do |section|
         - section.with_button do
           = form_with(url: [@exercise, actor, :child], method: :post) do |_form|
             %button.form-submit-add.text-sm.h-8{type: 'submit'}
@@ -45,14 +45,14 @@
           = render 'actors_table', actor:
 
   - if actor.number?
-    = render ColumnFormSectionComponent.new do |c|
+    = render ColumnFormSection::Component.new do |c|
       - c.with_description do
         %h3.text-lg.leading-6.text-gray-900.dark:text-gray-50 Numbered configurations
         %p.mt-1.text-gray-600.dark:text-gray-400
           Cloned environments can have custom configurations attached for specific numbers. This can be useful for configuring different parameters for specific deployed clones, such as designating development teams.
 
       - c.with_main do
-        = render SubResourceSectionComponent.new(header: 'Configuration list') do |section|
+        = render SubResourceSection::Component.new(header: 'Configuration list') do |section|
           - section.with_button do
             = form_with(url: [@exercise, actor, :actor_number_configs]) do |_form|
               %button.form-submit-add.text-sm.h-8{type: 'submit'}

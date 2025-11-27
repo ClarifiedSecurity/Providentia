@@ -3,7 +3,7 @@
     %section
       - if actor
         %h2.mt-4.mb-1.py-2.border-b.border-gray-500.text-center
-          = render ActorChipComponent.new(actor:)
+          = render ActorChip::Component.new(actor:)
 
     - actor_bindings.each do |binding|
       %article.flex.items-center.group.hover:bg-slate-300.dark:hover:bg-slate-500{class: 'p-0.5 px-2'}

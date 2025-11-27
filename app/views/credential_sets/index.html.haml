@@ -1,5 +1,5 @@
 - if @credential_sets.any?
-  = render TableComponent.new do |c|
+  = render Table::Component.new do |c|
     - c.with_column { CredentialSet.human_attribute_name(:name) }
     - c.with_column { Network.model_name.human }
     - c.with_column {}
@@ -10,7 +10,7 @@
         %td.px-6.py-4
           - if cred_set.network
             = link_to [@exercise, cred_set.network] do
-              = render ActorChipComponent.new(actor: cred_set.network.actor, text: cred_set.network.name)
+              = render ActorChip::Component.new(actor: cred_set.network.actor, text: cred_set.network.name)
         %td.px-6.py-4.whitespace-nowrap.text-right
           - if allowed_to?(:destroy?, cred_set)
             = link_to [cred_set.exercise, cred_set], data: { turbo_method: 'delete', turbo_confirm: 'Are you sure?' }, class: 'opacity-0 group-hover:opacity-100 transition-opacity' do

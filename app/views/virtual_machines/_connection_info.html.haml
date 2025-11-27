@@ -6,15 +6,15 @@
       %dd.mt-1.text-sm.text-gray-900.dark:text-white.mt-0
         - net_scope.each do |network|
           = link_to [network.exercise, network], class: 'mr-1' do
-            = render ActorChipComponent.new(actor: network.actor, text: network.name)
+            = render ActorChip::Component.new(actor: network.actor, text: network.name)
 
     - if vm.connection_nic
       %div
         %dt.text-gray-500.dark:text-gray-400= NetworkInterface.human_attribute_name(:fqdn)
         %dd.mt-1.text-sm.text-gray-900.dark:text-white.mt-0
-          = render LiquidFQDNComponent.new(object: vm)
+          = render Tooltip::FQDN::Component.new(vm)
 
       %div
         %dt.text-gray-500.dark:text-gray-400 Connection address
         %dd.mt-1.text-sm.text-gray-900.dark:text-white.mt-0
-          = render LiquidAddressComponent.new(object: vm.connection_address)
+          = render Tooltip::Address::Component.new(vm.connection_address)
