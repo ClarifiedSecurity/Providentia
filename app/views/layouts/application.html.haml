@@ -27,7 +27,7 @@
     %link{rel: "manifest", href: "/site.webmanifest"}
 
   - if user_signed_in?
-    %body.w-full.font-raleway.antialiased.bg-gray-100.text-gray-600.dark:bg-gray-900.dark:text-gray-200.pt-16.pb-48{data: {controller: "search"}}
+    %body.w-full.font-raleway.antialiased.bg-gray-100.text-gray-600.dark:bg-gray-900.dark:text-gray-200.pt-14.pb-48{data: {controller: "search"}}
       = render Layout::Header::Component.new
       = render select_contextual_menu_component if select_contextual_menu_component
       %main.static-width

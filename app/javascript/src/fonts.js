@@ -44,6 +44,7 @@ import {
   faDatabase,
   faSlash,
   faEllipsisVertical,
+  faPenToSquare,
   faCircleQuestion,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -104,6 +105,7 @@ library.add(
   faDatabase,
   faSlash,
   faEllipsisVertical,
+  faPenToSquare,
   faCircleQuestion
 );
 

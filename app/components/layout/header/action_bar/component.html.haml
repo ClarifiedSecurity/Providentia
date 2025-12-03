@@ -1,0 +1,16 @@
+%action-bar.flex.items-center.gap-x-3.ml-3
+  .inline-flex.-space-x-0.divide-x.divide-zinc-400.overflow-hidden.rounded-lg.border.border-zinc-400.shadow-sm.dark:shadow-slate-400.empty:hidden<
+    - actions.each do |action|
+      - if action.modal
+        = render ::Modal::Component.new(header: action.modal.title) do |c|
+          - c.with_body do
+            = helpers.turbo_frame_tag dom_id(@item, :api_preview), loading: 'lazy', src: action.modal.url
+
+          = link_to action.url, action.html_parameters do
+            %i.fas{class: action.icon}
+            = action.text
+
+      - else
+        = link_to action.url, action.html_parameters do
+          %i.fas{class: action.icon}
+          = action.text

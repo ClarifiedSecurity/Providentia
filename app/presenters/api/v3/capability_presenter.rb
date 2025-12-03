@@ -3,7 +3,7 @@
 module API
   module V3
     class CapabilityPresenter < Struct.new(:capability)
-      def as_json(_opts)
+      def as_json(_opts = nil)
         Rails.cache.fetch(['apiv3', capability.customization_specs.cache_key_with_version, capability.cache_key_with_version]) do
           {
             id: capability.slug,

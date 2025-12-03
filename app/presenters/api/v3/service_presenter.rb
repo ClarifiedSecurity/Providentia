@@ -3,7 +3,7 @@
 module API
   module V3
     class ServicePresenter < Struct.new(:service, :spec_scope)
-      def as_json(_opts)
+      def as_json(_opts = nil)
         Rails.cache.fetch(['apiv3', spec_scope.cache_key_with_version, service.cache_key_with_version, service.service_subjects.cache_key_with_version]) do
           {
             id: service.slug,
