@@ -79,13 +79,7 @@
           = form.collection_select :domain_binding_id, bindings_to_options(authorized_scope(address.network.domain_bindings)), :first, :last, { include_blank: "Don't publish", selected: address.domain_binding_id }, { data: { controller: 'select' }, disabled:, id: "#{dom_id(address)}_dns" }
 
         %connection
-          = form.label :connection, class: 'block font-bold text-gray-700 dark:text-gray-200' do
-            %i.fas.fa-satellite-dish.text-sm
-            = Address.human_attribute_name(:connection)
-
-          %label.grow.flex.items-center.cursor-pointer.justify-center
-            = form.check_box :connection, class: 'sr-only peer', disabled:, id: "#{dom_id(address)}_connection"
-            .relative.w-11.h-6.bg-gray-200.peer-focus:outline-hidden.peer-focus:ring-4.peer-focus:ring-blue-300.dark:peer-focus:ring-blue-800.rounded-full.peer.dark:bg-gray-700.peer-checked:after:translate-x-full.peer-checked:rtl:after:-translate-x-full.peer-checked:after:border-white.after:absolute.after:bg-white.after:border-gray-300.after:border.after:rounded-full.after:w-5.after:h-5.after:transition-all.dark:border-gray-600.peer-checked:bg-blue-600{class: "after:content-[''] after:top-[2px] after:start-[2px]"}
+          = render Form::Toggle::Component.new(form, field: :connection, disabled: disabled)
 
         - if allowed_to?(:destroy?, address)
           %delete.self-center.opacity-0.group-hover:opacity-100.transition-opacity
