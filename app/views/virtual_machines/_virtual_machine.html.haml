@@ -1,4 +1,4 @@
-%host.group.py-2.rounded-3xl.bg-gray-200.dark:bg-gray-700.hover:bg-gray-300.hover:dark:bg-gray-800.transition-colors{id: dom_id(virtual_machine)}
+%host.group.py-2.rounded-3xl.bg-gray-100.ring.dark:bg-gray-700.hover:bg-gray-200.hover:dark:bg-gray-800.transition-colors{id: dom_id(virtual_machine), class: 'ring-gray-300/70 dark:ring-gray-600/70 hover:ring-gray-400/70'}
   %actor<>= render ActorAvatar::Component.new(actor: virtual_machine.actor)
   %name.flex.items-center
     = link_to virtual_machine.name, [virtual_machine.exercise, virtual_machine], class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-200 grow', data: { turbo_frame: '_top'}
