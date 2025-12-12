@@ -6,7 +6,7 @@
   %h2.text-lg.py-2.font-semibold.opacity-75 You have recently worked on these specs
   %section.grid.grid-cols-23.gap-x-4.mb-2
     - @latest_stuff.each do |host|
-      %article.col-span-4.bg-white.rounded-md.shadow-md.dark:bg-gray-800.p-4.flex.flex-col.items-center.justify-center
+      %article.col-span-4.bg-white.rounded-md.shadow.dark:bg-gray-800.p-4.flex.flex-col.items-center.justify-center
         = link_to [host.exercise, host], class: 'text-lg font-bold' do
           = render ActorAvatar::Component.new(actor: host.actor)
           - if host.name.size > 20
@@ -22,7 +22,7 @@
           ago
 
     %aside.col-span-3
-      %aside.text-xl.text-center.bg-white.rounded-md.shadow-md.dark:bg-gray-800.p-4
+      %aside.text-xl.text-center.bg-white.rounded-md.shadow.dark:bg-gray-800.p-4
         Total
         %strong.block.text-2xl= @owned_specs_count
         specs

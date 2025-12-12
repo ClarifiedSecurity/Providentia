@@ -11,7 +11,7 @@
   %connection-address.flex.items-center.gap-1{data: { controller: 'clipboard', clipboard_success_content_value: '<i>✓</i>'}}
     - if virtual_machine.connection_nic
       %span= render Tooltip::Address::Component.new(virtual_machine.connection_address, actor: virtual_machine.numbered_actor)
-      - if virtual_machine.connection_address.fixed? && virtual_machine.connection_address.address_pool
+      - if virtual_machine.connection_address.fixed? && virtual_machine.connection_address.offset && virtual_machine.connection_address.address_pool
         %span.hidden{data: {clipboard_target: 'source'}}<= virtual_machine.connection_address.ip_object.to_s
         %button.p-1.h-5.w-5.inline-flex.text-xs.bg-lime-700.text-white.rounded.items-center.justify-center{type: "button", data: {clipboard_target: 'button', action: "clipboard#copy"}}
           %i.fas.fa-clipboard

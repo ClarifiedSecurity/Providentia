@@ -1,7 +1,7 @@
 - title "Inventory"
 
 - if @virtual_machines.any?
-  %section#vm-grid.bg-gray-50.dark:bg-gray-600.dark:text-white.mt-6
+  %section#vm-grid.bg-gray-50.shadow.dark:bg-gray-600.dark:text-white.mt-6
     %header.rounded-t-lg.bg-gray-400.dark:bg-gray-800.text-xs.text-gray-100.dark:text-gray-300.uppercase.tracking-wider.font-semibold.py-3.-mx-3
       %name= VirtualMachine.human_attribute_name(:name)
       %fqdn= CustomizationSpec.human_attribute_name(:fqdn)

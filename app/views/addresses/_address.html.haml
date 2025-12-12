@@ -62,7 +62,7 @@
 
                       - if address.offset && allowed_to?(:update?, address)
                         - split.with_right_cell do
-                          %button.bg-orange-400.rounded-r-md.inset-0.absolute{type: "submit", name: "address[clear_address]", form: dom_id(address, :secondary)}
+                          %button.bg-orange-400.text-orange-100.rounded-r-md.inset-0.absolute{type: "submit", name: "address[clear_address]", form: dom_id(address, :secondary)}
                             %i.fas.fa-times{ data: { action: "mouseenter->tooltip#show mouseleave->tooltip#hide" }}
                     - if address.errors[:ipv6_address_input].any? || address.errors[:offset].any?
                       .w-full
