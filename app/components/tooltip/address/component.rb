@@ -4,11 +4,13 @@ class Tooltip::Address::Component < Tooltip::Component
   with_collection_parameter :object
 
   def render?
-    @object && @object.offset || !@object.fixed?
+    @object
   end
 
   private
     def template_text
-      AddressValues.result_for(@object) || UnsubstitutedAddress.result_for(@object) || 'N/A or dynamic'
+      return 'N/A' if !@object.offset
+      return 'dynamic' if !@object.fixed?
+      AddressValues.result_for(@object) || UnsubstitutedAddress.result_for(@object)
     end
 end
