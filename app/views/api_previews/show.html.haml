@@ -1,0 +1,13 @@
+= turbo_frame_tag dom_id(@item, :api_preview) do
+  %api-previewer{"data-controller" => "railsui-tabs", "data-railsui-tabs-active-tab" => "border-blue-400 font-bold", "data-railsui-tabs-inactive-tab" => "border-transparent"}
+    %nav.border-neutral-200.border-b.text-neutral-600.mb-3
+      %ul.-mb-px.flex.items-center.gap-0{role: "navigation"}
+        - @presenters.each do |presenter|
+          %li.me-2
+            %a.inline-block.p-4.border-b.rounded-t-base.hover:text-fg-blue-400.hover:border-blue-400{"data-action" => "click->railsui-tabs#change", "data-railsui-tabs-target" => "tab", href: "javascript:;"}= presenter.as_json[:id]
+
+    - @presenters.each_with_index do |presenter, index|
+      %api-panel{class: (index == 0 ? "" : "hidden"), "data-railsui-tabs-target" => "panel"}
+        - if presenter.as_json[:instances].present?
+          %p.text-lg.mb-2 has #{presenter.as_json[:instances].size} instances
+        %json{data: {controller: 'highlight'}}= JSON.pretty_generate(presenter.as_json)

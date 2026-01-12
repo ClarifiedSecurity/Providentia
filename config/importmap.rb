@@ -31,8 +31,10 @@ pin '@codemirror/language', to: '@codemirror--language.js' # @6.12.1
 pin '@lezer/common', to: '@lezer--common.js' # @1.5.0
 pin '@lezer/highlight', to: '@lezer--highlight.js' # @1.2.3
 pin '@codemirror/lang-yaml', to: '@codemirror--lang-yaml.js' # @6.1.2
-pin '@lezer/lr', to: '@lezer--lr.js' # @1.4.7
+pin '@codemirror/lang-json', to: '@codemirror--lang-json.js' # @6.0.2
+pin '@lezer/lr', to: '@lezer--lr.js' # @1.4.5
 pin '@lezer/yaml', to: '@lezer--yaml.js' # @1.0.3
+pin '@lezer/json', to: '@lezer--json.js' # @1.0.3
 pin 'thememirror' # @2.0.1
 # how to get it:
 # bin/importmap pin tom-select/dist/js/tom-select.complete.min.js
@@ -44,3 +46,4 @@ pin '@floating-ui/utils', to: '@floating-ui--utils.js' # @0.2.10
 pin '@floating-ui/utils/dom', to: '@floating-ui--utils--dom.js' # @0.2.10
 pin 'stimulus-use' # @0.52.3
 pin 'crelt' # @1.0.6
+pin 'railsui-stimulus' # @1.1.2

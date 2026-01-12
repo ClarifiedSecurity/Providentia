@@ -3,7 +3,7 @@
 module API
   module V3
     class NetworkPresenter < Struct.new(:network)
-      def as_json(_opts)
+      def as_json(_opts = nil)
         Rails.cache.fetch(['apiv3', network.actor.cache_key_with_version, network.cache_key_with_version]) do
           {
             id: network.slug,

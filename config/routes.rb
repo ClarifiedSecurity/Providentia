@@ -62,6 +62,8 @@ Rails.application.routes.draw do
   get 'docs/api', to: 'docs#api'
   get 'docs/templating', to: 'docs#templating'
 
+  get '/api_preview/:exercise_id/:model/:id', to: 'api_previews#show', as: :global_api_preview
+
   # API
   namespace :api, defaults: { format: :json } do
     namespace :v3 do

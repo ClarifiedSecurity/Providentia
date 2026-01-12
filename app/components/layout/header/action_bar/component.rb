@@ -44,6 +44,7 @@ class Layout::Header::ActionBar::Component < ApplicationViewComponent
   def actions
     [
       edit,
+      api_preview,
       delete
     ].compact
   end
@@ -60,6 +61,13 @@ class Layout::Header::ActionBar::Component < ApplicationViewComponent
           url: edit_url
         )
       end
+    end
+
+    def api_preview
+      Action.new(
+        text: 'API Preview', icon: 'fa-code', url: 'javascript:;',
+        modal: Modal.new(title: 'API Preview', url: "/api_preview/#{exercise.to_param}/#{@item.class.model_name.singular_route_key}/#{@item.to_param}")
+      )
     end
 
     def delete
