@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 # check=error=true
 
-ARG RUBY_VERSION=3.4.6
+ARG RUBY_VERSION=4.0.0
 
 # BASE IMAGE
 FROM ruby:$RUBY_VERSION-alpine AS base
