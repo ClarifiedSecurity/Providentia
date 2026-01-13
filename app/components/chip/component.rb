@@ -11,10 +11,9 @@ class Chip::Component < ApplicationViewComponent
 
   private
     def color_classes
-      "bg-#{@flavor}-200 text-#{@flavor}-800 dark:bg-#{@flavor}-700 dark:text-#{@flavor}-300"
+      {
+        cyan: 'bg-cyan-200 text-cyan-800 dark:bg-cyan-500 dark:text-cyan-200',
+        stone: 'bg-stone-200 text-stone-800 dark:bg-stone-500 dark:text-stone-300'
+      }[@flavor.to_sym]
     end
 end
-
-# For tailwind to discover all the classes
-# bg-cyan-200 text-cyan-800 dark:bg-cyan-700 dark:text-cyan-300
-# bg-stone-200 text-stone-800 dark:bg-stone-700 dark:text-stone-300

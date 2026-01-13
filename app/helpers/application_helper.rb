@@ -78,13 +78,15 @@ module ApplicationHelper
   end
 
   def actor_color_classes(actor)
-    color = (actor || Actor.new).ui_color
-    case color
-    when 'yellow'
-      "bg-#{color}-200 text-#{color}-800 hover:bg-#{color}-300 dark:bg-#{color}-400 dark:text-#{color}-700 dark:hover:bg-#{color}-800"
-    else
-      "bg-#{color}-200 text-#{color}-800 hover:bg-#{color}-300 dark:bg-#{color}-700 dark:text-#{color}-300 dark:hover:bg-#{color}-800"
-    end
+    {
+      slate: 'bg-slate-200 text-slate-800 hover:bg-slate-300 dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-800',
+      amber: 'bg-amber-200 text-amber-800 hover:bg-amber-300 dark:bg-amber-700 dark:text-amber-300 dark:hover:bg-amber-800',
+      emerald: 'bg-emerald-200 text-emerald-800 hover:bg-emerald-300 dark:bg-emerald-700 dark:text-emerald-300 dark:hover:bg-emerald-800',
+      rose: 'bg-rose-200 text-rose-800 hover:bg-rose-300 dark:bg-rose-700 dark:text-rose-300 dark:hover:bg-rose-800',
+      sky: 'bg-sky-200 text-sky-800 hover:bg-sky-300 dark:bg-sky-700 dark:text-sky-300 dark:hover:bg-sky-800',
+      orange: 'bg-orange-200 text-orange-800 hover:bg-orange-300 dark:bg-orange-700 dark:text-orange-300 dark:hover:bg-orange-800',
+      yellow: 'bg-yellow-200 text-yellow-800 hover:bg-yellow-300 dark:bg-yellow-400 dark:text-yellow-700 dark:hover:bg-yellow-800'
+    }[(actor || Actor.new).ui_color.to_sym]
   end
 
   def subject_selector_scope(match_condition)
