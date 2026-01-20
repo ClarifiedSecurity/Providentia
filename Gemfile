@@ -32,7 +32,7 @@ gem 'view_component-contrib'
 # functionality
 gem 'stringex', '~> 2.8', require: 'stringex_lite'
 gem 'http', '~> 5.0'
-gem 'liquid', '~> 5.6'
+gem 'liquid', '~> 5.11'
 gem 'rgl'
 gem 'acts-as-taggable-on', '~> 13.0'
 gem 'ipaddress', github: 'ipaddress-gem/ipaddress'
