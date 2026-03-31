@@ -42,9 +42,10 @@ class NetworkDNSZones < Patterns::Calculation
     end
 
     def initial_zones_hash
+
       @initial_zones_hash ||= subject.domain_bindings
         .map(&:full_name)
-        .zip(subject.actor.root.all_numbers || [nil])
+        .product(subject.actor.root.all_numbers || [nil])
         .each_with_object({}) do |(name, actor_nr), hash|
           hash[StringSubstituter.result_for(name, actor_nr:)] = []
         end
