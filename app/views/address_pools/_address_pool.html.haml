@@ -60,5 +60,5 @@
                   = "/#{address_pool.ip_network.prefix}"
                 - if address_pool.gateway
                   - split.with_right_cell do
-                    %button.bg-orange-400.inset-0.absolute{type: "submit", name: "address_pool[clear_gateway]", form: dom_id(address_pool, :secondary)}
+                    %button.bg-orange-500.text-white.rounded-r-md.inset-0.absolute{type: "submit", name: "address_pool[clear_gateway]", form: dom_id(address_pool, :secondary)}
                       %i.fas.fa-times{ data: { action: "mouseenter->tooltip#show mouseleave->tooltip#hide" }}
