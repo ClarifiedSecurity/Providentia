@@ -2,6 +2,6 @@
 
 class DocsController < ApplicationController
   def show
-    render Layout::Docs::Component.new(page: params[:page]), content_type: "text/html"
+    render Layout::Docs::Component.new(page: params[:page]), content_type: 'text/html'
   end
 end
