@@ -1,23 +1,27 @@
 # frozen_string_literal: true
 
 class Layout::Header::ActionBar::Component < ApplicationViewComponent
+  include ViewComponentContrib::StyleVariants
+
   Modal = Data.define(:title, :url)
   Action = Data.define(:text, :icon, :url, :delete, :modal) do
     def initialize(text:, icon:, url:, delete: nil, modal: nil)
       super(text:, icon:, url:, delete:, modal:)
     end
 
-    def html_parameters
-      {
-        class: 'inline-flex items-center justify-center px-2 py-1 gap-0.5 text-xs font-medium shadow-sm font-medium text-slate-700 bg-transparent hover:bg-slate-700 hover:text-white focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700'
-      }.merge(data_parameters)
+    def color
+      if delete
+        :danger
+      else
+        :regular
+      end
     end
 
     def data_parameters
       if delete
-        { data: { turbo_method: 'delete', turbo_confirm: "Are you sure you want to delete this #{delete}?" } }
+        { turbo_method: 'delete', turbo_confirm: "Are you sure you want to delete this #{delete}?" }
       elsif modal
-        { data: { action: 'click->dialog#open', dialog_target: 'trigger' } }
+        { action: 'click->dialog#open', dialog_target: 'trigger' }
       else
         {}
       end
@@ -36,6 +40,23 @@ class Layout::Header::ActionBar::Component < ApplicationViewComponent
     Capability,
     Service
   ].freeze
+
+
+  style do
+    base {
+      %w[inline-flex items-center justify-center px-2 py-1 gap-0.5 text-xs font-medium shadow-sm font-medium focus:z-10 focus:ring-2]
+    }
+    variants {
+      color {
+        regular {
+          %w[text-slate-700 bg-transparent hover:bg-slate-700 hover:text-white focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700]
+        }
+        danger {
+          %w[bg-red-700 text-white hover:bg-red-500]
+        }
+      }
+    }
+  end
 
   def initialize(item:)
     @item = item

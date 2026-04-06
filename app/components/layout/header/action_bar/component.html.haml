@@ -6,11 +6,11 @@
           - c.with_body do
             = helpers.turbo_frame_tag dom_id(@item, :api_preview), loading: 'lazy', src: action.modal.url
 
-          = link_to action.url, action.html_parameters do
+          = link_to action.url, { class: style(color: action.color), data: action.data_parameters } do
             %i.fas{class: action.icon}
             = action.text
 
       - else
-        = link_to action.url, action.html_parameters do
+        = link_to action.url, { class: style(color: action.color), data: action.data_parameters } do
           %i.fas{class: action.icon}
           = action.text
