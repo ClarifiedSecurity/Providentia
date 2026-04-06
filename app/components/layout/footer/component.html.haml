@@ -6,8 +6,8 @@
       %span.text-xs= Rails.configuration.x.providentia_version
     %div{class: 'flex-3'}
       %ul.flex.flex-wrap.items-center.mt-3.text-sm.font-medium.text-gray-500.dark:text-gray-400.sm:mt-0.justify-end.gap-x-4
-        %li.hover:text-gray-900.dark:hover:text-white= link_to "API", docs_api_path
-        %li.hover:text-gray-900.dark:hover:text-white= link_to "Templating", docs_templating_path
+        %li.hover:text-gray-900.dark:hover:text-white= link_to "API", docs_path(:api)
+        %li.hover:text-gray-900.dark:hover:text-white= link_to "Templating", docs_path(:templating)
         %li
           = link_to 'https://github.com/ClarifiedSecurity/Providentia', class: 'text-gray-500 hover:text-gray-900 dark:hover:text-white', target: '_blank' do
             %svg.w-4.h-4{"aria-hidden" => "true", fill: "currentColor", viewbox: "0 0 20 20", xmlns: "http://www.w3.org/2000/svg"}

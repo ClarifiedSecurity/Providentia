@@ -59,8 +59,7 @@ Rails.application.routes.draw do
   resources :api_tokens, except: %i[show edit update]
   resources :versions, only: %i[index show], path: :log
 
-  get 'docs/api', to: 'docs#api'
-  get 'docs/templating', to: 'docs#templating'
+  get 'docs/:page', to: 'docs#show', as: :docs
 
   get '/api_preview/:exercise_id/:model/:id', to: 'api_previews#show', as: :global_api_preview
 
