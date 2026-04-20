@@ -99,7 +99,7 @@ GEM
       thread_safe (~> 0.3, >= 0.3.1)
     base64 (0.3.0)
     bcrypt (3.1.22)
-    bigdecimal (4.1.1)
+    bigdecimal (4.1.2)
     bindata (2.5.1)
     bindex (0.8.1)
     bootsnap (1.23.0)
@@ -289,7 +289,7 @@ GEM
       racc (~> 1.4)
     nokogiri (1.19.2-x86_64-linux-musl)
       racc (~> 1.4)
-    oj (3.16.16)
+    oj (3.17.0)
       bigdecimal (>= 3.0)
       ostruct (>= 0.2)
     omniauth (2.1.4)
@@ -653,7 +653,7 @@ DEPENDENCIES
   memory_profiler
   naturally (~> 2.2)
   nilify_blanks (~> 1.4)
-  oj (~> 3.16)
+  oj (~> 3.17)
   omniauth (~> 2.0)
   omniauth-rails_csrf_protection
   omniauth_openid_connect
@@ -711,7 +711,7 @@ CHECKSUMS
   axiom-types (0.1.1) sha256=c1ff113f3de516fa195b2db7e0a9a95fd1b08475a502ff660d04507a09980383
   base64 (0.3.0) sha256=27337aeabad6ffae05c265c450490628ef3ebd4b67be58257393227588f5a97b
   bcrypt (3.1.22) sha256=1f0072e88c2d705d94aff7f2c5cb02eb3f1ec4b8368671e19112527489f29032
-  bigdecimal (4.1.1) sha256=1c09efab961da45203c8316b0cdaec0ff391dfadb952dd459584b63ebf8054ca
+  bigdecimal (4.1.2) sha256=53d217666027eab4280346fba98e7d5b66baaae1b9c3c1c0ffe89d48188a3fbd
   bindata (2.5.1) sha256=53186a1ec2da943d4cb413583d680644eb810aacbf8902497aac8f191fad9e58
   bindex (0.8.1) sha256=7b1ecc9dc539ed8bccfc8cb4d2732046227b09d6f37582ff12e50a5047ceb17e
   bootsnap (1.23.0) sha256=c1254f458d58558b58be0f8eb8f6eec2821456785b7cdd1e16248e2020d3f214
@@ -805,7 +805,7 @@ CHECKSUMS
   nokogiri (1.19.2-x86_64-darwin) sha256=7d9af11fda72dfaa2961d8c4d5380ca0b51bc389dc5f8d4b859b9644f195e7a4
   nokogiri (1.19.2-x86_64-linux-gnu) sha256=fa8feca882b73e871a9845f3817a72e9734c8e974bdc4fbad6e4bc6e8076b94f
   nokogiri (1.19.2-x86_64-linux-musl) sha256=93128448e61a9383a30baef041bf1f5817e22f297a1d400521e90294445069a8
-  oj (3.16.16) sha256=3635b36128991796434f55da8decc0de236a323535adcb36fc04e6d0253c013d
+  oj (3.17.0) sha256=5684b2127fb70e650fae90df521b91336ff8e55e2e1011ed80eb0283beac5360
   omniauth (2.1.4) sha256=42a05b0496f0d22e1dd85d42aaf602f064e36bb47a6826a27ab55e5ba608763c
   omniauth-rails_csrf_protection (2.0.1) sha256=c6e3204d7e3925bb537cb52d50fdfc9f05293f1a9d87c5d4ab4ca3a39ba8c32d
   omniauth_openid_connect (0.8.0) sha256=1f2f3890386e2a742221cee0d2e903b78d874e6fab9ea3bfa31c1462f4793d25
