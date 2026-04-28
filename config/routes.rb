@@ -7,7 +7,9 @@ Rails.application.routes.draw do
     delete 'sign_out', to: 'users/sessions#destroy', as: :destroy_user_session
   end
 
-  resources :exercises, only: %i[new create show edit update] do
+
+  get '/exercises/*path', to: redirect('/environments/%{path}')
+  resources :exercises, path: :environments, only: %i[new create show edit update] do
     resource :map, only: %i[show]
     resources :role_bindings, path: :permissions, only: %i[create update destroy]
     resources :actors, only: %i[create show edit update destroy] do
