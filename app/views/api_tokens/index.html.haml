@@ -1,11 +1,11 @@
 - title "Your API tokens"
 
-.my-2.text-right
-  = link_to({ action: :new }, class: 'form-submit-add') do
-    %i.fas.fa-plus
-    Add new
-
 - if @api_tokens.any?
+  .my-2.text-right
+    = link_to({ action: :new }, class: 'form-submit-add') do
+      %i.fas.fa-plus
+      Add new
+
   = render Table::Component.new do |c|
     - c.with_column { APIToken.human_attribute_name(:name) }
     - c.with_column { APIToken.human_attribute_name(:token) }
@@ -18,4 +18,5 @@
         %td.px-6.py-4.text-right= link_to 'Revoke', api_token_path(api_token), { id: api_token.id, class: 'p-1 px-2 rounded-xs text-white bg-red-500', data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } }
 
 - else
-  = render 'shared/empty', klass: APIToken
+= render Emptylisting::Component.new(klass: APIToken) do
+  = link_to "Create a new token", { action: :new }, class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-200'

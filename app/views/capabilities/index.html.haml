@@ -3,4 +3,4 @@
     = render 'result_set', actors: authorized_scope(@exercise.actors).find(actor_ids) , capabilities:
 
 - else
-  = render 'shared/empty', klass: Capability
+  = render Emptylisting::Component.new(klass: Capability)

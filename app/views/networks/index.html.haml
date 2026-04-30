@@ -8,4 +8,7 @@
       = render Table::Component.new do |c|
         = render 'result_set', actor:, c:, sub:
 - else
-  = render 'shared/empty', klass: Network
+= render Emptylisting::Component.new(klass: Network) do
+  - if allowed_to?(:create?, :network)
+    = link_to "Create the first network", [:new, @exercise, :network], class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-200'
+    to get started

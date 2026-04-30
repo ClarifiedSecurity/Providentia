@@ -19,6 +19,9 @@ en:
   activerecord:
     models:
       exercise: environment
+      api_token:
+        one: API token
+        other: API tokens
       domain:
         one: domain
         other: domains
@@ -40,6 +43,9 @@ en:
       operating_system:
         one: operating system
         other: operating systems
+      network_interface:
+        one: network interface
+        other: network interfaces
     errors:
       models:
         virtual_machine:

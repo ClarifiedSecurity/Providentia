@@ -24,4 +24,4 @@
             = link_to [@exercise, service], data: { turbo_method: 'delete', turbo_confirm: 'Are you sure?' } do
               %i.fas.fa-times-circle.text-red-600
 - else
-  = render 'shared/empty', klass: Service
+  = render Emptylisting::Component.new(klass: Service)

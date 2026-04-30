@@ -17,4 +17,4 @@
               %i.fas.fa-times-circle.text-red-600
 
 - else
-  = render 'shared/empty', klass: CredentialSet
+  = render Emptylisting::Component.new(klass: CredentialSet)

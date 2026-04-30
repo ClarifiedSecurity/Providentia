@@ -4,7 +4,7 @@
 
     %p.pt-5
       No accessible
-      = klass.model_name.human.pluralize.downcase
+      = klass.model_name.human(count: 2)
       found
 
   .pt-1.text-xl.text-gray-800.dark:text-gray-400= content

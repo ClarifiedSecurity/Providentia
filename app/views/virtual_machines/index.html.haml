@@ -11,4 +11,7 @@
     = render partial: 'virtual_machine', collection: @virtual_machines, as: :virtual_machine, cached: ->(vm) { [vm.cache_key_with_version, 'search', allowed_to?(:destroy?, vm), allowed_to?(:read_tags?, vm.host_spec)] }
 
 - else
-  = render 'shared/empty', klass: VirtualMachine
+  = render Emptylisting::Component.new(klass: VirtualMachine) do
+    - if allowed_to?(:create?, :virtual_machine)
+      = link_to "Create the first host", [:new, @exercise, :virtual_machine], class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-200'
+      to get started
