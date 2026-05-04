@@ -17,7 +17,9 @@
         Addresses preview
         %i.fas.fa-up-right-from-square
 
-  #connection_info.p-4.empty:hidden= render "connection_info", vm: @virtual_machine
+  #connection_info.p-4.empty:hidden
+    - if @virtual_machine.network_interfaces.any?
+      = render "connection_info", vm: @virtual_machine
 
   %ol#network_interfaces.list-decimal.px-10.divide-y.divide-double.divide-gray-200.dark:divide-gray-500.marker:font-bold.marker:text-2xl
     = render(NetworkInterfaceForm::Component.with_collection(@virtual_machine.network_interfaces, disabled: !allowed_to?(:update?, @virtual_machine)))
