@@ -2,7 +2,7 @@
 
 class CustomCheckSubject < ApplicationRecord
   def name
-    "#{base_class.constantize.model_name.human}: #{meaning}"
+    "#{base_class.constantize.model_name.human.capitalize}: #{meaning}"
   end
 
   def api_name

@@ -56,7 +56,7 @@ module ApplicationHelper
     ServiceSubjectMatchCondition::VALID_TYPES.map do |type_klass|
       case type_klass
       when Class
-        [type_klass.model_name.human, type_klass.to_s]
+        [type_klass.model_name.human.capitalize, type_klass.to_s]
       when String
         [I18n.t("service_subject_match_conditions.#{type_klass}"), type_klass]
       else

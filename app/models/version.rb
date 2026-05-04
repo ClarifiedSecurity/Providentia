@@ -22,9 +22,9 @@ class Version < PaperTrail::Version
 
   def name
     if item.respond_to? :name
-      "#{item_class.model_name.human} #{item.name}"
+      "#{item_class.model_name.human.capitalize} #{item.name}"
     else
-      "#{item_class.model_name.human} #{item_id}"
+      "#{item_class.model_name.human.capitalize} #{item_id}"
     end
   end
 
