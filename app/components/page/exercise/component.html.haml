@@ -12,14 +12,14 @@
 
     = simple_format exercise.description, class: 'font-lusitana text-lg mt-1 empty:hidden'
 
-  .border-t.border-gray-200.dark:border-gray-600.px-6.py-5.grid.grid-cols-2.lg:grid-cols-6.gap-4
+  .border-t.border-gray-200.dark:border-gray-600.px-6.py-5.grid.grid-cols-2.md:grid-cols-4.xl:grid-cols-6.gap-6
     - features.each do |feature|
-      %feature.rounded-xl.p-3.dark:bg-zinc-700{class: "bg-slate-200/70 col-span-#{feature.assets.size}"}
+      %feature-group.rounded-xl.p-3.dark:bg-zinc-700{class: "bg-slate-200/70 col-span-#{feature.assets.size}"}
         %h1.text-xl.tracking-wider.font-semibold.text-center
           %i.fas{class: feature.assets.first.to_icon}
           = feature.name
 
-        .flex.flex-row.gap-6.p-1.mt-4
+        .flex.flex-row.gap-4.mt-4
           - feature.assets.each do |asset|
             = link_to [exercise, asset.name.underscore.pluralize.to_sym], class: 'flex-1 flex flex-col p-2 text-center rounded-xl shadow/20 bg-slate-300/60 hover:bg-slate-300 transition-colors' do
               %number-counter.text-4xl.my-1{data: { controller: 'animated-number', animated_number: { start_value: 0, end_value: asset_count(asset), duration_value: 600} }}= asset_count(asset)
