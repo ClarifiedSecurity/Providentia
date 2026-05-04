@@ -54,16 +54,16 @@
             %span{title: "#{resource_usage.ram} GB"}= number_to_human_size resource_usage.ram*1024*1024*1024
 
         %div
-          %dt.text-sm.text-gray-500= OperatingSystem.human_attribute_name(:primary_disk_size)
+          %dt.text-sm.text-gray-500 Disk size
           %dd.mt-1.text-sm.text-gray-900.dark:text-white.mt-0
             %span{title: "#{resource_usage.primary_disk_size} GB"}= number_to_human_size resource_usage.primary_disk_size*1024*1024*1024
 
         %div
-          %dt.text-sm.text-gray-500 Host instances
+          %dt.text-sm.text-gray-500 Host instance count
           %dd.mt-1.text-sm.text-gray-900.dark:text-white.mt-0
             = authorized_scope(@exercise.virtual_machines).includes(:numbered_by).reduce(0) { |sum, vm| sum + vm.deployable_instances.size }
 
         %div
-          %dt.text-sm.text-gray-500 Network instances
+          %dt.text-sm.text-gray-500 Network instance count
           %dd.mt-1.text-sm.text-gray-900.dark:text-white.mt-0
             = authorized_scope(@exercise.networks).reduce(0) { |sum, network| sum + NetworkInstances.result_for(network).size }
