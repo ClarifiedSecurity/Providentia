@@ -12,6 +12,6 @@
 
 - else
   = render Emptylisting::Component.new(klass: VirtualMachine) do
-    - if allowed_to?(:create?, :virtual_machine)
+    - if allowed_to?(:create?, VirtualMachine.new(exercise: @exercise))
       = link_to "Create the first host", [:new, @exercise, :virtual_machine], class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-200'
       to get started
