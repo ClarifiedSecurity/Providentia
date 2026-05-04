@@ -2,6 +2,7 @@
 
 class Modal::Component < ApplicationViewComponent
   renders_one :body
+  renders_one :header
 
   def initialize(header: nil, size: :large, only_body: false)
     @header = header
