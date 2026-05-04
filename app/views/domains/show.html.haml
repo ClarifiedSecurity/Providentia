@@ -6,7 +6,7 @@
 
     .grid.grid-flow-row.auto-cols-max.gap-x-2{class: "[grid-template-areas:'a_a']"}
       - @domain.domain_bindings.subdomain_ordering.includes(:network).merge(Network.order(:actor_id, :name)).group_by(&:full_name).each do |full_name, binds|
-        .text-right{class: 'p-0.5'}= render Tooltip::Text::Component.new(Network.new, text: full_name)
+        .text-right{class: 'p-0.5'}= render Tooltip::Text::Component.new(binds.map(&:network).detect(&:numbered?)||Network.new, text: full_name)
         %div
           = render Modal::Component.new(header: "Networks in #{full_name}", size: :small) do |c|
             - c.with_body do
