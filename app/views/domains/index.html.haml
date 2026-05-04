@@ -1,7 +1,10 @@
-.mt-4.p-3.font-lusitana.rounded-t-lg.bg-mauve-300
-  The list of root domains used in
-  %strong= @exercise.name
-  environment. Subdomains can be created and bound to networks to create a hiearchy.
+- if @domains.any?
+  .mt-4.p-3.font-lusitana.rounded-t-lg.bg-mauve-300
+    The list of root domains used in
+    %strong= @exercise.name
+    environment. Subdomains can be created and bound to networks to create a hiearchy.
 
-#domain_list.bg-white.dark:bg-gray-800.grid.grid-cols-3.p-4.gap-2
-  = render collection: @exercise.domains.order(:name), partial: 'domains/card', as: :domain
+  .bg-white.dark:bg-gray-800.grid.grid-cols-3.p-4.gap-2= render collection: @domains, partial: 'domains/card', as: :domain
+
+- else
+  = render Emptylisting::Component.new(klass: Domain)

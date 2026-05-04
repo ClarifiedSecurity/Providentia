@@ -5,6 +5,7 @@ class DomainsController < ApplicationController
   before_action :get_domain, only: %i[show update destroy]
 
   def index
+    @domains = authorized_scope(@exercise.domains).order(:name)
   end
 
   def new
