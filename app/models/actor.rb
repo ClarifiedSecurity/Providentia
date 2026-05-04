@@ -14,7 +14,6 @@ class Actor < ApplicationRecord
   has_many :virtual_machines
   has_many :actor_number_configs
   has_many :numbered_virtual_machines, class_name: 'VirtualMachine', as: :numbered_by
-  has_many :capabilities
   has_many :role_bindings
   has_and_belongs_to_many :capabilities
 
@@ -50,6 +49,12 @@ class Actor < ApplicationRecord
   def ui_color=(value)
     return if !ALLOWED_COLORS.include?(value)
     prefs['ui_color'] = value
+  end
+
+  def destroyable?
+    networks.empty? &&
+      virtual_machines.empty? &&
+      numbered_virtual_machines.empty?
   end
 
   private

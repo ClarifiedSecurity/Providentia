@@ -38,9 +38,14 @@ class ActorsController < ApplicationController
 
   def destroy
     authorize! @actor
-    @actor.role_bindings.delete_all
-    @actor.destroy
-    redirect_to @actor.parent ? [:edit, @exercise, @actor.root] : @exercise
+    return redirect_to [@exercise, @actor], alert: "Cannot destroy, #{@actor.name} has dependencies" if !@actor.destroyable?
+
+    Actor.transaction do
+      @actor.role_bindings.destroy_all
+      @actor.actor_number_configs.destroy_all
+      @actor.destroy
+      redirect_to @actor.parent ? [:edit, @exercise, @actor.root] : @exercise, notice: "Actor #{@actor.name} deleted"
+    end
   end
 
   private
