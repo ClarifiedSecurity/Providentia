@@ -7,12 +7,14 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-sans: "Raleway", ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --font-serif: "Lusitana", ui-serif, Georgia, Cambria, "Times New Roman", Times,
-    serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-    "Liberation Mono", "Courier New", monospace;
+  --font-sans:
+    "Raleway", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-serif:
+    "Lusitana", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-mono:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
   --spacing-9xl: 96rem;
   --font-lusitana: "Lusitana", "sans-serif";
   --font-raleway: "Raleway", "serif";
@@ -23,7 +25,7 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("Lusitana-Regular.ttf") format("truetype");
+  src: url("Lusitana-Regular.woff2") format("woff2");
 }
 
 @font-face {
@@ -31,13 +33,13 @@
   font-style: bold;
   font-weight: 700;
   font-display: swap;
-  src: url("Lusitana-Bold.ttf") format("truetype");
+  src: url("Lusitana-Bold.woff2") format("woff2");
 }
 
 @font-face {
   font-family: "Raleway";
   font-display: swap;
-  src: url("Raleway-VariableFont_wght.ttf") format("truetype");
+  src: url("Raleway-VariableFont_wght.woff2") format("woff2");
 }
 
 @utility form-input {
