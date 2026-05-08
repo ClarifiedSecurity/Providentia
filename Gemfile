@@ -11,7 +11,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 gem 'puma'
 gem 'oj', '~> 3.17'
 gem 'rails-patterns'
-gem 'friendly_id', '~> 5.6.0'
+gem 'friendly_id', '~> 5.7.0'
 gem 'nilify_blanks', '~> 1.4'
 gem 'data_migrate'
 gem 'solid_cable'
