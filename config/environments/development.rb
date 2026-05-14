@@ -101,4 +101,8 @@ Rails.application.configure do
     uri = URI.parse(ENV['BASE_URI'])
     Rails.application.config.hosts << uri.host
   end
+
+  config.active_job.queue_adapter = :solid_queue
+  config.solid_queue.connects_to = { database: { writing: :queue } }
+  config.solid_queue.logger = ActiveSupport::Logger.new(STDOUT)
 end

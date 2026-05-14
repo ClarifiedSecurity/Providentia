@@ -29,6 +29,23 @@ services:
       caddy: ${PROVIDENTIA_DOMAIN:-providentia.localhost}:80
       caddy.reverse_proxy: "{{upstreams 3000}}"
 
+  worker:
+    extends:
+      file: support/compose-web.yml
+      service: worker
+    restart: !override no
+    build:
+      dockerfile: Dockerfile
+      target: development
+      args:
+        CONTAINER_USER_ID:
+        CONTAINER_GROUP_ID:
+    image: !reset
+    volumes:
+      - ./:/srv/app
+    environment:
+      RAILS_ENV: development
+
   caddy:
     extends:
       file: support/compose-caddy.yml

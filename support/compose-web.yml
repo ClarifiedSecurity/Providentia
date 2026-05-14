@@ -34,5 +34,20 @@ services:
       caddy.tls: internal
       caddy.reverse_proxy: "{{upstreams 3000}}"
 
+  worker:
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    image: ghcr.io/clarifiedsecurity/providentia:26.1.0
+    command:
+      - bin/jobs
+    restart: unless-stopped
+    environment:
+      RAILS_ENV: ${RAILS_ENV:-production}
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE:-change-me-this-is-not-secure}
+      DATABASE_URL: postgres://${PROVIDENTIA_DB_USER:-providentia_user}:${PROVIDENTIA_DB_PASS:-providentia_secret}@postgresql/providentia_db?pool=5
+    volumes:
+      - dynamic_env:/srv/env
+
 volumes:
   dynamic_env:
