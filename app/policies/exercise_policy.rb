@@ -35,11 +35,7 @@ class ExercisePolicy < ApplicationPolicy
 
   relation_scope do |relation, opts = {}|
     if user.super_admin?
-      if opts[:with_archived]
-        relation
-      else
-        relation.active
-      end
+      relation
     else
       relation.for_user(user).active.distinct
     end

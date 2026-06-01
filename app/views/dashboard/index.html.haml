@@ -50,13 +50,14 @@
     = render partial: 'environments/environment_card_small', collection: @other_exercises, as: :environment
 
 - if allowed_to?(:list_archived?, :exercise)
-  - if !params[:archived]
+  - if params[:archived]
+    - if @archived_exercises.any?
+      %h1.text-xl.py-2.font-medium Archived environments
+      .grid.grid-cols-4.gap-6.justify-items-stretch.pb-10
+        = render partial: 'environments/environment_card_small', collection: @archived_exercises, as: :environment
+  - else
     .text-center= link_to 'Show archived', root_path(archived: true), class: 'form-submit h-10'
 
-  - if @archived_exercises.any?
-    %h1.text-xl.py-2.font-medium Archived environments
-    .grid.grid-cols-4.gap-6.justify-items-stretch.pb-10
-      = render partial: 'environments/environment_card_small', collection: @archived_exercises, as: :environment
 
 - if @my_exercises.empty? && @other_exercises.empty?
   = render Emptylisting::Component.new.new(klass: Exercise) do
