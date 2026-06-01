@@ -72,8 +72,7 @@ module API
         end
 
         def vm_name
-          gen = HostnameGenerator.result_for(host_spec, address: primary_generator&.address)
-          substitute("#{vm.exercise.abbreviation}_#{gen.fqdn}").downcase
+          substitute("#{vm.exercise.abbreviation}_#{primary_generator.generator.fqdn}").downcase
         end
 
         def hostname_sequence_suffix
