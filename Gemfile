@@ -87,4 +87,5 @@ group :development do
   gem 'silencer'
   gem 'awesome_print', '~> 1.9'
   gem 'pry-rails', '~> 0.3.9'
+  gem "solargraph", "~> 0.59.2"
 end
