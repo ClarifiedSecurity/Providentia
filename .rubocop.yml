@@ -8,4 +8,4 @@ Style/StringLiterals:
   EnforcedStyle: single_quotes
 
 AllCops:
-  TargetRubyVersion: 3.4.x
+  TargetRubyVersion: 4.0.x
