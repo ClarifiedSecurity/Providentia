@@ -6,7 +6,7 @@
       %dd.mt-1.text-sm.text-gray-900.dark:text-white.mt-0
         - net_scope.each do |network|
           = link_to [network.exercise, network], class: 'mr-1' do
-            = render ActorChip::Component.new(actor: network.actor, text: network.name)
+            = render ActorChip::Component.new(network.actor, text: network.name)
 
     - if vm.connection_nic
       %div

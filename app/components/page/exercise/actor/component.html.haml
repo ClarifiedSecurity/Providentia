@@ -7,7 +7,7 @@
         %span.rounded-full.mx-2.py-1.px-2.bg-indigo-100.text-indigo-500.dark:bg-indigo-300.dark:text-indigo-700
           = actor.number
           clones
-      = render ActorChip::Component.new(actor:, text: actor.abbreviation)
+      = render ActorChip::Component.new(actor, text: actor.abbreviation)
 
   = simple_format actor.description, class: 'font-normal text-sm grow'
 

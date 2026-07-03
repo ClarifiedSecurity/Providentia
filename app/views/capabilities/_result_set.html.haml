@@ -1,7 +1,7 @@
 - if actors
   .py-4.text-center.text-xl.font-semibold
     - actors.each do |actor|
-      %span.mx-1= render ActorChip::Component.new(actor:)
+      %span.mx-1= render ActorChip::Component.new(actor)
   .pb-5
     .border-t.border-gray-200.dark:border-gray-600
 
