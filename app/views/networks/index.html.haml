@@ -1,12 +1,11 @@
 - if @networks.any?
-  - @actors.each do |actor, sub|
-    - if (@networks.keys & actor.subtree).any?
-      .py-4.text-center.text-xl.font-semibold= render ActorChip::Component.new(actor)
-      .pb-5
-        .border-t.border-gray-200.dark:border-gray-600
+  - @networks.group_by { it.actor.root }.each do |root_actor, networks|
+    .py-4.text-center.text-xl.font-semibold= render ActorChip::Component.new(root_actor)
+    .pb-5
+      .border-t.border-gray-200.dark:border-gray-600
 
-      = render Table::Component.new do |c|
-        = render 'result_set', actor:, c:, sub:
+    = render NetworkListing::Component.new(networks, context_actor: root_actor)
+
 - else
   = render Emptylisting::Component.new(klass: Network) do
     - if allowed_to?(:create?, Network.new(exercise: @exercise))

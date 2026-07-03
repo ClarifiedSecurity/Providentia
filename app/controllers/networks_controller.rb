@@ -5,12 +5,10 @@ class NetworksController < ApplicationController
   before_action :get_network, only: %i[show edit update destroy]
 
   def index
-    @actors = authorized_scope(@exercise.actors).arrange
-    @networks =
-      authorized_scope(@exercise.networks)
-      .order(:name)
+    @networks = authorized_scope(@exercise.networks)
+      .joins(:actor)
       .includes(:actor, :address_pools)
-      .group_by(&:actor)
+      .order([:actors.name, :abbreviation])
   end
 
   def new
