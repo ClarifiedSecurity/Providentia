@@ -10,31 +10,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_22_115849) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_01_112753) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
   create_table "actor_number_configs", force: :cascade do |t|
     t.bigint "actor_id", null: false
-    t.string "name", null: false
     t.jsonb "config_map", default: {}, null: false
-    t.jsonb "matcher", default: [], null: false
     t.datetime "created_at", null: false
+    t.jsonb "matcher", default: [], null: false
+    t.string "name", null: false
     t.datetime "updated_at", null: false
     t.index ["actor_id"], name: "index_actor_number_configs_on_actor_id"
   end
 
   create_table "actors", force: :cascade do |t|
-    t.bigint "exercise_id", null: false
     t.string "abbreviation", null: false
-    t.string "name", null: false
-    t.jsonb "prefs", default: {}
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.string "ancestry"
-    t.integer "number"
-    t.text "description"
+    t.datetime "created_at", null: false
     t.integer "default_visibility", default: 1
+    t.text "description"
+    t.bigint "exercise_id", null: false
+    t.string "name", null: false
+    t.integer "number"
+    t.jsonb "prefs", default: {}
+    t.string "slug"
+    t.datetime "updated_at", null: false
     t.index ["ancestry"], name: "index_actors_on_ancestry"
     t.index ["exercise_id"], name: "index_actors_on_exercise_id"
   end
@@ -46,53 +47,53 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_22_115849) do
   end
 
   create_table "address_pools", force: :cascade do |t|
-    t.bigint "network_id", null: false
-    t.string "name", null: false
-    t.string "slug", null: false
-    t.integer "ip_family", default: 1, null: false
-    t.integer "scope", default: 1, null: false
-    t.string "network_address"
-    t.bigint "gateway", default: 0
-    t.integer "range_start"
-    t.integer "range_end"
     t.datetime "created_at", null: false
+    t.bigint "gateway", default: 0
+    t.integer "ip_family", default: 1, null: false
+    t.string "name", null: false
+    t.string "network_address"
+    t.bigint "network_id", null: false
+    t.integer "range_end"
+    t.integer "range_start"
+    t.integer "scope", default: 1, null: false
+    t.string "slug", null: false
     t.datetime "updated_at", null: false
     t.index ["network_id"], name: "index_address_pools_on_network_id"
   end
 
   create_table "addresses", force: :cascade do |t|
-    t.bigint "network_interface_id", null: false
-    t.integer "mode", null: false
-    t.string "offset"
-    t.boolean "dns_enabled", default: false, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.bigint "address_pool_id"
     t.boolean "connection", default: false, null: false
+    t.datetime "created_at", null: false
+    t.boolean "dns_enabled", default: false, null: false
     t.bigint "domain_binding_id"
+    t.integer "mode", null: false
+    t.bigint "network_interface_id", null: false
+    t.string "offset"
+    t.datetime "updated_at", null: false
     t.index ["address_pool_id"], name: "index_addresses_on_address_pool_id"
     t.index ["domain_binding_id"], name: "index_addresses_on_domain_binding_id"
     t.index ["network_interface_id"], name: "index_addresses_on_network_interface_id"
   end
 
   create_table "api_tokens", force: :cascade do |t|
+    t.datetime "created_at", null: false
     t.string "name"
     t.string "token"
-    t.bigint "user_id", null: false
-    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
     t.index ["token"], name: "index_api_tokens_on_token", unique: true
     t.index ["user_id"], name: "index_api_tokens_on_user_id"
   end
 
   create_table "capabilities", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "slug", null: false
+    t.bigint "actor_id"
+    t.datetime "created_at", null: false
     t.text "description"
     t.bigint "exercise_id", null: false
-    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.string "slug", null: false
     t.datetime "updated_at", null: false
-    t.bigint "actor_id"
     t.index ["actor_id"], name: "index_capabilities_on_actor_id"
     t.index ["exercise_id"], name: "index_capabilities_on_exercise_id"
   end
@@ -104,19 +105,19 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_22_115849) do
   end
 
   create_table "checks", force: :cascade do |t|
-    t.bigint "service_id", null: false
-    t.string "source_type", null: false
-    t.bigint "source_id", null: false
-    t.string "destination_type", null: false
-    t.bigint "destination_id", null: false
     t.integer "check_mode", default: 1, null: false
-    t.string "special_label"
-    t.integer "protocol"
+    t.jsonb "config_map"
+    t.datetime "created_at", null: false
+    t.bigint "destination_id", null: false
+    t.string "destination_type", null: false
     t.integer "ip_family"
     t.string "port"
-    t.jsonb "config_map"
+    t.integer "protocol"
     t.boolean "scored", default: true, null: false
-    t.datetime "created_at", null: false
+    t.bigint "service_id", null: false
+    t.bigint "source_id", null: false
+    t.string "source_type", null: false
+    t.string "special_label"
     t.datetime "updated_at", null: false
     t.index ["destination_type", "destination_id"], name: "index_checks_on_destination"
     t.index ["service_id"], name: "index_checks_on_service_id"
@@ -124,63 +125,63 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_22_115849) do
   end
 
   create_table "credential_bindings", force: :cascade do |t|
+    t.datetime "created_at", null: false
     t.bigint "credential_set_id", null: false
     t.bigint "customization_spec_id", null: false
-    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["credential_set_id"], name: "index_credential_bindings_on_credential_set_id"
     t.index ["customization_spec_id"], name: "index_credential_bindings_on_customization_spec_id"
   end
 
   create_table "credential_sets", force: :cascade do |t|
-    t.bigint "exercise_id", null: false
-    t.bigint "network_id"
-    t.string "name", null: false
-    t.string "slug", null: false
-    t.text "description"
     t.datetime "created_at", null: false
+    t.text "description"
+    t.bigint "exercise_id", null: false
+    t.string "name", null: false
+    t.bigint "network_id"
+    t.string "slug", null: false
     t.datetime "updated_at", null: false
     t.index ["exercise_id"], name: "index_credential_sets_on_exercise_id"
     t.index ["network_id"], name: "index_credential_sets_on_network_id"
   end
 
   create_table "credentials", force: :cascade do |t|
+    t.jsonb "config_map", default: {}, null: false
+    t.datetime "created_at", null: false
     t.bigint "credential_set_id", null: false
     t.string "name", null: false
     t.string "password", null: false
-    t.jsonb "config_map", default: {}, null: false
-    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["credential_set_id"], name: "index_credentials_on_credential_set_id"
   end
 
   create_table "custom_check_subjects", force: :cascade do |t|
     t.string "base_class", null: false
-    t.string "meaning", null: false
     t.datetime "created_at", null: false
+    t.string "meaning", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "customization_specs", force: :cascade do |t|
-    t.bigint "virtual_machine_id", null: false
+    t.boolean "cluster_mode", default: true
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.string "dns_name"
     t.integer "mode", default: 1, null: false
     t.string "name"
-    t.string "slug"
     t.string "role_name"
-    t.string "dns_name"
-    t.text "description"
-    t.datetime "created_at", null: false
+    t.string "slug"
     t.datetime "updated_at", null: false
-    t.boolean "cluster_mode", default: true
     t.bigint "user_id"
+    t.bigint "virtual_machine_id", null: false
     t.index ["name", "virtual_machine_id"], name: "index_customization_specs_on_name_and_virtual_machine_id", unique: true
     t.index ["user_id"], name: "index_customization_specs_on_user_id"
     t.index ["virtual_machine_id"], name: "index_customization_specs_on_virtual_machine_id"
   end
 
   create_table "customization_specs_services", id: false, force: :cascade do |t|
-    t.bigint "service_id", null: false
     t.bigint "customization_spec_id", null: false
+    t.bigint "service_id", null: false
     t.index ["customization_spec_id", "service_id"], name: "spec_service_index"
   end
 
@@ -188,121 +189,121 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_22_115849) do
   end
 
   create_table "domain_bindings", force: :cascade do |t|
-    t.bigint "network_id", null: false
+    t.datetime "created_at", null: false
     t.bigint "domain_id", null: false
     t.string "name"
-    t.datetime "created_at", null: false
+    t.bigint "network_id", null: false
     t.datetime "updated_at", null: false
     t.index ["domain_id"], name: "index_domain_bindings_on_domain_id"
     t.index ["network_id"], name: "index_domain_bindings_on_network_id"
   end
 
   create_table "domains", force: :cascade do |t|
+    t.datetime "created_at", null: false
     t.bigint "exercise_id", null: false
     t.string "name"
-    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["exercise_id"], name: "index_domains_on_exercise_id"
   end
 
   create_table "exercises", force: :cascade do |t|
-    t.string "name", null: false
     t.string "abbreviation", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "root_domain"
-    t.string "dev_resource_name"
-    t.string "dev_red_resource_name"
-    t.string "slug"
-    t.boolean "services_read_only", default: true, null: false
     t.boolean "archived", default: false, null: false
-    t.integer "mode", default: 1, null: false
+    t.datetime "created_at", null: false
     t.string "description"
+    t.string "dev_red_resource_name"
+    t.string "dev_resource_name"
     t.string "local_admin_resource_name"
+    t.integer "mode", default: 1, null: false
+    t.string "name", null: false
+    t.string "root_domain"
+    t.boolean "services_read_only", default: true, null: false
+    t.string "slug"
+    t.datetime "updated_at", null: false
     t.index ["abbreviation"], name: "index_exercises_on_abbreviation", unique: true
     t.index ["slug"], name: "index_exercises_on_slug", unique: true
   end
 
   create_table "instance_metadata", force: :cascade do |t|
+    t.datetime "created_at", null: false
     t.bigint "customization_spec_id", null: false
     t.string "instance", null: false
     t.jsonb "metadata", default: {}, null: false
-    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["customization_spec_id"], name: "index_instance_metadata_on_customization_spec_id"
   end
 
   create_table "network_interfaces", force: :cascade do |t|
-    t.bigint "virtual_machine_id", null: false
-    t.bigint "network_id", null: false
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.boolean "egress", default: false, null: false
+    t.bigint "network_id", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "virtual_machine_id", null: false
     t.index ["network_id"], name: "index_network_interfaces_on_network_id"
     t.index ["virtual_machine_id"], name: "index_network_interfaces_on_virtual_machine_id"
   end
 
   create_table "networks", force: :cascade do |t|
-    t.bigint "exercise_id", null: false
-    t.string "name", null: false
     t.string "abbreviation", null: false
-    t.string "cloud_id"
-    t.text "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "domain"
-    t.boolean "ignore_root_domain", default: false, null: false
-    t.string "slug"
-    t.jsonb "config_map"
     t.bigint "actor_id"
+    t.string "cloud_id"
+    t.jsonb "config_map"
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.string "domain"
+    t.bigint "exercise_id", null: false
+    t.boolean "ignore_root_domain", default: false, null: false
+    t.string "name", null: false
+    t.string "slug"
+    t.datetime "updated_at", null: false
     t.integer "visibility", default: 1
     t.index ["actor_id"], name: "index_networks_on_actor_id"
     t.index ["exercise_id"], name: "index_networks_on_exercise_id"
   end
 
   create_table "operating_systems", force: :cascade do |t|
-    t.string "name"
-    t.string "cloud_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.string "ancestry"
-    t.string "slug"
+    t.string "cloud_id"
     t.integer "cpu"
-    t.integer "ram"
+    t.datetime "created_at", null: false
+    t.string "name"
     t.integer "primary_disk_size"
+    t.integer "ram"
+    t.string "slug"
+    t.datetime "updated_at", null: false
     t.index ["ancestry"], name: "index_operating_systems_on_ancestry"
     t.index ["cloud_id"], name: "index_operating_systems_on_cloud_id", unique: true
     t.index ["slug"], name: "index_operating_systems_on_slug", unique: true
   end
 
   create_table "role_bindings", force: :cascade do |t|
-    t.bigint "exercise_id", null: false
     t.bigint "actor_id"
+    t.datetime "created_at", null: false
+    t.bigint "exercise_id", null: false
     t.integer "role"
+    t.datetime "updated_at", null: false
     t.string "user_email"
     t.string "user_resource"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.index ["actor_id"], name: "index_role_bindings_on_actor_id"
     t.index ["exercise_id"], name: "index_role_bindings_on_exercise_id"
   end
 
   create_table "service_subjects", force: :cascade do |t|
-    t.bigint "service_id", null: false
+    t.datetime "created_at", null: false
     t.jsonb "customization_spec_ids", default: []
     t.jsonb "match_conditions", default: {}, null: false
-    t.datetime "created_at", null: false
+    t.bigint "service_id", null: false
     t.datetime "updated_at", null: false
     t.index ["service_id"], name: "index_service_subjects_on_service_id"
   end
 
   create_table "services", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "description"
     t.bigint "exercise_id", null: false
     t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.text "description"
     t.string "slug"
+    t.datetime "updated_at", null: false
     t.index ["exercise_id"], name: "index_services_on_exercise_id"
   end
 
@@ -313,13 +314,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_22_115849) do
   end
 
   create_table "taggings", force: :cascade do |t|
-    t.bigint "tag_id"
-    t.string "taggable_type"
-    t.bigint "taggable_id"
-    t.string "tagger_type"
-    t.bigint "tagger_id"
     t.string "context", limit: 128
     t.datetime "created_at", precision: nil
+    t.bigint "tag_id"
+    t.bigint "taggable_id"
+    t.string "taggable_type"
+    t.bigint "tagger_id"
+    t.string "tagger_type"
     t.string "tenant", limit: 128
     t.index ["context"], name: "index_taggings_on_context"
     t.index ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true
@@ -336,58 +337,58 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_22_115849) do
   end
 
   create_table "tags", force: :cascade do |t|
-    t.string "name"
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string "name"
     t.integer "taggings_count", default: 0
+    t.datetime "updated_at", null: false
     t.index ["name"], name: "index_tags_on_name", unique: true
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "uid", default: "", null: false
-    t.string "email", default: "", null: false
-    t.string "name", default: "", null: false
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "sign_in_count", default: 0, null: false
     t.datetime "current_sign_in_at", precision: nil
-    t.datetime "last_sign_in_at", precision: nil
     t.inet "current_sign_in_ip"
+    t.string "email", default: "", null: false
+    t.datetime "last_sign_in_at", precision: nil
     t.inet "last_sign_in_ip"
+    t.string "name", default: "", null: false
     t.jsonb "permissions", default: {}
     t.jsonb "resources", default: []
+    t.integer "sign_in_count", default: 0, null: false
+    t.string "uid", default: "", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "versions", force: :cascade do |t|
-    t.string "item_type", null: false
-    t.bigint "item_id", null: false
-    t.string "event", null: false
-    t.string "whodunnit"
-    t.jsonb "object"
     t.datetime "created_at", precision: nil
+    t.string "event", null: false
+    t.bigint "item_id", null: false
+    t.string "item_type", null: false
+    t.jsonb "object"
     t.jsonb "object_changes"
+    t.string "whodunnit"
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
   create_table "virtual_machines", force: :cascade do |t|
-    t.bigint "exercise_id"
-    t.string "name"
-    t.text "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "deploy_mode", default: 0, null: false
-    t.integer "custom_instance_count"
-    t.bigint "operating_system_id"
-    t.string "role"
-    t.integer "cpu"
-    t.integer "ram"
-    t.string "hostname"
-    t.integer "system_owner_id"
-    t.integer "primary_disk_size"
-    t.integer "visibility", default: 1
     t.bigint "actor_id"
+    t.integer "cpu"
+    t.datetime "created_at", null: false
+    t.integer "custom_instance_count"
+    t.integer "deploy_mode", default: 0, null: false
+    t.text "description"
+    t.bigint "exercise_id"
+    t.string "hostname"
+    t.string "name"
     t.integer "numbered_by_id"
     t.string "numbered_by_type"
+    t.bigint "operating_system_id"
+    t.integer "primary_disk_size"
+    t.integer "ram"
+    t.string "role"
+    t.integer "system_owner_id"
+    t.datetime "updated_at", null: false
+    t.integer "visibility", default: 1
     t.index ["actor_id"], name: "index_virtual_machines_on_actor_id"
     t.index ["exercise_id"], name: "index_virtual_machines_on_exercise_id"
     t.index ["name", "exercise_id"], name: "index_virtual_machines_on_name_and_exercise_id", unique: true

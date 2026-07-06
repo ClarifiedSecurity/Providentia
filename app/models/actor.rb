@@ -3,6 +3,9 @@
 class Actor < ApplicationRecord
   ALLOWED_COLORS = %w(slate amber emerald rose sky orange violet).freeze
 
+  extend FriendlyId
+  friendly_id :name, use: [:slugged, :scoped], scope: :exercise
+
   has_ancestry
 
   attribute :default_visibility, :integer # rails bug during migrations
