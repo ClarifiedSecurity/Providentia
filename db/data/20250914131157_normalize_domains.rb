@@ -13,7 +13,7 @@ class NormalizeDomains < ActiveRecord::Migration[8.0]
       network.cloud_id&.gsub!(ONE_HASH, '{{ team_nr }})')
       network.domain&.gsub!(NO_SPACES_LIQUID, '{{ \1 }}')
       network.cloud_id&.gsub!(NO_SPACES_LIQUID, '{{ \1 }}')
-      network.save!
+      network.save!(validate: false)
     end
   end
 
