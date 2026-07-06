@@ -4,7 +4,7 @@
   - c.with_column(size: :sm) { Network.human_attribute_name(:cloud_id) }
   - c.with_column(size: :sm) { Address.model_name.human.pluralize }
   - c.with_column(size: :sm) { Domain.model_name.human.pluralize }
-  - c.with_column(size: :sm) { Network.human_attribute_name(:description) }
+  - c.with_column(size: :sm) { '' }
   - c.with_column(size: :sm) { '' }
 
   - networks.each do |network|
@@ -30,7 +30,12 @@
         - network.domain_bindings.full_names.each do
           %p= render Tooltip::Text::Component.new(network, text: it)
 
-      %td.px-3.py-2.font-lusitana= simple_format network.description
+      %td.px-3.py-2
+        = render HoverGroup::Component.new do |c|
+          - if network.description.present?
+            - c.with_button(icon: 'fa-file-lines') do
+              = simple_format(network.description)
+
       %td.px-6.py-4.whitespace-nowrap.text-right.opacity-0.group-hover:opacity-100.transition-opacity
         - if allowed_to?(:destroy?, network)
           = link_to [network.exercise, network], data: { turbo_method: 'delete', turbo_confirm: 'Are you sure?' } do
