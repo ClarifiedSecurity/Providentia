@@ -28,19 +28,19 @@
 
 
   %info.flex.items-center.justify-center
-    .inline-flex.-space-x-0.divide-x.divide-zinc-400.overflow-hidden.rounded-lg.border.border-zinc-400.shadow-sm.dark:shadow-slate-400.empty:hidden<
+    = render HoverGroup::Component.new do |c|
       - if virtual_machine.description.present?
-        %span.inline-flex.items-center.px-3.py-2.text-center.text-sm.font-medium.shadow-sm.font-medium.text-slate-700.bg-transparent.hover:bg-slate-700.hover:text-white.focus:z-10.focus:ring-2.focus:ring-gray-500.focus:bg-gray-900.focus:text-white.dark:border-white.dark:text-white.dark:hover:text-white.dark:hover:bg-gray-700.dark:focus:bg-gray-700{data: {controller: 'tooltip', tooltip: virtual_machine.description, action: "mouseenter->tooltip#show mouseleave->tooltip#hide"}}
-          %i.fas.fa-fw.fa-file-lines
+        - c.with_button(icon: 'fa-file-lines') do
+          = simple_format(virtual_machine.description)
       - if virtual_machine.customization_specs.flat_map(&:capabilities).any?
-        %span.inline-flex.items-center.px-3.py-2.text-center.text-sm.font-medium.shadow-sm.font-medium.text-slate-700.bg-transparent.hover:bg-slate-700.hover:text-white.focus:z-10.focus:ring-2.focus:ring-gray-500.focus:bg-gray-900.focus:text-white.dark:border-white.dark:text-white.dark:hover:text-white.dark:hover:bg-gray-700.dark:focus:bg-gray-700{data: {controller: 'tooltip', tooltip: virtual_machine.customization_specs.flat_map(&:capabilities).flat_map(&:name).join(', '), action: "mouseenter->tooltip#show mouseleave->tooltip#hide"}}
-          %i.fas.fa-fw{class: Capability.to_icon}
+        - c.with_button(icon: Capability.to_icon) do
+          = virtual_machine.customization_specs.flat_map(&:capabilities).flat_map(&:name).join(', ')
       - if virtual_machine.host_spec.user
-        %span.inline-flex.items-center.px-3.py-2.text-center.text-sm.font-medium.shadow-sm.font-medium.text-slate-700.bg-transparent.hover:bg-slate-700.hover:text-white.focus:z-10.focus:ring-2.focus:ring-gray-500.focus:bg-gray-900.focus:text-white.dark:border-white.dark:text-white.dark:hover:text-white.dark:hover:bg-gray-700.dark:focus:bg-gray-700{data: {controller: 'tooltip', tooltip: virtual_machine.host_spec.user.name, action: "mouseenter->tooltip#show mouseleave->tooltip#hide" }}
-          %i.fas.fa-fw.fa-user-tag
+        - c.with_button(icon: 'fa-user-tag') do
+          = virtual_machine.host_spec.user.name
       - if virtual_machine.operating_system
-        %span.inline-flex.items-center.px-3.py-2.text-center.text-sm.font-medium.shadow-sm.font-medium.text-slate-700.bg-transparent.hover:bg-slate-700.hover:text-white.focus:z-10.focus:ring-2.focus:ring-gray-500.focus:bg-gray-900.focus:text-white.dark:border-white.dark:text-white.dark:hover:text-white.dark:hover:bg-gray-700.dark:focus:bg-gray-700{data: {controller: 'tooltip', tooltip: virtual_machine.operating_system.name, action: "mouseenter->tooltip#show mouseleave->tooltip#hide"}}
-          %i.fas.fa-fw{class: virtual_machine.operating_system.to_icon}
+        - c.with_button(icon: virtual_machine.operating_system.to_icon) do
+          = virtual_machine.operating_system.name
 
   - if allowed_to?(:destroy?, virtual_machine)
     %delete
