@@ -1,5 +1,5 @@
 import Popover from "@stimulus-components/popover";
-import { computePosition } from "@floating-ui/dom";
+import { computePosition, shift } from "@floating-ui/dom";
 
 export default class extends Popover {
   async show(event) {
@@ -9,6 +9,7 @@ export default class extends Popover {
       .children[0];
     computePosition(el, target, {
       placement: "top",
+      middleware: [shift()],
     }).then(({ x, y }) => {
       Object.assign(target.style, {
         left: `${x}px`,
