@@ -3,14 +3,14 @@
     %row.flex.gap-1
       .flex-1
       .flex-2.flex.items-center.justify-center.gap-1
-        %h3.text-xl.font-semibold.leading-6.text-gray-900.dark:text-gray-300= exercise.name
-        %span.px-3.py-1.text-xs.text-indigo-800.uppercase.bg-indigo-200.rounded-full.dark:bg-indigo-300.dark:text-indigo-900= exercise.abbreviation
+        %h3.text-xl.font-semibold.leading-6.text-gray-900.dark:text-gray-300= environment.name
+        %span.px-3.py-1.text-xs.text-indigo-800.uppercase.bg-indigo-200.rounded-full.dark:bg-indigo-300.dark:text-indigo-900= environment.abbreviation
       .flex-1.text-right
         %span.rounded-full.bg-gray-200.dark:bg-slate-700.transition.opacity-40.hover:opacity-100.empty:hidden{class: 'p-1'}<
-          - RoleBinding.for_user(current_user).for_environment(exercise).each do |role_binding|
+          - RoleBinding.for_user(current_user).for_environment(environment).each do |role_binding|
             = render RoleIcon::Component.new(role_binding)
 
-    = simple_format exercise.description, class: 'font-lusitana text-lg mt-1 empty:hidden'
+    = simple_format environment.description, class: 'font-lusitana text-lg mt-1 empty:hidden'
 
   .border-t.border-gray-200.dark:border-gray-600.px-6.py-5.grid.grid-cols-2.md:grid-cols-4.xl:grid-cols-6.gap-6
     - features.each do |feature|
@@ -31,7 +31,7 @@
 
     #actors.grid.gap-6.grid-cols-2.lg:grid-cols-3
       - actors.each do |actor, tree|
-        = render Page::Exercise::Actor::Component.new(actor, tree)
+        = render Page::Environment::Actor::Component.new(actor, tree)
 
       - if actors.empty?
         .col-span-3
@@ -61,9 +61,9 @@
         %div
           %dt.text-sm.text-gray-500 Host instance count
           %dd.mt-1.text-sm.text-gray-900.dark:text-white.mt-0
-            = authorized_scope(@exercise.virtual_machines).includes(:numbered_by).reduce(0) { |sum, vm| sum + vm.deployable_instances.size }
+            = authorized_scope(environment.virtual_machines).includes(:numbered_by).reduce(0) { |sum, vm| sum + vm.deployable_instances.size }
 
         %div
           %dt.text-sm.text-gray-500 Network instance count
           %dd.mt-1.text-sm.text-gray-900.dark:text-white.mt-0
-            = authorized_scope(@exercise.networks).reduce(0) { |sum, network| sum + NetworkInstances.result_for(network).size }
+            = authorized_scope(environment.networks).reduce(0) { |sum, network| sum + NetworkInstances.result_for(network).size }

@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-class Page::Exercise::Component < ApplicationViewComponent
+class Page::Environment::Component < ApplicationViewComponent
   Feature = Data.define(:name, :assets)
 
-  param :exercise
+  param :environment
 
   private
     def before_render
-      title exercise.name
+      title environment.name
     end
 
     def features
@@ -29,8 +29,8 @@ class Page::Exercise::Component < ApplicationViewComponent
     end
 
     def asset_count(asset)
-      scope = authorized_scope(asset.where(exercise:))
-      Rails.cache.fetch([exercise.cache_key_with_version, scope.cache_key_with_version, 'count']) do
+      scope = authorized_scope(asset.where(exercise: environment))
+      Rails.cache.fetch([environment.cache_key_with_version, scope.cache_key_with_version, 'count']) do
         scope.count
       end
     end
@@ -42,8 +42,8 @@ class Page::Exercise::Component < ApplicationViewComponent
     def resource_cache_key
       [
         'resource',
-        authorized_scope(@exercise.virtual_machines).cache_key_with_version,
-        authorized_scope(@exercise.networks).cache_key_with_version
+        authorized_scope(environment.virtual_machines).cache_key_with_version,
+        authorized_scope(environment.networks).cache_key_with_version
       ]
     end
 

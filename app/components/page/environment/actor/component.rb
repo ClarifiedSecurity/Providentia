@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Page::Exercise::Actor::Component < ApplicationViewComponent
+class Page::Environment::Actor::Component < ApplicationViewComponent
   include ActorColorsMixin
 
   param :actor
