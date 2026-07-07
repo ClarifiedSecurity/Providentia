@@ -18,7 +18,12 @@ en:
 
   activerecord:
     models:
-      exercise: environment
+      actor:
+        one: actor
+        other: actors
+      exercise:
+        one: environment
+        other: environments
       api_token:
         one: API token
         other: API tokens
