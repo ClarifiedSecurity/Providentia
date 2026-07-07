@@ -10,6 +10,8 @@
 
     = csrf_meta_tags
     = csp_meta_tag
+    = turbo_refresh_method_tag :morph
+    = turbo_refresh_scroll_tag :preserve
     = javascript_tag nonce: true do
       :plain
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
