@@ -18,7 +18,7 @@ services:
         condition: service_completed_successfully
       postgresql:
         condition: service_healthy
-    image: "ghcr.io/zitadel/zitadel:v3.3.2"
+    image: "ghcr.io/zitadel/zitadel:v4.15.3"
     command: 'start-from-init --masterkey "MasterkeyNeedsToHave32Characters" --tlsMode disabled'
     environment:
       ZITADEL_EXTERNALDOMAIN: ${ZITADEL_DOMAIN:-zitadel.localhost}
