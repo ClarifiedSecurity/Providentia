@@ -65,8 +65,8 @@ CMD ["./bin/rails", "server", "-b", "0.0.0.0"]
 ## JEMALLOC IMAGE
 FROM base AS builder_jemalloc
 RUN apk add --no-cache --update build-base
-RUN wget -O - https://github.com/jemalloc/jemalloc/releases/download/5.3.0/jemalloc-5.3.0.tar.bz2 | tar -xj && \
-  cd jemalloc-5.3.0 && \
+RUN wget -O - https://github.com/jemalloc/jemalloc/releases/download/5.3.1/jemalloc-5.3.1.tar.bz2 | tar -xj && \
+  cd jemalloc-5.3.1 && \
   ./configure && \
   make && \
   make install
