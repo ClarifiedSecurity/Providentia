@@ -26,8 +26,7 @@ RUN apk add --no-cache --update \
   git
 COPY Gemfile Gemfile.lock ./
 RUN bundle install --jobs $(nproc) --retry 3 && \
-  rm -rf ~/.bundle/ /usr/local/bundle/ruby/*/cache /usr/local/bundle/ruby/*/bundler/gems/*/.git && \
-  bundle exec bootsnap precompile --gemfile
+  rm -rf ~/.bundle/ /usr/local/bundle/cache /usr/local/bundle/gems/*/.git /usr/local/bundle/bundler/gems/*/.git
 
 ## DEVELOPMENT IMAGE
 FROM base AS development
@@ -76,11 +75,10 @@ RUN wget -O - https://github.com/jemalloc/jemalloc/releases/download/5.3.0/jemal
 FROM base AS builder_prod
 ENV RAILS_ENV=production \
   BUNDLE_FROZEN="1" \
-  BUNDLE_WITHOUT="development"
+  BUNDLE_WITHOUT="development:test"
 
 RUN apk add --no-cache --update \
   build-base \
-  bash \
   git \
   tzdata \
   postgresql-dev \
@@ -89,7 +87,7 @@ RUN apk add --no-cache --update \
 
 COPY Gemfile Gemfile.lock ./
 RUN bundle install --no-binstubs --jobs $(nproc) --retry 3 && \
-  rm -rf ~/.bundle/ /usr/local/bundle/ruby/*/cache /usr/local/bundle/ruby/*/bundler/gems/*/.git && \
+  rm -rf ~/.bundle/ /usr/local/bundle/cache /usr/local/bundle/gems/*/.git /usr/local/bundle/bundler/gems/*/.git && \
   bundle exec bootsnap precompile --gemfile
 
 COPY . .
@@ -106,7 +104,21 @@ ENV RAILS_ENV=production \
   RUBY_GC_MALLOC_LIMIT=100000000
 
 COPY --from=builder_prod /usr/local/bundle /usr/local/bundle
-COPY --from=builder_prod $APP_PATH $APP_PATH
+COPY --from=builder_prod $APP_PATH/config/ $APP_PATH/config/
+COPY --from=builder_prod $APP_PATH/config.ru $APP_PATH/
+COPY --from=builder_prod $APP_PATH/CURRENT_VERSION $APP_PATH/
+COPY --from=builder_prod $APP_PATH/Gemfile $APP_PATH/
+COPY --from=builder_prod $APP_PATH/Gemfile.lock $APP_PATH/
+COPY --from=builder_prod $APP_PATH/app/ $APP_PATH/app/
+COPY --from=builder_prod $APP_PATH/Rakefile $APP_PATH/
+COPY --from=builder_prod $APP_PATH/bin/ $APP_PATH/bin/
+COPY --from=builder_prod $APP_PATH/lib/ $APP_PATH/lib/
+COPY --from=builder_prod $APP_PATH/public/ $APP_PATH/public/
+COPY --from=builder_prod $APP_PATH/db/ $APP_PATH/db/
+COPY --from=builder_prod $APP_PATH/vendor/ $APP_PATH/vendor/
+COPY --from=builder_prod $APP_PATH/storage/ $APP_PATH/storage/
+COPY --from=builder_prod $APP_PATH/tmp/cache $APP_PATH/tmp/cache
+
 COPY --from=builder_jemalloc /usr/local/lib/libjemalloc.so.2 /usr/local/lib/
 
 RUN apk add --no-cache --update \
@@ -116,7 +128,7 @@ RUN apk add --no-cache --update \
 
 RUN addgroup -S -g ${CONTAINER_GROUP_ID} $CONTAINER_USER_NAME && \
   adduser -S -u ${CONTAINER_USER_ID} -g $CONTAINER_USER_NAME -h /home/$CONTAINER_USER_NAME -s /bin/bash $CONTAINER_USER_NAME && \
-  chown $CONTAINER_USER_NAME:$CONTAINER_USER_NAME db log storage tmp
+  chown $CONTAINER_USER_NAME:$CONTAINER_USER_NAME db storage tmp
 
 USER $CONTAINER_USER_NAME
 
