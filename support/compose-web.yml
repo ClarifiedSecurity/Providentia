@@ -6,7 +6,7 @@ services:
         condition: service_healthy
       zitadel-configurator:
         condition: service_completed_successfully
-    image: ghcr.io/clarifiedsecurity/providentia:26.2.0
+    image: ghcr.io/clarifiedsecurity/providentia:26.2.1
     restart: unless-stopped
     environment:
       RAILS_ENV: ${RAILS_ENV:-production}
@@ -38,7 +38,7 @@ services:
     depends_on:
       postgresql:
         condition: service_healthy
-    image: ghcr.io/clarifiedsecurity/providentia:26.2.0
+    image: ghcr.io/clarifiedsecurity/providentia:26.2.1
     command:
       - bin/jobs
     restart: unless-stopped
