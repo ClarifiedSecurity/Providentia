@@ -50,7 +50,7 @@ class ActorsController < ApplicationController
 
   private
     def get_actor
-      @actor = authorized_scope(@exercise.actors).find(params[:id])
+      @actor = authorized_scope(@exercise.actors).friendly.find(params[:id])
     end
 
     def actor_params
