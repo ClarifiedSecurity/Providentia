@@ -109,7 +109,7 @@ COPY --from=builder_prod $APP_PATH/config.ru $APP_PATH/
 COPY --from=builder_prod $APP_PATH/CURRENT_VERSION $APP_PATH/
 COPY --from=builder_prod $APP_PATH/Gemfile $APP_PATH/
 COPY --from=builder_prod $APP_PATH/Gemfile.lock $APP_PATH/
-COPY --from=builder_prod $APP_PATH/app/ $APP_PATH/app/
+COPY --from=builder_prod --exclude=assets/ $APP_PATH/app/ $APP_PATH/app/
 COPY --from=builder_prod $APP_PATH/Rakefile $APP_PATH/
 COPY --from=builder_prod $APP_PATH/bin/ $APP_PATH/bin/
 COPY --from=builder_prod $APP_PATH/lib/ $APP_PATH/lib/
