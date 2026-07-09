@@ -12,17 +12,24 @@ services:
       - terraform_state:/terraformstate
     restart: "no"
 
-  zitadel:
+  zitadel-api:
     depends_on:
       init_volumes:
         condition: service_completed_successfully
       postgresql:
         condition: service_healthy
     image: "ghcr.io/zitadel/zitadel:v4.15.3"
+    user: "0"
     command: 'start-from-init --masterkey "MasterkeyNeedsToHave32Characters" --tlsMode disabled'
     environment:
       ZITADEL_EXTERNALDOMAIN: ${ZITADEL_DOMAIN:-zitadel.localhost}
       ZITADEL_EXTERNALSECURE: false
+      ZITADEL_TLS_ENABLED: false
+
+      ZITADEL_FIRSTINSTANCE_LOGINCLIENTPATPATH: /zitadel/bootstrap/login-client.pat
+      ZITADEL_FIRSTINSTANCE_ORG_LOGINCLIENT_MACHINE_USERNAME: login-client
+      ZITADEL_FIRSTINSTANCE_ORG_LOGINCLIENT_MACHINE_NAME: Automatically Initialized IAM_LOGIN_CLIENT
+      ZITADEL_FIRSTINSTANCE_ORG_LOGINCLIENT_PAT_EXPIRATIONDATE: "2099-01-01T00:00:00Z"
       ZITADEL_FIRSTINSTANCE_ORG_HUMAN_EMAIL_ADDRESS: zitadel-admin@localhost
       ZITADEL_FIRSTINSTANCE_ORG_HUMAN_PASSWORD: Password1!
       ZITADEL_FIRSTINSTANCE_ORG_HUMAN_PASSWORDCHANGEREQUIRED: false
@@ -30,6 +37,7 @@ services:
       ZITADEL_FIRSTINSTANCE_ORG_MACHINE_MACHINE_USERNAME: zitadel-admin-sa
       ZITADEL_FIRSTINSTANCE_ORG_MACHINE_MACHINE_NAME: Admin
       ZITADEL_FIRSTINSTANCE_ORG_MACHINE_MACHINEKEY_TYPE: 1
+
       ZITADEL_DATABASE_POSTGRES_HOST: postgresql
       ZITADEL_DATABASE_POSTGRES_PORT: 5432
       ZITADEL_DATABASE_POSTGRES_DATABASE: ${ZITADEL_DB_NAME:-zitadel_db}
@@ -40,24 +48,55 @@ services:
       ZITADEL_DATABASE_POSTGRES_ADMIN_PASSWORD: ${POSTGRES_PASSWORD:-postgres_password}
       ZITADEL_DATABASE_POSTGRES_ADMIN_SSL_MODE: disable
     volumes:
+      - zitadel-bootstrap:/zitadel/bootstrap:rw
       - zitadel_credentials:/zitadel_credentials
-    configs:
-      - source: healthcheck.yaml
-        target: /healthcheck.yaml
     healthcheck:
-      test: ["CMD", "/app/zitadel", "ready", "--config", "/healthcheck.yaml"]
-      interval: "10s"
-      timeout: "5s"
-      retries: 5
-      start_period: "10s"
+      test:
+        - CMD
+        - /app/zitadel
+        - ready
+      interval: 10s
+      timeout: 30s
+      retries: 12
+      start_period: 20s
     labels:
       caddy: "http://${ZITADEL_DOMAIN:-zitadel.localhost}, https://${ZITADEL_DOMAIN:-zitadel.localhost}"
       caddy.tls: internal
       caddy.reverse_proxy: "h2c://{{upstreams 8080}}"
 
+  zitadel-login:
+    image: ghcr.io/zitadel/zitadel-login:v4.15.3
+    restart: unless-stopped
+    user: "0"
+    environment:
+      ZITADEL_API_URL: http://zitadel-api:8080
+      NEXT_PUBLIC_BASE_PATH: /ui/v2/login
+      ZITADEL_SERVICE_USER_TOKEN_FILE: /zitadel/bootstrap/login-client.pat
+      CUSTOM_REQUEST_HEADERS: Host:${ZITADEL_DOMAIN:-zitadel.localhost},X-Forwarded-Proto:http
+    healthcheck:
+      test:
+        - CMD
+        - /bin/sh
+        - -c
+        - node /app/healthcheck.mjs http://localhost:3000/ui/v2/login/healthy
+      interval: 10s
+      timeout: 30s
+      retries: 12
+      start_period: 20s
+    volumes:
+      - zitadel-bootstrap:/zitadel/bootstrap:ro
+    depends_on:
+      zitadel-api:
+        condition: service_healthy
+    labels:
+      caddy: "http://${ZITADEL_DOMAIN:-zitadel.localhost}, https://${ZITADEL_DOMAIN:-zitadel.localhost}"
+      caddy.tls: internal
+      caddy.handle: /ui/v2/login*
+      caddy.handle.0_reverse_proxy: "{{ upstreams 3000 }}"
+
   zitadel-configurator:
     depends_on:
-      zitadel:
+      zitadel-api:
         condition: service_healthy
     image: hashicorp/terraform:latest
     entrypoint:
@@ -79,10 +118,5 @@ services:
 
 volumes:
   zitadel_credentials:
+  zitadel-bootstrap:
   terraform_state:
-
-configs:
-  healthcheck.yaml:
-    content: |
-      TLS:
-        Enabled: false
