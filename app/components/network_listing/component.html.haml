@@ -27,7 +27,7 @@
           %p= render Tooltip::AddressPool::Component.new(pool)
 
       %td.px-3.py-2.whitespace-nowrap
-        - network.domain_bindings.full_names.each do
+        - network.domain_bindings.map(&:full_name).each do
           %p= render Tooltip::Text::Component.new(network, text: it)
 
       %td.px-3.py-2
