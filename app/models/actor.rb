@@ -45,10 +45,7 @@ class Actor < ApplicationRecord
     1.upto(number).to_a
   end
 
-  def ui_color
-    parent&.ui_color || prefs&.dig('ui_color') || 'gray'
-  end
-
+  def ui_color = root.prefs['ui_color'] || 'gray'
   def ui_color=(value)
     return if !ALLOWED_COLORS.include?(value)
     prefs['ui_color'] = value
