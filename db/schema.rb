@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_01_112753) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_13_083548) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -26,7 +26,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_01_112753) do
 
   create_table "actors", force: :cascade do |t|
     t.string "abbreviation", null: false
-    t.string "ancestry"
+    t.string "ancestry", null: false
     t.datetime "created_at", null: false
     t.integer "default_visibility", default: 1
     t.text "description"
@@ -262,7 +262,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_01_112753) do
   end
 
   create_table "operating_systems", force: :cascade do |t|
-    t.string "ancestry"
+    t.string "ancestry", null: false
     t.string "cloud_id"
     t.integer "cpu"
     t.datetime "created_at", null: false
