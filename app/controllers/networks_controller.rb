@@ -7,7 +7,7 @@ class NetworksController < ApplicationController
   def index
     @networks = authorized_scope(@exercise.networks)
       .joins(:actor)
-      .includes(:actor, :address_pools)
+      .includes(:actor, :address_pools, { domain_bindings: [:domain] })
       .order([:actors.name, :abbreviation])
   end
 
