@@ -5,7 +5,7 @@ class OperatingSystem < ApplicationRecord
   friendly_id :name, use: :slugged, sequence_separator: '_'
 
   has_paper_trail
-  has_ancestry
+  has_ancestry root: :virtual
 
   has_many :virtual_machines
 

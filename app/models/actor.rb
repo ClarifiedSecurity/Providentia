@@ -6,7 +6,7 @@ class Actor < ApplicationRecord
   extend FriendlyId
   friendly_id :name, use: [:slugged, :scoped], scope: :exercise
 
-  has_ancestry
+  has_ancestry root: :virtual
 
   attribute :default_visibility, :integer # rails bug during migrations
   enum :default_visibility, { public: 1, actor_only: 2  }, prefix: :default_visibility

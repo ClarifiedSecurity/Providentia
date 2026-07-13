@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_13_083548) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_13_084601) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -34,10 +34,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_13_083548) do
     t.string "name", null: false
     t.integer "number"
     t.jsonb "prefs", default: {}
+    t.virtual "root_id", type: :integer, as: "\nCASE\n    WHEN ((ancestry)::text = ''::text) THEN id\n    ELSE ((substr((ancestry)::text, 1, (strpos((ancestry)::text, '/'::text) - 1)))::integer)::bigint\nEND", stored: true
     t.string "slug"
     t.datetime "updated_at", null: false
     t.index ["ancestry"], name: "index_actors_on_ancestry"
     t.index ["exercise_id"], name: "index_actors_on_exercise_id"
+    t.index ["root_id"], name: "index_actors_on_root_id"
   end
 
   create_table "actors_capabilities", id: false, force: :cascade do |t|
@@ -269,10 +271,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_13_083548) do
     t.string "name"
     t.integer "primary_disk_size"
     t.integer "ram"
+    t.virtual "root_id", type: :integer, as: "\nCASE\n    WHEN ((ancestry)::text = ''::text) THEN id\n    ELSE ((substr((ancestry)::text, 1, (strpos((ancestry)::text, '/'::text) - 1)))::integer)::bigint\nEND", stored: true
     t.string "slug"
     t.datetime "updated_at", null: false
     t.index ["ancestry"], name: "index_operating_systems_on_ancestry"
     t.index ["cloud_id"], name: "index_operating_systems_on_cloud_id", unique: true
+    t.index ["root_id"], name: "index_operating_systems_on_root_id"
     t.index ["slug"], name: "index_operating_systems_on_slug", unique: true
   end
 
