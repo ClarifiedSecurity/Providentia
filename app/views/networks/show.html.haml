@@ -55,7 +55,7 @@
         .col-span-4
           %dt.text-sm.text-gray-500.dark:text-gray-400= Domain.model_name.human.pluralize
           %dd.mt-1.text-sm.text-gray-900.dark:text-white.mt-0
-            - @network.domain_bindings.full_names.each do
+            - @network.domain_bindings.map(&:full_name).each do
               .my-1= render Tooltip::Text::Component.new(@network, text: it)
 
       .py-1

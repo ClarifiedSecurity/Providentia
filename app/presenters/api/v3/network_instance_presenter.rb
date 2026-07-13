@@ -8,7 +8,7 @@ module API
           team_nr: actor_number,
           actor_nr: actor_number,
           cloud_id: substitute(network.cloud_id),
-          domains: network.domain_bindings.full_names.map { substitute(it) },
+          domains: network.domain_bindings.map(&:full_name).map { substitute(it) },
           address_pools: network.address_pools.map do |pool|
             {
               id: pool.slug,
