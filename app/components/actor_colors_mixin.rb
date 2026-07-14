@@ -33,6 +33,9 @@ module ActorColorsMixin
       compound(color: :violet, mode: :text) {
         %w(text-violet-800 dark:text-violet-300)
       }
+      compound(color: :gray, mode: :text) {
+        %w(text-gray-800 dark:text-gray-300)
+      }
 
 
       compound(color: :slate, mode: :default) {
@@ -59,6 +62,9 @@ module ActorColorsMixin
       compound(color: :violet, mode: :default) {
         %w(transition-colors bg-violet-200 text-violet-800 hover:bg-violet-300 dark:bg-violet-700 dark:text-violet-300 dark:hover:bg-violet-800)
       }
+      compound(color: :gray, mode: :default) {
+        %w(transition-colors bg-gray-200 text-gray-800 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-800)
+      }
 
       compound(color: :slate, mode: :subtle) {
         %w(transition-colors bg-slate-50 text-slate-800 hover:bg-slate-100 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800)
@@ -84,6 +90,9 @@ module ActorColorsMixin
       compound(color: :violet, mode: :subtle) {
         %w(transition-colors bg-violet-50 text-violet-800 hover:bg-violet-100 dark:bg-violet-900 dark:text-violet-300 dark:hover:bg-violet-800)
       }
+      compound(color: :gray, mode: :subtle) {
+        %w(transition-colors bg-gray-50 text-gray-800 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-300 dark:hover:bg-gray-800)
+      }
 
       compound(color: :slate, mode: :radio) {
         %w(peer-checked:outline-slate-500 bg-slate-500 dark:bg-slate-700)
@@ -108,6 +117,9 @@ module ActorColorsMixin
       }
       compound(color: :violet, mode: :radio) {
         %w(peer-checked:outline-violet-500 bg-violet-500 dark:bg-violet-700)
+      }
+      compound(color: :gray, mode: :radio) {
+        %w(peer-checked:outline-gray-500 bg-gray-500 dark:bg-gray-700)
       }
     end
   end
