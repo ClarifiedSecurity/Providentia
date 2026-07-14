@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
     :set_paper_trail_whodunnit, :set_current_user
   before_action :load_exercises, if: :current_user
 
+
   rescue_from ActionPolicy::Unauthorized, with: :user_not_authorized
   rescue_from ActiveRecord::RecordNotFound, with: :user_not_authorized
 
@@ -19,8 +20,9 @@ class ApplicationController < ActionController::Base
     end
 
     def get_exercise
-      @exercise = authorized_scope(Exercise.all).friendly.find(params[:exercise_id])
+      @environment = @exercise = authorized_scope(Exercise.all).friendly.find(params[:exercise_id])
     end
+    alias_method :get_environment, :get_exercise
 
     def user_not_authorized
       flash[:error] = 'You are not authorized to perform this action.'
