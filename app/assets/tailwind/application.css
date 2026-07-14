@@ -13,11 +13,12 @@
   --font-serif:
     "Lusitana", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
   --font-mono:
-    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Fira Code", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
     "Courier New", monospace;
   --spacing-9xl: 96rem;
   --font-lusitana: "Lusitana", "sans-serif";
   --font-raleway: "Raleway", "serif";
+  --font-fira: "Fira Code", "mono";
 }
 
 @font-face {
@@ -40,6 +41,15 @@
   font-family: "Raleway";
   font-display: swap;
   src: url("Raleway-VariableFont_wght.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Fira Code", monospace;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url("FiraCode-VariableFont_wght.woff2") format("woff2");
 }
 
 @utility form-input {
