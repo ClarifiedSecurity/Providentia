@@ -15,7 +15,7 @@ services:
 
       # authentication config for builtin zitadel
       # the client is dynamic and will be created by the terraform script:
-      # OIDC_CLIENT_ID and OIDC_CLIENT_SECRET will be red by container entrypoint
+      # OIDC_CLIENT_ID and OIDC_CLIENT_SECRET will be read by container entrypoint
       OIDC_ISSUER: http://${ZITADEL_DOMAIN:-zitadel.localhost}
       OIDC_ENABLE_HTTP: true
       OIDC_EXTRA_SCOPES: profile,email
