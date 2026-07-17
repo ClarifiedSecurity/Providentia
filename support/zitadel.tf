@@ -117,7 +117,7 @@ resource "zitadel_application_oidc" "default" {
   org_id     = zitadel_org.default.id
 
   name                         = "Providentia"
-  redirect_uris                = ["http://*/**"]
+  redirect_uris                = ["http://*/**", "https://*/**"]
   response_types               = ["OIDC_RESPONSE_TYPE_CODE"]
   grant_types                  = ["OIDC_GRANT_TYPE_AUTHORIZATION_CODE"]
   post_logout_redirect_uris    = []
