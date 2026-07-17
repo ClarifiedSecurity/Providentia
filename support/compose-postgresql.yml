@@ -33,4 +33,4 @@ configs:
   initdb_providentia.sql:
     content: |
       CREATE USER ${PROVIDENTIA_DB_USER:-providentia_user} WITH PASSWORD '${PROVIDENTIA_DB_PASS:-providentia_secret}';
-      CREATE DATABASE providentia_db WITH OWNER ${PROVIDENTIA_DB_USER:-providentia_user};
+      CREATE DATABASE ${PROVIDENTIA_DB_NAME:-providentia_db} WITH OWNER ${PROVIDENTIA_DB_USER:-providentia_user};
