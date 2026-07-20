@@ -2,6 +2,7 @@
 services:
   postgresql:
     image: ${POSTGRES_IMAGE:-postgres:17-alpine}
+    restart: unless-stopped
     environment:
       PGUSER: ${POSTGRES_USER:-postgres}
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
