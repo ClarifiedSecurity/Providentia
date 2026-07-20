@@ -23,9 +23,9 @@ services:
     command: 'start-from-init --masterkey "MasterkeyNeedsToHave32Characters" --tlsMode disabled'
     environment:
       ZITADEL_EXTERNALDOMAIN: ${ZITADEL_DOMAIN:-zitadel.localhost}
-      ZITADEL_EXTERNALPORT: 80
-      ZITADEL_EXTERNALSECURE: false
-      ZITADEL_TLS_ENABLED: false
+      ZITADEL_EXTERNALPORT: ${ZITADEL_EXTERNALPORT:-80}
+      ZITADEL_EXTERNALSECURE: ${ZITADEL_EXTERNALSECURE:-false}
+      ZITADEL_TLS_ENABLED: ${ZITADEL_TLS_ENABLED:-false}
 
       ZITADEL_FIRSTINSTANCE_TRUSTEDDOMAINS: ${ZITADEL_DOMAIN:-zitadel.localhost}
 
@@ -114,6 +114,7 @@ services:
       - TF_DATA_DIR=/terraformstate
       - TF_VAR_ZITADEL_LOCATION=${ZITADEL_DOMAIN:-zitadel.localhost}
     volumes:
+      - /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt
       - ./zitadel.tf:/main.tf
       - terraform_state:/terraformstate
       - zitadel_credentials:/zitadel_credentials
