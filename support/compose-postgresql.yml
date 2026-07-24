@@ -19,7 +19,7 @@ services:
           "pg_isready",
           "-q",
           "-d",
-          "zitadel",
+          "${PROVIDENTIA_DB_NAME:-providentia_db}",
           "-U",
           "${POSTGRES_USER:-postgres}",
         ]
