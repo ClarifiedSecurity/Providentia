@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 # core
-gem 'rails', '~> 8.1.0'
+gem 'rails', '~> 8.1.3'
 gem 'pg'
 gem 'sqlite3'
 gem 'bootsnap', '>= 1.4.2', require: false
