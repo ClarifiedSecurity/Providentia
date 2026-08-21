@@ -8,7 +8,9 @@ class NetworksController < ApplicationController
     @networks = authorized_scope(@exercise.networks)
       .joins(:actor)
       .includes({ actor: [:root] }, :address_pools, { domain_bindings: [:domain] })
-      .order([:actors.name, :abbreviation])
+      .select('networks.*')
+      .select('"actors".name')
+      .order(['"actors".name', :abbreviation])
       .to_a
   end
 
