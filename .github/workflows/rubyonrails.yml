@@ -34,7 +34,7 @@ jobs:
       - name: Install Ruby and gems
         uses: ruby/setup-ruby@d45b1a4e94b71acab930e56e79c6aa188764e7f9 # v1.316.0
         with:
-          ruby-version: "4.0.5"
+          ruby-version: "4.0.6"
           bundler-cache: true
       - name: Set version
         run: echo $GITHUB_HEAD_REF > CURRENT_VERSION
@@ -57,7 +57,7 @@ jobs:
       - name: Install Ruby and gems
         uses: ruby/setup-ruby@d45b1a4e94b71acab930e56e79c6aa188764e7f9 # v1.316.0
         with:
-          ruby-version: "4.0.5"
+          ruby-version: "4.0.6"
           bundler-cache: true
       - name: Set version
         run: echo $GITHUB_HEAD_REF > CURRENT_VERSION
