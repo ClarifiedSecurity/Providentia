@@ -10,7 +10,7 @@ class ActorsController < ApplicationController
   end
 
   def create
-    if params[:actor_id] && parent = authorized_scope(@exercise.actors).find(params[:actor_id])
+    if params[:actor_id] && parent = authorized_scope(@exercise.actors).friendly.find(params[:actor_id])
       @actor = @exercise.actors.build(name: 'New sub-actor', abbreviation: 'new', parent:)
     else
       @actor = @exercise.actors.build(actor_params)
