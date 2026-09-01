@@ -1,7 +1,7 @@
 ---
 services:
   init_volumes:
-    image: alpine:latest
+    image: docker.io/library/alpine:latest
     entrypoint: ["/bin/sh", "-c"]
     command:
       [
@@ -101,7 +101,7 @@ services:
     depends_on:
       zitadel-api:
         condition: service_healthy
-    image: hashicorp/terraform:latest
+    image: docker.io/hashicorp/terraform:latest
     entrypoint:
       - /bin/sh
       - -c
