@@ -260,7 +260,20 @@ Example:
             }
           ],
           "config_map": {
-            "team_specific_string": "test - 1"
+            "team_specific_string": "test - 1",
+            "proxmox": {
+              "managed": true,
+              "zone": {
+                "name": "cyberexercise",
+                "type": "simple"
+              },
+              "vnet": {
+                "isolate_ports": true
+              },
+              "subnet": {
+                "snat": true
+              }
+            }
           }
         },
         {
