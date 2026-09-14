@@ -175,26 +175,11 @@ class CloneEnvironment < Patterns::Calculation
               subject.attributes.merge(
                 'service_id' => new_service_id['id'],
                 'customization_spec_ids' => nil,
-                'match_conditions' => subject.match_conditions.map do |condition|
-                  case condition.matcher_type
-                  when 'CustomizationSpec'
-                    condition.matcher_id = find_spec_in_cloned_environment(
-                      source_environment.customization_specs.find(condition.matcher_id)
-                    ).id
-                  when 'Capability'
-                    condition.matcher_id = find_capability_in_cloned_environment(
-                      source_environment.capabilities.find(condition.matcher_id)
-                    ).id
-                  when 'Network'
-                    condition.matcher_id = find_network_in_cloned_environment(
-                      source_environment.networks.find(condition.matcher_id)
-                    ).id
-                  when 'Actor'
-                    condition.matcher_id = find_actor_in_cloned_environment(
-                      source_environment.actors.find(condition.matcher_id)
-                    ).id
+                'match_conditions' => subject.match_conditions.filter_map do |condition|
+                  if find_matcher_for_condition(condition)
+                    condition.matcher_id = find_matcher_for_condition(condition)
+                    condition
                   end
-                  condition
                 end
               ).except('id')
             end
@@ -229,6 +214,28 @@ class CloneEnvironment < Patterns::Calculation
           )
         end
       end
+    end
+
+    def find_matcher_for_condition(condition)
+      case condition.matcher_type
+      when 'CustomizationSpec'
+        find_spec_in_cloned_environment(
+          source_environment.customization_specs.find(condition.matcher_id)
+        ).id
+      when 'Capability'
+        find_capability_in_cloned_environment(
+          source_environment.capabilities.find(condition.matcher_id)
+        ).id
+      when 'Network'
+        find_network_in_cloned_environment(
+          source_environment.networks.find(condition.matcher_id)
+        ).id
+      when 'Actor'
+        find_actor_in_cloned_environment(
+          source_environment.actors.find(condition.matcher_id)
+        ).id
+      end
+    rescue ActiveRecord::RecordNotFound # found nothing, prune
     end
 
     def find_network_in_cloned_environment(source_net)
