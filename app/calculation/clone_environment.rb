@@ -222,6 +222,8 @@ class CloneEnvironment < Patterns::Calculation
         find_spec_in_cloned_environment(
           source_environment.customization_specs.find(condition.matcher_id)
         ).id
+      when 'ActsAsTaggableOn::Tagging'
+        condition.matcher_id
       when 'Capability'
         find_capability_in_cloned_environment(
           source_environment.capabilities.find(condition.matcher_id)
