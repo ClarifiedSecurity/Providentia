@@ -15,6 +15,12 @@ module ActorColorsMixin
       compound(color: :amber, mode: :text) {
         %w(text-amber-800 dark:text-amber-300)
       }
+      compound(color: :cyan, mode: :text) {
+        %w(text-cyan-800 dark:text-cyan-300)
+      }
+      compound(color: :stone, mode: :text) {
+        %w(text-stone-800 dark:text-stone-300)
+      }
       compound(color: :emerald, mode: :text) {
         %w(text-emerald-800 dark:text-emerald-300)
       }
@@ -44,6 +50,12 @@ module ActorColorsMixin
       compound(color: :amber, mode: :default) {
         %w(transition-colors bg-amber-200 text-amber-800 hover:bg-amber-300 dark:bg-amber-700 dark:text-amber-300 dark:hover:bg-amber-800)
       }
+      compound(color: :cyan, mode: :default) {
+        %w(transition-colors bg-cyan-200 text-cyan-800 hover:bg-cyan-300 dark:bg-cyan-700 dark:text-cyan-300 dark:hover:bg-cyan-800)
+      }
+      compound(color: :stone, mode: :default) {
+        %w(transition-colors bg-stone-200 text-stone-800 hover:bg-stone-300 dark:bg-stone-700 dark:text-stone-300 dark:hover:bg-stone-800)
+      }
       compound(color: :emerald, mode: :default) {
         %w(transition-colors bg-emerald-200 text-emerald-800 hover:bg-emerald-300 dark:bg-emerald-700 dark:text-emerald-300 dark:hover:bg-emerald-800)
       }
@@ -72,6 +84,12 @@ module ActorColorsMixin
       compound(color: :amber, mode: :subtle) {
         %w(transition-colors bg-amber-50 text-amber-800 hover:bg-amber-100 dark:bg-amber-900 dark:text-amber-300 dark:hover:bg-amber-800)
       }
+      compound(color: :cyan, mode: :subtle) {
+        %w(transition-colors bg-cyan-50 text-cyan-800 hover:bg-cyan-100 dark:bg-cyan-900 dark:text-cyan-300 dark:hover:bg-cyan-800)
+      }
+      compound(color: :stone, mode: :subtle) {
+        %w(transition-colors bg-stone-50 text-stone-800 hover:bg-stone-100 dark:bg-stone-900 dark:text-stone-300 dark:hover:bg-stone-800)
+      }
       compound(color: :emerald, mode: :subtle) {
         %w(transition-colors bg-emerald-50 text-emerald-800 hover:bg-emerald-100 dark:bg-emerald-900 dark:text-emerald-300 dark:hover:bg-emerald-800)
       }
@@ -99,6 +117,12 @@ module ActorColorsMixin
       }
       compound(color: :amber, mode: :radio) {
         %w(peer-checked:outline-amber-500 bg-amber-500 dark:bg-amber-700)
+      }
+      compound(color: :cyan, mode: :radio) {
+        %w(peer-checked:outline-cyan-500 bg-cyan-500 dark:bg-cyan-700)
+      }
+      compound(color: :stone, mode: :radio) {
+        %w(peer-checked:outline-stone-500 bg-stone-500 dark:bg-stone-700)
       }
       compound(color: :emerald, mode: :radio) {
         %w(peer-checked:outline-emerald-500 bg-emerald-500 dark:bg-emerald-700)

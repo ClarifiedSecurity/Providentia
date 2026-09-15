@@ -52,8 +52,8 @@
     - if virtual_machine.customization_specs.size > 1
       %specs
         .w-full.text-xs Customization specs
-        = render Chip::Component.with_collection(virtual_machine.customization_specs.mode_container.map(&:name), icon: 'book')
+        = render Chip::Component.with_collection(virtual_machine.customization_specs.mode_container.map(&:name), icon: 'fa-book')
     - if allowed_to?(:read_tags?, virtual_machine.host_spec) && virtual_machine.customization_specs.flat_map(&:tags).size.positive?
       %tags
         .w-full.text-xs Tag list
-        = render Chip::Component.with_collection(virtual_machine.customization_specs.flat_map(&:tags).map(&:name).uniq, flavor: 'cyan', icon: 'tags')
+        = render Chip::Component.with_collection(virtual_machine.customization_specs.flat_map(&:tags).map(&:name).uniq, flavor: :cyan, icon: 'fa-tags')

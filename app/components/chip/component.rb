@@ -1,19 +1,11 @@
 # frozen_string_literal: true
 
 class Chip::Component < ApplicationViewComponent
+  include ActorColorsMixin
+
   with_collection_parameter :name
 
-  def initialize(name:, icon: nil, flavor: 'stone')
-    @name = name
-    @flavor = flavor
-    @icon = icon
-  end
-
-  private
-    def color_classes
-      {
-        cyan: 'bg-cyan-200 text-cyan-800 dark:bg-cyan-500 dark:text-cyan-200',
-        stone: 'bg-stone-200 text-stone-800 dark:bg-stone-500 dark:text-stone-300'
-      }[@flavor.to_sym]
-    end
+  option :name
+  option :icon, optional: true, default: nil
+  option :flavor, optional: true, default: -> { :stone }
 end
