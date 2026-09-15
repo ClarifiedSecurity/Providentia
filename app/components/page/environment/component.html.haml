@@ -35,7 +35,7 @@
 
       - if actors.empty?
         .col-span-3
-          = render Emptylisting::Component.new(klass: Actor) do
+          = render Listing::Empty::Component.new(klass: Actor) do
             - if allowed_to?(:create?, :actor)
               = link_to "Create the first actor", [:new, @exercise, :actor], class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-200'
               to get started

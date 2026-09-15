@@ -43,4 +43,4 @@
 
   - if networks.empty?
     - c.with_table_row do
-      %td{colspan: 99}= render Emptylisting::Component.new(klass: Network)
+      %td{colspan: 99}= render Listing::Empty::Component.new(klass: Network)

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Emptylisting::Component < ApplicationViewComponent
+class Listing::Empty::Component < ApplicationViewComponent
   attr_reader :klass
 
   def initialize(klass:)

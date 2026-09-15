@@ -25,4 +25,4 @@
     = render(NetworkInterfaceForm::Component.with_collection(@virtual_machine.network_interfaces, disabled: !allowed_to?(:update?, @virtual_machine)))
 
     - if @virtual_machine.network_interfaces.empty?
-      = render Emptylisting::Component.new(klass: NetworkInterface)
+      = render Listing::Empty::Component.new(klass: NetworkInterface)

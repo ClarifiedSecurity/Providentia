@@ -7,4 +7,4 @@
   .bg-white.dark:bg-gray-800.grid.grid-cols-3.p-4.gap-2= render collection: @domains, partial: 'domains/card', as: :domain
 
 - else
-  = render Emptylisting::Component.new(klass: Domain)
+  = render Listing::Empty::Component.new(klass: Domain)

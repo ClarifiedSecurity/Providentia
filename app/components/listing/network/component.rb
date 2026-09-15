@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class NetworkListing::Component < ApplicationViewComponent
+class Listing::Network::Component < ApplicationViewComponent
   param :networks
 
   option :context_actor, optional: true, model: Actor
