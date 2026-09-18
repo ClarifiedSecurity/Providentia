@@ -1,4 +1,4 @@
-// throttleit@2.1.0 downloaded from https://ga.jspm.io/npm:throttleit@2.1.0/index.js
+// throttleit@3.0.0 downloaded from https://ga.jspm.io/npm:throttleit@3.0.0/index.js
 
-var t=typeof globalThis!=="undefined"?globalThis:typeof self!=="undefined"?self:global;var e={};function throttle(e,o){if(typeof e!=="function")throw new TypeError(`Expected the first argument to be a \`function\`, got \`${typeof e}\`.`);let n;let l=0;return function throttled(...f){clearTimeout(n);const r=Date.now();const a=r-l;const i=o-a;if(i<=0){l=r;e.apply(this||t,f)}else n=setTimeout((()=>{l=Date.now();e.apply(this||t,f)}),i)}}e=throttle;var o=e;export{o as default};
+function e(e,t){if(typeof e!=`function`)throw TypeError(`Expected the first argument to be a \`function\`, got \`${typeof e}\`.`);if(!Number.isFinite(t)||t<0)throw TypeError(`Expected the second argument to be a non-negative finite number, got \`${t}\`.`);let n,r=0,i;return function a(...o){clearTimeout(n);let s=Date.now(),c=t-(s-r);return c<=0?(r=s,i=e.apply(this,o)):n=setTimeout(()=>{r=Date.now(),i=e.apply(this,o)},c),i}}export{e as default};
 

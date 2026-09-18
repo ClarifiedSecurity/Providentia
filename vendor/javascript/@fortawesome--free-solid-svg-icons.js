@@ -1,7 +1,7 @@
-// @fortawesome/free-solid-svg-icons@7.3.0 downloaded from https://ga.jspm.io/npm:@fortawesome/free-solid-svg-icons@7.3.0/index.mjs
+// @fortawesome/free-solid-svg-icons@7.3.1 downloaded from https://ga.jspm.io/npm:@fortawesome/free-solid-svg-icons@7.3.1/index.mjs
 
 /*!
-* Font Awesome Free 7.3.0 by @fontawesome - https://fontawesome.com
+* Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com
 * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
 * Copyright 2026 Fonticons, Inc.
 */

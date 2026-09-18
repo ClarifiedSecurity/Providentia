@@ -20,17 +20,17 @@ pin '@stimulus-components/dialog', to: '@stimulus-components--dialog.js' # @1.0.
 pin '@stimulus-components/animated-number', to: '@stimulus-components--animated-number.js' # @5.0.0
 pin 'stimulus-textarea-autogrow' # @4.1.0
 pin 'debounce' # @3.0.0
-pin 'throttleit' # @2.1.0
-pin '@fortawesome/fontawesome-svg-core', to: '@fortawesome--fontawesome-svg-core.js' # @7.3.0
-pin '@fortawesome/free-solid-svg-icons', to: '@fortawesome--free-solid-svg-icons.js' # @7.3.0
-pin '@fortawesome/free-brands-svg-icons', to: '@fortawesome--free-brands-svg-icons.js' # @7.3.0
-pin '@codemirror/view', to: '@codemirror--view.js' # @6.43.6
-pin '@codemirror/state', to: '@codemirror--state.js' # @6.7.1
-pin '@codemirror/commands', to: '@codemirror--commands.js' # @6.10.4
+pin 'throttleit' # @3.0.0
+pin '@fortawesome/fontawesome-svg-core', to: '@fortawesome--fontawesome-svg-core.js' # @7.3.1
+pin '@fortawesome/free-solid-svg-icons', to: '@fortawesome--free-solid-svg-icons.js' # @7.3.1
+pin '@fortawesome/free-brands-svg-icons', to: '@fortawesome--free-brands-svg-icons.js' # @7.3.1
+pin '@codemirror/view', to: '@codemirror--view.js' # @6.43.12
+pin '@codemirror/state', to: '@codemirror--state.js' # @6.7.5
+pin '@codemirror/commands', to: '@codemirror--commands.js' # @6.11.1
 pin '@codemirror/language', to: '@codemirror--language.js' # @6.12.4
 pin '@marijn/find-cluster-break', to: '@marijn--find-cluster-break.js' # @1.0.3
 pin 'crelt' # @1.0.7
-pin 'style-mod' # @4.1.3
+pin 'style-mod' # @4.1.4
 pin 'w3c-keyname' # @2.2.8
 pin '@lezer/common', to: '@lezer--common.js' # @1.5.2
 pin '@lezer/highlight', to: '@lezer--highlight.js' # @1.2.3
@@ -41,10 +41,10 @@ pin '@lezer/yaml', to: '@lezer--yaml.js' # @1.0.4
 pin '@codemirror/lang-json', to: '@codemirror--lang-json.js' # @6.0.2
 pin '@lezer/json', to: '@lezer--json.js' # @1.0.3
 pin 'tom-select' # @2.6.2
-pin '@floating-ui/dom', to: '@floating-ui--dom.js' # @1.7.6
-pin '@floating-ui/core', to: '@floating-ui--core.js' # @1.7.5
-pin '@floating-ui/utils', to: '@floating-ui--utils.js' # @0.2.11
-pin '@floating-ui/utils/dom', to: '@floating-ui--utils--dom.js' # @0.2.11
-pin 'stimulus-use' # @0.53.0
+pin '@floating-ui/dom', to: '@floating-ui--dom.js' # @1.8.0
+pin '@floating-ui/core', to: '@floating-ui--core.js' # @1.8.0
+pin '@floating-ui/utils', to: '@floating-ui--utils.js' # @0.2.12
+pin '@floating-ui/utils/dom', to: '@floating-ui--utils--dom.js' # @0.2.12
+pin 'stimulus-use' # @0.53.1
 pin '@orchidjs/sifter', to: '@orchidjs--sifter.js' # @1.1.0
 pin '@orchidjs/unicode-variants', to: '@orchidjs--unicode-variants.js' # @1.1.2
