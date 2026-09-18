@@ -17,6 +17,15 @@ RUN mkdir -p $APP_PATH
 WORKDIR $APP_PATH
 RUN apk add --no-cache --update bash
 
+## JEMALLOC IMAGE
+FROM base AS builder_jemalloc
+RUN apk add --no-cache --update build-base
+RUN wget -O - https://github.com/jemalloc/jemalloc/releases/download/5.4.0/jemalloc-5.4.0.tar.bz2 | tar -xj && \
+  cd jemalloc-5.4.0 && \
+  ./configure && \
+  make && \
+  make install
+
 # DEV BUILDER IMAGE
 FROM base AS builder_development
 RUN apk add --no-cache --update \
@@ -46,6 +55,7 @@ RUN addgroup -S -g ${CONTAINER_GROUP_ID} $CONTAINER_USER_NAME && \
 
 # gems
 COPY --from=builder_development --chown=${CONTAINER_USER_ID}:${CONTAINER_GROUP_ID} /usr/local/bundle /usr/local/bundle
+COPY --from=builder_jemalloc /usr/local/lib/libjemalloc.so.2 /usr/local/lib/
 
 WORKDIR $APP_PATH
 USER $CONTAINER_USER_NAME
@@ -57,19 +67,6 @@ CMD ["./bin/rails", "server", "-b", "0.0.0.0"]
 
 
 
-
-
-
-
-
-## JEMALLOC IMAGE
-FROM base AS builder_jemalloc
-RUN apk add --no-cache --update build-base
-RUN wget -O - https://github.com/jemalloc/jemalloc/releases/download/5.3.1/jemalloc-5.3.1.tar.bz2 | tar -xj && \
-  cd jemalloc-5.3.1 && \
-  ./configure && \
-  make && \
-  make install
 
 # BUILDER IMAGE
 FROM base AS builder_prod
