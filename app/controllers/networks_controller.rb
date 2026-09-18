@@ -9,8 +9,8 @@ class NetworksController < ApplicationController
       .joins(:actor)
       .includes({ actor: [:root] }, :address_pools, { domain_bindings: [:domain] })
       .select('networks.*')
-      .select('"actors".name')
-      .order(['"actors".name', :abbreviation])
+      .select('"actors".name as actor_name')
+      .order(['actor_name', :abbreviation])
       .to_a
   end
 
