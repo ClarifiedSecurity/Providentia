@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
 class ContextualInventory::Component < ApplicationViewComponent
-  attr_reader :exercise, :filter_actor
-
-  def initialize(exercise:, filter_actor:)
-    @exercise = exercise
-    @filter_actor = filter_actor
-  end
+  private
+    def filter_actor = controller_var :filter_actor
 end

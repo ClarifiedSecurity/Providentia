@@ -6,17 +6,10 @@ class ApplicationViewComponent < ViewComponentContrib::Base
   delegate :current_user, :allowed_to?, :authorized_scope, to: :controller
 
   private
-    def controller_class
-      controller_path.classify.constantize
-    end
-
-    def controller_item
-      controller.instance_variable_get("@#{controller_name.singularize}")
-    end
-
-    def exercise
-      controller.instance_variable_get('@exercise')
-    end
+    def controller_class = controller_path.classify.constantize
+    def controller_var(var) = controller.instance_variable_get("@#{var}")
+    def controller_item = controller_var controller_name.singularize
+    def exercise = controller_var :exercise
 
     def title(title)
       content_for(:title) { title }

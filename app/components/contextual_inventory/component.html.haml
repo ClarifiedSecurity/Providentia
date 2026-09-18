@@ -24,7 +24,7 @@
                   = link_to exercise_virtual_machines_path(exercise, actor: actor.abbreviation, query: params[:query], only: true), { role: :menuitem, class: 'inline-flex items-center px-2 my-1 dark:hover:text-white shrink'} do
                     (only)
 
-      = form_with(url: [@exercise, :virtual_machines], method: :get, data: { controller: 'vmsearch' }, class: 'relative w-full') do
+      = form_with(url: [exercise, :virtual_machines], method: :get, data: { controller: 'vmsearch' }, class: 'relative w-full') do
         = hidden_field_tag :actor, params[:actor]
         = hidden_field_tag :only, params[:only]
         = text_field_tag :query,

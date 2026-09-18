@@ -127,14 +127,4 @@ module ApplicationHelper
         authorized_scope(scope).select(:id, :name).order(:name).map { |item| [item.name, item.id] }
       end
     end
-
-    def select_contextual_menu_component
-      case { controller_name:, action_name: }
-      # in controller_name: 'exercises'
-      #   ContextualExerciseLinks::Component.new(exercise: @exercise)
-      in controller_name: 'virtual_machines', action_name: 'index'
-        ContextualInventory::Component.new(exercise: @exercise, filter_actor: @filter_actor)
-      else
-      end
-    end
 end
