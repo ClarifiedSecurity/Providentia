@@ -43,5 +43,7 @@ module Providentia
       'Cross-Origin-Opener-Policy' => 'same-origin'
     )
     config.x.features = config_for(:features) || {}
+
+    config.active_storage.variant_processor = :disabled # supress image_processing warning
   end
 end
