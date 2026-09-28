@@ -76,6 +76,8 @@ group :development do
   gem 'listen'
   gem 'web-console', '>= 3.3.0'
   gem 'bullet'
+  gem "prosopite", "~> 2.2"
+  gem "pg_query"
   gem 'rack-mini-profiler'
   # For memory profiling
   gem 'memory_profiler'

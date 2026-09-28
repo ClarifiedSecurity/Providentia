@@ -84,6 +84,9 @@ Rails.application.configure do
     Bullet.console       = false
     Bullet.rails_logger  = true
     Bullet.add_footer    = false
+
+    Bullet.n_plus_one_query_enable = false
+    Bullet.unused_eager_loading_enable = true
   end
 
   config.web_console.allowed_ips = '172.16.0.0/12'
@@ -105,4 +108,8 @@ Rails.application.configure do
   config.active_job.queue_adapter = :solid_queue
   config.solid_queue.connects_to = { database: { writing: :queue } }
   config.solid_queue.logger = ActiveSupport::Logger.new(STDOUT)
+
+  config.after_initialize do
+    Prosopite.rails_logger = true
+  end
 end
