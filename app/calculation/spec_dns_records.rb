@@ -37,7 +37,7 @@ class SpecDNSRecords < Patterns::Calculation
       def records
         @spec.virtual_machine.addresses
           .where(mode: %w(ipv4_static ipv4_vip ipv6_static ipv6_vip))
-          .joins(:domain_binding)
+          .joins(:domain_binding, :address_pool)
           .flat_map do |address|
             Enumerator.new do |yielder|
               generator = HostnameGenerator.result_for(@spec, address:)
