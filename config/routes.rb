@@ -10,7 +10,6 @@ Rails.application.routes.draw do
 
   get '/exercises/*path', to: redirect('/environments/%{path}')
   resources :exercises, path: :environments, only: %i[new create show edit update] do
-    resource :map, only: %i[show]
     resources :role_bindings, path: :permissions, only: %i[create update destroy]
     resources :actors, only: %i[new create show edit update destroy] do
       resource :child, only: %i[create], controller: :actors
@@ -78,7 +77,6 @@ Rails.application.routes.draw do
           resources :credential_sets, path: 'credentials', only: %i[index]
         end
         resource :inventory, only: %i[show]
-        resource :graph, only: %i[show]
         resources :zones, only: %i[index]
         resources :customization_specs, path: 'hosts', only: %i[index show] do
           resources :instances, only: %i[update]
