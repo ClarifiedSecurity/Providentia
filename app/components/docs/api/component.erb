@@ -260,7 +260,21 @@ Example:
             }
           ],
           "config_map": {
-            "team_specific_string": "test - 1"
+            "team_specific_string": "test - 1",
+            "proxmox": {
+              "managed": true,
+              "zone": {
+                "name": "lcde",
+                "type": "simple"
+              },
+              "vnet": {
+                "alias": "Loughborough Cyber Defence Exercise - access",
+                "isolate_ports": true
+              },
+              "subnet": {
+                "snat": true
+              }
+            }
           }
         },
         {
