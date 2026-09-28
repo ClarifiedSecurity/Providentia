@@ -1,5 +1,5 @@
 %host.group.py-2.rounded-3xl.bg-gray-100.ring.dark:bg-gray-700.hover:bg-gray-200.hover:dark:bg-gray-800.transition-colors{id: dom_id(virtual_machine), class: 'ring-gray-300/70 dark:ring-gray-600/70 hover:ring-gray-400/70'}
-  %actor<>= render ActorAvatar::Component.new(actor: virtual_machine.actor)
+  %actor<>= render Avatar::Actor::Component.new(virtual_machine.actor)
   %name.flex.items-center
     = link_to virtual_machine.name, [virtual_machine.exercise, virtual_machine], class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-200 grow', data: { turbo_frame: '_top'}
     - if virtual_machine.custom_instance_count.to_i > 1
@@ -28,7 +28,7 @@
 
 
   %info.flex.items-center.justify-center
-    = render HoverGroup::Component.new do |c|
+    = render Util::IconGroup::Component.new do |c|
       - if virtual_machine.description.present?
         - c.with_button(icon: 'fa-file-lines') do
           = simple_format(virtual_machine.description)

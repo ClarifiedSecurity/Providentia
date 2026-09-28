@@ -6,7 +6,7 @@
     - c.with_column { '' }
 
     - @services.each do |service|
-      - c.with_table_row do
+      - c.with_table_row(classes: ['group']) do
         %td.px-6.py-4= link_to service.name, [@exercise, service], class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-200'
         %td.px-6.py-4.space-y-3
           - specs = authorized_scope(@exercise.customization_specs).order(:name).limit(4).where(id: service.cached_spec_ids)
@@ -19,7 +19,7 @@
           - service.checks.group_by(&:direction).each do |direction, checks|
             = render CheckList::Component.new(direction:, checks:)
 
-        %td.px-6.py-4.text-right
+        %td.px-6.py-4.whitespace-nowrap.text-right.opacity-0.group-hover:opacity-100.transition-opacity
           - if allowed_to?(:destroy?, service)
             = link_to [@exercise, service], data: { turbo_method: 'delete', turbo_confirm: 'Are you sure?' } do
               %i.fas.fa-times-circle.text-red-600

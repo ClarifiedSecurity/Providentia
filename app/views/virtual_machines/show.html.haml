@@ -1,7 +1,7 @@
 - title @virtual_machine.name
 = render 'form'
 
-= render SubResourceSection::Component.new(header: 'Network interfaces & addressing') do |section|
+= render Layout::ResourceSection::Component.new(header: 'Network interfaces & addressing') do |section|
   - if allowed_to?(:create?, Address.new(virtual_machine: @virtual_machine))
     - section.with_button do
       = link_to [:new, @virtual_machine.exercise, @virtual_machine, :network_interface], data: {turbo_stream: true}, class: 'form-submit-add' do

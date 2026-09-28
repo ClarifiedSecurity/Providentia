@@ -43,9 +43,11 @@ class CheckList::Component < ApplicationViewComponent
     end
 
     def actor_for(check)
-      relation_for(check).tap do |relation|
-        return Actor.new(name: 'N/A') if !relation || !relation.respond_to?(:actor)
-      end.actor
+      relation_for(check)
+        .tap do |relation|
+          return Actor.new(name: 'N/A') if !relation || !relation.respond_to?(:actor)
+        end
+        .actor
     end
 
     def relation_for(check)

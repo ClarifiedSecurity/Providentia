@@ -53,15 +53,40 @@ class Layout::Header::ActionBar::Component < ApplicationViewComponent
     Service
   ]
 
-
   style do
     base {
-      %w[inline-flex items-center justify-center px-2 py-1 gap-0.5 text-xs font-medium shadow-sm font-medium focus:z-10 focus:ring-2]
+      %w[
+        inline-flex
+        items-center
+        justify-center
+        px-2
+        py-1
+        gap-0.5
+        text-xs
+        font-medium
+        shadow-sm
+        font-medium
+        focus:z-10
+        focus:ring-2
+      ]
     }
     variants {
       color {
         regular {
-          %w[text-slate-700 bg-transparent hover:bg-slate-700 hover:text-white focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700]
+          %w[
+            text-slate-700
+            bg-transparent
+            hover:bg-slate-700
+            hover:text-white
+            focus:ring-gray-500
+            focus:bg-gray-900
+            focus:text-white
+            dark:border-white
+            dark:text-white
+            dark:hover:text-white
+            dark:hover:bg-gray-700
+            dark:focus:bg-gray-700
+          ]
         }
         danger {
           %w[bg-red-700 text-white hover:bg-red-500]
@@ -90,7 +115,8 @@ class Layout::Header::ActionBar::Component < ApplicationViewComponent
     def edit
       if EDITABLE_CLASSES.include?(@item.class) && helpers.allowed_to?(:update?, @item)
         Action.new(
-          text: 'Edit', icon: 'fa-pen-to-square',
+          text: 'Edit',
+          icon: 'fa-pen-to-square',
           url: edit_url
         )
       end
@@ -99,15 +125,21 @@ class Layout::Header::ActionBar::Component < ApplicationViewComponent
     def api_preview
       return if !PREVIEWABLE_CLASSES.include?(@item.class)
       Action.new(
-        text: 'API Preview', icon: 'fa-code', url: 'javascript:;',
-        modal: Modal.new(title: 'API Preview', url: "/api_preview/#{exercise.to_param}/#{@item.class.model_name.singular_route_key}/#{@item.to_param}")
+        text: 'API Preview',
+        icon: 'fa-code',
+        url: 'javascript:;',
+        modal: Modal.new(
+          title: 'API Preview',
+          url: "/api_preview/#{exercise.to_param}/#{@item.class.model_name.singular_route_key}/#{@item.to_param}"
+        )
       )
     end
 
     def delete
       if helpers.allowed_to?(:destroy?, @item) && !@item.is_a?(Exercise)
         Action.new(
-          text: 'Delete', icon: 'fa-times-circle',
+          text: 'Delete',
+          icon: 'fa-times-circle',
           url: destroy_url,
           delete: @item.class.name.downcase
         )
