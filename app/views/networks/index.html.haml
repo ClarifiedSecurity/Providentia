@@ -1,6 +1,6 @@
 - if @networks.any?
   - @networks.group_by { it.actor.root }.each do |root_actor, networks|
-    .py-4.text-center.text-xl.font-semibold= render ActorChip::Component.new(root_actor)
+    .py-4.text-center.text-xl.font-semibold= render Chip::Actor::Component.new(root_actor)
     .pb-5
       .border-t.border-gray-200.dark:border-gray-600
 

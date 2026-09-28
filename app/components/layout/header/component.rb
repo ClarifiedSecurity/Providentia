@@ -1,7 +1,16 @@
 # frozen_string_literal: true
 
 class Layout::Header::Component < ApplicationViewComponent
-  CrumbableControllers = %w[networks virtual_machines services capabilities credential_sets operating_systems actors domains]
+  CrumbableControllers = %w[
+    networks
+    virtual_machines
+    services
+    capabilities
+    credential_sets
+    operating_systems
+    actors
+    domains
+  ]
   CrumbableActions = %w[show edit]
 
   private

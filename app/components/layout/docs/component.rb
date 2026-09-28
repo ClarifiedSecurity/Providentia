@@ -13,16 +13,17 @@ class Layout::Docs::Component < ApplicationViewComponent
 
   private
     def markdown
-      @@markdown ||= Redcarpet::Markdown.new(CustomRender,
-        no_intra_emphasis:            true,
-        fenced_code_blocks:           true,
-        space_after_headers:          true,
-        smartypants:                  true,
+      @@markdown ||= Redcarpet::Markdown.new(
+        CustomRender,
+        no_intra_emphasis: true,
+        fenced_code_blocks: true,
+        space_after_headers: true,
+        smartypants: true,
         disable_indented_code_blocks: true,
-        prettify:                     true,
-        tables:                       true,
-        with_toc_data:                true,
-        autolink:                     true
+        prettify: true,
+        tables: true,
+        with_toc_data: true,
+        autolink: true
       )
     end
 

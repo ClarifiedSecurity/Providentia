@@ -17,7 +17,8 @@ class Modal::Component < ApplicationViewComponent
         'h-screen w-full'
       when :small
         'max-h-screen w-full max-w-lg'
-      else # including large
+        # including large
+      else
         'max-h-screen w-full max-w-5xl'
       end
     end

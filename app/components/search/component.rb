@@ -8,11 +8,18 @@ class Search::Component < ApplicationViewComponent
 
   private
     def query_classes
-      %w(
-        w-full border-0 focus:ring-transparent text-black
-        placeholder-gray-400 dark:placeholder-gray-100
-        appearance-none py-3 pl-10 pr-4
-      )
+      %w[
+        w-full
+        border-0
+        focus:ring-transparent
+        text-black
+        placeholder-gray-400
+        dark:placeholder-gray-100
+        appearance-none
+        py-3
+        pl-10
+        pr-4
+      ]
     end
 
     def query_data

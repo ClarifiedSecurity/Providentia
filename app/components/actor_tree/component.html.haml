@@ -3,6 +3,5 @@
     %li.my-1{class: spacer_classes(node)}
       .flex
         %span.grow= node.name
-        %span.inline-flex.items-center.text-xs.font-medium.mr-2.px-2.5.py-0.5.rounded-full{class: helpers.actor_color_classes(node.root)}
-          = node.abbreviation
+        %small.font-xs= render Chip::Actor::Component.new(node, text: node.abbreviation)
       = render ActorTree::Component.new(tree: subtree)

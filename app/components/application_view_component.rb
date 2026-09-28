@@ -8,8 +8,8 @@ class ApplicationViewComponent < ViewComponentContrib::Base
   private
     def controller_class = controller_path.classify.constantize
     def controller_var(var) = controller.instance_variable_get("@#{var}")
-    def controller_item = controller_var controller_name.singularize
-    def exercise = controller_var :exercise
+    def controller_item = controller_var(controller_name.singularize)
+    def exercise = controller_var(:exercise)
 
     def title(title)
       content_for(:title) { title }

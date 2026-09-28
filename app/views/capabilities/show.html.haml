@@ -30,7 +30,7 @@
       - c.with_table_row do
         %td.px-6.py-4
           .flex.flex-row.items-center.gap-x-2
-            = render ActorAvatar::Component.new(actor: spec.virtual_machine.actor)
+            = render Avatar::Actor::Component.new(spec.virtual_machine.actor)
             = link_to spec.name, [spec.virtual_machine.exercise, spec.virtual_machine], class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-200'
         %td.px-6.py-4
           - if spec.mode_host?

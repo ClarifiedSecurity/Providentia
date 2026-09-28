@@ -21,11 +21,13 @@ class CheckDirection::Component < ApplicationViewComponent
     def collection
       {
         'Special' => CustomCheckSubject.all
-      }.merge(
-        Current.networks_cache.group_by { |network| "Networks: #{network.actor.name}" }
-      ).merge(
-        Current.vm_cache.group_by { |spec| "Customization specs: #{spec.virtual_machine.actor.name}" }
-      )
+      }
+        .merge(
+          Current.networks_cache.group_by { |network| "Networks: #{network.actor.name}" }
+        )
+        .merge(
+          Current.vm_cache.group_by { |spec| "Customization specs: #{spec.virtual_machine.actor.name}" }
+        )
     end
 
     def relation_icon

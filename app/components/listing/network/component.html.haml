@@ -8,9 +8,9 @@
   - c.with_column(size: :sm) { '' }
 
   - networks.each do |network|
-    - c.with_table_row(classes: 'group') do
+    - c.with_table_row(classes: ['group']) do
       - if show_actor_column?
-        %td.pl-3.py-2.text-center.text-xs= render ActorChip::Component.new(network.actor, text: network.actor.abbreviation)
+        %td.pl-3.py-2.text-center.text-xs= render Chip::Actor::Component.new(network.actor, text: network.actor.abbreviation)
       %td.px-3.py-2.flex.flex-col
         = link_to network.name, [network.exercise, network], class: 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-200'
         %small.opacity-70= network.abbreviation
@@ -31,7 +31,7 @@
           %p= render Tooltip::Text::Component.new(network, text: it)
 
       %td.px-3.py-2
-        = render HoverGroup::Component.new do |c|
+        = render Util::IconGroup::Component.new do |c|
           - if network.description.present?
             - c.with_button(icon: 'fa-file-lines') do
               = simple_format(network.description)

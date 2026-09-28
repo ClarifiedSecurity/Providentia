@@ -5,7 +5,7 @@
 
   = form_with(model: check, url: [@exercise, @service, check], class: 'py-4 relative', id: dom_id(check), data: { controller: 'model', action: "change->model#update"}) do |f|
     .flex.flex-row.divide-x.divide-dashed.text-center
-      = render CheckSource::Component.new(check:, f:, disabled: !allowed_to?(:update?, check))
+      = render CheckDirection::Source::Component.new(check:, f:, disabled: !allowed_to?(:update?, check))
 
       .px-4.text-left{class: 'flex-3'}
         .flex.items-center
@@ -50,7 +50,7 @@
                 = f.label :port, class: 'font-bold', for: "check_#{check.id}_port"
                 = f.text_field :port, class: 'form-input', id: "check_#{check.id}_port", disabled: !allowed_to?(:update?, check)
 
-      = render CheckDestination::Component.new(check:, f:, disabled: !allowed_to?(:update?, check))
+      = render CheckDirection::Destination::Component.new(check:, f:, disabled: !allowed_to?(:update?, check))
 
     - if allowed_to?(:destroy?, check)
       .absolute.top-2.right-4

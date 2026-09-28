@@ -7,7 +7,7 @@ class Page::Environment::Component < ApplicationViewComponent
 
   private
     def before_render
-      title environment.name
+      title(environment.name)
     end
 
     def features

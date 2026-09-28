@@ -25,7 +25,8 @@ class NetworkInterfaceForm::Component < ApplicationViewComponent
     end
 
     def addresses
-      network_interface.addresses
+      network_interface
+        .addresses
         .order(:created_at)
         .preload(virtual_machine: [:numbered_by])
         .includes(:network, :address_pool)
@@ -55,6 +56,8 @@ class NetworkInterfaceForm::Component < ApplicationViewComponent
             ),
             label: actor.name
           )
-        end.join.html_safe
+        end
+        .join
+        .html_safe
     end
 end
