@@ -14,9 +14,9 @@ RSpec.describe 'Duplicate virtual machine', type: :request do
     sign_in user
   end
 
-  it 'offers the Duplicate button on the VM page and the list' do
+  it 'offers the Duplicate action in the VM page header and the list' do
     get exercise_virtual_machine_path(exercise, source)
-    expect(response.body).to include(path)
+    expect(response.body[%r{<action-bar.*?</action-bar>}m]).to include(path)
     get exercise_virtual_machines_path(exercise)
     expect(response.body).to include(path)
   end
