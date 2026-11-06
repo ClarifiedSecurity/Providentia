@@ -1,6 +1,12 @@
 - title @virtual_machine.name
 = render 'form'
 
+- if allowed_to?(:duplicate?, @virtual_machine)
+  .px-4.py-3.text-right
+    = link_to exercise_virtual_machine_duplicate_path(@exercise, @virtual_machine), class: 'inline-flex items-center justify-center py-2 px-4 border border-transparent shadow-xs text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-orange-500' do
+      %i.fas.fa-clone.mr-2
+      Duplicate
+
 = render SubResourceSection::Component.new(header: 'Network interfaces & addressing') do |section|
   - if allowed_to?(:create?, Address.new(virtual_machine: @virtual_machine))
     - section.with_button do

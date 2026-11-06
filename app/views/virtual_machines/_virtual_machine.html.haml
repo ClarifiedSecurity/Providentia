@@ -42,6 +42,11 @@
         - c.with_button(icon: virtual_machine.operating_system.to_icon) do
           = virtual_machine.operating_system.name
 
+  - if allowed_to?(:duplicate?, virtual_machine)
+    %duplicate
+      = link_to exercise_virtual_machine_duplicate_path(virtual_machine.exercise, virtual_machine), class: 'opacity-0 group-hover:opacity-100 transition-opacity', title: 'Duplicate' do
+        %i.fas.fa-clone
+
   - if allowed_to?(:destroy?, virtual_machine)
     %delete
       = link_to [virtual_machine.exercise, virtual_machine], data: { turbo_method: 'delete', turbo_confirm: 'Are you sure?' }, class: 'opacity-0 group-hover:opacity-100 transition-opacity' do
