@@ -19,7 +19,12 @@ class DuplicateVirtualMachineForm < Patterns::Form
       @duplicated = DuplicateVirtualMachine.result_for(source, name:, user: Current.user)
       true
     rescue ActiveRecord::RecordInvalid => e
-      e.record.errors.full_messages.each { |message| errors.add(:name, message) }
+      e.record.errors.each do |error|
+        error.attribute == :name ? errors.add(:name, error.message) : errors.add(:base, error.full_message)
+      end
+      false
+    rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordNotUnique
+      errors.add(:base, 'The virtual machine could not be duplicated. Please try again.')
       false
     end
 

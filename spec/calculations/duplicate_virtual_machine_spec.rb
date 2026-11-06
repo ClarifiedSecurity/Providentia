@@ -57,24 +57,94 @@ RSpec.describe DuplicateVirtualMachine do
 
   context 'addresses' do
     let(:network) { create(:network, exercise:, actor:) }
-    let(:pool4) { create(:address_pool, network:, network_address: '10.0.0.0/24') }
-    let(:pool6) { create(:address_pool, network:, network_address: '1:a::/64', ip_family: :v6) }
-    let(:nic) { create(:network_interface, network:, virtual_machine: source) }
-    let!(:source_static) { create(:address, network_interface: nic, mode: :ipv4_static, address_pool: pool4, offset: '10') }
+    let(:binding) { network.domain_bindings.first }
+    let(:statics) { %w[ipv4_static ipv6_static] }
+    let(:nic) { NetworkInterface.find_by!(virtual_machine_id: source.id) }
 
     before do
+      pool4 = create(:address_pool, network:, network_address: '10.0.0.0/24')
+      pool6 = create(:address_pool, network:, network_address: '1:a::/64', ip_family: :v6)
+      create(:network_interface, network:, virtual_machine: source)
+      nic.addresses.destroy_all
+      create(:address, network_interface: nic, mode: :ipv4_static, address_pool: pool4, offset: '10', dns_enabled: true, connection: true,
+        domain_binding: binding)
       create(:address, network_interface: nic, mode: :ipv6_static, address_pool: pool6, offset: Ipv6Offset.dump('10'))
       create(:address, network_interface: nic, mode: :ipv4_vip, address_pool: pool4, offset: '20')
       create(:address, network_interface: nic, mode: :ipv4_dhcp, offset: nil)
     end
 
-    it 'blanks static offsets and keeps the rest' do
+    def signature(address)
+      offset = statics.include?(address.mode) ? nil : address.offset
+      [address.mode, address.address_pool_id, offset, address.dns_enabled, address.connection, address.domain_binding_id]
+    end
+
+    it 'copies the full address list, blanking static offsets' do
+      expect(copy.addresses.count).to eq source.addresses.count
+      expect(copy.network_interfaces.sole.addresses.map { signature(_1) }).to match_array(nic.addresses.reload.map { signature(_1) })
+    end
+
+    it 'keeps vip offsets and blanks static ones' do
       by_mode = copy.addresses.index_by(&:mode)
       expect(by_mode['ipv4_static'].offset).to be_nil
       expect(by_mode['ipv6_static'].offset).to be_nil
       expect(by_mode['ipv4_vip'].offset).to eq '20'
-      expect(by_mode.keys).to match_array %w[ipv4_static ipv6_static ipv4_vip ipv4_dhcp]
-      expect(by_mode['ipv4_static'].address_pool).to eq source_static.address_pool
+    end
+
+    it 'copies dns_enabled, connection and domain binding' do
+      static = copy.addresses.find_by(mode: :ipv4_static)
+      expect([static.dns_enabled, static.connection, static.domain_binding_id]).to eq [true, true, binding.id]
+    end
+
+    context 'when the source nic was created with auto addresses' do
+      let(:other) { create(:network, exercise:, actor:) }
+
+      before do
+        create(:address_pool, network: other, network_address: '10.1.0.0/24')
+        create(:address_pool, network: other, network_address: '10.2.0.0/24')
+        create(:network_interface, network: other, virtual_machine: source)
+      end
+
+      it 'copies the same number of addresses per nic' do
+        expect(NetworkInterface.find_by!(network: other).addresses.count).to eq other.address_pools.count
+        expect(copy.network_interfaces.order(:id).map { _1.addresses.count })
+          .to eq source.network_interfaces.order(:id).map { _1.addresses.count }
+        expect(copy.addresses.count).to eq source.addresses.count
+      end
+    end
+  end
+
+  context 'visibility' do
+    it 'keeps a visibility that differs from the actor default' do
+      source.update_columns(visibility: VirtualMachine.visibilities.fetch(:public))
+      actor.update!(default_visibility: :actor_only)
+      expect(copy.visibility).to eq 'public'
+    end
+  end
+
+  context 'with a container spec that has capabilities' do
+    before do
+      create(:customization_spec, virtual_machine: source, mode: 'container', name: 'side', dns_name: 'side')
+        .update!(capabilities: [capability])
+    end
+
+    it 'copies the capabilities' do
+      expect(copy.customization_specs.mode_container.sole.capabilities).to eq [capability]
+    end
+  end
+
+  context 'with a service matching on tag' do
+    let(:service) { create(:service, exercise:) }
+    let!(:subject_record) {
+      create(:service_subject, service:, match_conditions: [
+        ServiceSubjectMatchCondition.new(matcher_type: 'ActsAsTaggableOn::Tagging', matcher_id: 'a')
+      ])
+    }
+
+    it 'includes the copy host spec in the cached spec ids' do
+      expect(subject_record.reload.customization_spec_ids).to include(source.host_spec.id)
+      expect(subject_record.reload.customization_spec_ids).not_to include(copy.host_spec.id)
+      copy
+      expect(subject_record.reload.customization_spec_ids).to include(copy.host_spec.id)
     end
   end
 

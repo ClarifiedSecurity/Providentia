@@ -14,7 +14,7 @@
         Source
 
       .px-3.py-4
-        = f.input :source_name, readonly: true, label: 'Name'
+        = f.input :source_name, readonly: true, label: 'Source name'
 
         .mt-4
           Specs, interfaces and addresses are copied. Static IP addresses are left blank; set them on the new host before deploying.
@@ -26,9 +26,10 @@
       %h2.text-center.font-bold.text-2xl
         Copy
       = f.error_notification
+      = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
 
       .px-3.py-4.space-y-6
-        = f.input :name
+        = f.input :name, label: 'New name'
 
   .my-4.px-4.py-3.text-right
     = f.button :submit, 'Duplicate', class: 'form-submit'

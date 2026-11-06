@@ -11,6 +11,7 @@ class DuplicateVirtualMachine < Patterns::Calculation
           subject.attributes.except(*EXCLUDED_ATTRIBUTES).merge('name' => options[:name], 'system_owner' => options[:user])
         )
 
+        copy.update!(visibility: subject.visibility) if copy.visibility != subject.visibility
         copy_host_spec(copy)
         copy_container_specs(copy)
         copy_network_interfaces(copy)
@@ -25,9 +26,11 @@ class DuplicateVirtualMachine < Patterns::Calculation
 
     def copy_container_specs(copy)
       subject.customization_specs.mode_container.order(:id).each do |spec|
-        copy.customization_specs.create!(
-          spec_attributes(spec).merge(mode: 'container', name: spec.name, user: options[:user])
+        # capabilities are assigned after creation: the HABTM callback touches the record
+        copied = copy.customization_specs.create!(
+          spec_attributes(spec).except(:capability_ids).merge(mode: 'container', name: spec.name, user: options[:user])
         )
+        copied.update!(capability_ids: spec.capability_ids)
       end
     end
 
@@ -44,6 +47,8 @@ class DuplicateVirtualMachine < Patterns::Calculation
     def copy_network_interfaces(copy)
       subject.network_interfaces.includes(:addresses).order(:id).each do |source_nic|
         nic = copy.network_interfaces.create!(network_id: source_nic.network_id, egress: source_nic.egress)
+        # network_change_cleanup auto-creates one address per pool on create; replace with the source's addresses
+        nic.addresses.reload.destroy_all
 
         source_nic.addresses.sort_by(&:id).each do |address|
           nic.addresses.create!(

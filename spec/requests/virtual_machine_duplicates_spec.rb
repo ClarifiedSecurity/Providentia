@@ -54,6 +54,19 @@ RSpec.describe 'Duplicate virtual machine', type: :request do
     source
     expect { post path, params: { duplicate: { name: 'x' * 64 } } }.not_to change(VirtualMachine, :count)
     expect(response).to have_http_status(400)
+    expect(response.body).to include('too long')
+    expect(response.body).not_to include('Name is too long')
+    expect(response.body).not_to match(/Name\s+Name/i)
+  end
+
+  [ActiveRecord::RecordNotSaved, ActiveRecord::RecordNotUnique].each do |error|
+    it "renders a base error instead of a 500 on #{error}" do
+      source
+      allow(DuplicateVirtualMachine).to receive(:result_for).and_raise(error.new('boom'))
+      expect { post path, params: { duplicate: { name: 'web-2' } } }.not_to change(VirtualMachine, :count)
+      expect(response).to have_http_status(400)
+      expect(response.body).to include('could not be duplicated')
+    end
   end
 
   context 'as actor_readonly' do
