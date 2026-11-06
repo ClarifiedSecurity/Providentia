@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class DuplicateVirtualMachine < Patterns::Calculation
-  EXCLUDED_ATTRIBUTES = %w[id name system_owner_id created_at updated_at].freeze
+  EXCLUDED_ATTRIBUTES = %w[id name hostname system_owner_id created_at updated_at].freeze
   STATIC_MODES = %w[ipv4_static ipv6_static].freeze
 
   private

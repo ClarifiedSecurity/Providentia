@@ -104,14 +104,29 @@ RSpec.describe DuplicateVirtualMachine do
     expect(copy.host_spec.instance_metadata).to be_empty
   end
 
-  it 'rolls back on failure' do
-    nets = create(:network, exercise:, actor:)
-    create(:network_interface, network: nets, virtual_machine: source)
+  it 'does not copy the hostname' do
+    source.update!(hostname: 'web-1-host')
+    expect(copy.hostname).to be_nil
+  end
 
+  it 'rolls back everything when the name is invalid' do
     expect { described_class.result_for(source, name: 'x' * 64, user:) }
       .to raise_error(ActiveRecord::RecordInvalid)
       .and not_change(VirtualMachine, :count)
       .and not_change(CustomizationSpec, :count)
+  end
+
+  it 'rolls back the vm, specs, nics and addresses when a late step fails' do
+    network = create(:network, exercise:, actor:)
+    nic = create(:network_interface, network:, virtual_machine: source)
+    create(:address, network_interface: nic, mode: :ipv4_dhcp, offset: nil)
+    allow_any_instance_of(Address).to receive(:save!).and_raise(ActiveRecord::RecordInvalid)
+
+    expect { described_class.result_for(source, name: 'copy-vm', user:) }
+      .to raise_error(ActiveRecord::RecordInvalid)
+      .and not_change(VirtualMachine, :count)
+      .and not_change(CustomizationSpec, :count)
       .and not_change(NetworkInterface, :count)
+      .and not_change(Address, :count)
   end
 end
