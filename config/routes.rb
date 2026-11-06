@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     resources :domains, only: %i[index new create show update destroy]
     resources :zones, only: %i[index]
     resources :virtual_machines, except: %i[edit] do
+      resource :duplicate, only: %i[show create], controller: 'virtual_machine_duplicates'
       member do
         get 'address_preview'
       end

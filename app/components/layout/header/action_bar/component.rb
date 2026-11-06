@@ -78,6 +78,7 @@ class Layout::Header::ActionBar::Component < ApplicationViewComponent
     [
       edit,
       api_preview,
+      duplicate,
       delete
     ].compact
   end
@@ -102,6 +103,15 @@ class Layout::Header::ActionBar::Component < ApplicationViewComponent
         text: 'API Preview', icon: 'fa-code', url: 'javascript:;',
         modal: Modal.new(title: 'API Preview', url: "/api_preview/#{exercise.to_param}/#{@item.class.model_name.singular_route_key}/#{@item.to_param}")
       )
+    end
+
+    def duplicate
+      if @item.is_a?(VirtualMachine) && helpers.allowed_to?(:duplicate?, @item)
+        Action.new(
+          text: 'Duplicate', icon: 'fa-clone',
+          url: url_for([exercise, @item, :duplicate])
+        )
+      end
     end
 
     def delete

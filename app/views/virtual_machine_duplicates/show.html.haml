@@ -1,0 +1,35 @@
+-# frozen_string_literal: true
+
+- content_for(:heading) do
+  %i.fas.mr-2.mt-1{class: VirtualMachine.to_icon}
+  Duplicating
+  = @source.name
+
+= simple_form_for(@duplicate, url: exercise_virtual_machine_duplicate_path(@exercise, @source), html: { autocomplete: "off" }) do |f|
+  = f.input :virtual_machine_id, as: :hidden
+
+  .flex.flex-row.gap-8
+    .bg-white.dark:bg-gray-800.shadow.p-3.flex-1.rounded
+      %h2.text-center.font-bold.text-2xl
+        Source
+
+      .px-3.py-4
+        = f.input :source_name, readonly: true, label: 'Source name'
+
+        .mt-4
+          Specs, interfaces and addresses are copied. Static IP addresses are left blank; set them on the new host before deploying.
+
+    .text-center.flex-none.self-center
+      %i.fas.fa-4x.fa-angles-right
+
+    .bg-white.dark:bg-gray-800.shadow.p-3.flex-1.rounded
+      %h2.text-center.font-bold.text-2xl
+        Copy
+      = f.error_notification
+      = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
+
+      .px-3.py-4.space-y-6
+        = f.input :name, label: 'New name'
+
+  .my-4.px-4.py-3.text-right
+    = f.button :submit, 'Duplicate', class: 'form-submit'
