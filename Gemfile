@@ -40,6 +40,7 @@ gem 'ancestry', github: 'stefankroes/ancestry'
 gem 'paper_trail'
 gem 'kaminari'
 gem 'naturally', '~> 2.2'
+gem 'ostruct', '~> 0.6.3'
 
 # markdown
 gem 'redcarpet'
