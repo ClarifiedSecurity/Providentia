@@ -35,6 +35,9 @@ console: .makerc-vars ## Open rails console
 logs: .makerc-vars ## Tail all logs
 	$(SUDO_COMMAND) docker compose -f docker-compose-dev.yml logs -f --tail=100
 
+create-test-db:
+	$(SUDO_COMMAND) docker compose -f docker-compose-dev.yml exec postgresql createdb providentia_test_db
+
 clear-redis: clear-cache # dummy until migrated
 
 clear-cache: .makerc-vars ## Clear rails cache
