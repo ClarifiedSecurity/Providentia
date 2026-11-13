@@ -105,4 +105,29 @@ RSpec.describe CustomizationSpec do
       end
     end
   end
+
+  context '#api_id' do
+    let(:virtual_machine) { build(:virtual_machine, name: 'host') }
+
+    subject { create(:customization_spec, virtual_machine:, mode: :container, name: 'sub-spec') }
+
+    it 'should persist vm name + spec name as slug' do
+      expect(subject.slug).to eq 'host_sub-spec'
+    end
+
+    context 'vm name change' do
+      it 'should update the container spec slug' do
+        subject.save
+        virtual_machine.update(name: 'another-host')
+        subject.reload
+        expect(subject.slug).to eq 'another-host_sub-spec'
+      end
+
+      it 'should update the host spec slug' do
+        virtual_machine.update(name: 'another-host')
+        virtual_machine.host_spec.reload
+        expect(virtual_machine.host_spec.slug).to eq 'another-host'
+      end
+    end
+  end
 end

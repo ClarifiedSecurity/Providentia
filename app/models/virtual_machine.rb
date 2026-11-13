@@ -143,7 +143,9 @@ class VirtualMachine < ApplicationRecord
 
     def sync_host_spec_name
       return unless name_previously_changed?
-      host_spec.update(name:)
+      host_spec.name = name
+      customization_specs.update_all(slug: nil)
+      customization_specs.each(&:save)
     end
 
     def has_unnumbered_nets?
