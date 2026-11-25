@@ -11,7 +11,9 @@ class ChecksController < ApplicationController
     self_subject = CustomCheckSubject.find_by(base_class: 'CustomizationSpec', meaning: 'self')
     @check = @service.checks.build({
       source: self_subject,
-      destination: self_subject
+      destination: self_subject,
+      ip_family: 0,
+      protocol: Check::Protocols.to_enum_hash.values.first
     })
     authorize! @check
     @check.save
