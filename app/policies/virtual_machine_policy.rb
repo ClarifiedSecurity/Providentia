@@ -31,6 +31,8 @@ class VirtualMachinePolicy < ApplicationPolicy
     update?
   end
 
+  def duplicate? = update?
+
   relation_scope do |relation|
     next relation if user.super_admin?
     public_vm = VirtualMachine.arel_table[:visibility].eq(:public)

@@ -49,6 +49,30 @@ RSpec.describe VirtualMachinePolicy, type: :policy do
     end
   end
 
+  describe_rule :duplicate? do
+    failed
+
+    failed 'with environment member role' do
+      before { create(:role_binding, user_email: user.email, role: :environment_member, exercise: record.exercise) }
+    end
+
+    failed 'with actor readonly role' do
+      before { create(:role_binding, user_email: user.email, role: :actor_readonly, exercise: record.exercise, actor: record.actor) }
+    end
+
+    succeed 'with environment admin role' do
+      before { create(:role_binding, user_email: user.email, role: :environment_admin, exercise: record.exercise) }
+    end
+
+    succeed 'with actor developer role' do
+      before { create(:role_binding, user_email: user.email, role: :actor_dev, exercise: record.exercise, actor: record.actor) }
+    end
+
+    succeed 'with super_admin' do
+      before { user.resources << UserPermissions::SUPERADMIN_ACCESS }
+    end
+  end
+
   describe_rule :show? do
     failed
 
